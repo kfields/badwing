@@ -12,6 +12,8 @@ WHEEL_MASS = 1
 CHASSIS_WIDTH = 128
 CHASSIS_HEIGHT = 32
 CHASSIS_MASS = 1
+X_PAD = 32
+Y_PAD = 32
 
 class Wheel(Model):
     def __init__(self, sprite, position=(0,0)):
@@ -71,8 +73,8 @@ class Bike(Assembly):
         self.chWd = CHASSIS_WIDTH
         self.chHt = CHASSIS_HEIGHT
         chassisXY = Vec2d(position)
-        back_wheel_position = chassisXY - (self.chWd, 0)
-        front_wheel_position = chassisXY - (-self.chWd, 0)
+        back_wheel_position = chassisXY - (self.chWd/2+X_PAD, Y_PAD)
+        front_wheel_position = chassisXY - (-(self.chWd/2+X_PAD), Y_PAD)
 
         self.back_wheel = back_wheel = Wheel.create(back_wheel_position)
         self.chassis = chassis = Chassis.create(chassisXY)

@@ -18,7 +18,16 @@ class Tile(Model):
         self.body = body = pymunk.Body(body_type=pymunk.Body.STATIC)
         body.position = pymunk.Vec2d(sprite.center_x, sprite.center_y)
 
-        self.shape = shape = pymunk.Poly.create_box(body, (width, height))
+        #self.shape = shape = pymunk.Poly.create_box(body, (width, height))
+        vertices = []
+        spriteX = sprite.center_x
+        spriteY = sprite.center_y
+        for point in sprite.points:
+            x = point[0] - spriteX
+            y = point[1] - spriteY
+            vertices.append((x,y))
+
+        self.shape = shape = pymunk.Poly(body, vertices)
         shape.friction = 10
 
 class TileLayer(Layer):
@@ -32,6 +41,6 @@ class PhysicsTileLayer(TileLayer):
         for sprite in self.sprites:
             self.add_model(Tile(sprite))
             #
-            line_strip = arcade.create_line_strip(sprite.points, (255,255,255), 1)
-            #line_strip = arcade.create_lines(sprite.points, (255,255,255), 1)
+            #line_strip = arcade.create_line_strip(sprite.points, (255,255,255), 1)
+            line_strip = arcade.create_lines(sprite.points, (255,255,255), 1)
             badwing.app.level.debug_list.append(line_strip)

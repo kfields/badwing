@@ -4,8 +4,8 @@ import os
 import arcade
 import pymunk
 
-from badwing.constants import *
 import badwing.level
+from badwing.constants import *
 from badwing.layer import Layer
 from badwing.tile import PhysicsTileLayer
 from badwing.bike import Wheel, Bike
@@ -18,8 +18,7 @@ class Level(badwing.level.Level):
         self.space.iterations = 35
         self.space.gravity = GRAVITY
 
-        # These are 'lists' that keep track of our sprites. Each sprite should
-        # go into a list.
+        # These are 'lists' that keep track of our sprites.
         self.coin_list = None
         self.wall_list = None
         self.player_list = None

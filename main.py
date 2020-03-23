@@ -10,22 +10,14 @@ from badwing.constants import *
 from badwing.levels.level1 import Level
 
 class MyGame(arcade.Window):
-    """
-    Main application class.
-    """
-
     def __init__(self):
-
-        # Call the parent class and set up the window
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         self.level = Level()
-
 
     def setup(self):
         self.level.setup()
 
     def on_draw(self):
-        # Clear the screen to the background color
         arcade.start_render()
 
         self.level.draw()
