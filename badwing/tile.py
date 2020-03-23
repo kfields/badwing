@@ -5,10 +5,10 @@ import pymunk
 import badwing.app
 from badwing.constants import *
 import badwing.assets as assets
-from badwing.model import Model
+from badwing.model import StaticModel
 from badwing.layer import Layer
 
-class Tile(Model):
+class Tile(StaticModel):
     def __init__(self, sprite):
         super().__init__(sprite)
 

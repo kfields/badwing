@@ -26,6 +26,6 @@ class Player:
 
     def update(self, dt):
         if self.left_down:
-            badwing.app.bike.decelerate()
+            badwing.app.skateboard.decelerate()
         elif self.right_down:
-            badwing.app.bike.accelerate()
+            badwing.app.skateboard.accelerate()

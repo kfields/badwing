@@ -8,7 +8,7 @@ import badwing.level
 from badwing.constants import *
 from badwing.layer import Layer
 from badwing.tile import PhysicsTileLayer
-from badwing.bike import Wheel, Bike
+from badwing.skateboard import Wheel, Skateboard
 from badwing.ball import Ball
 
 class Level(badwing.level.Level):
@@ -74,9 +74,9 @@ class Level(badwing.level.Level):
         self.add_layer(PhysicsTileLayer(self, 'ground'))
         player_layer = self.add_layer(Layer(self, 'player'))
 
-        bike = Bike.create()
-        player_layer.add_model(bike)
-        self.player_sprite = bike.chassis.sprite
+        skateboard = Skateboard.create()
+        player_layer.add_model(skateboard)
+        self.player_sprite = skateboard.chassis.sprite
         # --- Other stuff
         # Set the background color
         if self.map.background_color:
