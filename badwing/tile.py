@@ -30,6 +30,15 @@ class Tile(Model):
         self.shape = shape = pymunk.Poly(body, vertices)
         shape.friction = 10
 
+    def update(self, dt):
+        super().update(dt)
+        if not DEBUG_COLLISION:
+            return
+        #line_strip = arcade.create_line_strip(sprite.points, (255,255,255), 1)
+        line_strip = arcade.create_lines(self.sprite.points, (255,255,255), 1)
+        badwing.app.level.debug_list.append(line_strip)
+
+
 class TileLayer(Layer):
     def __init__(self, level, name):
         super().__init__(level, name)
@@ -40,7 +49,3 @@ class PhysicsTileLayer(TileLayer):
         super().__init__(level, name)
         for sprite in self.sprites:
             self.add_model(Tile(sprite))
-            #
-            #line_strip = arcade.create_line_strip(sprite.points, (255,255,255), 1)
-            line_strip = arcade.create_lines(sprite.points, (255,255,255), 1)
-            badwing.app.level.debug_list.append(line_strip)

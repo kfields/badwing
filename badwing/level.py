@@ -33,6 +33,7 @@ class Level:
         for layer in self.layers:
             layer.draw()
         self.debug_list.draw()
+        self.debug_list = arcade.ShapeElementList()
 
     def load(filename):
         with open(filename) as f:

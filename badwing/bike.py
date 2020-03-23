@@ -15,6 +15,8 @@ CHASSIS_MASS = 1
 X_PAD = 32
 Y_PAD = 32
 
+SPEED_DELTA = 1
+
 class Wheel(Model):
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
@@ -70,6 +72,11 @@ class Chassis(Model):
 
 class Bike(Assembly):
     def __init__(self, position=(292, 192)):
+        super().__init__()
+        badwing.app.bike = self
+
+        self.speed = 0
+
         self.chWd = CHASSIS_WIDTH
         self.chHt = CHASSIS_HEIGHT
         chassisXY = Vec2d(position)
@@ -79,20 +86,13 @@ class Bike(Assembly):
         self.back_wheel = back_wheel = Wheel.create(back_wheel_position)
         self.chassis = chassis = Chassis.create(chassisXY)
         self.front_wheel = front_wheel = Wheel.create(front_wheel_position)
-        '''
-        m1 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -1)
-        #j1 = pymunk.constraint.PinJoint(back_wheel.body, chassis.body, anchor_a=(0,0), anchor_b=(-64, 0))
-        j1 = pymunk.constraint.DampedSpring(back_wheel.body, chassis.body, anchor_a=(0,0), anchor_b=(-64, 0), rest_length=128, stiffness=100, damping=1)
-        #m2 = pymunk.constraint.SimpleMotor(front_wheel.body, chassis.body, -1)
-        j2 = pymunk.constraint.DampedSpring(front_wheel.body, chassis.body, anchor_a=(0,0), anchor_b=(64, 0), rest_length=128, stiffness=100, damping=1)
-        #j2 = pymunk.constraint.PinJoint(front_wheel.body, chassis.body, anchor_a=(0,0), anchor_b=(64, 0))
-        '''
+
         p1 = pymunk.PinJoint(back_wheel.body, chassis.body, (0,0), (-self.chWd/2,0))
         p2 = pymunk.PinJoint(front_wheel.body, chassis.body, (0,0), (self.chWd/2,0))
         p3 = pymunk.PinJoint(back_wheel.body, chassis.body, (0,0), (0,-self.chHt/2))
         p4 = pymunk.PinJoint(front_wheel.body, chassis.body, (0,0), (0,-self.chHt/2))
 
-        m1 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -1)
+        self.motor = m1 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -self.speed)
 
         badwing.app.level.space.add(p1, p2, p3, p4, m1)
 
@@ -105,3 +105,12 @@ class Bike(Assembly):
         layer.add_model(self.chassis)
         layer.add_model(self.front_wheel)
         layer.add_model(self.back_wheel)
+
+    def accelerate(self):
+        self.speed += SPEED_DELTA
+
+    def decelerate(self):
+        self.speed -= SPEED_DELTA
+
+    def update(self, dt):
+        self.motor.rate = -self.speed
