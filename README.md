@@ -1,6 +1,6 @@
-# Bad Wing :butterfly:
+# BadWing :butterfly:
 
-A 2D physics platformer/skateboard game
+A 2D physics platformer/skateboarder game
 
 ## Installation
 

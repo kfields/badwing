@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.3" name="tiles" tilewidth="128" tileheight="128" tilecount="145" columns="0">
+<tileset version="1.2" tiledversion="1.3.3" name="tiles" tilewidth="640" tileheight="480" tilecount="154" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image width="128" height="128" source="boxCrate_double.png"/>
@@ -440,5 +440,32 @@
  </tile>
  <tile id="144">
   <image width="128" height="128" source="waterTop_low.png"/>
+ </tile>
+ <tile id="145" type="ButterFlyAqua">
+  <image width="640" height="480" source="butterflyAqua.png"/>
+ </tile>
+ <tile id="146" type="ButterflyBlue">
+  <image width="640" height="480" source="butterflyBlue.png"/>
+ </tile>
+ <tile id="147">
+  <image width="640" height="480" source="butterflyBrown.png"/>
+ </tile>
+ <tile id="148">
+  <image width="640" height="480" source="butterflyCyan.png"/>
+ </tile>
+ <tile id="149">
+  <image width="640" height="480" source="butterflyGreen.png"/>
+ </tile>
+ <tile id="150">
+  <image width="640" height="480" source="butterflyIridescent.png"/>
+ </tile>
+ <tile id="151">
+  <image width="640" height="480" source="butterflyRed.png"/>
+ </tile>
+ <tile id="152">
+  <image width="640" height="480" source="butterflyTan.png"/>
+ </tile>
+ <tile id="153">
+  <image width="640" height="480" source="butterflyTeal.png"/>
  </tile>
 </tileset>

@@ -6,10 +6,11 @@ import pymunk
 
 import badwing.level
 from badwing.constants import *
-from badwing.layer import Layer
-from badwing.tile import PhysicsTileLayer
+from badwing.layer import Layer, BackgroundLayer
+from badwing.tile import TileLayer, PhysicsTileLayer
 from badwing.skateboard import Wheel, Skateboard
 from badwing.ball import Ball
+from badwing.butterfly import ButterflyLayer
 
 class Level(badwing.level.Level):
     def __init__(self):
@@ -71,8 +72,10 @@ class Level(badwing.level.Level):
         # Name of the layer that has items for pick-up
         coins_layer_name = 'coins'
 
+        self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.add_layer(PhysicsTileLayer(self, 'ground'))
-        player_layer = self.add_layer(Layer(self, 'player'))
+        self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
+        self.butterfly_layer = self.add_layer(ButterflyLayer(self, 'butterfly'))
 
         skateboard = Skateboard.create()
         player_layer.add_model(skateboard)
@@ -82,15 +85,18 @@ class Level(badwing.level.Level):
         if self.map.background_color:
             arcade.set_background_color(self.background_color)
 
-    def update(self, dt):
-        super().update(dt)
+        self.post_setup()
+        
+    def update(self, delta_time):
+        super().update(delta_time)
         """ Movement and game logic """
 
         # Move the player with the physics engine
         #self.physics_engine.update()
 
         # self.player_list.update()
-        self.player_list.update_animation()
+        self.player_list.update_animation(delta_time)
+        self.butterfly_layer.update_animation(delta_time)
 
         # See if we hit any coins
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -146,3 +152,10 @@ class Level(badwing.level.Level):
                                 SCREEN_WIDTH + self.view_left,
                                 self.view_bottom,
                                 SCREEN_HEIGHT + self.view_bottom)
+
+    def draw(self):
+        super().draw()
+        # Draw our score on the screen, scrolling it with the viewport
+        score_text = f"Score: {self.score}"
+        arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
+                         arcade.csscolor.BLACK, 18)

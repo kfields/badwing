@@ -12,8 +12,10 @@ class Layer:
         self.models = []
         self.sprites = arcade.SpriteList()
 
+    def setup(self):
+        pass
+
     def add_sprite(self, sprite):
-        print(sprite)
         self.sprites.append(sprite)
         return sprite
 
@@ -26,5 +28,23 @@ class Layer:
         for model in self.models:
             model.update(dt)
 
+    def update_animation(self, delta_time):
+        self.sprites.update_animation(delta_time)
+
     def draw(self):
         self.sprites.draw()
+
+class BackgroundLayer(Layer):
+    def __init__(self, level, name, filename):
+        super().__init__(level, name)
+        self.filename = filename
+        self.background = None
+    def setup(self):
+        super().setup()
+        self.background = arcade.load_texture(self.filename)
+    def draw(self):
+        # Draw the background texture
+        scale = SCREEN_WIDTH / self.background.width
+        arcade.draw_lrwh_rectangle_textured(0, 0,
+                                            SCREEN_WIDTH, SCREEN_HEIGHT,
+                                            self.background)
