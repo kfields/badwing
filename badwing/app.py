@@ -1,3 +1,4 @@
+game = None
 level = None
 player = None
-skateboard = None
+avatar = None

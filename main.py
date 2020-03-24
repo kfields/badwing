@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(__file__))
 import arcade
 import pymunk
 
+import badwing.app
 from badwing.constants import *
 from badwing.player import Player
 from badwing.levels.level1 import Level
@@ -13,6 +14,7 @@ from badwing.levels.level1 import Level
 class MyGame(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+        badwing.app.game = self
         self.player = Player()
         self.level = Level()
 
@@ -30,13 +32,14 @@ class MyGame(arcade.Window):
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
-        self.player.on_key_press(key, modifiers)
+        badwing.app.avatar.on_key_press(key, modifiers)
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
-        self.player.on_key_release(key, modifiers)
+        badwing.app.avatar.on_key_release(key, modifiers)
 
     def on_update(self, dt):
+        badwing.app.avatar.update(dt)
         self.player.update(dt)
         self.level.update(dt)
 

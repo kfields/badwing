@@ -6,6 +6,7 @@ import arcade
 
 from badwing.constants import *
 import badwing.app
+import badwing.avatar
 from badwing.model import DynamicModel, Assembly
 
 
@@ -76,22 +77,6 @@ class Chassis(DynamicModel):
 
 
 class Dude(DynamicModel):
-    '''
-    def __init__(self, sprite, position=(0,0)):
-        super().__init__(sprite)
-
-        width = sprite.texture.width * TILE_SCALING
-        height = sprite.texture.height * TILE_SCALING
-
-        mass = DUDE_MASS
-        moment = pymunk.moment_for_box(mass, (width, height))
-        self.body = body = pymunk.Body(mass, moment)
-        body.position = position
-
-        self.shape = shape = pymunk.Poly.create_box(body, (width, height))
-        shape.friction = 10
-        shape.elasticity = 0.2
-    '''
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
 
@@ -108,15 +93,6 @@ class Dude(DynamicModel):
         self.body_offset = body_offset = Vec2d(0, -height/2)
         body.position = dude_pos + body_offset
 
-        spriteX = sprite.center_x
-        spriteY = sprite.center_y
-        '''
-        vertices = []
-        for point in sprite.points:
-            x = point[0] - spriteX
-            y = point[1] - spriteY + height/2
-            vertices.append((x,y))
-        '''        
         t = pymunk.Transform(ty=height/2)
         self.shape = shape = pymunk.Poly(body, sprite.points, t)
         shape.friction = 10
@@ -132,7 +108,7 @@ class Dude(DynamicModel):
         super().on_add(layer)
         layer.add_sprite(self.sprite)
 
-    # Hack in sprite offset here for now.  Up the hierarchy later
+    # Hack in sprite transform here for now.  Move up the hierarchy later
     def update(self, dt):
         body_pos = self.body.position
         angle = self.body.angle
@@ -147,8 +123,7 @@ class Dude(DynamicModel):
 class Skateboard(Assembly):
     def __init__(self, position=(292, 192)):
         super().__init__()
-        badwing.app.skateboard = self
-
+        self.Avatar = Avatar(self)
         self.speed = 0
 
         chassis_pos = Vec2d(position)
@@ -192,3 +167,14 @@ class Skateboard(Assembly):
 
     def update(self, dt):
         self.motor.rate = -self.speed
+
+class Avatar(badwing.avatar.Avatar):
+    def __init__(self, skateboard):
+        super().__init__()
+        self.skateboard = skateboard
+
+    def update(self, dt):
+        if self.left_down:
+            self.skateboard.decelerate()
+        elif self.right_down:
+            self.skateboard.accelerate()

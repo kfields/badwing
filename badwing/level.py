@@ -37,6 +37,7 @@ class Level:
         self.debug_list.draw()
         self.debug_list = arcade.ShapeElementList()
 
+    #TODO: this was when I was going to use .json tilemaps.  keep it around and repurpose it
     def load(filename):
         with open(filename) as f:
             map = json.load(f)

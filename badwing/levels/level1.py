@@ -11,6 +11,7 @@ from badwing.tile import TileLayer, PhysicsTileLayer
 from badwing.skateboard import Wheel, Skateboard
 from badwing.ball import Ball
 from badwing.butterfly import ButterflyLayer
+from badwing.emitter import EmitterLayer
 
 class Level(badwing.level.Level):
     def __init__(self):
@@ -20,7 +21,6 @@ class Level(badwing.level.Level):
         self.space.gravity = GRAVITY
 
         # These are 'lists' that keep track of our sprites.
-        self.coin_list = None
         self.wall_list = None
         self.player_list = None
 
@@ -55,7 +55,6 @@ class Level(badwing.level.Level):
         # Create the Sprite lists
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
         image_source = ":resources:images/animated_characters/female_adventurer/femaleAdventurer_idle.png"
@@ -74,6 +73,7 @@ class Level(badwing.level.Level):
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.add_layer(PhysicsTileLayer(self, 'ground'))
+        self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
         self.butterfly_layer = self.add_layer(ButterflyLayer(self, 'butterfly'))
 
@@ -86,11 +86,10 @@ class Level(badwing.level.Level):
             arcade.set_background_color(self.background_color)
 
         self.post_setup()
-        
+
     def update(self, delta_time):
         super().update(delta_time)
         """ Movement and game logic """
-
         # Move the player with the physics engine
         #self.physics_engine.update()
 
@@ -100,13 +99,14 @@ class Level(badwing.level.Level):
 
         # See if we hit any coins
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                             self.coin_list)
+                                                             self.butterfly_layer.sprites)
 
         # Loop through each coin we hit (if any) and remove it
         for coin in coin_hit_list:
             # Remove the coin
             coin.remove_from_sprite_lists()
             # Play a sound
+            self.spark_layer.make_sparks(coin.position)
             arcade.play_sound(self.collect_coin_sound)
             # Add one to the score
             self.score += 1
