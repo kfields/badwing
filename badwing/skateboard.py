@@ -5,6 +5,7 @@ from pymunk import Vec2d
 import arcade
 
 from badwing.constants import *
+from badwing.util import debounce
 import badwing.app
 import badwing.avatar
 from badwing.model import DynamicModel, Assembly
@@ -67,7 +68,7 @@ class Chassis(DynamicModel):
 
     @classmethod
     def create(self, position=(192, 192)):
-        img_src = "assets/map/boxCrate.png"
+        img_src = "assets/map/tiles/boxCrate.png"
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING, image_width=CHASSIS_WIDTH, image_height=CHASSIS_HEIGHT)
         return Chassis(sprite, position)
 
@@ -165,6 +166,9 @@ class Skateboard(Assembly):
     def decelerate(self):
         self.speed -= SPEED_DELTA
 
+    def ollie(self, impulse=(0,2000), point=(0,0)):
+        self.chassis.body.apply_impulse_at_local_point(impulse, point)
+
     def update(self, dt):
         self.motor.rate = -self.speed
 
@@ -172,6 +176,24 @@ class Avatar(badwing.avatar.Avatar):
     def __init__(self, skateboard):
         super().__init__()
         self.skateboard = skateboard
+
+    def on_key_press(self, key, modifiers):
+        """Called whenever a key is pressed. """
+        if key == arcade.key.UP or key == arcade.key.W:
+            self.skateboard.ollie()
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.left_down = True
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.right_down = True
+
+    def on_key_release(self, key, modifiers):
+        """Called when the user releases a key. """
+        if key == arcade.key.UP or key == arcade.key.W:
+            self.up_down = False
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.left_down = False
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.right_down = False
 
     def update(self, dt):
         if self.left_down:

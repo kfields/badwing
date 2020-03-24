@@ -14,12 +14,11 @@ CHARACTER_SCALING = 2
 
 MOVEMENT_SPEED = 5
 FRAMES=10
-UPDATES_PER_FRAME = 7
+UPDATES_PER_FRAME = 2
 
 # Constants used to track if the player is facing left or right
 RIGHT_FACING = 0
 LEFT_FACING = 1
-
 
 def load_texture_pair(filename):
     """
@@ -84,15 +83,105 @@ class Butterfly(Model):
     def update(self, dt):
         super().update(dt)
 
+    @classmethod
+    def create(self, orig_sprite):
+        kind = orig_sprite.properties['kind']
+        model = kinds[kind].create(orig_sprite)
+        return model
+
+class ButterflyAqua(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+
+    @classmethod
+    def create(self, orig_sprite):
+        sprite = ButterflySprite("assets/butterfly/aqua/G9Butterfly000", orig_sprite)
+        return ButterflyBlue(sprite)
+
 class ButterflyBlue(Model):
     def __init__(self, sprite):
         super().__init__(sprite)
 
     @classmethod
     def create(self, orig_sprite):
-        sprite = ButterflySprite("assets/butterfly/01/butterfly000", orig_sprite)
+        sprite = ButterflySprite("assets/butterfly/blue/butterfly000", orig_sprite)
         return ButterflyBlue(sprite)
 
+class ButterflyBrown(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+
+    @classmethod
+    def create(self, orig_sprite):
+        sprite = ButterflySprite("assets/butterfly/brown/G5Butterfly000", orig_sprite)
+        return ButterflyBrown(sprite)
+
+class ButterflyCyan(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+
+    @classmethod
+    def create(self, orig_sprite):
+        sprite = ButterflySprite("assets/butterfly/cyan/G6Butterfly000", orig_sprite)
+        return ButterflyCyan(sprite)
+
+class ButterflyGreen(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+
+    @classmethod
+    def create(self, orig_sprite):
+        sprite = ButterflySprite("assets/butterfly/green/G2Butterfly000", orig_sprite)
+        return ButterflyGreen(sprite)
+
+class ButterflyIridescent(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+
+    @classmethod
+    def create(self, orig_sprite):
+        sprite = ButterflySprite("assets/butterfly/iridescent/G7Butterfly000", orig_sprite)
+        return ButterflyIridescent(sprite)
+
+class ButterflyRed(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+
+    @classmethod
+    def create(self, orig_sprite):
+        sprite = ButterflySprite("assets/butterfly/red/G8Butterfly000", orig_sprite)
+        return ButterflyRed(sprite)
+
+class ButterflyTan(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+
+    @classmethod
+    def create(self, orig_sprite):
+        sprite = ButterflySprite("assets/butterfly/tan/G4Butterfly000", orig_sprite)
+        return ButterflyTan(sprite)
+
+class ButterflyTeal(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+
+    @classmethod
+    def create(self, orig_sprite):
+        sprite = ButterflySprite("assets/butterfly/teal/G3Butterfly000", orig_sprite)
+        return ButterflyTeal(sprite)
+
+
+kinds = {
+    'ButterflyBlue': ButterflyBlue,
+    'ButterflyAqua': ButterflyAqua,
+    'ButterflyBrown': ButterflyBrown,
+    'ButterflyCyan': ButterflyCyan,
+    'ButterflyGreen': ButterflyGreen,
+    'ButterflyIridescent': ButterflyIridescent,
+    'ButterflyRed': ButterflyRed,
+    'ButterflyTan': ButterflyTan,
+    'ButterflyTeal': ButterflyTeal
+}
 
 class ButterflyLayer(TileLayer):
     def __init__(self, level, name):
@@ -100,7 +189,8 @@ class ButterflyLayer(TileLayer):
         orig_sprites = self.sprites
         self.sprites = arcade.SpriteList()
         for orig_sprite in orig_sprites:
-            print(orig_sprite.properties)
-            model = ButterflyBlue.create(orig_sprite)
+            #print(vars(orig_sprite))
+            #print(orig_sprite.properties)
+            model = Butterfly.create(orig_sprite)
             self.sprites.append(model.sprite)
             self.add_model(model)

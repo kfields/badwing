@@ -44,7 +44,7 @@ class BackgroundLayer(Layer):
         self.background = arcade.load_texture(self.filename)
     def draw(self):
         # Draw the background texture
-        scale = SCREEN_WIDTH / self.background.width
-        arcade.draw_lrwh_rectangle_textured(0, 0,
+        (left, right, bottom, top) = viewport = arcade.get_viewport()
+        arcade.draw_lrwh_rectangle_textured(left, bottom,
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
                                             self.background)
