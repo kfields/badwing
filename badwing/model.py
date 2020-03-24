@@ -3,14 +3,24 @@ import math
 import badwing.app
 
 class Model:
-    def __init__(self, sprite):
+    @property
+    def position(self):
+        return self.sprite.position
+
+    @position.setter
+    def position(self, val):
+        self.sprite.position = val
+
+    def __init__(self, sprite, brain=None):
         self.sprite = sprite
+        self.brain = brain
 
     def on_add(self, layer):
         pass
 
-    def update(self, dt):
-        pass
+    def update(self, delta_time):
+        if self.brain:
+            self.brain.update(delta_time)
 
 class PhysicsModel(Model):
     def __init__(self, sprite):

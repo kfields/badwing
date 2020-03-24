@@ -72,7 +72,7 @@ class Level(badwing.level.Level):
         coins_layer_name = 'coins'
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
-        self.add_layer(PhysicsTileLayer(self, 'ground'))
+        self.ground_layer = self.add_layer(PhysicsTileLayer(self, 'ground'))
         self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
         self.butterfly_layer = self.add_layer(ButterflyLayer(self, 'butterfly'))

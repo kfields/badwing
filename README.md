@@ -4,6 +4,8 @@ A 2D physics platformer/skateboarder game
 
 ## Installation
 
+### From GitHub
+
 Navigate to a directory where you keep your software projects
 
         cd <myprojects>
@@ -39,3 +41,6 @@ Activate the virtual environment, if not already active
 Run the game
 
         python main.py
+
+## Controls
+AWSD + cursor keys.  Press up to do an Ollie! :)

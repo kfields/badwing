@@ -146,6 +146,7 @@ class Skateboard(Assembly):
         p6 = pymunk.PinJoint(dude.body, chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))
 
         self.motor = m1 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -self.speed)
+        m1.max_force = 200000
 
         badwing.app.level.space.add(p1, p2, p3, p4, p5, p6, m1)
 
@@ -160,12 +161,19 @@ class Skateboard(Assembly):
         layer.add_model(self.back_wheel)
         layer.add_model(self.dude)
 
-    def accelerate(self):
-        self.speed += SPEED_DELTA
+    def accelerate(self, rate=SPEED_DELTA):
+        self.speed += rate
 
-    def decelerate(self):
-        self.speed -= SPEED_DELTA
+    def decelerate(self, rate=SPEED_DELTA):
+        self.speed -= rate
 
+    def coast(self):
+        if self.speed > 0:
+            self.decelerate(SPEED_DELTA/2)
+        elif self.speed < 0:
+            self.accelerate(SPEED_DELTA/2)
+
+    @debounce(1)
     def ollie(self, impulse=(0,2000), point=(0,0)):
         self.chassis.body.apply_impulse_at_local_point(impulse, point)
 
@@ -195,8 +203,10 @@ class Avatar(badwing.avatar.Avatar):
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_down = False
 
-    def update(self, dt):
+    def update(self, delta_time):
         if self.left_down:
             self.skateboard.decelerate()
         elif self.right_down:
             self.skateboard.accelerate()
+        else:
+            self.skateboard.coast()
