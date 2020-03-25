@@ -8,7 +8,11 @@ import badwing.level
 from badwing.constants import *
 from badwing.layer import Layer, BackgroundLayer
 from badwing.tile import TileLayer, PhysicsTileLayer
+from badwing.ladder import LadderLayer
 from badwing.skateboard import Wheel, Skateboard
+from badwing.dude import Dude
+from badwing.character import PlayerCharacter
+
 from badwing.ball import Ball
 from badwing.butterfly import ButterflyLayer
 from badwing.emitter import EmitterLayer
@@ -45,6 +49,7 @@ class Level(badwing.level.Level):
 
     def setup(self):
         super().setup()
+
         # Used to keep track of our scrolling
         self.view_bottom = 0
         self.view_left = 0
@@ -56,14 +61,6 @@ class Level(badwing.level.Level):
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
 
-        # Set up the player, specifically placing it at these coordinates.
-        image_source = ":resources:images/animated_characters/female_adventurer/femaleAdventurer_idle.png"
-        #self.player_sprite = arcade.Sprite(image_source, CHARACTER_SCALING)
-        #self.player_sprite = PlayerCharacter()
-        #self.player_sprite.center_x = 256
-        #self.player_sprite.center_y = 512
-        #self.player_list.append(self.player_sprite)
-
         # --- Load in a map from the tiled editor ---
 
         # Name of map file to load
@@ -72,14 +69,25 @@ class Level(badwing.level.Level):
         coins_layer_name = 'coins'
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
+        self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
         self.ground_layer = self.add_layer(PhysicsTileLayer(self, 'ground'))
         self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
         self.butterfly_layer = self.add_layer(ButterflyLayer(self, 'butterfly'))
+        '''
+        player = Skateboard.create()
+        player_layer.add_model(player)
+        '''
+        '''
+        player = Dude.create()
+        player_layer.add_model(player)
+        '''
+        player = PlayerCharacter.create()
+        player_layer.add_model(player)
 
-        skateboard = Skateboard.create()
-        player_layer.add_model(skateboard)
-        self.player_sprite = skateboard.chassis.sprite
+        self.player = player
+        self.player_sprite = player.sprite
+
         # --- Other stuff
         # Set the background color
         if self.map.background_color:
@@ -87,14 +95,26 @@ class Level(badwing.level.Level):
 
         self.post_setup()
 
+    def post_setup(self):
+        super().post_setup()
+        print(self.ground_layer.sprites)
+        # Create the 'physics engine'
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
+                                                             self.ground_layer.sprites,
+                                                             K_GRAVITY,
+                                                             self.ladder_layer.sprites
+                                                             )
+        # Requires physics engine to exist first
+        self.player.control()
+
     def update(self, delta_time):
         super().update(delta_time)
         """ Movement and game logic """
         # Move the player with the physics engine
-        #self.physics_engine.update()
+        self.physics_engine.update()
 
-        # self.player_list.update()
-        self.player_list.update_animation(delta_time)
+        #self.player_list.update_animation(delta_time)
+        self.player_layer.update_animation(delta_time)
         self.butterfly_layer.update_animation(delta_time)
 
         # See if we hit any coins

@@ -35,9 +35,11 @@ COIN_SCALING = 0.5
 SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 
+# Kinematic Constants
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 10
 PLAYER_JUMP_SPEED = 25
+K_GRAVITY = 1
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.

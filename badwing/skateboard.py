@@ -9,6 +9,7 @@ from badwing.util import debounce
 import badwing.app
 import badwing.avatar
 from badwing.model import DynamicModel, Assembly
+from badwing.dude import Dude
 
 
 WHEEL_RADIUS = 32
@@ -17,8 +18,6 @@ WHEEL_MASS = 1
 CHASSIS_WIDTH = 128
 CHASSIS_HEIGHT = 32
 CHASSIS_MASS = 1
-
-DUDE_MASS = 1
 
 X_PAD = 32
 Y_PAD = 32
@@ -77,54 +76,9 @@ class Chassis(DynamicModel):
         layer.add_sprite(self.sprite)
 
 
-class Dude(DynamicModel):
-    def __init__(self, sprite, position=(0,0)):
-        super().__init__(sprite)
-
-        width = sprite.texture.width * TILE_SCALING
-        height = sprite.texture.height * TILE_SCALING
-
-        # need to offset shape for lower center of gravity
-
-        mass = DUDE_MASS
-        moment = pymunk.moment_for_box(mass, (width, height))
-        self.body = body = pymunk.Body(mass, moment)
-
-        dude_pos = Vec2d(position)
-        self.body_offset = body_offset = Vec2d(0, -height/2)
-        body.position = dude_pos + body_offset
-
-        t = pymunk.Transform(ty=height/2)
-        self.shape = shape = pymunk.Poly(body, sprite.points, t)
-        shape.friction = 10
-        shape.elasticity = 0.2
-
-    @classmethod
-    def create(self, position=(192, 192)):
-        img_src = ":resources:images/animated_characters/male_adventurer/maleAdventurer_idle.png"
-        sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
-        return Dude(sprite, position)
-
-    def on_add(self, layer):
-        super().on_add(layer)
-        layer.add_sprite(self.sprite)
-
-    # Hack in sprite transform here for now.  Move up the hierarchy later
-    def update(self, dt):
-        body_pos = self.body.position
-        angle = self.body.angle
-        model = glm.mat4()
-        model = glm.rotate(model, angle, glm.vec3(0, 0, 1))
-        rel_pos = model * glm.vec4(0, 64, 0, 1)
-        pos = rel_pos + glm.vec4(body_pos[0], body_pos[1], 0, 1) 
-        self.sprite.position = (pos[0], pos[1])
-        self.sprite.angle = math.degrees(angle)
-
-
 class Skateboard(Assembly):
     def __init__(self, position=(292, 192)):
         super().__init__()
-        self.Avatar = Avatar(self)
         self.speed = 0
 
         chassis_pos = Vec2d(position)
@@ -155,6 +109,9 @@ class Skateboard(Assembly):
     @classmethod
     def create(self):
         return Skateboard()
+
+    def control(self):
+        return Avatar(self)
 
     def on_add(self, layer):
         #super().on_add(layer)
@@ -203,11 +160,11 @@ class Avatar(badwing.avatar.Avatar):
             self.skateboard.ollie()
         elif key == arcade.key.LEFT or key == arcade.key.A:
             if not self.left_down:
-                self.skateboard.set_motor(self.skateboard.front_motor)
+                self.skateboard.set_motor(self.skateboard.back_motor)
             self.left_down = True
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             if not self.right_down:
-                self.skateboard.set_motor(self.skateboard.back_motor)
+                self.skateboard.set_motor(self.skateboard.front_motor)
             self.right_down = True
 
     def on_key_release(self, key, modifiers):
