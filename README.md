@@ -43,4 +43,4 @@ Run the game
         python main.py
 
 ## Controls
-AWSD + cursor keys.  Press up to do an Ollie! :)
+WASD + cursor keys.  Press up to do an Ollie! :)

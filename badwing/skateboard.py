@@ -145,10 +145,12 @@ class Skateboard(Assembly):
         p5 = pymunk.PinJoint(dude.body, chassis.body, (0,0), (CHASSIS_WIDTH/2,0))
         p6 = pymunk.PinJoint(dude.body, chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))
 
-        self.motor = m1 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -self.speed)
+        self.front_motor = m1 = pymunk.constraint.SimpleMotor(front_wheel.body, chassis.body, -self.speed)
         m1.max_force = 200000
+        self.back_motor = self.motor = m2 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -self.speed)
+        m2.max_force = 200000
 
-        badwing.app.level.space.add(p1, p2, p3, p4, p5, p6, m1)
+        badwing.app.level.space.add(p1, p2, p3, p4, p5, p6, m2)
 
     @classmethod
     def create(self):
@@ -161,6 +163,17 @@ class Skateboard(Assembly):
         layer.add_model(self.back_wheel)
         layer.add_model(self.dude)
 
+    def set_motor(self, motor):
+        if motor == self.motor:
+            return
+        if self.motor:
+            badwing.app.level.space.remove(self.motor)
+        self.motor = motor
+        if not motor:
+            return
+        self.motor.rate = -self.speed
+        badwing.app.level.space.add(self.motor)
+
     def accelerate(self, rate=SPEED_DELTA):
         self.speed += rate
 
@@ -168,17 +181,16 @@ class Skateboard(Assembly):
         self.speed -= rate
 
     def coast(self):
-        if self.speed > 0:
-            self.decelerate(SPEED_DELTA/2)
-        elif self.speed < 0:
-            self.accelerate(SPEED_DELTA/2)
-
+        self.set_motor(None)
+        self.speed = 0
+        
     @debounce(1)
     def ollie(self, impulse=(0,2000), point=(0,0)):
         self.chassis.body.apply_impulse_at_local_point(impulse, point)
 
     def update(self, dt):
-        self.motor.rate = -self.speed
+        if self.motor:
+            self.motor.rate = -self.speed
 
 class Avatar(badwing.avatar.Avatar):
     def __init__(self, skateboard):
@@ -190,8 +202,12 @@ class Avatar(badwing.avatar.Avatar):
         if key == arcade.key.UP or key == arcade.key.W:
             self.skateboard.ollie()
         elif key == arcade.key.LEFT or key == arcade.key.A:
+            if not self.left_down:
+                self.skateboard.set_motor(self.skateboard.front_motor)
             self.left_down = True
         elif key == arcade.key.RIGHT or key == arcade.key.D:
+            if not self.right_down:
+                self.skateboard.set_motor(self.skateboard.back_motor)
             self.right_down = True
 
     def on_key_release(self, key, modifiers):
