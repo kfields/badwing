@@ -22,4 +22,4 @@ class Ball(Model):
     def create(self):
         img_src = "assets/items/coinGold.png"
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
-        return Wheel(sprite)
+        return Ball(sprite)

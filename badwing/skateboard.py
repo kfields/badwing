@@ -88,6 +88,7 @@ class Skateboard(Assembly):
 
         self.back_wheel = back_wheel = Wheel.create(back_wheel_pos)
         self.chassis = chassis = Chassis.create(chassis_pos)
+        self.sprite = chassis.sprite
         self.dude = dude = Dude.create(dude_pos)
         self.front_wheel = front_wheel = Wheel.create(front_wheel_pos)
 
@@ -107,8 +108,8 @@ class Skateboard(Assembly):
         badwing.app.level.space.add(p1, p2, p3, p4, p5, p6, m2)
 
     @classmethod
-    def create(self):
-        return Skateboard()
+    def create(self, position=(292, 192)):
+        return Skateboard(position)
 
     def control(self):
         return Avatar(self)

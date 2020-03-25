@@ -37,8 +37,11 @@ class PhysicsModel(Model):
     def __init__(self, sprite):
         super().__init__(sprite)
         self.body = None
+        self.shape = None
 
     def on_add(self, layer):
+        print(self.body)
+        print(self.shape)
         badwing.app.level.space.add(self.body, self.shape)
 
 
@@ -51,7 +54,7 @@ class DynamicModel(PhysicsModel):
     def __init__(self, sprite):
         super().__init__(sprite)
 
-    def update(self, dt):
+    def update(self, delta_time):
         pos = self.body.position
         self.sprite.position = pos
         self.sprite.angle = math.degrees(self.body.angle)
@@ -61,5 +64,5 @@ class KinematicModel(PhysicsModel):
     def __init__(self, sprite):
         super().__init__(sprite)
 
-    def update(self, dt):
+    def update(self, delta_time):
         self.body.position = self.sprite.position

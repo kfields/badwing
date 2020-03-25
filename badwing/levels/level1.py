@@ -6,6 +6,7 @@ import pymunk
 
 import badwing.level
 from badwing.constants import *
+from badwing.physics_engines import PhysicsEngineKinematic
 from badwing.layer import Layer, BackgroundLayer
 from badwing.tile import TileLayer, PhysicsTileLayer
 from badwing.ladder import LadderLayer
@@ -13,6 +14,7 @@ from badwing.skateboard import Wheel, Skateboard
 from badwing.dude import Dude
 from badwing.character import PlayerCharacter
 
+from badwing.box import Box
 from badwing.ball import Ball
 from badwing.butterfly import ButterflyLayer
 from badwing.emitter import EmitterLayer
@@ -23,10 +25,6 @@ class Level(badwing.level.Level):
         self.space = pymunk.Space()
         self.space.iterations = 35
         self.space.gravity = GRAVITY
-
-        # These are 'lists' that keep track of our sprites.
-        self.wall_list = None
-        self.player_list = None
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
@@ -57,10 +55,6 @@ class Level(badwing.level.Level):
         # Keep track of the score
         self.score = 0
 
-        # Create the Sprite lists
-        self.player_list = arcade.SpriteList()
-        self.wall_list = arcade.SpriteList()
-
         # --- Load in a map from the tiled editor ---
 
         # Name of map file to load
@@ -74,17 +68,19 @@ class Level(badwing.level.Level):
         self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
         self.butterfly_layer = self.add_layer(ButterflyLayer(self, 'butterfly'))
-        '''
-        player = Skateboard.create()
-        player_layer.add_model(player)
-        '''
+        
+        player_layer.add_model(Box.create())
+        
         '''
         player = Dude.create()
         player_layer.add_model(player)
         '''
         player = PlayerCharacter.create()
         player_layer.add_model(player)
-
+        '''
+        player = Skateboard.create(position=(392, 192))
+        player_layer.add_model(player)
+        '''
         self.player = player
         self.player_sprite = player.sprite
 
@@ -99,7 +95,7 @@ class Level(badwing.level.Level):
         super().post_setup()
         print(self.ground_layer.sprites)
         # Create the 'physics engine'
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
+        self.physics_engine = PhysicsEngineKinematic(self.player_sprite,
                                                              self.ground_layer.sprites,
                                                              K_GRAVITY,
                                                              self.ladder_layer.sprites
@@ -113,7 +109,6 @@ class Level(badwing.level.Level):
         # Move the player with the physics engine
         self.physics_engine.update()
 
-        #self.player_list.update_animation(delta_time)
         self.player_layer.update_animation(delta_time)
         self.butterfly_layer.update_animation(delta_time)
 
