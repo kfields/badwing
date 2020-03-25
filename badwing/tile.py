@@ -47,5 +47,13 @@ class TileLayer(Layer):
 class PhysicsTileLayer(TileLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
+
+class StaticTileLayer(PhysicsTileLayer):
+    def __init__(self, level, name):
+        super().__init__(level, name)
         for sprite in self.sprites:
             self.add_model(Tile(sprite))
+
+class DynamicTileLayer(PhysicsTileLayer):
+    def __init__(self, level, name):
+        super().__init__(level, name)

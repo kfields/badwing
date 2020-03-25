@@ -9,7 +9,7 @@ from badwing.util import debounce
 import badwing.app
 import badwing.avatar
 from badwing.model import DynamicModel, Assembly
-from badwing.util.physics import check_grounding
+from badwing.physics.util import check_grounding
 
 DUDE_MASS = 1
 

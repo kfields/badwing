@@ -3,36 +3,47 @@ from arcade import check_for_collision
 from arcade import Sprite
 from arcade import SpriteList
 
-class PhysicsEngineKinematic:
+from badwing.physics import PhysicsEngine
+from badwing.physics.util import _circular_check
+
+class KinematicPhysicsEngine(PhysicsEngine):
     """
     Simplistic physics engine for use in a platformer. It is easier to get
     started with this engine than more sophisticated engines like PyMunk. Note, it
     does not currently handle rotation.
     """
 
-    def __init__(self,
-                 player_sprite: Sprite,
-                 platforms: SpriteList,
-                 gravity_constant: float = 0.5,
-                 ladders: SpriteList = None,
-                 ):
+    def __init__(self, k_gravity: float = 0.5):
+        super().__init__()
         """
         Create a physics engine for a platformer.
 
         :param Sprite player_sprite: The moving sprite
         :param SpriteList platforms: The sprites it can't move through
-        :param float gravity_constant: Downward acceleration per frame
+        :param float k_gravity: Downward acceleration per frame
         :param SpriteList ladders: Ladders the user can climb on
         """
+
+        self.k_gravity = k_gravity
+        self.player_sprite = None
+        self.platforms = None
+        self.ladders = None
+
+        self.jumps_since_ground = 0
+        self.allowed_jumps = 1
+        self.allow_multi_jump = False
+
+    def setup(self,
+                 player_sprite: Sprite,
+                 platforms: SpriteList,
+                 ladders: SpriteList = None,
+                 ):
+
         if ladders is not None and not isinstance(ladders, SpriteList):
             raise TypeError("Fourth parameter should be a SpriteList of ladders")
 
         self.player_sprite = player_sprite
         self.platforms = platforms
-        self.gravity_constant = gravity_constant
-        self.jumps_since_ground = 0
-        self.allowed_jumps = 1
-        self.allow_multi_jump = False
         self.ladders = ladders
 
     def is_on_ladder(self):
@@ -115,7 +126,7 @@ class PhysicsEngineKinematic:
 
         # --- Add gravity if we aren't on a ladder
         if not self.is_on_ladder():
-            self.player_sprite.change_y -= self.gravity_constant
+            self.player_sprite.change_y -= self.k_gravity
 
         # Rotate
         self.player_sprite.angle += self.player_sprite.change_angle

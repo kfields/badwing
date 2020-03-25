@@ -2,6 +2,9 @@
 <tileset version="1.2" tiledversion="1.3.3" name="tiles" tilewidth="640" tileheight="480" tilecount="154" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
+  <properties>
+   <property name="kind" value="BoxCrateDouble"/>
+  </properties>
   <image width="128" height="128" source="tiles/boxCrate_double.png"/>
  </tile>
  <tile id="1">
