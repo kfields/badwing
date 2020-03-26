@@ -37,10 +37,10 @@ class PhysicsModel(Model):
     def __init__(self, sprite):
         super().__init__(sprite)
         self.body = None
-        self.shape = None
+        self.shapes = []
 
     def on_add(self, layer):
-        badwing.app.level.space.add(self.body, self.shape)
+        badwing.app.level.space.add(self.body, self.shapes)
 
 
 class StaticModel(PhysicsModel):

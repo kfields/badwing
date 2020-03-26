@@ -22,9 +22,10 @@ class Box(DynamicModel):
         self.body = body = pymunk.Body(mass, moment)
         body.position = position
 
-        self.shape = shape = pymunk.Poly.create_box(body, (width, height))
+        shape = pymunk.Poly.create_box(body, (width, height))
         shape.friction = 10
         shape.elasticity = 0.2
+        self.shapes.append(shape)
 
     @classmethod
     def create(self, position=(492, 192)):

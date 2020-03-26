@@ -33,10 +33,10 @@ class Wheel(DynamicModel):
         self.body = body = pymunk.Body(mass, inertia)
         body.position = position
 
-        self.shape = shape = pymunk.Circle(body, radius, (0, 0))
+        shape = pymunk.Circle(body, radius, (0, 0))
         shape.elasticity = 0.95
         shape.friction = 0.9
-
+        self.shapes.append(shape)
 
     @classmethod
     def create(self, position=(0,0)):
@@ -61,9 +61,10 @@ class Chassis(DynamicModel):
         self.body = body = pymunk.Body(mass, moment)
         body.position = position
 
-        self.shape = shape = pymunk.Poly.create_box(body, (width, height))
+        shape = pymunk.Poly.create_box(body, (width, height))
         shape.friction = 10
         shape.elasticity = 0.2
+        self.shapes.append(shape)
 
     @classmethod
     def create(self, position=(192, 192)):

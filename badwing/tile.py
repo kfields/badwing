@@ -18,7 +18,7 @@ class Tile(StaticModel):
         self.body = body = pymunk.Body(body_type=pymunk.Body.STATIC)
         body.position = pymunk.Vec2d(sprite.center_x, sprite.center_y)
 
-        #self.shape = shape = pymunk.Poly.create_box(body, (width, height))
+        #shape = pymunk.Poly.create_box(body, (width, height))
         vertices = []
         spriteX = sprite.center_x
         spriteY = sprite.center_y
@@ -27,8 +27,9 @@ class Tile(StaticModel):
             y = point[1] - spriteY
             vertices.append((x,y))
 
-        self.shape = shape = pymunk.Poly(body, vertices)
+        shape = pymunk.Poly(body, vertices)
         shape.friction = 10
+        self.shapes.append(shape)
 
     def update(self, dt):
         super().update(dt)

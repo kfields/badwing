@@ -31,9 +31,10 @@ class Dude(DynamicModel):
         body.position = player_pos + body_offset
 
         t = pymunk.Transform(ty=height/2)
-        self.shape = shape = pymunk.Poly(body, sprite.points, t)
+        shape = pymunk.Poly(body, sprite.points, t)
         shape.friction = 10
         shape.elasticity = 0.2
+        self.shapes.append(shape)
 
     @classmethod
     def create(self, position=(192, 192)):
