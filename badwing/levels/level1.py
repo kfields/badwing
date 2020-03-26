@@ -7,7 +7,9 @@ import badwing.level
 from badwing.constants import *
 from badwing.physics.dynamic import DynamicPhysics
 from badwing.physics.kinematic import KinematicPhysics
-from badwing.layer import Layer, BackgroundLayer
+from badwing.layer import Layer
+from badwing.barrier import BarrierLayer
+from badwing.background import BackgroundLayer
 from badwing.tile import TileLayer, StaticTileLayer
 from badwing.ladder import LadderLayer
 from badwing.skateboard import Wheel, Skateboard
@@ -63,6 +65,7 @@ class Level(badwing.level.Level):
         # Name of the layer that has items for pick-up
         coins_layer_name = 'coins'
 
+        self.add_layer(BarrierLayer(self, 'barrier'))
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
         self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
@@ -168,8 +171,20 @@ class Level(badwing.level.Level):
         if changed:
             # Only scroll to integers. Otherwise we end up with pixels that
             # don't line up on the screen
+            '''
             self.view_bottom = int(self.view_bottom)
             self.view_left = int(self.view_left)
+            '''
+            # Clamp the viewport to the level boundaries
+            (vp_left, vp_right, vp_bottom, vp_top) = viewport = arcade.get_viewport()
+            low_bottom = self.bottom
+            high_bottom = self.top - (vp_top - vp_bottom)
+            low_left = self.left
+            high_left = self.right - (vp_right - vp_left)
+            
+            self.view_bottom = int(arcade.clamp(self.view_bottom, low_bottom, high_bottom))
+
+            self.view_left = int(arcade.clamp(self.view_left, low_left, high_left))
 
             # Do the scrolling
             arcade.set_viewport(self.view_left,

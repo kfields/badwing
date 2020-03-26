@@ -69,11 +69,12 @@ class RockBig1(Obstacle):
         #moment = pymunk.moment_for_poly(mass, points)
         self.body = body = pymunk.Body(mass, moment)
         body.position = position
-        print('ROCK')
+        #print('ROCK')
         for poly in polys:
-            print(poly)
+            #print(poly)
             #points = [(i.x, i.y) for i in poly ]
             points = [i - center for i in poly ]
+            #print(points)
             shape = pymunk.Poly(body, points)
             shape.friction = 10
             shape.elasticity = 0.2
