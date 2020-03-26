@@ -1,6 +1,6 @@
 # BadWing :butterfly:
 
-A 2D physics platformer/skateboarder game
+Skateboarder/Platformer/Lepidopterist Game using Arcade & Pymunk
 
 ## Installation
 
@@ -40,7 +40,8 @@ Activate the virtual environment, if not already active
         
 Run the game
 
-        python main.py
+        python run_game.py
 
 ## Controls
+
 WASD + cursor keys.  Press up to do an Ollie! :)

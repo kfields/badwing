@@ -36,7 +36,7 @@ class ButterflySprite(arcade.Sprite):
         self.time = 1
         self.update_time = 0
         self.rate = 1/60
-
+        self.angle = -45
         self.character_face_direction = RIGHT_FACING
         # Used for flipping between image sequences
         self.cur_texture = 0
