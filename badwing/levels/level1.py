@@ -58,7 +58,7 @@ class Level(badwing.level.Level):
         # --- Load in a map from the tiled editor ---
 
         # Name of map file to load
-        map_name = "assets/map/level1.tmx"
+        map_name = "assets/level1.tmx"
         # Name of the layer that has items for pick-up
         coins_layer_name = 'coins'
 

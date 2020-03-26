@@ -48,8 +48,6 @@ class ObstacleLayer(DynamicTileLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
         for sprite in self.sprites:
-            #print(vars(orig_sprite))
-            #print(orig_sprite.properties)
             model = Obstacle.create(sprite)
             self.add_model(model)
 

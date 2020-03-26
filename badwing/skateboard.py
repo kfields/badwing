@@ -67,7 +67,7 @@ class Chassis(DynamicModel):
 
     @classmethod
     def create(self, position=(192, 192)):
-        img_src = "assets/map/tiles/boxCrate.png"
+        img_src = "assets/tiles/boxCrate.png"
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING, image_width=CHASSIS_WIDTH, image_height=CHASSIS_HEIGHT)
         return Chassis(sprite, position)
 

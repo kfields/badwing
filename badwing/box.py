@@ -28,7 +28,7 @@ class Box(DynamicModel):
 
     @classmethod
     def create(self, position=(492, 192)):
-        img_src = "assets/map/tiles/boxCrate_double.png"
+        img_src = "assets/tiles/boxCrate_double.png"
         #sprite = arcade.Sprite(img_src, CHARACTER_SCALING, image_width=CHASSIS_WIDTH, image_height=CHASSIS_HEIGHT)
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         return Box(sprite, position)

@@ -19,7 +19,7 @@ class Level:
         return layer
 
     def setup(self):
-        map_name = f"assets/map/{self.name}.tmx"
+        map_name = f"assets/{self.name}.tmx"
         self.map = arcade.tilemap.read_tmx(map_name)
 
     def post_setup(self):
