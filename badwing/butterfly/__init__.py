@@ -12,10 +12,10 @@ from badwing.tile import TileLayer
 
 from badwing.butterfly.brain import ButterflyBrain
 
-CHARACTER_SCALING = 1
+CHARACTER_SCALING = .5
 
 MOVEMENT_SPEED = 5
-FRAMES=10
+FRAMES = 9
 UPDATES_PER_FRAME = 2
 
 # Constants used to track if the player is facing left or right
