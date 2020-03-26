@@ -1,4 +1,4 @@
-arcade==2.3.8
+arcade==2.3.9
 attrs==19.3.0
 cffi==1.14.0
 numpy==1.18.2

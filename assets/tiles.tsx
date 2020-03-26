@@ -410,9 +410,19 @@
  </tile>
  <tile id="133">
   <image width="128" height="128" source="tiles/stoneHill_left.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 0,128 128,128"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="134">
   <image width="128" height="128" source="tiles/stoneHill_right.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="128">
+    <polygon points="0,0 128,0 128,-128"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="135">
   <image width="128" height="128" source="tiles/stoneLeft.png"/>
