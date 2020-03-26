@@ -2,7 +2,15 @@
 <tileset version="1.2" tiledversion="1.3.3" name="obstacles" tilewidth="120" tileheight="98" tilecount="10" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
+  <properties>
+   <property name="kind" value="RockBig1"/>
+  </properties>
   <image width="101" height="84" source="obstacles/meteorGrey_big1.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="17.5" y="2.25">
+    <polygon points="0,0 -16.5,48.75 11,80.25 43,68.5 66.5,71 81.75,37.25 55.75,-1.25"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1">
   <image width="120" height="98" source="obstacles/meteorGrey_big2.png"/>

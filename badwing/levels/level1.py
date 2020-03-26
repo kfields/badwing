@@ -18,7 +18,7 @@ from badwing.box import Box
 from badwing.ball import Ball
 from badwing.butterfly import ButterflyLayer
 from badwing.emitter import EmitterLayer
-from badwing.obstacle import ObstacleLayer
+from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
 class Level(badwing.level.Level):
@@ -69,7 +69,8 @@ class Level(badwing.level.Level):
         self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
         self.butterfly_layer = self.add_layer(ButterflyLayer(self, 'butterfly'))
-        self.obstacle_layer = self.add_layer(ObstacleLayer(self, 'obstacle'))
+        self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
+        self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
 
         if DEBUG_COLLISION:
             self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))

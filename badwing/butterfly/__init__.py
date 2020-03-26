@@ -56,10 +56,12 @@ class ButterflySprite(arcade.Sprite):
     @debounce(1)
     def face_left(self):
         self.character_face_direction = LEFT_FACING
+        self.angle = 45
 
     @debounce(1)
     def face_right(self):
         self.character_face_direction = RIGHT_FACING
+        self.angle = -45
 
     def update_animation(self, delta_time: float = 1/60):
         self.time += delta_time
