@@ -27,7 +27,7 @@ class MyGame(arcade.Window):
 
         self.level.draw()
 
-        #self.level.space.debug_draw(draw_options)
+        self.level.space.debug_draw(draw_options)
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """

@@ -5,8 +5,8 @@ import arcade
 
 import badwing.level
 from badwing.constants import *
-from badwing.physics.dynamic import DynamicPhysicsEngine
-from badwing.physics.kinematic import KinematicPhysicsEngine
+from badwing.physics.dynamic import DynamicPhysics
+from badwing.physics.kinematic import KinematicPhysics
 from badwing.layer import Layer, BackgroundLayer
 from badwing.tile import TileLayer, StaticTileLayer
 from badwing.ladder import LadderLayer
@@ -19,6 +19,7 @@ from badwing.ball import Ball
 from badwing.butterfly import ButterflyLayer
 from badwing.emitter import EmitterLayer
 from badwing.obstacle import ObstacleLayer
+from badwing.debug import DebugLayer
 
 class Level(badwing.level.Level):
     def __init__(self):
@@ -28,8 +29,8 @@ class Level(badwing.level.Level):
         self.player_sprite = None
 
         # Our physics engine
-        #self.physics_engine = physics_engine = KinematicPhysicsEngine(k_gravity=K_GRAVITY)
-        self.physics_engine = physics_engine = DynamicPhysicsEngine()
+        #self.physics_engine = physics_engine = KinematicPhysics(k_gravity=K_GRAVITY)
+        self.physics_engine = physics_engine = DynamicPhysics()
         self.space = physics_engine.space
 
         # Used to keep track of our scrolling
@@ -69,6 +70,10 @@ class Level(badwing.level.Level):
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
         self.butterfly_layer = self.add_layer(ButterflyLayer(self, 'butterfly'))
         self.obstacle_layer = self.add_layer(ObstacleLayer(self, 'obstacle'))
+
+        if DEBUG_COLLISION:
+            self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
+            self.debug_list = debug_layer.debug_list
         
         # player_layer.add_model(Box.create())
         
@@ -96,7 +101,6 @@ class Level(badwing.level.Level):
 
     def post_setup(self):
         super().post_setup()
-        print(self.ground_layer.sprites)
         # Create the 'physics engine'
         '''
         self.physics_engine.setup(self.player_sprite,

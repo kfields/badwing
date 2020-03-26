@@ -3,10 +3,10 @@ from arcade import check_for_collision
 from arcade import Sprite
 from arcade import SpriteList
 
-from badwing.physics import PhysicsEngine
+from badwing.physics import Physics
 from badwing.physics.util import _circular_check
 
-class KinematicPhysicsEngine(PhysicsEngine):
+class KinematicPhysics(Physics):
     """
     Simplistic physics engine for use in a platformer. It is easier to get
     started with this engine than more sophisticated engines like PyMunk. Note, it

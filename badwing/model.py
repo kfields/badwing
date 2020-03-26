@@ -40,8 +40,6 @@ class PhysicsModel(Model):
         self.shape = None
 
     def on_add(self, layer):
-        print(self.body)
-        print(self.shape)
         badwing.app.level.space.add(self.body, self.shape)
 
 

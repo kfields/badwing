@@ -80,6 +80,7 @@ class Skateboard(Assembly):
     def __init__(self, position=(292, 192)):
         super().__init__()
         self.speed = 0
+        self.motors_attached = True
 
         chassis_pos = Vec2d(position)
         back_wheel_pos = chassis_pos - (CHASSIS_WIDTH/2+X_PAD, Y_PAD)
@@ -105,7 +106,7 @@ class Skateboard(Assembly):
         self.back_motor = self.motor = m2 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -self.speed)
         m2.max_force = 200000
 
-        badwing.app.level.space.add(p1, p2, p3, p4, p5, p6, m2)
+        badwing.app.level.space.add(p1, p2, p3, p4, p5, p6, m1, m2)
 
     @classmethod
     def create(self, position=(292, 192)):
@@ -121,25 +122,31 @@ class Skateboard(Assembly):
         layer.add_model(self.back_wheel)
         layer.add_model(self.dude)
 
-    def set_motor(self, motor):
-        if motor == self.motor:
+    def attach_motors(self):
+        if self.motors_attached:
             return
-        if self.motor:
-            badwing.app.level.space.remove(self.motor)
-        self.motor = motor
-        if not motor:
+        self.front_motor.rate = self.back_motor.rate = -self.speed
+        badwing.app.level.space.add(self.back_motor, self.front_motor)
+        self.motors_attached = True
+
+    def detach_motors(self):
+        if not self.motors_attached:
             return
-        self.motor.rate = -self.speed
-        badwing.app.level.space.add(self.motor)
+        badwing.app.level.space.remove(self.back_motor, self.front_motor)
+        self.motors_attached = False
 
     def accelerate(self, rate=SPEED_DELTA):
         self.speed += rate
+        if not self.motors_attached:
+            self.attach_motors()
 
     def decelerate(self, rate=SPEED_DELTA):
         self.speed -= rate
+        if not self.motors_attached:
+            self.attach_motors()
 
     def coast(self):
-        self.set_motor(None)
+        self.detach_motors()
         self.speed = 0
         
     @debounce(1)
@@ -147,8 +154,8 @@ class Skateboard(Assembly):
         self.chassis.body.apply_impulse_at_local_point(impulse, point)
 
     def update(self, dt):
-        if self.motor:
-            self.motor.rate = -self.speed
+        if self.motors_attached:
+            self.front_motor.rate = self.back_motor.rate = -self.speed
 
 class Avatar(badwing.avatar.Avatar):
     def __init__(self, skateboard):
@@ -160,12 +167,16 @@ class Avatar(badwing.avatar.Avatar):
         if key == arcade.key.UP or key == arcade.key.W:
             self.skateboard.ollie()
         elif key == arcade.key.LEFT or key == arcade.key.A:
+            '''
             if not self.left_down:
                 self.skateboard.set_motor(self.skateboard.back_motor)
+            '''
             self.left_down = True
         elif key == arcade.key.RIGHT or key == arcade.key.D:
+            '''
             if not self.right_down:
                 self.skateboard.set_motor(self.skateboard.front_motor)
+            '''
             self.right_down = True
 
     def on_key_release(self, key, modifiers):

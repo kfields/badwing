@@ -12,7 +12,6 @@ class Level:
         badwing.app.level = self
         self.name = name
         self.layers = []
-        self.debug_list = arcade.ShapeElementList()
     
     def add_layer(self, layer):
         self.layers.append(layer)
@@ -34,17 +33,3 @@ class Level:
     def draw(self):
         for layer in self.layers:
             layer.draw()
-        self.debug_list.draw()
-        self.debug_list = arcade.ShapeElementList()
-
-    #TODO: this was when I was going to use .json tilemaps.  keep it around and repurpose it
-    def load(filename):
-        with open(filename) as f:
-            map = json.load(f)
-        self.load_layers(map.layers)
-
-    def load_layers(map_layers):
-        for map_layer in map_layers:
-            layer = Layer(self)
-            layer.load(map_layer)
-            self.layers[map_layer.name] = layer
