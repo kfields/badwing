@@ -15,7 +15,7 @@ from badwing.butterfly.brain import ButterflyBrain
 CHARACTER_SCALING = .5
 
 MOVEMENT_SPEED = 5
-FRAMES = 9
+FRAMES = 8
 UPDATES_PER_FRAME = 2
 
 # Constants used to track if the player is facing left or right
