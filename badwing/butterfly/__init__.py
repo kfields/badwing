@@ -12,15 +12,15 @@ from badwing.tile import TileLayer
 
 from badwing.butterfly.brain import ButterflyBrain
 
-CHARACTER_SCALING = 2
+CHARACTER_SCALING = 1
 
 MOVEMENT_SPEED = 5
 FRAMES=10
 UPDATES_PER_FRAME = 2
 
 # Constants used to track if the player is facing left or right
-RIGHT_FACING = 0
-LEFT_FACING = 1
+RIGHT_FACING = 1
+LEFT_FACING = 0
 
 def load_texture_pair(filename):
     """
@@ -44,10 +44,6 @@ class ButterflySprite(arcade.Sprite):
         self.cur_texture = 0
 
         self.scale = CHARACTER_SCALING
-
-        # Adjust the collision box. Default includes too much empty space
-        # side-to-side. Box is centered at sprite center, (0, 0)
-        self.points = [[-22, -64], [22, -64], [22, 28], [-22, 28]]
 
         # --- Load Textures ---
 

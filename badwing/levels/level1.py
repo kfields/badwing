@@ -90,7 +90,7 @@ class Level(badwing.level.Level):
         player_layer.add_model(player)
         
         self.player = player
-        self.player_sprite = player.sprite
+        self.player_sprite = player.dude.sprite
 
         # --- Other stuff
         # Set the background color
