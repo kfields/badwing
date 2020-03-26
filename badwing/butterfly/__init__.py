@@ -24,15 +24,20 @@ UPDATES_PER_FRAME = 2
 RIGHT_FACING = 1
 LEFT_FACING = 0
 
+RATE_DELTA = 1/60
+RATE_MIN = 0
+RATE_MAX = .1
+
 class ButterflySprite(arcade.Sprite):
     def __init__(self, index, orig_sprite):
-
-        # Set up parent class
         super().__init__(center_x=orig_sprite.center_x, center_y=orig_sprite.center_y)
 
-        # Default to face-right
-        self.character_face_direction = RIGHT_FACING
+        # Animation timing
+        self.time = 1
+        self.update_time = 0
+        self.rate = 1/60
 
+        self.character_face_direction = RIGHT_FACING
         # Used for flipping between image sequences
         self.cur_texture = 0
 
@@ -57,6 +62,22 @@ class ButterflySprite(arcade.Sprite):
         self.character_face_direction = RIGHT_FACING
 
     def update_animation(self, delta_time: float = 1/60):
+        self.time += delta_time
+
+        if self.update_time > self.time:
+            return
+        self.update_time = self.time + self.rate
+
+        r = random.randint(0, 2)
+        if r == 0:
+            self.rate += RATE_DELTA
+        elif r == 2: 
+            self.rate -= RATE_DELTA
+        if self.rate < RATE_MIN:
+            self.rate = RATE_DELTA
+        elif self.rate > RATE_MAX:
+            self.rate = RATE_DELTA
+
         # Figure out if we need to flip face left or right
         if self.change_x < 0 and self.character_face_direction == RIGHT_FACING:
             self.face_left()
