@@ -23,7 +23,7 @@ setup(
     use_scm_version = {
         "local_scheme": "no-local-version",
         'write_to': 'badwing/version.py',
-        'write_to_template': '__version__ = "{version}"',
+        'write_to_template': 'version = "{version}"',
         'tag_regex': r'^(?P<prefix>v)?(?P<version>[^\+]+)(?P<suffix>.*)?$'
     },
     setup_requires=['setuptools_scm'],
