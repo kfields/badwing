@@ -4,6 +4,23 @@ Skateboarder/Platformer/Lepidopterist Game using Arcade & Pymunk
 
 ## Installation
 
+### From PyPI
+
+#### TLDR - do this at your own risk
+
+        pip install badwing
+
+#### Recommended - pipX
+
+If you don't already have it installed go to https://pypi.org/project/pipx/ for instructions
+
+        pipx install badwing
+
+#### And then run it!
+
+        badwing run
+
+
 ### From GitHub
 
 Navigate to a directory where you keep your software projects

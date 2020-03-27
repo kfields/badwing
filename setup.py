@@ -16,10 +16,7 @@ setup(
     setup_requires=['setuptools_scm'],
 
     install_requires=requirements,
-    entry_points='''
-        [console_scripts]
-        badwing=badwing.commands:cli
-    ''',
+    entry_points={"console_scripts": ["badwing = badwing.commands:cli"]},
     author="Kurtis Fields",
     author_email="kurtisfields@gmail.com",
     description="Skateboarder/Platformer/Lepidopterist Game using Arcade & Pymunk",
