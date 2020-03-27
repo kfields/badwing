@@ -3,8 +3,10 @@ import os
 
 import arcade
 
-import badwing.level
 from badwing.constants import *
+from badwing.assets import asset
+import badwing.level
+
 from badwing.physics.dynamic import DynamicPhysics
 from badwing.physics.kinematic import KinematicPhysics
 from badwing.layer import Layer
@@ -61,7 +63,7 @@ class Level(badwing.level.Level):
         # --- Load in a map from the tiled editor ---
 
         # Name of map file to load
-        map_name = "assets/level1.tmx"
+        map_name = asset("level1.tmx")
         # Name of the layer that has items for pick-up
         coins_layer_name = 'coins'
 

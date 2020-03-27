@@ -4,9 +4,9 @@ import arcade
 import pymunk
 
 import badwing.app
+from badwing.assets import asset
 from badwing.constants import *
 from badwing.util import debounce
-import badwing.assets as assets
 from badwing.model import Model
 from badwing.tile import TileLayer
 
@@ -49,7 +49,7 @@ class ButterflySprite(arcade.Sprite):
             texture_coords.append( (i*SPRITE_WIDTH*2, index*SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT) )
             texture_coords.append( (i*SPRITE_WIDTH*2+SPRITE_WIDTH, index*SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT) )
 
-        self.walk_textures = arcade.load_textures('assets/sprites/butterflies.png', texture_coords)
+        self.walk_textures = arcade.load_textures(asset('sprites/butterflies.png'), texture_coords)
         self.idle_texture_pair = [self.walk_textures[0], self.walk_textures[1]]
         self.texture = self.idle_texture_pair[self.character_face_direction]
 

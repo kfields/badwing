@@ -2,9 +2,9 @@ import json
 import arcade
 import pymunk
 
-from badwing.constants import *
-import badwing.assets as assets
 import badwing.app
+from badwing.constants import *
+from badwing.assets import asset
 from badwing.model import Model
 
 class Level:
@@ -27,7 +27,7 @@ class Level:
         return layer
 
     def setup(self):
-        map_name = f"assets/{self.name}.tmx"
+        map_name = asset(f"{self.name}.tmx")
         self.map = tmx = arcade.tilemap.read_tmx(map_name)
         print('level setup')
 

@@ -4,9 +4,10 @@ import pymunk
 from pymunk import Vec2d
 import arcade
 
-from badwing.constants import *
-from badwing.util import debounce
 import badwing.app
+from badwing.constants import *
+from badwing.assets import asset
+from badwing.util import debounce
 import badwing.avatar
 from badwing.model import DynamicModel, Assembly
 from badwing.dude import Dude
@@ -40,7 +41,7 @@ class Wheel(DynamicModel):
 
     @classmethod
     def create(self, position=(0,0)):
-        img_src = "assets/items/coinGold.png"
+        img_src = asset("items/coinGold.png")
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         return Wheel(sprite, position)
 
@@ -68,7 +69,7 @@ class Chassis(DynamicModel):
 
     @classmethod
     def create(self, position=(192, 192)):
-        img_src = "assets/tiles/boxCrate.png"
+        img_src = asset("tiles/boxCrate.png")
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING, image_width=CHASSIS_WIDTH, image_height=CHASSIS_HEIGHT)
         return Chassis(sprite, position)
 

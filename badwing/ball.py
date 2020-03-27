@@ -1,6 +1,7 @@
 import math
 import pymunk
 
+from badwing.assets import asset
 from badwing.model import Model
 
 
@@ -20,6 +21,6 @@ class Ball(Model):
 
     @classmethod
     def create(self):
-        img_src = "assets/items/coinGold.png"
+        img_src = asset("items/coinGold.png")
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         return Ball(sprite)

@@ -1,13 +1,14 @@
 import os
 import zipfile
 
-data_dir = 'assets'
+assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../assets')
+# print(assets_dir)
 
-def filepath(filename):
-    return os.path.join(data_dir, filename)
+def asset(filename):
+    return os.path.join(assets_dir, filename)
 
-def load(filename, mode='rb'):
-    return open(os.path.join(data_dir, filename), mode)
+def load_asset(filename, mode='rb'):
+    return open(os.path.join(assets_dir, filename), mode)
 
-def load_zip(filename):
-    return zipfile.ZipFile(os.path.join(data_dir, filename))
+def load_asset_zip(filename):
+    return zipfile.ZipFile(os.path.join(assets_dir, filename))
