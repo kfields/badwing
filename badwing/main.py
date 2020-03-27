@@ -38,16 +38,25 @@ class MyGame(arcade.Window):
         """Called when the user releases a key. """
         badwing.app.avatar.on_key_release(key, modifiers)
 
-    def on_update(self, dt):
-        badwing.app.avatar.update(dt)
-        self.player.update(dt)
-        self.level.update(dt)
+    def on_update(self, delta_time):
+        badwing.app.avatar.update(delta_time)
+        self.player.update(delta_time)
+        self.level.update(delta_time)
 
 def main(production=False):
-    if not production:
-        badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../assets')
+    pip_assets_dir = os.path.join(sys.prefix, 'share/badwing/assets')
+    is_pip_install = os.path.isdir(pip_assets_dir)
+    if is_pip_install:
+        badwing.assets.assets_dir = pip_assets_dir
     else:
-        badwing.assets.assets_dir = os.path.join(sys.prefix, 'share/badwing/assets')
+        badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../assets')
+    
+    if not production:
+        if is_pip_install:
+            raise Exception('You need to run this in the project root directory!')
+    else:
+        pass
+    
     """ Main method """
     window = MyGame()
     window.setup()

@@ -1,2 +1,2 @@
-from badwing.version import __version__ as version
+from badwing.version import version
 __version__ = version

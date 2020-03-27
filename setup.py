@@ -2,6 +2,9 @@ import os
 
 from setuptools import setup, find_packages
 
+from badwing_setup.install import install
+from badwing_setup.develop import develop
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
     
@@ -24,9 +27,12 @@ setup(
         'tag_regex': r'^(?P<prefix>v)?(?P<version>[^\+]+)(?P<suffix>.*)?$'
     },
     setup_requires=['setuptools_scm'],
-
+    cmdclass={
+        'install': install,
+        'develop': develop
+    },
     install_requires=requirements,
-    entry_points={"console_scripts": ["badwing = badwing.commands:cli"]},
+    entry_points={"console_scripts": ["badwing = badwing.command:cli"]},
     author="Kurtis Fields",
     author_email="kurtisfields@gmail.com",
     description="Skateboarder/Platformer/Lepidopterist Game using Arcade & Pymunk",
