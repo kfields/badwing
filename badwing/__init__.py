@@ -1,1 +1,2 @@
-# Keep this if you want this package in the wheel! ;p
+from badwing.version import __version__ as version
+__version__ = version

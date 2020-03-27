@@ -10,5 +10,10 @@ def cli(ctx):
 
 @cli.command()
 @click.pass_context
-def run(ctx):
+def dev(ctx):
     main()
+
+@cli.command()
+@click.pass_context
+def run(ctx):
+    main(True)

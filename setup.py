@@ -1,3 +1,5 @@
+import os
+
 from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
@@ -6,12 +8,20 @@ with open("README.md", "r") as fh:
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
+datadir = 'assets'
+data_files = [(d, [os.path.join(d,f) for f in files])
+    for d, folders, files in os.walk(datadir)]
+
 setup(
     name='badwing',
     packages=find_packages(),
     include_package_data=True,
+    data_files=data_files,
     use_scm_version = {
-        "local_scheme": "no-local-version"
+        "local_scheme": "no-local-version",
+        'write_to': 'badwing/version.py',
+        'write_to_template': '__version__ = "{version}"',
+        'tag_regex': r'^(?P<prefix>v)?(?P<version>[^\+]+)(?P<suffix>.*)?$'
     },
     setup_requires=['setuptools_scm'],
 

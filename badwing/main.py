@@ -4,7 +4,9 @@ import os
 import arcade
 import pymunk
 
+from badwing import __version__
 import badwing.app
+import badwing.assets
 from badwing.constants import *
 from badwing.player import Player
 from badwing.levels.level1 import Level
@@ -41,7 +43,11 @@ class MyGame(arcade.Window):
         self.player.update(dt)
         self.level.update(dt)
 
-def main():
+def main(production=False):
+    if not production:
+        badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../assets')
+    else:
+        badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), f'../../badwing-{__version__}.data/data/assets')
     """ Main method """
     window = MyGame()
     window.setup()
