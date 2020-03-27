@@ -9,7 +9,7 @@ with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
 datadir = 'assets'
-data_files = [(d, [os.path.join(d,f) for f in files])
+data_files = [(f'share/badwing/{d}', [os.path.join(d,f) for f in files])
     for d, folders, files in os.walk(datadir)]
 
 setup(

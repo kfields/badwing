@@ -47,7 +47,7 @@ def main(production=False):
     if not production:
         badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../assets')
     else:
-        badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), f'../../badwing-{__version__}.data/data/assets')
+        badwing.assets.assets_dir = os.path.join(sys.prefix, 'share/badwing/assets')
     """ Main method """
     window = MyGame()
     window.setup()
