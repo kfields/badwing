@@ -3,6 +3,7 @@ import os
 
 import arcade
 import pymunk
+import pyglet
 
 from badwing import __version__
 import badwing.app
@@ -18,18 +19,26 @@ class MyGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         badwing.app.game = self
 
+        self.scene = None
         self.theme = None
-
         self.player = Player()
 
-    def show_scene(self, scene):
-        self.scene = scene
-        self.show_view(scene)
+    def show_scene(self, scene_class):
+        if not isinstance(scene_class, type):
+            raise Exception('must be class!')
+
+        if self.scene:
+            self.scene.shutdown()
+
+        def callback(delta_time):
+            print('show_scene')
+            self.player.on_next_level()
+            self.scene = scene = scene_class.create()
+            self.show_view(scene)
+        pyglet.clock.schedule_once(callback,.1)
 
     def setup(self):
         self.set_theme()
-        self.scene.setup()
-        self.scene.post_setup()
 
     def set_dialogue_box_texture(self):
         dialogue_box = asset("gui_themes/Fantasy/DialogueBox/DialogueBox.png")
@@ -75,8 +84,7 @@ def main(production=False):
     
     """ Main method """
     window = MyGame()
-    scene = StartScreen()
-    window.show_scene(scene)
+    window.show_scene(StartScreen)
     window.setup()
     arcade.run()
 

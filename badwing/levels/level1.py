@@ -3,6 +3,7 @@ import os
 
 import arcade
 
+import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
 import badwing.level
@@ -26,7 +27,10 @@ from badwing.firework import Firework
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
-class Level(badwing.level.Level):
+#next level
+import badwing.levels.level2
+
+class Level1(badwing.level.Level):
     def __init__(self):
         super().__init__('level1')
 
@@ -42,17 +46,29 @@ class Level(badwing.level.Level):
         self.view_bottom = 0
         self.view_left = 0
 
-        # Keep track of the score
-        self.score = 0
-
         # Load sounds
         self.collect_butterfly_sound = arcade.load_sound(":resources:sounds/coin1.wav")
-        self.touch_flag_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
+        self.collect_flag_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
         # Soundtrack
+        '''
         self.album_title = album_title = 'original'
         self.song_title = song_title = 'eastin_trance'
-        self.song = arcade.load_sound(asset(f'music/{album_title}/{song_title}.mp3'))
+        self.song = arcade.load_sound(asset(f'music/{album_title}/{song_title}.ogg'))
+        '''
+        self.song = arcade.load_sound(asset('music/funkyrobot.ogg'))
+
+    @classmethod
+    def create(self):
+        level = Level1()
+        level.setup()
+        level.post_setup()
+        return level
+        
+    #next level
+    def get_next_level(self):
+        import badwing.levels.level2
+        return badwing.levels.level2.Level2
 
     def setup(self):
         super().setup()
@@ -60,9 +76,6 @@ class Level(badwing.level.Level):
         # Used to keep track of our scrolling
         self.view_bottom = 0
         self.view_left = 0
-
-        # Keep track of the score
-        self.score = 0
 
         # --- Load in a map from the tiled editor ---
 
@@ -113,29 +126,22 @@ class Level(badwing.level.Level):
         self.push_avatar(self.player.control())
 
     def check_butterflies(self):
-        # See if we hit any coins
         hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.butterfly_layer.sprites)
-        # Loop through each coin we hit (if any) and remove it
-        for sprite in hit_list:
-            # Remove the coin
-            sprite.remove_from_sprite_lists()
-            # Play a sound
-            self.spark_layer.add_effect(Firework(sprite.position))
-            arcade.play_sound(self.collect_butterfly_sound)
-            # Add one to the score
-            self.score += 1
-
-    def check_flags(self):
-        # See if we hit any coins
-        hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.flag_layer.sprites)
-        # Loop through each coin we hit (if any) and remove it
         for sprite in hit_list:
             model = sprite.model
-            if model.touch():
-                self.spark_layer.add_effect(Firework(sprite.position, 40, 60))
-                arcade.play_sound(self.touch_flag_sound)
-                # Add one to the score
-                self.score += 1
+            if badwing.app.player.collect(model):
+                # Remove the butterfly
+                sprite.remove_from_sprite_lists()
+                self.spark_layer.add_effect(Firework(sprite.position))
+                arcade.play_sound(self.collect_butterfly_sound)
+
+    def check_flags(self):
+        hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.flag_layer.sprites)
+        for sprite in hit_list:
+            model = sprite.model
+            if badwing.app.player.collect(model):
+                self.spark_layer.add_effect(Firework(sprite.position, 60, 100))
+                arcade.play_sound(self.collect_flag_sound)
 
     def check_collisions(self):
         self.check_butterflies()
@@ -143,12 +149,7 @@ class Level(badwing.level.Level):
 
     def update(self, delta_time):
         super().update(delta_time)
-        """ Movement and game logic """
-        # Move the player with the physics engine
-        self.physics_engine.update(delta_time)
-        self.check_collisions()
         # --- Manage Scrolling ---
-
         # Track if we need to change the viewport
 
         changed = False

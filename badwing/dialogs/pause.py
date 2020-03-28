@@ -40,11 +40,8 @@ class QuitButton(arcade.gui.TextButton):
 
     def on_press(self):
         self.pressed = True
-        print('quit')
-        level = badwing.levels.start.StartScreen()
-        level.setup()
-        level.post_setup()
-        badwing.app.game.show_scene(level)
+        #print('quit')
+        badwing.app.game.show_scene(badwing.levels.start.StartScreen)
 
     def on_release(self):
         self.pressed = False
@@ -64,8 +61,8 @@ class PauseDialog(badwing.dialog.Dialog):
         return Avatar(self)
 
     def add_buttons(self):
-        print(self.half_height)
-        print(self.half_width)
+        #print(self.half_height)
+        #print(self.half_width)
         self.button_list.append(ResumeButton(self, self.half_width, self.half_height, theme=self.theme))
         self.button_list.append(QuitButton(self, self.half_width, self.half_height - 100, theme=self.theme))
 

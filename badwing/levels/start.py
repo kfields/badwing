@@ -24,7 +24,7 @@ from badwing.firework import Firework
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
-from badwing.levels.level1 import Level as Level1
+from badwing.levels.level1 import Level1
 
 class StartButton(arcade.gui.TextButton):
     def __init__(self, view, x, y, width=200, height=50, text="Start", theme=None):
@@ -33,10 +33,7 @@ class StartButton(arcade.gui.TextButton):
 
     def on_press(self):
         self.pressed = True
-        level = Level1()
-        level.setup()
-        level.post_setup()
-        badwing.app.game.show_scene(level)
+        badwing.app.game.show_scene(self.view.get_next_level())
 
     def on_release(self):
         self.pressed = False
@@ -84,6 +81,18 @@ class StartScreen(Level):
         '''
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
+
+    @classmethod
+    def create(self):
+        level = StartScreen()
+        level.setup()
+        level.post_setup()
+        return level
+        
+    #next level
+    def get_next_level(self):
+        import badwing.levels.level1
+        return badwing.levels.level1.Level1
 
     def add_buttons(self):
         self.button_list.append(StartButton(self, self.half_width, self.half_height, theme=self.theme))

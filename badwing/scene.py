@@ -26,6 +26,7 @@ class Scene(arcade.application.View):
         self.dialog = None
         self.avatar_stack = []
         self.song = None
+        self.mute = False
 
     @property
     def avatar(self):
@@ -53,10 +54,13 @@ class Scene(arcade.application.View):
     def post_setup(self):
         for layer in self.layers:
             layer.setup()
-        '''
-        if self.song:
-            self.song.play()
-        '''
+        if not self.mute and self.song:
+            self.song.play(volume=.5)
+
+    def shutdown(self):
+        if not self.mute and self.song:
+            self.song.stop()
+
     def update(self, delta_time):
         super().update(delta_time)
         for layer in self.layers:

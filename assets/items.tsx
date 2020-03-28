@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.3" name="items" tilewidth="128" tileheight="128" tilecount="22" columns="0">
+<tileset version="1.2" tiledversion="1.3.3" name="items" tilewidth="128" tileheight="128" tilecount="23" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image width="16" height="22" source="items/bullet.png"/>
@@ -90,5 +90,11 @@
  </tile>
  <tile id="21">
   <image width="128" height="128" source="items/star.png"/>
+ </tile>
+ <tile id="22">
+  <properties>
+   <property name="kind" value="Pole"/>
+  </properties>
+  <image width="128" height="128" source="items/pole.png"/>
  </tile>
 </tileset>

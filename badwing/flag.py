@@ -26,10 +26,15 @@ RATE_DELTA = 1/60
 RATE_MIN = 0
 RATE_MAX = .1
 
+class Pole(Model):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+        self.collected = False
+
 class Flag(Model):
     def __init__(self, sprite):
         super().__init__(sprite)
-        self.touched = False
+        self.collected = False
 
     @classmethod
     def create(self, sprite):
@@ -37,17 +42,17 @@ class Flag(Model):
         model = kinds[kind].create(sprite)
         return model
 
-    # Has been touched by player
-    def touch(self):
-        if self.touched:
-            return False
-        self.touched = touched = True
+    def collect(self):
+        if self.collected:
+            return True
+        self.collected = collected = True
         #TODO: not working as planned
         old_sprite = self.sprite
         self.sprite = sprite = arcade.Sprite()
         sprite.texture = old_sprite.texture
         old_sprite.kill()
-        return touched
+        return collected
+
 
 class FlagGreen(Flag):
     @classmethod
@@ -65,6 +70,7 @@ class FlagRed(Flag):
         return FlagRed(sprite)
 
 kinds = {
+    'Pole': Pole,
     'FlagGreen': FlagGreen,
     'FlagYellow': FlagYellow,
     'FlagRed': FlagRed,
@@ -74,10 +80,14 @@ class FlagTileLayer(TileLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
         for sprite in self.sprites:
+            kind = sprite.properties['kind']
+            if kind == 'Pole':
+                model = Pole(sprite)
+            else:
+                model = Flag.create(sprite)
             #print('flag sprite')
             #print(vars(sprite))
             #print(sprite.properties)
-            model = Flag.create(sprite)
             #print('flag')
             #print(vars(model))
             self.add_model(model)
