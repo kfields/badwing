@@ -63,11 +63,13 @@ class ButterflyBrain(Brain):
         need_turn = False
 
         sprite = self.model.sprite
-        min_x, max_x, min_y, max_y = sprite.left, sprite.right, sprite.top, sprite.bottom
-        w_min_x, w_max_x, w_min_y, w_max_y = 0, 12800, 0, 600
+        pos = sprite.position
+        min_x, min_y, max_x, max_y = sprite.left, sprite.bottom, sprite.right, sprite.top
+        border  = self.model.border
+        w_min_x, w_min_y, w_max_x, w_max_y = border[0], border[1], border[2], border[3]
 
         if(min_x < w_min_x):
-            delta_x = -min_x
+            delta_x = w_min_x - min_x
             need_turn = True
         elif(max_x > w_max_x):
             delta_x = w_max_x - max_x
@@ -81,6 +83,7 @@ class ButterflyBrain(Brain):
             need_turn = True
 
         #TODO:use pymunk
+        
         if not need_turn:
             need_turn = collision_list = arcade.check_for_collision_with_list(self.sprite, badwing.app.level.ground_layer.sprites)
 

@@ -20,7 +20,7 @@ from badwing.character import PlayerCharacter
 
 from badwing.box import Box
 from badwing.ball import Ball
-from badwing.butterfly import ButterflyLayer
+from badwing.butterfly import ButterflyTileLayer
 from badwing.emitter import EmitterLayer
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
@@ -73,7 +73,7 @@ class Level(badwing.level.Level):
         self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
         self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
-        self.butterfly_layer = self.add_layer(ButterflyLayer(self, 'butterfly'))
+        self.butterfly_layer = self.add_layer(ButterflyTileLayer(self, 'butterfly'))
         self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
         self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
 
@@ -102,8 +102,6 @@ class Level(badwing.level.Level):
         # Set the background color
         if self.map.background_color:
             arcade.set_background_color(self.background_color)
-
-        self.post_setup()
 
     def post_setup(self):
         super().post_setup()

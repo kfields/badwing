@@ -212,10 +212,6 @@ class PlayerCharacter(KinematicModel):
     def control(self):
         return Avatar(self)
 
-    def on_add(self, layer):
-        super().on_add(layer)
-        layer.add_sprite(self.sprite)
-
 class Avatar(badwing.avatar.Avatar):
     def __init__(self, player):
         super().__init__()

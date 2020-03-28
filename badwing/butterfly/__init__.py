@@ -7,7 +7,7 @@ import badwing.app
 from badwing.assets import asset
 from badwing.constants import *
 from badwing.util import debounce
-from badwing.model import Model
+from badwing.model import Model, Group
 from badwing.tile import TileLayer
 
 from badwing.butterfly.brain import ButterflyBrain
@@ -28,9 +28,12 @@ RATE_DELTA = 1/60
 RATE_MIN = 0
 RATE_MAX = .1
 
+RANGE = 512 # How far they can travel
+HALF_RANGE = RANGE/2
+
 class ButterflySprite(arcade.Sprite):
-    def __init__(self, index, orig_sprite):
-        super().__init__(center_x=orig_sprite.center_x, center_y=orig_sprite.center_y)
+    def __init__(self, index, position):
+        super().__init__(center_x=position[0], center_y=position[1])
 
         # Animation timing
         self.time = 1
@@ -99,95 +102,81 @@ class ButterflySprite(arcade.Sprite):
         self.texture = self.walk_textures[self.cur_texture * 2 + self.character_face_direction]
 
 class Butterfly(Model):
-    def __init__(self, sprite):
+    def __init__(self, sprite, border=(0,0,640,480)):
         super().__init__(sprite, ButterflyBrain(self))
+        self.border = border
 
     @classmethod
-    def create(self, orig_sprite):
-        kind = orig_sprite.properties['kind']
-        model = kinds[kind].create(orig_sprite)
+    def create(self, kind, position=(0,0), border=(0,0,640,480)):
+        model = kinds[kind].create(position, border)
         return model
 
-class ButterflyAqua(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(8, orig_sprite)
-        return ButterflyBlue(sprite)
+    def create_from(self, sprite):
+        kind = sprite.properties['kind']
+        #pos = (orig_sprite.center_x, orig_sprite.center_y)
+        pos = sprite.position
+        border = (pos[0]-HALF_RANGE, pos[1]-HALF_RANGE, pos[0]+HALF_RANGE, pos[1]+HALF_RANGE)
+        model = kinds[kind].create(pos, border)
+        return model
+
+    def on_add(self, layer):
+        super().on_add(layer)
+        layer.add_sprite(self.sprite)
+
+class ButterflyAqua(Butterfly):
+    @classmethod
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(8, position)
+        return ButterflyAqua(sprite, border)
 
 class ButterflyBlue(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(0, orig_sprite)
-        return ButterflyBlue(sprite)
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(0, position)
+        return ButterflyBlue(sprite, border)
 
 class ButterflyBrown(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(4, orig_sprite)
-        return ButterflyBrown(sprite)
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(4, position)
+        return ButterflyBrown(sprite, border)
 
 class ButterflyCyan(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(5, orig_sprite)
-        return ButterflyCyan(sprite)
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(5, position)
+        return ButterflyCyan(sprite, border)
 
 class ButterflyGreen(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(1, orig_sprite)
-        return ButterflyGreen(sprite)
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(1, position)
+        return ButterflyGreen(sprite, border)
 
 class ButterflyIridescent(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(6, orig_sprite)
-        return ButterflyIridescent(sprite)
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(6, position)
+        return ButterflyIridescent(sprite, border)
 
 class ButterflyRed(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(7, orig_sprite)
-        return ButterflyRed(sprite)
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(7, position)
+        return ButterflyRed(sprite, border)
 
 class ButterflyTan(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(3, orig_sprite)
-        return ButterflyTan(sprite)
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(3, position)
+        return ButterflyTan(sprite, border)
 
 class ButterflyTeal(Butterfly):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-
     @classmethod
-    def create(self, orig_sprite):
-        sprite = ButterflySprite(2, orig_sprite)
-        return ButterflyTeal(sprite)
+    def create(self, position, border=(0,0,640,480)):
+        sprite = ButterflySprite(2, position)
+        return ButterflyTeal(sprite, border)
 
 
 kinds = {
@@ -202,7 +191,26 @@ kinds = {
     'ButterflyTeal': ButterflyTeal
 }
 
-class ButterflyLayer(TileLayer):
+kinds_list = list(kinds)
+
+class Butterflies(Group):
+    def __init__(self, border=(0,0,640,480)):
+        super().__init__()
+
+    @classmethod
+    def create_random(self, count, border=(0,0,640,480)):
+        group = Butterflies()
+        for i in range(count):
+            center_x = random.randint(0, border[2])
+            center_y = random.randint(0, border[3])
+            position = (center_x, center_y)
+            ndx = random.randint(0, 8)
+            kind = kinds_list[ndx]
+            butterfly = Butterfly.create(kind, position, border)
+            group.add_model(butterfly)
+        return group
+
+class ButterflyTileLayer(TileLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
         orig_sprites = self.sprites
@@ -210,7 +218,6 @@ class ButterflyLayer(TileLayer):
         for orig_sprite in orig_sprites:
             #print(vars(orig_sprite))
             #print(orig_sprite.properties)
-            model = Butterfly.create(orig_sprite)
-            self.sprites.append(model.sprite)
+            model = Butterfly.create_from(orig_sprite)
             self.add_model(model)
 

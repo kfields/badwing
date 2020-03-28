@@ -9,7 +9,7 @@ from badwing.constants import *
 from badwing.assets import asset
 from badwing.util import debounce
 import badwing.avatar
-from badwing.model import DynamicModel, Assembly
+from badwing.model import DynamicModel, Group
 from badwing.dude import Dude
 
 
@@ -78,7 +78,7 @@ class Chassis(DynamicModel):
         layer.add_sprite(self.sprite)
 
 
-class Skateboard(Assembly):
+class Skateboard(Group):
     def __init__(self, position=(292, 192)):
         super().__init__()
         self.speed = 0

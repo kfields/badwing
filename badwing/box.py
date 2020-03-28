@@ -34,7 +34,3 @@ class Box(DynamicModel):
         #sprite = arcade.Sprite(img_src, CHARACTER_SCALING, image_width=CHASSIS_WIDTH, image_height=CHASSIS_HEIGHT)
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         return Box(sprite, position)
-
-    def on_add(self, layer):
-        super().on_add(layer)
-        layer.add_sprite(self.sprite)
