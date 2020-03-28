@@ -11,8 +11,7 @@ from badwing.assets import asset
 from badwing.constants import *
 from badwing.player import Player
 #from badwing.levels.level1 import Level
-#from badwing.scenes.start import StartScene
-from badwing.levels.start import Level
+from badwing.levels.start import StartScreen
 
 class MyGame(arcade.Window):
     def __init__(self):
@@ -54,21 +53,6 @@ class MyGame(arcade.Window):
         arcade.start_render()
         super().on_draw()
         self.scene.draw()
-        # Draw our score on the screen, scrolling it with the viewport
-        '''
-        score_text = f"Score: {self.score}"
-        arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
-                         arcade.csscolor.BLACK, 18)
-        '''
-        #super().on_draw()
-
-    def on_key_press(self, key, modifiers):
-        """Called whenever a key is pressed. """
-        badwing.app.avatar.on_key_press(key, modifiers)
-
-    def on_key_release(self, key, modifiers):
-        """Called when the user releases a key. """
-        badwing.app.avatar.on_key_release(key, modifiers)
 
     def on_update(self, delta_time):
         super().on_update(delta_time)
@@ -93,8 +77,7 @@ def main(production=False):
     
     """ Main method """
     window = MyGame()
-    scene = Level()
-    #scene = StartScene()
+    scene = StartScreen()
     window.show_scene(scene)
     window.setup()
     arcade.run()

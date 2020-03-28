@@ -4,7 +4,7 @@ import arcade
 import badwing.app
 from badwing.scene import Scene
 from badwing.assets import asset
-
+from badwing.avatar import Avatar
 from badwing.layer import Layer
 from badwing.background import BackgroundLayer
 
@@ -47,6 +47,7 @@ class CloseButton(arcade.gui.TextButton):
 class StartScene(Scene):
     def __init__(self):
         super().__init__('start')
+        self.avatar = Avatar()
         self.width = badwing.app.game.width
         self.height = badwing.app.game.height
         self.half_width = self.width/2

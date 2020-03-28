@@ -113,7 +113,7 @@ class Level(badwing.level.Level):
                                     )
         '''
         # Requires physics engine to exist first
-        self.player.control()
+        self.push_avatar(self.player.control())
 
     def update(self, delta_time):
         super().update(delta_time)
@@ -171,10 +171,6 @@ class Level(badwing.level.Level):
         if changed:
             # Only scroll to integers. Otherwise we end up with pixels that
             # don't line up on the screen
-            '''
-            self.view_bottom = int(self.view_bottom)
-            self.view_left = int(self.view_left)
-            '''
             # Clamp the viewport to the level boundaries
             (vp_left, vp_right, vp_bottom, vp_top) = viewport = arcade.get_viewport()
             low_bottom = self.bottom

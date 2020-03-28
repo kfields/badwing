@@ -2,6 +2,7 @@ import json
 import arcade
 import pymunk
 
+import badwing.app
 from badwing.constants import *
 from badwing.model import Model
 
@@ -25,10 +26,14 @@ class Layer:
         return model
 
     def update(self, dt):
+        if badwing.app.scene.paused:
+            return
         for model in self.models:
             model.update(dt)
 
     def update_animation(self, delta_time):
+        if badwing.app.scene.paused:
+            return
         self.sprites.update_animation(delta_time)
 
     def draw(self):

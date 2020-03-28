@@ -2,10 +2,13 @@ import sys
 import os
 
 import arcade
+import pyglet
 
+import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
-import badwing.level
+from badwing.level import Level
+from badwing.avatar import Avatar
 
 from badwing.physics.dynamic import DynamicPhysics
 from badwing.physics.kinematic import KinematicPhysics
@@ -24,7 +27,7 @@ from badwing.debug import DebugLayer
 from badwing.levels.level1 import Level as Level1
 
 class StartButton(arcade.gui.TextButton):
-    def __init__(self, view, x, y, width=110, height=50, text="Start", theme=None):
+    def __init__(self, view, x, y, width=200, height=50, text="Start", theme=None):
         super().__init__(x, y, width, height, text, theme=theme)
         self.view = view
 
@@ -36,14 +39,26 @@ class StartButton(arcade.gui.TextButton):
         badwing.app.game.show_scene(level)
 
     def on_release(self):
-        if self.pressed:
-            self.pressed = False
-            self.dialoguebox.active = True
+        self.pressed = False
 
-class Level(badwing.level.Level):
+class QuitButton(arcade.gui.TextButton):
+    def __init__(self, view, x, y, width=200, height=50, text="Quit", theme=None):
+        super().__init__(x, y, width, height, text, theme=theme)
+        self.view = view
+
+    def on_press(self):
+        self.pressed = True
+        print('exit')
+        #sys.exit()
+        #badwing.app.game.exit()
+        pyglet.app.exit()
+
+    def on_release(self):
+        self.pressed = False
+
+class StartScreen(Level):
     def __init__(self):
         super().__init__('start')
-
         # Our physics engine
         #self.physics_engine = physics_engine = KinematicPhysics(k_gravity=K_GRAVITY)
         self.physics_engine = physics_engine = DynamicPhysics()
@@ -69,25 +84,9 @@ class Level(badwing.level.Level):
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
-    def add_dialogue_box(self):
-        #color = (220, 228, 255)
-        color = (0, 0, 0)
-        dialoguebox = arcade.gui.DialogueBox(self.half_width, self.half_height, self.half_width*1.1,
-                                             self.half_height*1.5, color, self.theme)
-        close_button = CloseButton(dialoguebox, self.half_width, self.half_height-(self.half_height/2) + 40,
-                                   theme=self.theme)
-        dialoguebox.button_list.append(close_button)
-        message = "Hello I am a Dialogue Box."
-        dialoguebox.text_list.append(arcade.gui.TextBox(message, self.half_width, self.half_height, self.theme.font_color))
-        self.dialogue_box_list.append(dialoguebox)
-
-    def add_text(self):
-        message = "Press this button to activate the Dialogue Box"
-        self.text_list.append(arcade.gui.TextBox(message, self.half_width-50, self.half_height))
-
-    def add_button(self):
-        show_button = StartButton(self, self.half_width, self.half_height, theme=self.theme)
-        self.button_list.append(show_button)
+    def add_buttons(self):
+        self.button_list.append(StartButton(self, self.half_width, self.half_height, theme=self.theme))
+        self.button_list.append(QuitButton(self, self.half_width, self.half_height-100, theme=self.theme))
 
     def setup(self):
         self.theme = badwing.app.game.theme
@@ -122,11 +121,7 @@ class Level(badwing.level.Level):
         self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
         self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
 
-        #self.add_dialogue_box()
-        self.add_text()
-        self.add_button()
-
-        #self.text_list.append(arcade.TextLabel("Name: ", self.center_x, self.center_y))
+        self.add_buttons()
 
         if DEBUG_COLLISION:
             self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
@@ -137,6 +132,8 @@ class Level(badwing.level.Level):
         super().post_setup()
         # Requires physics engine to exist first
         #self.player.control()
+        self.push_avatar(Avatar())
+
 
     def update(self, delta_time):
         super().update(delta_time)
@@ -152,3 +149,7 @@ class Level(badwing.level.Level):
         arcade.draw_text(
             "BadWing", self.center_x, self.center_y + 100, arcade.color.WHITE, 60, font_name='Verdana', align='center'
         )
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ESCAPE:
+            sys.exit()
