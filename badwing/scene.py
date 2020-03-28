@@ -24,6 +24,7 @@ class Scene(arcade.application.View):
         self.top = 0
         self.dialog = None
         self.avatar_stack = []
+        self.song = None
 
     @property
     def avatar(self):
@@ -46,6 +47,9 @@ class Scene(arcade.application.View):
     def post_setup(self):
         for layer in self.layers:
             layer.setup()
+        
+        if self.song:
+            self.song.play()
 
     def update(self, delta_time):
         super().update(delta_time)
