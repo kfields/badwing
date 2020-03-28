@@ -17,7 +17,7 @@ WHEEL_RADIUS = 32
 WHEEL_MASS = 1
 
 CHASSIS_WIDTH = 128
-CHASSIS_HEIGHT = 32
+CHASSIS_HEIGHT = 16
 CHASSIS_MASS = 1
 
 X_PAD = 32
@@ -54,8 +54,9 @@ class Chassis(DynamicModel):
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
 
-        width = sprite.texture.width * TILE_SCALING
-        height = sprite.texture.height * TILE_SCALING
+        #width = sprite.texture.width * TILE_SCALING
+        width = CHASSIS_WIDTH * TILE_SCALING
+        height = CHASSIS_HEIGHT * TILE_SCALING
 
         mass = CHASSIS_MASS
         moment = pymunk.moment_for_box(mass, (width, height))
@@ -70,7 +71,10 @@ class Chassis(DynamicModel):
     @classmethod
     def create(self, position=(192, 192)):
         img_src = asset("tiles/boxCrate.png")
-        sprite = arcade.Sprite(img_src, CHARACTER_SCALING, image_width=CHASSIS_WIDTH, image_height=CHASSIS_HEIGHT)
+        #sprite = arcade.Sprite(img_src, CHARACTER_SCALING, image_width=TILE_WIDTH, image_height=CHASSIS_HEIGHT)
+        sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
+        sprite.width = TILE_WIDTH * TILE_SCALING * 2
+        sprite.height = CHASSIS_HEIGHT * TILE_SCALING
         return Chassis(sprite, position)
 
     def on_add(self, layer):

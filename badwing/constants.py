@@ -30,6 +30,8 @@ VIEWPORT_MARGIN = 100
 # Constants used to scale our sprites from their original size
 SPRITE_SCALING = 0.5
 CHARACTER_SCALING = 1
+
+TILE_WIDTH = 128
 TILE_SCALING = 1
 COIN_SCALING = 0.5
 SPRITE_PIXEL_SIZE = 128

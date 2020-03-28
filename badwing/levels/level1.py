@@ -22,7 +22,7 @@ from badwing.box import Box
 from badwing.ball import Ball
 from badwing.flag import FlagTileLayer
 from badwing.butterfly import ButterflyTileLayer
-from badwing.emitter import EmitterLayer
+from badwing.firework import Firework
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
@@ -46,7 +46,8 @@ class Level(badwing.level.Level):
         self.score = 0
 
         # Load sounds
-        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
+        self.collect_butterfly_sound = arcade.load_sound(":resources:sounds/coin1.wav")
+        self.touch_flag_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
         # Soundtrack
         self.album_title = album_title = 'original'
@@ -75,7 +76,7 @@ class Level(badwing.level.Level):
         self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
         self.flag_layer = flag_layer = self.add_animated_layer(FlagTileLayer(self, 'flags'))
         self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
-        self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
+        self.spark_layer = self.add_layer(Layer(self, 'spark'))
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
         self.butterfly_layer = self.add_animated_layer(ButterflyTileLayer(self, 'butterfly'))
         self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
@@ -111,26 +112,41 @@ class Level(badwing.level.Level):
         super().post_setup()
         self.push_avatar(self.player.control())
 
+    def check_butterflies(self):
+        # See if we hit any coins
+        hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.butterfly_layer.sprites)
+        # Loop through each coin we hit (if any) and remove it
+        for sprite in hit_list:
+            # Remove the coin
+            sprite.remove_from_sprite_lists()
+            # Play a sound
+            self.spark_layer.add_effect(Firework(sprite.position))
+            arcade.play_sound(self.collect_butterfly_sound)
+            # Add one to the score
+            self.score += 1
+
+    def check_flags(self):
+        # See if we hit any coins
+        hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.flag_layer.sprites)
+        # Loop through each coin we hit (if any) and remove it
+        for sprite in hit_list:
+            model = sprite.model
+            if model.touch():
+                self.spark_layer.add_effect(Firework(sprite.position, 40, 60))
+                arcade.play_sound(self.touch_flag_sound)
+                # Add one to the score
+                self.score += 1
+
+    def check_collisions(self):
+        self.check_butterflies()
+        self.check_flags()
+
     def update(self, delta_time):
         super().update(delta_time)
         """ Movement and game logic """
         # Move the player with the physics engine
-        self.physics_engine.update()
-
-        # See if we hit any coins
-        coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                             self.butterfly_layer.sprites)
-
-        # Loop through each coin we hit (if any) and remove it
-        for coin in coin_hit_list:
-            # Remove the coin
-            coin.remove_from_sprite_lists()
-            # Play a sound
-            self.spark_layer.make_sparks(coin.position)
-            arcade.play_sound(self.collect_coin_sound)
-            # Add one to the score
-            self.score += 1
-
+        self.physics_engine.update(delta_time)
+        self.check_collisions()
         # --- Manage Scrolling ---
 
         # Track if we need to change the viewport

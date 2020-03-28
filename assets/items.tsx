@@ -14,6 +14,9 @@
   <image width="128" height="128" source="items/coinSilver.png"/>
  </tile>
  <tile id="4">
+  <properties>
+   <property name="kind" value="FlagGreen"/>
+  </properties>
   <image width="128" height="128" source="items/flagGreen_down.png"/>
   <animation>
    <frame tileid="4" duration="100"/>
@@ -28,7 +31,15 @@
   <image width="128" height="128" source="items/flagGreen2.png"/>
  </tile>
  <tile id="7">
+  <properties>
+   <property name="kind" value="FlagRed"/>
+  </properties>
   <image width="128" height="128" source="items/flagRed_down.png"/>
+  <animation>
+   <frame tileid="7" duration="200"/>
+   <frame tileid="8" duration="200"/>
+   <frame tileid="9" duration="200"/>
+  </animation>
  </tile>
  <tile id="8">
   <image width="128" height="128" source="items/flagRed1.png"/>
@@ -37,7 +48,15 @@
   <image width="128" height="128" source="items/flagRed2.png"/>
  </tile>
  <tile id="10">
+  <properties>
+   <property name="kind" value="FlagYellow"/>
+  </properties>
   <image width="128" height="128" source="items/flagYellow_down.png"/>
+  <animation>
+   <frame tileid="10" duration="200"/>
+   <frame tileid="11" duration="200"/>
+   <frame tileid="12" duration="200"/>
+  </animation>
  </tile>
  <tile id="11">
   <image width="128" height="128" source="items/flagYellow1.png"/>

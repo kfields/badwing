@@ -3,16 +3,17 @@ import random
 import arcade
 
 from badwing.constants import *
-from badwing.layer import Layer
+from badwing.effect import Effect
 from badwing.particle import AnimatedAlphaParticle
 
-class EmitterLayer(Layer):
-    def __init__(self, level, name):
-        super().__init__(level, name)
+#TODO:  Some of this will go up into ParticleEffect
+class Firework(Effect):
+    def __init__(self, position=(0,0), r1=30, r2=40):
+        super().__init__()
+        self.position = position
+        self.radius = random.randint(r1, r2)
         self.emitters = []
-
-    def setup(self):
-        super().setup()
+        self.make_sparks(position)
 
     def draw(self):
         for e in self.emitters:
@@ -29,11 +30,11 @@ class EmitterLayer(Layer):
         for e in to_del:
             self.emitters.remove(e)
 
-    def make_sparks(self, position=(192,192)):
+    def make_sparks(self, position):
         spark_texture = random.choice(SPARK_TEXTURES)
         sparks = arcade.Emitter(
             center_xy=position,
-            emit_controller=arcade.EmitBurst(random.randint(30, 40)),
+            emit_controller=arcade.EmitBurst(self.radius),
             particle_factory=lambda emitter: AnimatedAlphaParticle(
                 filename_or_texture=spark_texture,
                 change_xy=arcade.rand_in_circle((0.0, 0.0), 9.0),

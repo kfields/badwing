@@ -4,6 +4,13 @@ import badwing.app
 
 
 class Model:
+    def __init__(self, sprite, brain=None):
+        self.sprite = sprite
+        self.brain = brain
+        #TODO:  I hate monkey patching.  I'll try to persuade the author to add a model attribute
+        if sprite:
+            sprite.model = self
+
     @property
     def position(self):
         return self.sprite.position
@@ -11,10 +18,6 @@ class Model:
     @position.setter
     def position(self, val):
         self.sprite.position = val
-
-    def __init__(self, sprite, brain=None):
-        self.sprite = sprite
-        self.brain = brain
 
     def on_add(self, layer):
         pass

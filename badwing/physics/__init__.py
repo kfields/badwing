@@ -12,5 +12,5 @@ class Physics:
     def setup():
         pass
 
-    def update(self):
-        pass
+    def update(self, delta_time=1/60.0):
+        self.space.step(delta_time)

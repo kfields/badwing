@@ -13,7 +13,7 @@ class Level(Scene):
     def __init__(self, name):
         super().__init__(name)
         badwing.app.level = self
-
+        self.physics_engine = None
         self.tilewidth = 0
         self.tileheight = 0
 
@@ -39,7 +39,8 @@ class Level(Scene):
     def update(self, delta_time):
         super().update(delta_time)
         if not self.paused:
-            self.space.step(1 / 60.0)
+            #self.physics_engine.update(delta_time)
+            self.physics_engine.update()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:

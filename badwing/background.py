@@ -1,9 +1,9 @@
 import arcade
 
 from badwing.constants import *
-from badwing.layer import Layer
+from badwing.tile import TileLayer
 
-class BackgroundLayer(Layer):
+class BackgroundLayer(TileLayer):
     def __init__(self, level, name, filename):
         super().__init__(level, name)
         self.filename = filename
@@ -18,3 +18,5 @@ class BackgroundLayer(Layer):
         arcade.draw_lrwh_rectangle_textured(left, bottom,
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
                                             self.background)
+        # Draw the tiles
+        super().draw()

@@ -26,7 +26,7 @@ class ButterflyBrain(Brain):
         super().update(delta_time)
         if(self.at_goal()):
             pt = random.randint(0, 3)
-            pd = random.randint(0, 45)
+            pd = random.randint(0, 359)
             if(pt == 0):
                 self.left(pd)
             elif(pt == 2):

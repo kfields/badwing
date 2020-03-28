@@ -27,35 +27,58 @@ RATE_MIN = 0
 RATE_MAX = .1
 
 class Flag(Model):
-    def __init__(self, sprite, border=(0,0,640,480)):
+    def __init__(self, sprite):
         super().__init__(sprite)
-        self.border = border
+        self.touched = False
 
     @classmethod
-    def create(self, kind, position=(0,0), border=(0,0,640,480)):
-        model = kinds[kind].create(position, border)
-        return model
-
-    @classmethod
-    def create_from(self, sprite):
+    def create(self, sprite):
         kind = sprite.properties['kind']
-        pos = sprite.position
-        border = (pos[0]-HALF_RANGE, pos[1]-HALF_RANGE, pos[0]+HALF_RANGE, pos[1]+HALF_RANGE)
-        model = kinds[kind].create(pos, border)
+        model = kinds[kind].create(sprite)
         return model
 
-    def on_add(self, layer):
-        super().on_add(layer)
-        layer.add_sprite(self.sprite)
+    # Has been touched by player
+    def touch(self):
+        if self.touched:
+            return False
+        self.touched = touched = True
+        #TODO: not working as planned
+        old_sprite = self.sprite
+        self.sprite = sprite = arcade.Sprite()
+        sprite.texture = old_sprite.texture
+        old_sprite.kill()
+        return touched
+
+class FlagGreen(Flag):
+    @classmethod
+    def create(self, sprite):
+        return FlagGreen(sprite)
+
+class FlagYellow(Flag):
+    @classmethod
+    def create(self, sprite):
+        return FlagYellow(sprite)
+
+class FlagRed(Flag):
+    @classmethod
+    def create(self, sprite):
+        return FlagRed(sprite)
+
+kinds = {
+    'FlagGreen': FlagGreen,
+    'FlagYellow': FlagYellow,
+    'FlagRed': FlagRed,
+}
 
 class FlagTileLayer(TileLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
-        orig_sprites = self.sprites
-        #self.sprites = arcade.SpriteList()
-        for orig_sprite in orig_sprites:
-            print(vars(orig_sprite))
-            print(orig_sprite.properties)
-            #model = Flag.create_from(orig_sprite)
-            #self.add_model(model)
+        for sprite in self.sprites:
+            #print('flag sprite')
+            #print(vars(sprite))
+            #print(sprite.properties)
+            model = Flag.create(sprite)
+            #print('flag')
+            #print(vars(model))
+            self.add_model(model)
 

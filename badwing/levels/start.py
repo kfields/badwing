@@ -20,7 +20,7 @@ from badwing.ladder import LadderLayer
 
 from badwing.butterfly import Butterflies
 
-from badwing.emitter import EmitterLayer
+from badwing.firework import Firework
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
@@ -111,7 +111,7 @@ class StartScreen(Level):
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
         self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
-        self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
+        self.spark_layer = self.add_layer(Layer(self, 'spark'))
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.butterfly_layer = butterfly_layer = Layer(self, 'butterflies')
