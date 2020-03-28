@@ -20,6 +20,7 @@ from badwing.character import PlayerCharacter
 
 from badwing.box import Box
 from badwing.ball import Ball
+from badwing.flag import FlagTileLayer
 from badwing.butterfly import ButterflyTileLayer
 from badwing.emitter import EmitterLayer
 from badwing.obstacle import ObstacleTileLayer
@@ -47,6 +48,10 @@ class Level(badwing.level.Level):
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
+        # Soundtrack
+        self.album_title = album_title = 'original'
+        self.song_title = song_title = 'eastin_trance'
+        self.song = arcade.load_sound(asset(f'music/{album_title}/{song_title}.mp3'))
 
     def setup(self):
         super().setup()
@@ -68,10 +73,11 @@ class Level(badwing.level.Level):
         self.add_layer(BarrierLayer(self, 'barrier'))
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
+        self.flag_layer = flag_layer = self.add_animated_layer(FlagTileLayer(self, 'flags'))
         self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
         self.spark_layer = self.add_layer(EmitterLayer(self, 'spark'))
         self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
-        self.butterfly_layer = self.add_layer(ButterflyTileLayer(self, 'butterfly'))
+        self.butterfly_layer = self.add_animated_layer(ButterflyTileLayer(self, 'butterfly'))
         self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
         self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
 
@@ -103,14 +109,6 @@ class Level(badwing.level.Level):
 
     def post_setup(self):
         super().post_setup()
-        # Create the 'physics engine'
-        '''
-        self.physics_engine.setup(self.player_sprite,
-                                    self.ground_layer.sprites,
-                                    self.ladder_layer.sprites
-                                    )
-        '''
-        # Requires physics engine to exist first
         self.push_avatar(self.player.control())
 
     def update(self, delta_time):
@@ -118,9 +116,6 @@ class Level(badwing.level.Level):
         """ Movement and game logic """
         # Move the player with the physics engine
         self.physics_engine.update()
-
-        self.player_layer.update_animation(delta_time)
-        self.butterfly_layer.update_animation(delta_time)
 
         # See if we hit any coins
         coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,

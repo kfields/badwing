@@ -16,6 +16,7 @@ class Scene(arcade.application.View):
         self.paused = False
         self.name = name
         self.layers = []
+        self.animated_layers = []
         self.width = 0
         self.height = 0
         self.right = 0
@@ -40,6 +41,11 @@ class Scene(arcade.application.View):
         self.layers.append(layer)
         return layer
 
+    def add_animated_layer(self, layer):
+        self.add_layer(layer)
+        self.animated_layers.append(layer)
+        return layer
+
     def setup(self):
         arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
@@ -47,14 +53,16 @@ class Scene(arcade.application.View):
     def post_setup(self):
         for layer in self.layers:
             layer.setup()
-        
+        '''
         if self.song:
             self.song.play()
-
+        '''
     def update(self, delta_time):
         super().update(delta_time)
         for layer in self.layers:
             layer.update(delta_time)
+        for layer in self.animated_layers:
+            layer.update_animation(delta_time)
         if self.dialog:
             self.dialog.update(delta_time)
 

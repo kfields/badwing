@@ -53,12 +53,11 @@ class MyGame(arcade.Window):
         super().on_draw()
         self.scene.draw()
 
-    def on_update(self, delta_time):
-        super().on_update(delta_time)
+    def update(self, delta_time):
+        super().update(delta_time)
         if badwing.app.avatar:
             badwing.app.avatar.update(delta_time)
         self.player.update(delta_time)
-        self.scene.update(delta_time)
 
 def main(production=False):
     pip_assets_dir = os.path.join(sys.prefix, 'share/badwing/assets')

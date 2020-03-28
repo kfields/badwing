@@ -77,9 +77,11 @@ class StartScreen(Level):
         self.score = 0
 
         # Load sounds
+        '''
         self.album_title = album_title = 'Abstraction - Ludum Dare 28 Loops'
         self.song_title = song_title = 'Ludum Dare 28 - Track 2'
         self.song = arcade.load_sound(asset(f'music/{album_title}/{song_title}.wav'))
+        '''
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
 
