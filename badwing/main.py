@@ -27,7 +27,6 @@ class MyGame(arcade.Window):
         self.show_view(scene)
 
     def setup(self):
-        arcade.set_background_color(arcade.color.ALICE_BLUE)
         self.set_theme()
         self.scene.setup()
         self.scene.post_setup()

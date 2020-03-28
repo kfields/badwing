@@ -49,8 +49,6 @@ class QuitButton(arcade.gui.TextButton):
     def on_press(self):
         self.pressed = True
         print('exit')
-        #sys.exit()
-        #badwing.app.game.exit()
         pyglet.app.exit()
 
     def on_release(self):
@@ -81,8 +79,6 @@ class StartScreen(Level):
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
-
-        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def add_buttons(self):
         self.button_list.append(StartButton(self, self.half_width, self.half_height, theme=self.theme))
@@ -152,4 +148,4 @@ class StartScreen(Level):
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
-            sys.exit()
+            pyglet.app.exit()

@@ -40,7 +40,8 @@ class Scene(arcade.application.View):
         return layer
 
     def setup(self):
-        pass
+        arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
+        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def post_setup(self):
         for layer in self.layers:
