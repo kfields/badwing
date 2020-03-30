@@ -112,7 +112,7 @@ class Skateboard(Group):
         self.back_motor = self.motor = m2 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -self.speed)
         m2.max_force = 200000
 
-        badwing.app.level.space.add(p1, p2, p3, p4, p5, p6, m1, m2)
+        badwing.app.physics.space.add(p1, p2, p3, p4, p5, p6, m1, m2)
 
     @classmethod
     def create(self, position=(292, 192)):
@@ -132,13 +132,13 @@ class Skateboard(Group):
         if self.motors_attached:
             return
         self.front_motor.rate = self.back_motor.rate = -self.speed
-        badwing.app.level.space.add(self.back_motor, self.front_motor)
+        badwing.app.physics.space.add(self.back_motor, self.front_motor)
         self.motors_attached = True
 
     def detach_motors(self):
         if not self.motors_attached:
             return
-        badwing.app.level.space.remove(self.back_motor, self.front_motor)
+        badwing.app.physics.space.remove(self.back_motor, self.front_motor)
         self.motors_attached = False
 
     def accelerate(self, rate=SPEED_DELTA):

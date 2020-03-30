@@ -37,7 +37,7 @@ class Tile(StaticModel):
             return
         #line_strip = arcade.create_line_strip(sprite.points, (255,255,255), 1)
         line_strip = arcade.create_lines(self.sprite.points, (255,255,255), 1)
-        badwing.app.level.debug_list.append(line_strip)
+        badwing.app.scene.debug_list.append(line_strip)
 
 
 class TileLayer(Layer):

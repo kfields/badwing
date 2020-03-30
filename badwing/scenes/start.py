@@ -24,9 +24,8 @@ from badwing.firework import Firework
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
-from badwing.levels.level1 import Level1
+from badwing.scenes.level1 import Level1
 
-'''
 class StartButton(arcade.gui.TextButton):
     def __init__(self, view, x, y, width=200, height=50, text="Start", theme=None):
         super().__init__(x, y, width, height, text, theme=theme)
@@ -38,7 +37,6 @@ class StartButton(arcade.gui.TextButton):
 
     def on_release(self):
         self.pressed = False
-'''
 
 class QuitButton(arcade.gui.TextButton):
     def __init__(self, view, x, y, width=200, height=50, text="Quit", theme=None):
@@ -53,13 +51,13 @@ class QuitButton(arcade.gui.TextButton):
     def on_release(self):
         self.pressed = False
 
-class EndScreen(Level):
+class StartScreen(Level):
     def __init__(self):
         super().__init__('start')
         # Our physics engine
-        #self.physics_engine = physics_engine = KinematicPhysics(k_gravity=K_GRAVITY)
-        self.physics_engine = physics_engine = DynamicPhysics()
-        self.space = physics_engine.space
+        #self.physics = physics = KinematicPhysics(k_gravity=K_GRAVITY)
+        self.physics = physics = DynamicPhysics()
+        self.space = physics.space
 
         self.width = badwing.app.game.width
         self.height = badwing.app.game.height
@@ -86,18 +84,18 @@ class EndScreen(Level):
 
     @classmethod
     def create(self):
-        level = EndScreen()
+        level = StartScreen()
         level.setup()
         level.post_setup()
         return level
         
     #next level
     def get_next_level(self):
-        import badwing.levels.level1
-        return badwing.levels.level1.Level1
+        import badwing.scenes.level1
+        return badwing.scenes.level1.Level1
 
     def add_buttons(self):
-        # self.button_list.append(StartButton(self, self.half_width, self.half_height, theme=self.theme))
+        self.button_list.append(StartButton(self, self.half_width, self.half_height, theme=self.theme))
         self.button_list.append(QuitButton(self, self.half_width, self.half_height-100, theme=self.theme))
 
     def setup(self):
@@ -149,7 +147,7 @@ class EndScreen(Level):
         super().update(delta_time)
         """ Movement and game logic """
         # Move the player with the physics engine
-        self.physics_engine.update()
+        self.physics.update()
 
         self.butterfly_layer.update_animation(delta_time)
 
@@ -157,7 +155,7 @@ class EndScreen(Level):
     def draw(self):
         super().draw()
         arcade.draw_text(
-            "You Win!!!", self.center_x-100, self.center_y + 100, arcade.color.WHITE, 60, font_name='Verdana', align='center'
+            "BadWing", self.center_x, self.center_y + 100, arcade.color.WHITE, 60, font_name='Verdana', align='center'
         )
 
     def on_key_press(self, key, modifiers):

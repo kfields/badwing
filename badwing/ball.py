@@ -16,7 +16,7 @@ class Ball(Model):
         shape = pymunk.Circle(body, radius, (0, 0))
         shape.elasticity = 0.95
         shape.friction = 0.9
-        badwing.app.level.space.add(body, shape)
+        badwing.app.physics.space.add(body, shape)
         self.body = body
 
     @classmethod

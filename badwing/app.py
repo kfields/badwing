@@ -1,5 +1,5 @@
 game = None
+physics = None
 scene = None
-level = None
 player = None
 avatar = None

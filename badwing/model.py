@@ -55,7 +55,7 @@ class PhysicsModel(Model):
 
     def on_add(self, layer):
         super().on_add(layer)
-        badwing.app.level.space.add(self.body, self.shapes)
+        badwing.app.physics.space.add(self.body, self.shapes)
 
 
 class StaticModel(PhysicsModel):

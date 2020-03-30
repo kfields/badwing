@@ -85,7 +85,7 @@ class ButterflyBrain(Brain):
         #TODO:use pymunk
         
         if not need_turn:
-            need_turn = collision_list = arcade.check_for_collision_with_list(self.sprite, badwing.app.level.ground_layer.sprites)
+            need_turn = collision_list = arcade.check_for_collision_with_list(self.sprite, badwing.app.scene.ground_layer.sprites)
 
         if(need_turn):
             self.right(45)

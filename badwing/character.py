@@ -215,7 +215,7 @@ class PlayerCharacter(KinematicModel):
 class Avatar(badwing.avatar.Avatar):
     def __init__(self, player):
         super().__init__()
-        self.physics_engine = badwing.app.level.physics_engine
+        self.physics = badwing.app.physics
         self.player = player
         self.player_sprite = player.sprite
         self.force = (0, 0)
@@ -233,18 +233,18 @@ class Avatar(badwing.avatar.Avatar):
         """
         # Process up/down
         if self.up_pressed and not self.down_pressed:
-            if self.physics_engine.is_on_ladder():
+            if self.physics.is_on_ladder():
                 self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
-            elif self.physics_engine.can_jump() and not self.jump_needs_reset:
+            elif self.physics.can_jump() and not self.jump_needs_reset:
                 self.player_sprite.change_y = PLAYER_JUMP_SPEED
                 self.jump_needs_reset = True
                 arcade.play_sound(self.jump_sound)
         elif self.down_pressed and not self.up_pressed:
-            if self.physics_engine.is_on_ladder():
+            if self.physics.is_on_ladder():
                 self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
 
         # Process up/down when on a ladder and no movement
-        if self.physics_engine.is_on_ladder():
+        if self.physics.is_on_ladder():
             if not self.up_pressed and not self.down_pressed:
                 self.player_sprite.change_y = 0
             elif self.up_pressed and self.down_pressed:

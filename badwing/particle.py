@@ -10,7 +10,7 @@ def clamp(a, low, high):
         return a
 
 class AnimatedAlphaParticle(arcade.LifetimeParticle):
-    """A custom particle that animates between three different alpha levels"""
+    """A custom particle that animates between three different alpha scenes"""
 
     def __init__(
             self,

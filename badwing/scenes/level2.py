@@ -27,20 +27,18 @@ from badwing.firework import Firework
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
-#next level
-import badwing.levels.level2
 
-class Level1(badwing.level.Level):
+class Level2(badwing.level.Level):
     def __init__(self):
-        super().__init__('level1')
+        super().__init__('level2')
 
         # Separate variable that holds the player sprite
         self.player_sprite = None
 
         # Our physics engine
-        #self.physics_engine = physics_engine = KinematicPhysics(k_gravity=K_GRAVITY)
-        self.physics_engine = physics_engine = DynamicPhysics()
-        self.space = physics_engine.space
+        #self.physics = physics = KinematicPhysics(k_gravity=K_GRAVITY)
+        self.physics = physics = DynamicPhysics()
+        self.space = physics.space
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
@@ -50,25 +48,23 @@ class Level1(badwing.level.Level):
         self.collect_butterfly_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.collect_flag_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
-        # Soundtrack
         '''
+        # Soundtrack
         self.album_title = album_title = 'original'
         self.song_title = song_title = 'eastin_trance'
         self.song = arcade.load_sound(asset(f'music/{album_title}/{song_title}.ogg'))
         '''
-        self.song = arcade.load_sound(asset('music/funkyrobot.ogg'))
-
     @classmethod
     def create(self):
-        level = Level1()
+        level = Level2()
         level.setup()
         level.post_setup()
         return level
-        
+
     #next level
     def get_next_level(self):
-        import badwing.levels.level2
-        return badwing.levels.level2.Level2
+        import badwing.scenes.end
+        return badwing.scenes.end.EndScreen
 
     def setup(self):
         super().setup()
@@ -80,7 +76,7 @@ class Level1(badwing.level.Level):
         # --- Load in a map from the tiled editor ---
 
         # Name of map file to load
-        map_name = asset("level1.tmx")
+        map_name = asset("level2.tmx")
         # Name of the layer that has items for pick-up
         coins_layer_name = 'coins'
 

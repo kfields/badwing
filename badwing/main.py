@@ -11,8 +11,8 @@ import badwing.assets
 from badwing.assets import asset
 from badwing.constants import *
 from badwing.player import Player
-#from badwing.levels.level1 import Level
-from badwing.levels.start import StartScreen
+#from badwing.scenes.level1 import Level
+from badwing.scenes.start import StartScreen
 
 class MyGame(arcade.Window):
     def __init__(self):

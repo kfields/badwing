@@ -9,7 +9,7 @@ import pymunk.pyglet_util
 
 from badwing.constants import *
 from badwing.player import Player
-from badwing.levels.level1 import Level
+from badwing.scenes.level1 import Level
 
 draw_options = pymunk.pyglet_util.DrawOptions()
 

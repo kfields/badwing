@@ -13,8 +13,8 @@ from badwing.dialogs.beatlevel import BeatLevelDialog
 class Level(Scene):
     def __init__(self, name):
         super().__init__(name)
-        badwing.app.level = self
-        self.physics_engine = None
+        badwing.app.scene = self
+        self.physics = None
         self.tilewidth = 0
         self.tileheight = 0
 
@@ -49,8 +49,8 @@ class Level(Scene):
         super().update(delta_time)
 
         if not self.paused:
-            #self.physics_engine.update(delta_time)
-            self.physics_engine.update(1/40)
+            #self.physics.update(delta_time)
+            self.physics.update(1/40)
             self.check_collisions()
 
         if badwing.app.player.level_beat:

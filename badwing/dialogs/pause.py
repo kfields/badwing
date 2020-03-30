@@ -9,7 +9,7 @@ from badwing.assets import asset
 from badwing.scene import Scene
 import badwing.dialog
 
-import badwing.levels.start
+import badwing.scenes.start
 
 class Avatar(badwing.avatar.Avatar):
     def on_key_press(self, key, modifiers):
@@ -17,7 +17,7 @@ class Avatar(badwing.avatar.Avatar):
         #TODO: causing it to close on open :(
         '''
         if key == arcade.key.ESCAPE:
-            badwing.app.level.close_dialog()
+            badwing.app.scene.close_dialog()
         '''
 
 class ResumeButton(arcade.gui.TextButton):
@@ -27,7 +27,7 @@ class ResumeButton(arcade.gui.TextButton):
 
     def on_press(self):
         self.pressed = True
-        badwing.app.level.close_dialog()
+        badwing.app.scene.close_dialog()
 
     def on_release(self):
         self.pressed = False
@@ -41,7 +41,7 @@ class QuitButton(arcade.gui.TextButton):
     def on_press(self):
         self.pressed = True
         #print('quit')
-        badwing.app.game.show_scene(badwing.levels.start.StartScreen)
+        badwing.app.game.show_scene(badwing.scenes.start.StartScreen)
 
     def on_release(self):
         self.pressed = False
