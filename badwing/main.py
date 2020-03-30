@@ -7,12 +7,11 @@ import pyglet
 
 from badwing import __version__
 import badwing.app
-import badwing.assets
 from badwing.assets import asset
 from badwing.constants import *
 from badwing.player import Player
-#from badwing.scenes.level1 import Level
-from badwing.scenes.start import StartScreen
+
+from badwing.scene import Scene
 
 class MyGame(arcade.Window):
     def __init__(self):
@@ -23,19 +22,26 @@ class MyGame(arcade.Window):
         self.theme = None
         self.player = Player()
 
-    def show_scene(self, scene_class):
-        if not isinstance(scene_class, type):
-            raise Exception('must be class!')
+    def get_start_scene(self):
+        from badwing.scenes.start import StartScene
+        return StartScene
+
+    def show_scene(self, scene_class, delay=0):
 
         if self.scene:
             self.scene.shutdown()
 
         def callback(delta_time):
-            print('show_scene')
+            #print('show_scene')
+            #TODO: Why is this not working?
+            #if not isinstance(scene_class, badwing.scene.Scene):
+            if not isinstance(scene_class, type):
+                raise Exception(f'{scene_class} Must be a Scene class!')
+
             self.player.on_next_level()
             self.scene = scene = scene_class.create()
             self.show_view(scene)
-        pyglet.clock.schedule_once(callback,.1)
+        pyglet.clock.schedule_once(callback, delay)
 
     def setup(self):
         self.set_theme()
@@ -83,9 +89,9 @@ def main(production=False):
         pass
     
     """ Main method """
-    window = MyGame()
-    window.show_scene(StartScreen)
-    window.setup()
+    game = MyGame()
+    game.show_scene(game.get_start_scene())
+    game.setup()
     arcade.run()
 
 

@@ -24,14 +24,14 @@ from badwing.firework import Firework
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
-from badwing.scenes.level1 import Level1
-
 class StartButton(arcade.gui.TextButton):
     def __init__(self, view, x, y, width=200, height=50, text="Start", theme=None):
         super().__init__(x, y, width, height, text, theme=theme)
         self.view = view
 
     def on_press(self):
+        if self.pressed:
+            return
         self.pressed = True
         badwing.app.game.show_scene(self.view.get_next_level())
 
@@ -44,18 +44,19 @@ class QuitButton(arcade.gui.TextButton):
         self.view = view
 
     def on_press(self):
+        if self.pressed:
+            return
         self.pressed = True
-        print('exit')
+        #print('exit')
         pyglet.app.exit()
 
     def on_release(self):
         self.pressed = False
 
-class StartScreen(Level):
+class StartScene(Level):
     def __init__(self):
         super().__init__('start')
         # Our physics engine
-        #self.physics = physics = KinematicPhysics(k_gravity=K_GRAVITY)
         self.physics = physics = DynamicPhysics()
         self.space = physics.space
 
@@ -74,22 +75,16 @@ class StartScreen(Level):
         self.score = 0
 
         # Load sounds
-        '''
-        self.album_title = album_title = 'Abstraction - Ludum Dare 28 Loops'
-        self.song_title = song_title = 'Ludum Dare 28 - Track 2'
-        self.song = arcade.load_sound(asset(f'music/{album_title}/{song_title}.wav'))
-        '''
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
 
     @classmethod
     def create(self):
-        level = StartScreen()
+        level = StartScene()
         level.setup()
         level.post_setup()
         return level
         
-    #next level
     def get_next_level(self):
         import badwing.scenes.level1
         return badwing.scenes.level1.Level1

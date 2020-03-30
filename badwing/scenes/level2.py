@@ -48,12 +48,7 @@ class Level2(badwing.level.Level):
         self.collect_butterfly_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.collect_flag_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
-        '''
-        # Soundtrack
-        self.album_title = album_title = 'original'
-        self.song_title = song_title = 'eastin_trance'
-        self.song = arcade.load_sound(asset(f'music/{album_title}/{song_title}.ogg'))
-        '''
+
     @classmethod
     def create(self):
         level = Level2()

@@ -26,6 +26,8 @@ class ResumeButton(arcade.gui.TextButton):
         self.view = view
 
     def on_press(self):
+        if self.pressed:
+            return
         self.pressed = True
         badwing.app.scene.close_dialog()
 
@@ -39,9 +41,11 @@ class QuitButton(arcade.gui.TextButton):
         self.view = view
 
     def on_press(self):
+        if self.pressed:
+            return
         self.pressed = True
         #print('quit')
-        badwing.app.game.show_scene(badwing.scenes.start.StartScreen)
+        badwing.app.game.show_scene(badwing.scenes.start.StartScene)
 
     def on_release(self):
         self.pressed = False

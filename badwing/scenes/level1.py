@@ -51,11 +51,6 @@ class Level1(badwing.level.Level):
         self.collect_flag_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
         # Soundtrack
-        '''
-        self.album_title = album_title = 'original'
-        self.song_title = song_title = 'eastin_trance'
-        self.song = arcade.load_sound(asset(f'music/{album_title}/{song_title}.ogg'))
-        '''
         self.song = arcade.load_sound(asset('music/funkyrobot.ogg'))
 
     @classmethod
