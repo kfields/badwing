@@ -49,6 +49,7 @@ class Level(Scene):
         super().update(delta_time)
 
         if not self.paused:
+            #seems to floaty to me:
             #self.physics.update(delta_time)
             self.physics.update(1/40)
             self.check_collisions()

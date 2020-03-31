@@ -1,8 +1,6 @@
 import sys
 import os
 
-os.chdir('../')
-
 from PIL import Image
 
 BUTTERFLIES = 9
