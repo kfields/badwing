@@ -1,3 +1,9 @@
+# BadWing Docs :butterfly:
+
+[![Documentation Status](https://readthedocs.org/projects/docs/badge/?version=latest)](https://badwing.readthedocs.io/en/latest/)
+
+## This is the stuff that makes the documentation!
+
 Create a virtual environment in this directory
     
     pip3 -m venv env
