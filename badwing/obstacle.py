@@ -27,7 +27,7 @@ BOX_MASS = 1
 BOX_WIDTH = 128
 ROCK_MASS = 1
 
-class BoxCrateDouble(Obstacle):
+class BoxCrate(Obstacle):
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
         width = sprite.texture.width * TILE_SCALING
@@ -45,10 +45,10 @@ class BoxCrateDouble(Obstacle):
 
     @classmethod
     def create(self, sprite):
-        return BoxCrateDouble(sprite, position=(sprite.center_x, sprite.center_y))
+        return BoxCrate(sprite, position=(sprite.center_x, sprite.center_y))
 
 
-class RockBig1(Obstacle):
+class Rock(Obstacle):
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
 
@@ -82,7 +82,7 @@ class RockBig1(Obstacle):
 
     @classmethod
     def create(self, sprite):
-        return RockBig1(sprite, position=(sprite.center_x, sprite.center_y))
+        return Rock(sprite, position=(sprite.center_x, sprite.center_y))
 
 class ObstacleTileLayer(DynamicTileLayer):
     def __init__(self, level, name):
@@ -92,6 +92,7 @@ class ObstacleTileLayer(DynamicTileLayer):
             self.add_model(model)
 
 kinds = {
-    'BoxCrateDouble': BoxCrateDouble,
-    'RockBig1': RockBig1
+    'boxCrate': BoxCrate,
+    'boxCrate_double': BoxCrate,
+    'RockBig1': Rock
 }

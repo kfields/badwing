@@ -1,7 +1,6 @@
 import os
 import arcade
 
-import badwing.app
 import badwing.avatar
 
 from badwing.assets import asset
@@ -41,6 +40,7 @@ class QuitButton(arcade.gui.TextButton):
             return
         self.pressed = True
         #print('quit')
+        import badwing.app
         badwing.app.scene.close_dialog()
         import badwing.scenes.start
         badwing.app.game.show_scene(badwing.scenes.start.StartScene)

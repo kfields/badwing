@@ -1,511 +1,902 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.3" name="tiles" tilewidth="640" tileheight="480" tilecount="154" columns="0">
- <grid orientation="orthogonal" width="1" height="1"/>
- <tile id="0">
-  <properties>
-   <property name="kind" value="BoxCrateDouble"/>
-  </properties>
-  <image width="128" height="128" source="tiles/boxCrate_double.png"/>
- </tile>
- <tile id="1">
-  <image width="128" height="128" source="tiles/boxCrate_single.png"/>
- </tile>
- <tile id="2">
-  <image width="128" height="128" source="tiles/boxCrate.png"/>
- </tile>
- <tile id="3">
-  <image width="128" height="128" source="tiles/brickBrown.png"/>
- </tile>
- <tile id="4">
-  <image width="128" height="128" source="tiles/brickGrey.png"/>
- </tile>
- <tile id="5">
-  <image width="128" height="128" source="tiles/bridgeA.png"/>
- </tile>
- <tile id="6">
-  <image width="128" height="128" source="tiles/bridgeB.png"/>
- </tile>
- <tile id="7">
-  <image width="128" height="128" source="tiles/bush.png"/>
- </tile>
- <tile id="8">
-  <image width="128" height="128" source="tiles/cactus.png"/>
- </tile>
- <tile id="9">
-  <image width="128" height="128" source="tiles/dirt.png"/>
- </tile>
- <tile id="10">
-  <image width="128" height="128" source="tiles/dirtCenter_rounded.png"/>
- </tile>
- <tile id="11">
-  <image width="128" height="128" source="tiles/dirtCenter.png"/>
- </tile>
- <tile id="12">
-  <image width="128" height="128" source="tiles/dirtCliff_left.png"/>
- </tile>
- <tile id="13">
-  <image width="128" height="128" source="tiles/dirtCliff_right.png"/>
- </tile>
- <tile id="14">
-  <image width="128" height="128" source="tiles/dirtCliffAlt_left.png"/>
- </tile>
- <tile id="15">
-  <image width="128" height="128" source="tiles/dirtCliffAlt_right.png"/>
- </tile>
- <tile id="16">
-  <image width="128" height="128" source="tiles/dirtCorner_left.png"/>
- </tile>
- <tile id="17">
-  <image width="128" height="128" source="tiles/dirtCorner_right.png"/>
- </tile>
- <tile id="18">
-  <image width="128" height="128" source="tiles/dirtHalf_left.png"/>
- </tile>
- <tile id="19">
-  <image width="128" height="128" source="tiles/dirtHalf_mid.png"/>
- </tile>
- <tile id="20">
-  <image width="128" height="128" source="tiles/dirtHalf_right.png"/>
- </tile>
- <tile id="21">
-  <image width="128" height="128" source="tiles/dirtHalf.png"/>
- </tile>
- <tile id="22">
-  <image width="128" height="128" source="tiles/dirtHill_left.png"/>
- </tile>
- <tile id="23">
-  <image width="128" height="128" source="tiles/dirtHill_right.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" name="LRamp" type="LRamp" x="128" y="0">
-    <polygon points="0,0 -128,128 0,128"/>
-   </object>
-  </objectgroup>
- </tile>
- <tile id="24">
-  <image width="128" height="128" source="tiles/dirtLeft.png"/>
- </tile>
- <tile id="25">
-  <image width="128" height="128" source="tiles/dirtMid.png"/>
- </tile>
- <tile id="26">
-  <image width="128" height="128" source="tiles/dirtRight.png"/>
- </tile>
- <tile id="27">
-  <image width="128" height="128" source="tiles/doorClosed_mid.png"/>
- </tile>
- <tile id="28">
-  <image width="128" height="128" source="tiles/doorClosed_top.png"/>
- </tile>
- <tile id="29">
-  <image width="128" height="128" source="tiles/grass_sprout.png"/>
- </tile>
- <tile id="30">
-  <image width="128" height="128" source="tiles/grass.png"/>
- </tile>
- <tile id="31">
-  <image width="128" height="128" source="tiles/grassCenter_round.png"/>
- </tile>
- <tile id="32">
-  <image width="128" height="128" source="tiles/grassCenter.png"/>
- </tile>
- <tile id="33">
-  <image width="128" height="128" source="tiles/grassCliff_left.png"/>
- </tile>
- <tile id="34">
-  <image width="128" height="128" source="tiles/grassCliff_right.png"/>
- </tile>
- <tile id="35">
-  <image width="128" height="128" source="tiles/grassCliffAlt_left.png"/>
- </tile>
- <tile id="36">
-  <image width="128" height="128" source="tiles/grassCliffAlt_right.png"/>
- </tile>
- <tile id="37">
-  <image width="128" height="128" source="tiles/grassCorner_left.png"/>
- </tile>
- <tile id="38">
-  <image width="128" height="128" source="tiles/grassCorner_right.png"/>
- </tile>
- <tile id="39">
-  <image width="128" height="128" source="tiles/grassHalf_left.png"/>
- </tile>
- <tile id="40">
-  <image width="128" height="128" source="tiles/grassHalf_mid.png"/>
- </tile>
- <tile id="41">
-  <image width="128" height="128" source="tiles/grassHalf_right.png"/>
- </tile>
- <tile id="42">
-  <image width="128" height="128" source="tiles/grassHalf.png"/>
- </tile>
- <tile id="43">
-  <image width="128" height="128" source="tiles/grassHill_left.png"/>
- </tile>
- <tile id="44">
-  <image width="128" height="128" source="tiles/grassHill_right.png"/>
- </tile>
- <tile id="45">
-  <image width="128" height="128" source="tiles/grassLeft.png"/>
- </tile>
- <tile id="46">
-  <image width="128" height="128" source="tiles/grassMid.png"/>
- </tile>
- <tile id="47">
-  <image width="128" height="128" source="tiles/grassRight.png"/>
- </tile>
- <tile id="48">
-  <image width="128" height="128" source="tiles/ladderMid.png"/>
- </tile>
- <tile id="49">
-  <image width="128" height="128" source="tiles/ladderTop.png"/>
- </tile>
- <tile id="50">
-  <image width="128" height="128" source="tiles/lava.png"/>
- </tile>
- <tile id="51">
-  <image width="128" height="128" source="tiles/lavaTop_high.png"/>
- </tile>
- <tile id="52">
-  <image width="128" height="128" source="tiles/lavaTop_low.png"/>
- </tile>
- <tile id="53">
-  <image width="128" height="128" source="tiles/leverLeft.png"/>
- </tile>
- <tile id="54">
-  <image width="128" height="128" source="tiles/leverMid.png"/>
- </tile>
- <tile id="55">
-  <image width="128" height="128" source="tiles/leverRight.png"/>
- </tile>
- <tile id="56">
-  <image width="128" height="128" source="tiles/lockRed.png"/>
- </tile>
- <tile id="57">
-  <image width="128" height="128" source="tiles/lockYellow.png"/>
- </tile>
- <tile id="58">
-  <image width="128" height="128" source="tiles/mushroomRed.png"/>
- </tile>
- <tile id="59">
-  <image width="128" height="128" source="tiles/planet.png"/>
- </tile>
- <tile id="60">
-  <image width="128" height="128" source="tiles/planetCenter_rounded.png"/>
- </tile>
- <tile id="61">
-  <image width="128" height="128" source="tiles/planetCenter.png"/>
- </tile>
- <tile id="62">
-  <image width="128" height="128" source="tiles/planetCliff_left.png"/>
- </tile>
- <tile id="63">
-  <image width="128" height="128" source="tiles/planetCliff_right.png"/>
- </tile>
- <tile id="64">
-  <image width="128" height="128" source="tiles/planetCliffAlt_left.png"/>
- </tile>
- <tile id="65">
-  <image width="128" height="128" source="tiles/planetCliffAlt_right.png"/>
- </tile>
- <tile id="66">
-  <image width="128" height="128" source="tiles/planetCorner_left.png"/>
- </tile>
- <tile id="67">
-  <image width="128" height="128" source="tiles/planetCorner_right.png"/>
- </tile>
- <tile id="68">
-  <image width="128" height="128" source="tiles/planetHalf_left.png"/>
- </tile>
- <tile id="69">
-  <image width="128" height="128" source="tiles/planetHalf_mid.png"/>
- </tile>
- <tile id="70">
-  <image width="128" height="128" source="tiles/planetHalf_right.png"/>
- </tile>
- <tile id="71">
-  <image width="128" height="128" source="tiles/planetHalf.png"/>
- </tile>
- <tile id="72">
-  <image width="128" height="128" source="tiles/planetHill_left.png"/>
- </tile>
- <tile id="73">
-  <image width="128" height="128" source="tiles/planetHill_right.png"/>
- </tile>
- <tile id="74">
-  <image width="128" height="128" source="tiles/planetLeft.png"/>
- </tile>
- <tile id="75">
-  <image width="128" height="128" source="tiles/planetMid.png"/>
- </tile>
- <tile id="76">
-  <image width="128" height="128" source="tiles/planetRight.png"/>
- </tile>
- <tile id="77">
-  <image width="128" height="128" source="tiles/plantPurple.png"/>
- </tile>
- <tile id="78">
-  <image width="128" height="128" source="tiles/rock.png"/>
- </tile>
- <tile id="79">
-  <image width="128" height="128" source="tiles/sand.png"/>
- </tile>
- <tile id="80">
-  <image width="128" height="128" source="tiles/sandCenter_rounded.png"/>
- </tile>
- <tile id="81">
-  <image width="128" height="128" source="tiles/sandCenter.png"/>
- </tile>
- <tile id="82">
-  <image width="128" height="128" source="tiles/sandCliff_left.png"/>
- </tile>
- <tile id="83">
-  <image width="128" height="128" source="tiles/sandCliff_right.png"/>
- </tile>
- <tile id="84">
-  <image width="128" height="128" source="tiles/sandCliffAlt_left.png"/>
- </tile>
- <tile id="85">
-  <image width="128" height="128" source="tiles/sandCliffAlt_right.png"/>
- </tile>
- <tile id="86">
-  <image width="128" height="128" source="tiles/sandCorner_leftg.png"/>
- </tile>
- <tile id="87">
-  <image width="128" height="128" source="tiles/sandCorner_right.png"/>
- </tile>
- <tile id="88">
-  <image width="128" height="128" source="tiles/sandHalf_left.png"/>
- </tile>
- <tile id="89">
-  <image width="128" height="128" source="tiles/sandHalf_mid.png"/>
- </tile>
- <tile id="90">
-  <image width="128" height="128" source="tiles/sandHalf_right.png"/>
- </tile>
- <tile id="91">
-  <image width="128" height="128" source="tiles/sandHalf.png"/>
- </tile>
- <tile id="92">
-  <image width="128" height="128" source="tiles/sandHill_left.png"/>
- </tile>
- <tile id="93">
-  <image width="128" height="128" source="tiles/sandHill_right.png"/>
- </tile>
- <tile id="94">
-  <image width="128" height="128" source="tiles/sandLeft.png"/>
- </tile>
- <tile id="95">
-  <image width="128" height="128" source="tiles/sandMid.png"/>
- </tile>
- <tile id="96">
-  <image width="128" height="128" source="tiles/sandRight.png"/>
- </tile>
- <tile id="97">
-  <image width="128" height="128" source="tiles/signExit.png"/>
- </tile>
- <tile id="98">
-  <image width="128" height="128" source="tiles/signLeft.png"/>
- </tile>
- <tile id="99">
-  <image width="128" height="128" source="tiles/signRight.png"/>
- </tile>
- <tile id="100">
-  <image width="128" height="128" source="tiles/snow_pile.png"/>
- </tile>
- <tile id="101">
-  <image width="128" height="128" source="tiles/snow.png"/>
- </tile>
- <tile id="102">
-  <image width="128" height="128" source="tiles/snowCenter_rounded.png"/>
- </tile>
- <tile id="103">
-  <image width="128" height="128" source="tiles/snowCenter.png"/>
- </tile>
- <tile id="104">
-  <image width="128" height="128" source="tiles/snowCliff_left.png"/>
- </tile>
- <tile id="105">
-  <image width="128" height="128" source="tiles/snowCliff_right.png"/>
- </tile>
- <tile id="106">
-  <image width="128" height="128" source="tiles/snowCliffAlt_left.png"/>
- </tile>
- <tile id="107">
-  <image width="128" height="128" source="tiles/snowCliffAlt_right.png"/>
- </tile>
- <tile id="108">
-  <image width="128" height="128" source="tiles/snowCorner_left.png"/>
- </tile>
- <tile id="109">
-  <image width="128" height="128" source="tiles/snowCorner_right.png"/>
- </tile>
- <tile id="110">
-  <image width="128" height="128" source="tiles/snowHalf_left.png"/>
- </tile>
- <tile id="111">
-  <image width="128" height="128" source="tiles/snowHalf_mid.png"/>
- </tile>
- <tile id="112">
-  <image width="128" height="128" source="tiles/snowHalf_right.png"/>
- </tile>
- <tile id="113">
-  <image width="128" height="128" source="tiles/snowHalf.png"/>
- </tile>
- <tile id="114">
-  <image width="128" height="128" source="tiles/snowHill_left.png"/>
- </tile>
- <tile id="115">
-  <image width="128" height="128" source="tiles/snowHill_right.png"/>
- </tile>
- <tile id="116">
-  <image width="128" height="128" source="tiles/snowLeft.png"/>
- </tile>
- <tile id="117">
-  <image width="128" height="128" source="tiles/snowMid.png"/>
- </tile>
- <tile id="118">
-  <image width="128" height="128" source="tiles/snowRight.png"/>
- </tile>
- <tile id="119">
-  <image width="128" height="128" source="tiles/spikes.png"/>
- </tile>
- <tile id="120">
-  <image width="128" height="128" source="tiles/stone.png"/>
- </tile>
- <tile id="121">
-  <image width="128" height="128" source="tiles/stoneCenter_rounded.png"/>
- </tile>
- <tile id="122">
-  <image width="128" height="128" source="tiles/stoneCenter.png"/>
- </tile>
- <tile id="123">
-  <image width="128" height="128" source="tiles/stoneCliff_left.png"/>
- </tile>
- <tile id="124">
-  <image width="128" height="128" source="tiles/stoneCliff_right.png"/>
- </tile>
- <tile id="125">
-  <image width="128" height="128" source="tiles/stoneCliffAlt_left.png"/>
- </tile>
- <tile id="126">
-  <image width="128" height="128" source="tiles/stoneCliffAlt_right.png"/>
- </tile>
- <tile id="127">
-  <image width="128" height="128" source="tiles/stoneCorner_left.png"/>
- </tile>
- <tile id="128">
-  <image width="128" height="128" source="tiles/stoneCorner_right.png"/>
- </tile>
- <tile id="129">
-  <image width="128" height="128" source="tiles/stoneHalf_left.png"/>
- </tile>
- <tile id="130">
-  <image width="128" height="128" source="tiles/stoneHalf_mid.png"/>
- </tile>
- <tile id="131">
-  <image width="128" height="128" source="tiles/stoneHalf_right.png"/>
- </tile>
- <tile id="132">
-  <image width="128" height="128" source="tiles/stoneHalf.png"/>
- </tile>
- <tile id="133">
-  <image width="128" height="128" source="tiles/stoneHill_left.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0">
-    <polygon points="0,0 0,128 128,128"/>
-   </object>
-  </objectgroup>
- </tile>
- <tile id="134">
-  <image width="128" height="128" source="tiles/stoneHill_right.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="128">
-    <polygon points="0,0 128,0 128,-128"/>
-   </object>
-  </objectgroup>
- </tile>
- <tile id="135">
-  <image width="128" height="128" source="tiles/stoneLeft.png"/>
- </tile>
- <tile id="136">
-  <image width="128" height="128" source="tiles/stoneMid.png"/>
- </tile>
- <tile id="137">
-  <image width="128" height="128" source="tiles/stoneRight.png"/>
- </tile>
- <tile id="138">
-  <image width="128" height="128" source="tiles/switchGreen_pressed.png"/>
- </tile>
- <tile id="139">
-  <image width="128" height="128" source="tiles/switchGreen.png"/>
- </tile>
- <tile id="140">
-  <image width="128" height="128" source="tiles/switchRed_pressed.png"/>
- </tile>
- <tile id="141">
-  <image width="128" height="128" source="tiles/switchRed.png"/>
- </tile>
- <tile id="142">
-  <image width="128" height="128" source="tiles/water.png"/>
- </tile>
- <tile id="143">
-  <image width="128" height="128" source="tiles/waterTop_high.png"/>
- </tile>
- <tile id="144">
-  <image width="128" height="128" source="tiles/waterTop_low.png"/>
- </tile>
- <tile id="145" type="ButterflyAqua">
-  <properties>
-   <property name="kind" value="ButterflyAqua"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyAqua.png"/>
- </tile>
- <tile id="146" type="ButterflyBlue">
-  <properties>
-   <property name="kind" value="ButterflyBlue"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyBlue.png"/>
- </tile>
- <tile id="147">
-  <properties>
-   <property name="kind" value="ButterflyBrown"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyBrown.png"/>
- </tile>
- <tile id="148">
-  <properties>
-   <property name="kind" value="ButterflyCyan"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyCyan.png"/>
- </tile>
- <tile id="149">
-  <properties>
-   <property name="kind" value="ButterflyGreen"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyGreen.png"/>
- </tile>
- <tile id="150">
-  <properties>
-   <property name="kind" value="ButterflyIridescent"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyIridescent.png"/>
- </tile>
- <tile id="151">
-  <properties>
-   <property name="kind" value="ButterflyRed"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyRed.png"/>
- </tile>
- <tile id="152">
-  <properties>
-   <property name="kind" value="ButterflyTan"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyTan.png"/>
- </tile>
- <tile id="153">
-  <properties>
-   <property name="kind" value="ButterflyTeal"/>
-  </properties>
-  <image width="128" height="96" source="tiles/butterflyTeal.png"/>
- </tile>
+<tileset name="tiles"
+    tilewidth="128"
+    tileheight="128" 
+    tilecount="148" 
+    columns="12"
+    margin="0"
+    spacing="0"
+    >
+<image source="tiles.png" width="1536" height="1664"/>
+
+
+    <tile id="0">
+        <properties>
+            <property name="kind" value="boxCrate"/>
+        </properties>
+    </tile>
+
+    <tile id="1">
+        <properties>
+            <property name="kind" value="boxCrate_double"/>
+        </properties>
+    </tile>
+
+    <tile id="2">
+        <properties>
+            <property name="kind" value="boxCrate_single"/>
+        </properties>
+    </tile>
+
+    <tile id="3">
+        <properties>
+            <property name="kind" value="brickBrown"/>
+        </properties>
+    </tile>
+
+    <tile id="4">
+        <properties>
+            <property name="kind" value="brickGrey"/>
+        </properties>
+    </tile>
+
+    <tile id="5">
+        <properties>
+            <property name="kind" value="bridgeA"/>
+        </properties>
+    </tile>
+
+    <tile id="6">
+        <properties>
+            <property name="kind" value="bridgeB"/>
+        </properties>
+    </tile>
+
+    <tile id="7">
+        <properties>
+            <property name="kind" value="bush"/>
+        </properties>
+    </tile>
+
+    <tile id="8">
+        <properties>
+            <property name="kind" value="cactus"/>
+        </properties>
+    </tile>
+
+    <tile id="9">
+        <properties>
+            <property name="kind" value="dirt"/>
+        </properties>
+    </tile>
+
+    <tile id="10">
+        <properties>
+            <property name="kind" value="dirtCenter"/>
+        </properties>
+    </tile>
+
+    <tile id="11">
+        <properties>
+            <property name="kind" value="dirtCenter_rounded"/>
+        </properties>
+    </tile>
+
+    <tile id="12">
+        <properties>
+            <property name="kind" value="dirtCliffAlt_left"/>
+        </properties>
+    </tile>
+
+    <tile id="13">
+        <properties>
+            <property name="kind" value="dirtCliffAlt_right"/>
+        </properties>
+    </tile>
+
+    <tile id="14">
+        <properties>
+            <property name="kind" value="dirtCliff_left"/>
+        </properties>
+    </tile>
+
+    <tile id="15">
+        <properties>
+            <property name="kind" value="dirtCliff_right"/>
+        </properties>
+    </tile>
+
+    <tile id="16">
+        <properties>
+            <property name="kind" value="dirtCorner_left"/>
+        </properties>
+    </tile>
+
+    <tile id="17">
+        <properties>
+            <property name="kind" value="dirtCorner_right"/>
+        </properties>
+    </tile>
+
+    <tile id="18">
+        <properties>
+            <property name="kind" value="dirtHalf"/>
+        </properties>
+    </tile>
+
+    <tile id="19">
+        <properties>
+            <property name="kind" value="dirtHalf_left"/>
+        </properties>
+    </tile>
+
+    <tile id="20">
+        <properties>
+            <property name="kind" value="dirtHalf_mid"/>
+        </properties>
+    </tile>
+
+    <tile id="21">
+        <properties>
+            <property name="kind" value="dirtHalf_right"/>
+        </properties>
+    </tile>
+
+    <tile id="22">
+        <properties>
+            <property name="kind" value="dirtHill_left"/>
+        </properties>
+    </tile>
+
+    <tile id="23">
+        <properties>
+            <property name="kind" value="dirtHill_right"/>
+        </properties>
+    </tile>
+
+    <tile id="24">
+        <properties>
+            <property name="kind" value="dirtLeft"/>
+        </properties>
+    </tile>
+
+    <tile id="25">
+        <properties>
+            <property name="kind" value="dirtMid"/>
+        </properties>
+    </tile>
+
+    <tile id="26">
+        <properties>
+            <property name="kind" value="dirtRight"/>
+        </properties>
+    </tile>
+
+    <tile id="27">
+        <properties>
+            <property name="kind" value="doorClosed_mid"/>
+        </properties>
+    </tile>
+
+    <tile id="28">
+        <properties>
+            <property name="kind" value="doorClosed_top"/>
+        </properties>
+    </tile>
+
+    <tile id="29">
+        <properties>
+            <property name="kind" value="grass"/>
+        </properties>
+    </tile>
+
+    <tile id="30">
+        <properties>
+            <property name="kind" value="grassCenter"/>
+        </properties>
+    </tile>
+
+    <tile id="31">
+        <properties>
+            <property name="kind" value="grassCenter_round"/>
+        </properties>
+    </tile>
+
+    <tile id="32">
+        <properties>
+            <property name="kind" value="grassCliffAlt_left"/>
+        </properties>
+    </tile>
+
+    <tile id="33">
+        <properties>
+            <property name="kind" value="grassCliffAlt_right"/>
+        </properties>
+    </tile>
+
+    <tile id="34">
+        <properties>
+            <property name="kind" value="grassCliff_left"/>
+        </properties>
+    </tile>
+
+    <tile id="35">
+        <properties>
+            <property name="kind" value="grassCliff_right"/>
+        </properties>
+    </tile>
+
+    <tile id="36">
+        <properties>
+            <property name="kind" value="grassCorner_left"/>
+        </properties>
+    </tile>
+
+    <tile id="37">
+        <properties>
+            <property name="kind" value="grassCorner_right"/>
+        </properties>
+    </tile>
+
+    <tile id="38">
+        <properties>
+            <property name="kind" value="grassHalf"/>
+        </properties>
+    </tile>
+
+    <tile id="39">
+        <properties>
+            <property name="kind" value="grassHalf_left"/>
+        </properties>
+    </tile>
+
+    <tile id="40">
+        <properties>
+            <property name="kind" value="grassHalf_mid"/>
+        </properties>
+    </tile>
+
+    <tile id="41">
+        <properties>
+            <property name="kind" value="grassHalf_right"/>
+        </properties>
+    </tile>
+
+    <tile id="42">
+        <properties>
+            <property name="kind" value="grassHill_left"/>
+        </properties>
+    </tile>
+
+    <tile id="43">
+        <properties>
+            <property name="kind" value="grassHill_right"/>
+        </properties>
+    </tile>
+
+    <tile id="44">
+        <properties>
+            <property name="kind" value="grassLeft"/>
+        </properties>
+    </tile>
+
+    <tile id="45">
+        <properties>
+            <property name="kind" value="grassMid"/>
+        </properties>
+    </tile>
+
+    <tile id="46">
+        <properties>
+            <property name="kind" value="grassRight"/>
+        </properties>
+    </tile>
+
+    <tile id="47">
+        <properties>
+            <property name="kind" value="grass_sprout"/>
+        </properties>
+    </tile>
+
+    <tile id="48">
+        <properties>
+            <property name="kind" value="ladderMid"/>
+        </properties>
+    </tile>
+
+    <tile id="49">
+        <properties>
+            <property name="kind" value="ladderTop"/>
+        </properties>
+    </tile>
+
+    <tile id="50">
+        <properties>
+            <property name="kind" value="lava"/>
+        </properties>
+    </tile>
+
+    <tile id="51">
+        <properties>
+            <property name="kind" value="lavaTop_high"/>
+        </properties>
+    </tile>
+
+    <tile id="52">
+        <properties>
+            <property name="kind" value="lavaTop_low"/>
+        </properties>
+    </tile>
+
+    <tile id="53">
+        <properties>
+            <property name="kind" value="leverLeft"/>
+        </properties>
+    </tile>
+
+    <tile id="54">
+        <properties>
+            <property name="kind" value="leverMid"/>
+        </properties>
+    </tile>
+
+    <tile id="55">
+        <properties>
+            <property name="kind" value="leverRight"/>
+        </properties>
+    </tile>
+
+    <tile id="56">
+        <properties>
+            <property name="kind" value="lockRed"/>
+        </properties>
+    </tile>
+
+    <tile id="57">
+        <properties>
+            <property name="kind" value="lockYellow"/>
+        </properties>
+    </tile>
+
+    <tile id="58">
+        <properties>
+            <property name="kind" value="mushroomRed"/>
+        </properties>
+    </tile>
+
+    <tile id="59">
+        <properties>
+            <property name="kind" value="planet"/>
+        </properties>
+    </tile>
+
+    <tile id="60">
+        <properties>
+            <property name="kind" value="planetCenter"/>
+        </properties>
+    </tile>
+
+    <tile id="61">
+        <properties>
+            <property name="kind" value="planetCenter_rounded"/>
+        </properties>
+    </tile>
+
+    <tile id="62">
+        <properties>
+            <property name="kind" value="planetCliffAlt_left"/>
+        </properties>
+    </tile>
+
+    <tile id="63">
+        <properties>
+            <property name="kind" value="planetCliffAlt_right"/>
+        </properties>
+    </tile>
+
+    <tile id="64">
+        <properties>
+            <property name="kind" value="planetCliff_left"/>
+        </properties>
+    </tile>
+
+    <tile id="65">
+        <properties>
+            <property name="kind" value="planetCliff_right"/>
+        </properties>
+    </tile>
+
+    <tile id="66">
+        <properties>
+            <property name="kind" value="planetCorner_left"/>
+        </properties>
+    </tile>
+
+    <tile id="67">
+        <properties>
+            <property name="kind" value="planetCorner_right"/>
+        </properties>
+    </tile>
+
+    <tile id="68">
+        <properties>
+            <property name="kind" value="planetHalf"/>
+        </properties>
+    </tile>
+
+    <tile id="69">
+        <properties>
+            <property name="kind" value="planetHalf_left"/>
+        </properties>
+    </tile>
+
+    <tile id="70">
+        <properties>
+            <property name="kind" value="planetHalf_mid"/>
+        </properties>
+    </tile>
+
+    <tile id="71">
+        <properties>
+            <property name="kind" value="planetHalf_right"/>
+        </properties>
+    </tile>
+
+    <tile id="72">
+        <properties>
+            <property name="kind" value="planetHill_left"/>
+        </properties>
+    </tile>
+
+    <tile id="73">
+        <properties>
+            <property name="kind" value="planetHill_right"/>
+        </properties>
+    </tile>
+
+    <tile id="74">
+        <properties>
+            <property name="kind" value="planetLeft"/>
+        </properties>
+    </tile>
+
+    <tile id="75">
+        <properties>
+            <property name="kind" value="planetMid"/>
+        </properties>
+    </tile>
+
+    <tile id="76">
+        <properties>
+            <property name="kind" value="planetRight"/>
+        </properties>
+    </tile>
+
+    <tile id="77">
+        <properties>
+            <property name="kind" value="plantPurple"/>
+        </properties>
+    </tile>
+
+    <tile id="78">
+        <properties>
+            <property name="kind" value="rock"/>
+        </properties>
+    </tile>
+
+    <tile id="79">
+        <properties>
+            <property name="kind" value="sand"/>
+        </properties>
+    </tile>
+
+    <tile id="80">
+        <properties>
+            <property name="kind" value="sandCenter"/>
+        </properties>
+    </tile>
+
+    <tile id="81">
+        <properties>
+            <property name="kind" value="sandCenter_rounded"/>
+        </properties>
+    </tile>
+
+    <tile id="82">
+        <properties>
+            <property name="kind" value="sandCliffAlt_left"/>
+        </properties>
+    </tile>
+
+    <tile id="83">
+        <properties>
+            <property name="kind" value="sandCliffAlt_right"/>
+        </properties>
+    </tile>
+
+    <tile id="84">
+        <properties>
+            <property name="kind" value="sandCliff_left"/>
+        </properties>
+    </tile>
+
+    <tile id="85">
+        <properties>
+            <property name="kind" value="sandCliff_right"/>
+        </properties>
+    </tile>
+
+    <tile id="86">
+        <properties>
+            <property name="kind" value="sandCorner_leftg"/>
+        </properties>
+    </tile>
+
+    <tile id="87">
+        <properties>
+            <property name="kind" value="sandCorner_right"/>
+        </properties>
+    </tile>
+
+    <tile id="88">
+        <properties>
+            <property name="kind" value="sandHalf"/>
+        </properties>
+    </tile>
+
+    <tile id="89">
+        <properties>
+            <property name="kind" value="sandHalf_left"/>
+        </properties>
+    </tile>
+
+    <tile id="90">
+        <properties>
+            <property name="kind" value="sandHalf_mid"/>
+        </properties>
+    </tile>
+
+    <tile id="91">
+        <properties>
+            <property name="kind" value="sandHalf_right"/>
+        </properties>
+    </tile>
+
+    <tile id="92">
+        <properties>
+            <property name="kind" value="sandHill_left"/>
+        </properties>
+    </tile>
+
+    <tile id="93">
+        <properties>
+            <property name="kind" value="sandHill_right"/>
+        </properties>
+    </tile>
+
+    <tile id="94">
+        <properties>
+            <property name="kind" value="sandLeft"/>
+        </properties>
+    </tile>
+
+    <tile id="95">
+        <properties>
+            <property name="kind" value="sandMid"/>
+        </properties>
+    </tile>
+
+    <tile id="96">
+        <properties>
+            <property name="kind" value="sandRight"/>
+        </properties>
+    </tile>
+
+    <tile id="97">
+        <properties>
+            <property name="kind" value="signExit"/>
+        </properties>
+    </tile>
+
+    <tile id="98">
+        <properties>
+            <property name="kind" value="signLeft"/>
+        </properties>
+    </tile>
+
+    <tile id="99">
+        <properties>
+            <property name="kind" value="signRight"/>
+        </properties>
+    </tile>
+
+    <tile id="100">
+        <properties>
+            <property name="kind" value="snow"/>
+        </properties>
+    </tile>
+
+    <tile id="101">
+        <properties>
+            <property name="kind" value="snowCenter"/>
+        </properties>
+    </tile>
+
+    <tile id="102">
+        <properties>
+            <property name="kind" value="snowCenter_rounded"/>
+        </properties>
+    </tile>
+
+    <tile id="103">
+        <properties>
+            <property name="kind" value="snowCliffAlt_left"/>
+        </properties>
+    </tile>
+
+    <tile id="104">
+        <properties>
+            <property name="kind" value="snowCliffAlt_right"/>
+        </properties>
+    </tile>
+
+    <tile id="105">
+        <properties>
+            <property name="kind" value="snowCliff_left"/>
+        </properties>
+    </tile>
+
+    <tile id="106">
+        <properties>
+            <property name="kind" value="snowCliff_right"/>
+        </properties>
+    </tile>
+
+    <tile id="107">
+        <properties>
+            <property name="kind" value="snowCorner_left"/>
+        </properties>
+    </tile>
+
+    <tile id="108">
+        <properties>
+            <property name="kind" value="snowCorner_right"/>
+        </properties>
+    </tile>
+
+    <tile id="109">
+        <properties>
+            <property name="kind" value="snowHalf"/>
+        </properties>
+    </tile>
+
+    <tile id="110">
+        <properties>
+            <property name="kind" value="snowHalf_left"/>
+        </properties>
+    </tile>
+
+    <tile id="111">
+        <properties>
+            <property name="kind" value="snowHalf_mid"/>
+        </properties>
+    </tile>
+
+    <tile id="112">
+        <properties>
+            <property name="kind" value="snowHalf_right"/>
+        </properties>
+    </tile>
+
+    <tile id="113">
+        <properties>
+            <property name="kind" value="snowHill_left"/>
+        </properties>
+    </tile>
+
+    <tile id="114">
+        <properties>
+            <property name="kind" value="snowHill_right"/>
+        </properties>
+    </tile>
+
+    <tile id="115">
+        <properties>
+            <property name="kind" value="snowLeft"/>
+        </properties>
+    </tile>
+
+    <tile id="116">
+        <properties>
+            <property name="kind" value="snowMid"/>
+        </properties>
+    </tile>
+
+    <tile id="117">
+        <properties>
+            <property name="kind" value="snowRight"/>
+        </properties>
+    </tile>
+
+    <tile id="118">
+        <properties>
+            <property name="kind" value="snow_pile"/>
+        </properties>
+    </tile>
+
+    <tile id="119">
+        <properties>
+            <property name="kind" value="spikes"/>
+        </properties>
+    </tile>
+
+    <tile id="120">
+        <properties>
+            <property name="kind" value="stone"/>
+        </properties>
+    </tile>
+
+    <tile id="121">
+        <properties>
+            <property name="kind" value="stoneCenter"/>
+        </properties>
+    </tile>
+
+    <tile id="122">
+        <properties>
+            <property name="kind" value="stoneCenter_rounded"/>
+        </properties>
+    </tile>
+
+    <tile id="123">
+        <properties>
+            <property name="kind" value="stoneCliffAlt_left"/>
+        </properties>
+    </tile>
+
+    <tile id="124">
+        <properties>
+            <property name="kind" value="stoneCliffAlt_right"/>
+        </properties>
+    </tile>
+
+    <tile id="125">
+        <properties>
+            <property name="kind" value="stoneCliff_left"/>
+        </properties>
+    </tile>
+
+    <tile id="126">
+        <properties>
+            <property name="kind" value="stoneCliff_right"/>
+        </properties>
+    </tile>
+
+    <tile id="127">
+        <properties>
+            <property name="kind" value="stoneCorner_left"/>
+        </properties>
+    </tile>
+
+    <tile id="128">
+        <properties>
+            <property name="kind" value="stoneCorner_right"/>
+        </properties>
+    </tile>
+
+    <tile id="129">
+        <properties>
+            <property name="kind" value="stoneHalf"/>
+        </properties>
+    </tile>
+
+    <tile id="130">
+        <properties>
+            <property name="kind" value="stoneHalf_left"/>
+        </properties>
+    </tile>
+
+    <tile id="131">
+        <properties>
+            <property name="kind" value="stoneHalf_mid"/>
+        </properties>
+    </tile>
+
+    <tile id="132">
+        <properties>
+            <property name="kind" value="stoneHalf_right"/>
+        </properties>
+    </tile>
+
+    <tile id="133">
+        <properties>
+            <property name="kind" value="stoneHill_left"/>
+        </properties>
+    </tile>
+
+    <tile id="134">
+        <properties>
+            <property name="kind" value="stoneHill_right"/>
+        </properties>
+    </tile>
+
+    <tile id="135">
+        <properties>
+            <property name="kind" value="stoneLeft"/>
+        </properties>
+    </tile>
+
+    <tile id="136">
+        <properties>
+            <property name="kind" value="stoneMid"/>
+        </properties>
+    </tile>
+
+    <tile id="137">
+        <properties>
+            <property name="kind" value="stoneRight"/>
+        </properties>
+    </tile>
+
+    <tile id="138">
+        <properties>
+            <property name="kind" value="switchGreen"/>
+        </properties>
+    </tile>
+
+    <tile id="139">
+        <properties>
+            <property name="kind" value="switchGreen_pressed"/>
+        </properties>
+    </tile>
+
+    <tile id="140">
+        <properties>
+            <property name="kind" value="switchRed"/>
+        </properties>
+    </tile>
+
+    <tile id="141">
+        <properties>
+            <property name="kind" value="switchRed_pressed"/>
+        </properties>
+    </tile>
+
+    <tile id="142">
+        <properties>
+            <property name="kind" value="torch1"/>
+        </properties>
+    </tile>
+
+    <tile id="143">
+        <properties>
+            <property name="kind" value="torch2"/>
+        </properties>
+    </tile>
+
+    <tile id="144">
+        <properties>
+            <property name="kind" value="torchOff"/>
+        </properties>
+    </tile>
+
+    <tile id="145">
+        <properties>
+            <property name="kind" value="water"/>
+        </properties>
+    </tile>
+
+    <tile id="146">
+        <properties>
+            <property name="kind" value="waterTop_high"/>
+        </properties>
+    </tile>
+
+    <tile id="147">
+        <properties>
+            <property name="kind" value="waterTop_low"/>
+        </properties>
+    </tile>
+
+
 </tileset>

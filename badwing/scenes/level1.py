@@ -83,7 +83,7 @@ class Level1(Level):
         self.butterfly_layer = self.add_animated_layer(ButterflyTileLayer(self, 'butterfly'))
         self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
         self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
-
+        
         if DEBUG_COLLISION:
             self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
             self.debug_list = debug_layer.debug_list
