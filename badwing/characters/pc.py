@@ -5,17 +5,16 @@ from pymunk.vec2d import Vec2d
 from pymunk.autogeometry import convex_decomposition, to_convex_hull
 
 import arcade
-
-from badwing.constants import *
-from badwing.util import debounce
-import badwing.app
-import badwing.avatar
-from badwing.model import Model, DynamicModel, KinematicModel
-from badwing.physics.util import check_grounding
-import badwing.character.skateboard
-
 from arcade import check_for_collision_with_list
 from arcade import check_for_collision
+
+from badwing.constants import *
+import badwing.app
+
+from badwing.util import debounce
+from badwing.model import Model, DynamicModel, KinematicModel
+from badwing.physics.util import check_grounding
+from badwing.character import CharacterAvatar
 
 CHARACTER_SCALING = 1
 
@@ -36,7 +35,7 @@ def load_texture_pair(filename):
         arcade.load_texture(filename, mirrored=True)
     ]
 
-class PlayerCharacterSprite(arcade.Sprite):
+class PcSprite(arcade.Sprite):
     def __init__(self, position):
         super().__init__(center_x=position[0], center_y=position[1])
 
@@ -172,11 +171,11 @@ class PlayerCharacter(KinematicModel):
 
     @classmethod
     def create(self, position=(192, 292)):
-        sprite = PlayerCharacterSprite(position)
+        sprite = PcSprite(position)
         return PlayerCharacter(sprite, position)
 
     def control(self):
-        return CharacterAvatar(self)
+        return PcAvatar(self)
 
     def on_add(self, layer):
         super().on_add(layer)
@@ -262,7 +261,7 @@ class PlayerCharacter(KinematicModel):
         self.sprite.position = (pos[0], pos[1])
         self.sprite.angle = math.degrees(angle)
 
-class CharacterAvatar(badwing.avatar.Avatar):
+class PcAvatar(CharacterAvatar):
     def __init__(self, pc):
         super().__init__(pc)
         self.physics_engine = badwing.app.physics_engine
@@ -290,7 +289,7 @@ class CharacterAvatar(badwing.avatar.Avatar):
         hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.pc_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
-            if isinstance(model, badwing.character.skateboard.Chassis):
+            if isinstance(model, badwing.characters.Chassis):
                 mount = model.parent
                 mount.mount(self.pc)
                 badwing.app.scene.push_pc(mount)

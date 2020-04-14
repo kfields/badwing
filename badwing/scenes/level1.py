@@ -17,8 +17,7 @@ from badwing.tile import TileLayer, StaticTileLayer
 from badwing.ladder import LadderLayer
 
 from badwing.character import CharacterTileLayer
-from badwing.character import Skateboard, Chassis
-from badwing.character import PlayerCharacter
+from badwing.characters import PlayerCharacter, Skateboard, Chassis
 
 from badwing.box import Box
 from badwing.ball import Ball
