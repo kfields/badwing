@@ -39,7 +39,7 @@ extensions = [
 ]
 
 apidoc_module_dir = '../badwing'
-apidoc_output_dir = 'source'
+apidoc_output_dir = 'reference'
 apidoc_excluded_paths = ['tests']
 apidoc_separate_modules = True
 #apidoc_separate_modules = False

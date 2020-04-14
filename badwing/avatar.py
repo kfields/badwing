@@ -3,7 +3,8 @@ import arcade
 import badwing.app
 
 class Avatar:
-    def __init__(self, passthrough=None):
+    def __init__(self, model=None, passthrough=None):
+        self.model = model
         self.passthrough = passthrough
         self.up_down = False
         self.left_down = False

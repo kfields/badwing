@@ -146,7 +146,7 @@ class PlayerCharacter(KinematicModel):
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
         self.body = body = self.create_kinematic_body(sprite, position)
-        self.create_shapes(sprite, body, position)
+        self.create_shapes_hull(sprite, body, position)
 
     def on_mount(self, position):
         super().on_mount()
@@ -229,6 +229,23 @@ class PlayerCharacter(KinematicModel):
             shape.elasticity = 0.2
             shape.collision_type = collision_type
             self.shapes.append(shape)
+
+    def create_shapes_hull(self, sprite, body, position, collision_type=CT_KINEMATIC, transform=None):
+        self.shapes = []
+        sprite.position = position
+        center = Vec2d(position)
+        points = sprite.points
+        #print(points)
+        poly = to_convex_hull(sprite.points, .01)
+        #print(poly)
+        #points = [(i.x, i.y) for i in poly ]
+        points = [i - center for i in poly ]
+        #print(points)
+        shape = pymunk.Poly(body, points, transform)
+        shape.friction = 10
+        shape.elasticity = 0.2
+        shape.collision_type = collision_type
+        self.shapes.append(shape)
 
     # Hack in sprite transform here for now.  Move up the hierarchy later
     def update_sprite(self, delta_time=1/60):

@@ -4,12 +4,9 @@
    contain the root `toctree` directive.
 
 BadWing |:butterfly:|
-=======
+=====================
 
 Skateboarder/Platformer/Lepidopterist Game using Arcade & Pymunk
-
-.. automodule:: badwing.dude
-    :members:
 
 .. toctree::
    :maxdepth: 2
@@ -17,7 +14,7 @@ Skateboarder/Platformer/Lepidopterist Game using Arcade & Pymunk
 
    usage/installation
    usage/quickstart
-   source/modules
+   reference/modules
 
 
 Indices and tables

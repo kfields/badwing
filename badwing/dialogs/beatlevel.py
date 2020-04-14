@@ -11,12 +11,9 @@ import badwing.dialog
 
 class Avatar(badwing.avatar.Avatar):
     def on_key_press(self, key, modifiers):
-        pass
-        #TODO: causing it to close on open :(
-        '''
         if key == arcade.key.ESCAPE:
             badwing.app.scene.close_dialog()
-        '''
+        
 
 class NextButton(arcade.gui.TextButton):
     def __init__(self, view, x, y, width=200, height=50, text="Next", theme=None):

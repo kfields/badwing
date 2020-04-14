@@ -10,7 +10,6 @@ from badwing.assets import asset
 from badwing.util import debounce
 import badwing.avatar
 from badwing.model import DynamicModel, Group
-from badwing.character.dude import Dude
 
 
 WHEEL_RADIUS = 32
@@ -24,6 +23,7 @@ X_PAD = 32
 Y_PAD = 32
 
 SPEED_DELTA = 1
+MAX_SPEED = 100
 
 class Wheel(DynamicModel):
     def __init__(self, sprite, position=(0,0)):
@@ -116,7 +116,7 @@ class Skateboard(Group):
         return Skateboard(position)
 
     def control(self):
-        return  Avatar(self)
+        return Avatar(self)
 
     def mount(self, mountee):
         self.mountee = mountee
@@ -153,12 +153,18 @@ class Skateboard(Group):
         self.motors_attached = False
 
     def accelerate(self, rate=SPEED_DELTA):
-        self.speed += rate
+        speed = self.speed + rate
+        if speed > MAX_SPEED:
+            return
+        self.speed = speed
         if not self.motors_attached:
             self.attach_motors()
 
     def decelerate(self, rate=SPEED_DELTA):
-        self.speed -= rate
+        speed = self.speed - rate
+        if speed < -MAX_SPEED:
+            return
+        self.speed = speed
         if not self.motors_attached:
             self.attach_motors()
 
@@ -191,7 +197,6 @@ class Avatar(badwing.avatar.Avatar):
             self.right_down = True
 
     def on_key_release(self, key, modifiers):
-        """Called when the user releases a key. """
         if key == arcade.key.UP or key == arcade.key.W:
             self.up_down = False
         elif key == arcade.key.LEFT or key == arcade.key.A:

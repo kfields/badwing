@@ -62,7 +62,7 @@ class PauseDialog(badwing.dialog.Dialog):
         self.center_y = self.height / 2
 
     def control(self):
-        return Avatar(self)
+        return Avatar(passthrough=self)
 
     def add_buttons(self):
         #print(self.half_height)

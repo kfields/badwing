@@ -7,8 +7,10 @@ Subpackages
 .. toctree::
 
    badwing.butterfly
+   badwing.character
    badwing.command
    badwing.physics
+   badwing.player
    badwing.util
 
 Submodules
@@ -24,11 +26,9 @@ Submodules
    badwing.barrier
    badwing.box
    badwing.brain
-   badwing.character
    badwing.constants
    badwing.debug
    badwing.dialog
-   badwing.dude
    badwing.effect
    badwing.firework
    badwing.flag
@@ -39,9 +39,7 @@ Submodules
    badwing.model
    badwing.obstacle
    badwing.particle
-   badwing.player
    badwing.scene
-   badwing.skateboard
    badwing.tile
    badwing.version
 

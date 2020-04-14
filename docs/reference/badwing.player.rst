@@ -1,5 +1,8 @@
-badwing.player module
-=====================
+badwing.player package
+======================
+
+Module contents
+---------------
 
 .. automodule:: badwing.player
    :members:
