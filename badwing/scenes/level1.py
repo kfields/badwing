@@ -6,17 +6,18 @@ import arcade
 import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
-import badwing.level
+from badwing.level import Level
 
-from badwing.physics.dynamic import DynamicPhysics
-from badwing.physics.kinematic import KinematicPhysics
+from badwing.physics.dynamic import DynamicPhysicsEngine
+from badwing.physics.kinematic import KinematicPhysicsEngine
 from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 from badwing.tile import TileLayer, StaticTileLayer
 from badwing.ladder import LadderLayer
-from badwing.skateboard import Wheel, Skateboard
-from badwing.dude import Dude
+
+from badwing.character import CharacterTileLayer
+from badwing.character import Skateboard, Chassis
 from badwing.character import PlayerCharacter
 
 from badwing.box import Box
@@ -27,20 +28,14 @@ from badwing.firework import Firework
 from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
-#next level
-import badwing.scenes.level2
-
-class Level1(badwing.level.Level):
+class Level1(Level):
     def __init__(self):
         super().__init__('level1')
 
-        # Separate variable that holds the player sprite
-        self.player_sprite = None
-
         # Our physics engine
-        #self.physics = physics = KinematicPhysics(k_gravity=K_GRAVITY)
-        self.physics = physics = DynamicPhysics()
-        self.space = physics.space
+        self.physics_engine = physics_engine = KinematicPhysicsEngine(k_gravity=K_GRAVITY)
+        #self.physics_engine = physics_engine = DynamicPhysicsEngine()
+        self.space = physics_engine.space
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
@@ -85,7 +80,7 @@ class Level1(badwing.level.Level):
         self.flag_layer = flag_layer = self.add_animated_layer(FlagTileLayer(self, 'flags'))
         self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
         self.spark_layer = self.add_layer(Layer(self, 'spark'))
-        self.player_layer = player_layer = self.add_layer(Layer(self, 'player'))
+        self.pc_layer = pc_layer = self.add_animated_layer(CharacterTileLayer(self, 'pc'))
         self.butterfly_layer = self.add_animated_layer(ButterflyTileLayer(self, 'butterfly'))
         self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
         self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
@@ -94,34 +89,27 @@ class Level1(badwing.level.Level):
             self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
             self.debug_list = debug_layer.debug_list
         
-        # player_layer.add_model(Box.create())
+        # pc_layer.add_model(Box.create())
         
-        '''
-        player = Dude.create()
-        player_layer.add_model(player)
-        '''
-        '''
-        player = PlayerCharacter.create()
-        player_layer.add_model(player)
-        '''
-        
-        player = Skateboard.create(position=(392, 192))
-        player_layer.add_model(player)
-        
-        self.player = player
-        self.player_sprite = player.dude.sprite
+        pc = None
+        for model in pc_layer.models:
+            if isinstance(model, PlayerCharacter):
+                pc = model
+                break
+        self.push_pc(pc)
 
         # --- Other stuff
         # Set the background color
         if self.map.background_color:
             arcade.set_background_color(self.background_color)
 
+        self.physics_engine.setup()
+
     def post_setup(self):
         super().post_setup()
-        self.push_avatar(self.player.control())
 
     def check_butterflies(self):
-        hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.butterfly_layer.sprites)
+        hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.butterfly_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
             if badwing.app.player.collect(model):
@@ -131,7 +119,7 @@ class Level1(badwing.level.Level):
                 arcade.play_sound(self.collect_butterfly_sound)
 
     def check_flags(self):
-        hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.flag_layer.sprites)
+        hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.flag_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
             if badwing.app.player.collect(model):
@@ -151,26 +139,26 @@ class Level1(badwing.level.Level):
 
         # Scroll left
         left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN
-        if self.player_sprite.left < left_boundary:
-            self.view_left -= left_boundary - self.player_sprite.left
+        if self.pc_sprite.left < left_boundary:
+            self.view_left -= left_boundary - self.pc_sprite.left
             changed = True
 
         # Scroll right
         right_boundary = self.view_left + SCREEN_WIDTH - RIGHT_VIEWPORT_MARGIN
-        if self.player_sprite.right > right_boundary:
-            self.view_left += self.player_sprite.right - right_boundary
+        if self.pc_sprite.right > right_boundary:
+            self.view_left += self.pc_sprite.right - right_boundary
             changed = True
 
         # Scroll up
         top_boundary = self.view_bottom + SCREEN_HEIGHT - TOP_VIEWPORT_MARGIN
-        if self.player_sprite.top > top_boundary:
-            self.view_bottom += self.player_sprite.top - top_boundary
+        if self.pc_sprite.top > top_boundary:
+            self.view_bottom += self.pc_sprite.top - top_boundary
             changed = True
 
         # Scroll down
         bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
-        if self.player_sprite.bottom < bottom_boundary:
-            self.view_bottom -= bottom_boundary - self.player_sprite.bottom
+        if self.pc_sprite.bottom < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.pc_sprite.bottom
             changed = True
 
         if changed:

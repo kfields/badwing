@@ -50,7 +50,7 @@ class Flag(Model):
         old_sprite = self.sprite
         self.sprite = sprite = arcade.Sprite()
         sprite.texture = old_sprite.texture
-        old_sprite.kill()
+        old_sprite.remove_from_sprite_lists()
         return collected
 
 

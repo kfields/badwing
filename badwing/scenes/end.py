@@ -10,8 +10,8 @@ from badwing.assets import asset
 from badwing.level import Level
 from badwing.avatar import Avatar
 
-from badwing.physics.dynamic import DynamicPhysics
-from badwing.physics.kinematic import KinematicPhysics
+from badwing.physics.dynamic import DynamicPhysicsEngine
+from badwing.physics.kinematic import KinematicPhysicsEngine
 from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
@@ -46,9 +46,9 @@ class EndScreen(Level):
     def __init__(self):
         super().__init__('start')
         # Our physics engine
-        #self.physics = physics = KinematicPhysics(k_gravity=K_GRAVITY)
-        self.physics = physics = DynamicPhysics()
-        self.space = physics.space
+        #self.physics_engine = physics_engine = KinematicPhysicsEngine(k_gravity=K_GRAVITY)
+        self.physics_engine = physics_engine = DynamicPhysicsEngine()
+        self.space = physics_engine.space
 
         self.width = badwing.app.game.width
         self.height = badwing.app.game.height
@@ -112,7 +112,7 @@ class EndScreen(Level):
         self.butterfly_layer = butterfly_layer = Layer(self, 'butterflies')
         butterflies = Butterflies.create_random(20, (0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
         self.butterfly_layer.add_model(butterflies)
-        self.add_layer(butterfly_layer)
+        self.add_animated_layer(butterfly_layer)
 
         self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
         self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
@@ -131,12 +131,7 @@ class EndScreen(Level):
 
     def update(self, delta_time):
         super().update(delta_time)
-        """ Movement and game logic """
-        # Move the player with the physics engine
-        self.physics.update()
-
-        self.butterfly_layer.update_animation(delta_time)
-
+        self.physics_engine.update()
 
     def draw(self):
         super().draw()

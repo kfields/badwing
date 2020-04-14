@@ -6,6 +6,9 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = 'BadWing'
 
+# Debug
+DEBUG_COLLISION = False
+
 # Default friction used for sprites, unless otherwise specified
 DEFAULT_FRICTION = 0.2
 
@@ -21,8 +24,19 @@ PLAYER_MOVE_FORCE = 700
 PLAYER_JUMP_IMPULSE = 600
 PLAYER_PUNCH_IMPULSE = 600
 
+# Kinematic Constants
+# Movement speed of player, in pixels per frame
+PLAYER_MOVEMENT_SPEED = 500
+PLAYER_JUMP_SPEED = 750
+K_GRAVITY = 30
+
+# Collision Types
+CT_STATIC = 0
+CT_KINEMATIC = 1
+CT_DYNAMIC = 2
+
 # Grid-size
-SPRITE_SIZE = 64
+SPRITE_SIZE = 128
 
 # How close we get to the edge before scrolling
 VIEWPORT_MARGIN = 100
@@ -37,21 +51,12 @@ COIN_SCALING = 0.5
 SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 
-# Kinematic Constants
-# Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 10
-PLAYER_JUMP_SPEED = 25
-K_GRAVITY = 1
-
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
 LEFT_VIEWPORT_MARGIN = 250
 RIGHT_VIEWPORT_MARGIN = 250
 BOTTOM_VIEWPORT_MARGIN = 100
 TOP_VIEWPORT_MARGIN = 100
-
-# Debug
-DEBUG_COLLISION = False
 
 RAINBOW_COLORS = (
     arcade.color.ELECTRIC_CRIMSON,

@@ -29,6 +29,7 @@ class Tile(StaticModel):
 
         shape = pymunk.Poly(body, vertices)
         shape.friction = 10
+        #shape.collision_type = CT_STATIC
         self.shapes.append(shape)
 
     def update(self, dt):

@@ -14,17 +14,25 @@ from badwing.player import Player
 from badwing.scene import Scene
 
 class MyGame(arcade.Window):
-    def __init__(self):
+    def __init__(self, debug=False):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         badwing.app.game = self
-
+        self.debug = debug
         self.scene = None
         self.theme = None
         self.player = Player()
 
+    @property
+    def avatar(self):
+        return badwing.app.avatar
+
     def get_start_scene(self):
-        from badwing.scenes.start import StartScene
-        return StartScene
+        if self.debug:
+            from badwing.scenes.level1 import Level1
+            return Level1
+        else:
+            from badwing.scenes.start import StartScene
+            return StartScene
 
     def show_scene(self, scene_class, delay=0):
 
@@ -70,11 +78,9 @@ class MyGame(arcade.Window):
 
     def update(self, delta_time):
         super().update(delta_time)
-        if badwing.app.avatar:
-            badwing.app.avatar.update(delta_time)
         self.player.update(delta_time)
 
-def main(production=False):
+def main(debug=False):
     pip_assets_dir = os.path.join(sys.prefix, 'share/badwing/assets')
     is_pip_install = os.path.isdir(pip_assets_dir)
     if is_pip_install:
@@ -82,14 +88,14 @@ def main(production=False):
     else:
         badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../assets')
     
-    if not production:
+    if debug:
         if is_pip_install:
             raise Exception('You need to run this in the project root directory!')
     else:
         pass
     
     """ Main method """
-    game = MyGame()
+    game = MyGame(debug=debug)
     game.show_scene(game.get_start_scene())
     game.setup()
     arcade.run()

@@ -4,7 +4,6 @@ import badwing.app
 
 class Avatar:
     def __init__(self, passthrough=None):
-        #badwing.app.avatar = self
         self.passthrough = passthrough
         self.up_down = False
         self.left_down = False

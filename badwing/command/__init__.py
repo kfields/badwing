@@ -11,9 +11,9 @@ def cli(ctx):
 @cli.command()
 @click.pass_context
 def dev(ctx):
-    main()
+    main(debug=True)
 
 @cli.command()
 @click.pass_context
 def run(ctx):
-    main(True)
+    main()

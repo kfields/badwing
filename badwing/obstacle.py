@@ -78,36 +78,18 @@ class RockBig1(Obstacle):
             shape = pymunk.Poly(body, points)
             shape.friction = 10
             shape.elasticity = 0.2
-            self.shapes.append(shape)        
+            self.shapes.append(shape)
 
     @classmethod
     def create(self, sprite):
         return RockBig1(sprite, position=(sprite.center_x, sprite.center_y))
-    '''
-    def update(self, delta_time):
-        super().update(delta_time)
-        print(self.position)
-    '''
+
 class ObstacleTileLayer(DynamicTileLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
         for sprite in self.sprites:
             model = Obstacle.create(sprite)
             self.add_model(model)
-
-'''
-class ObstacleObjectLayer(DynamicTileLayer):
-    def __init__(self, level, name):
-        super().__init__(level, name)
-        orig_sprites = self.sprites
-        self.sprites = arcade.SpriteList()
-        for orig_sprite in orig_sprites:
-            #print(vars(orig_sprite))
-            #print(orig_sprite.properties)
-            model = Butterfly.create(orig_sprite)
-            self.sprites.append(model.sprite)
-            self.add_model(model)
-'''
 
 kinds = {
     'BoxCrateDouble': BoxCrateDouble,

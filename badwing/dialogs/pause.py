@@ -9,7 +9,6 @@ from badwing.assets import asset
 from badwing.scene import Scene
 import badwing.dialog
 
-import badwing.scenes.start
 
 class Avatar(badwing.avatar.Avatar):
     def on_key_press(self, key, modifiers):
@@ -45,6 +44,7 @@ class QuitButton(arcade.gui.TextButton):
             return
         self.pressed = True
         #print('quit')
+        import badwing.scenes.start
         badwing.app.game.show_scene(badwing.scenes.start.StartScene)
 
     def on_release(self):

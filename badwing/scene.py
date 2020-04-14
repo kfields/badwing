@@ -32,6 +32,16 @@ class Scene(arcade.application.View):
     def avatar(self):
         return self.avatar_stack[-1]
 
+    def push_avatar(self, avatar):
+        self.avatar_stack.append(avatar)
+        badwing.app.avatar = avatar
+
+    def pop_avatar(self):
+        print('pop_avatar')
+        avatar =  self.avatar_stack.pop()
+        badwing.app.avatar = avatar
+        return avatar
+
     def pause(self):
         self.paused = True
 
@@ -63,6 +73,9 @@ class Scene(arcade.application.View):
 
     def update(self, delta_time):
         super().update(delta_time)
+        if self.avatar:
+            self.avatar.update(delta_time)
+
         for layer in self.layers:
             layer.update(delta_time)
         for layer in self.animated_layers:
@@ -86,15 +99,6 @@ class Scene(arcade.application.View):
         arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         self.dialog.draw()
         arcade.set_viewport(viewport[0], viewport[1], viewport[2], viewport[3])
-                
-    def push_avatar(self, avatar):
-        self.avatar_stack.append(badwing.app.avatar)
-        badwing.app.avatar = avatar
-
-    def pop_avatar(self):
-        avatar =  self.avatar_stack.pop()
-        badwing.app.avatar = avatar
-        return avatar
 
     def open_dialog(self, dialog):
         self.pause()
