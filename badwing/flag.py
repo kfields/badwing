@@ -38,7 +38,7 @@ class Flag(Model):
 
     @classmethod
     def create(self, sprite):
-        kind = sprite.properties['kind']
+        kind = sprite.properties['type']
         model = kinds[kind].create(sprite)
         return model
 
@@ -80,7 +80,7 @@ class FlagTileLayer(TileLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
         for sprite in self.sprites:
-            kind = sprite.properties['kind']
+            kind = sprite.properties['type']
             if kind == 'Pole':
                 model = Pole(sprite)
             else:

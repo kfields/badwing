@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.2" tiledversion="1.3.3" name="obstacles" tilewidth="120" tileheight="98" tilecount="10" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
- <tile id="0">
-  <properties>
-   <property name="kind" value="RockBig1"/>
-  </properties>
+ <tile id="0" type="RockBig1">
   <image width="101" height="84" source="obstacles/meteorGrey_big1.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="17.5" y="2.25">

@@ -113,7 +113,7 @@ class Butterfly(Model):
 
     @classmethod
     def create_from(self, sprite):
-        kind = sprite.properties['kind']
+        kind = sprite.properties['type']
         #pos = (orig_sprite.center_x, orig_sprite.center_y)
         pos = sprite.position
         border = (pos[0]-HALF_RANGE, pos[1]-HALF_RANGE, pos[0]+HALF_RANGE, pos[1]+HALF_RANGE)

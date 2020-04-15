@@ -75,6 +75,7 @@ class Level1(Level):
 
         self.add_layer(BarrierLayer(self, 'barrier'))
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
+        self.scenery_layer = self.add_layer(TileLayer(self, 'scenery'))
         self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
         self.flag_layer = flag_layer = self.add_animated_layer(FlagTileLayer(self, 'flags'))
         self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))

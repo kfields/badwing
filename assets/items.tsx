@@ -13,10 +13,7 @@
  <tile id="3">
   <image width="128" height="128" source="items/coinSilver.png"/>
  </tile>
- <tile id="4">
-  <properties>
-   <property name="kind" value="FlagGreen"/>
-  </properties>
+ <tile id="4" type="FlagGreen">
   <image width="128" height="128" source="items/flagGreen_down.png"/>
   <animation>
    <frame tileid="4" duration="100"/>
@@ -30,10 +27,7 @@
  <tile id="6">
   <image width="128" height="128" source="items/flagGreen2.png"/>
  </tile>
- <tile id="7">
-  <properties>
-   <property name="kind" value="FlagRed"/>
-  </properties>
+ <tile id="7" type="FlagRed">
   <image width="128" height="128" source="items/flagRed_down.png"/>
   <animation>
    <frame tileid="7" duration="200"/>
@@ -47,10 +41,7 @@
  <tile id="9">
   <image width="128" height="128" source="items/flagRed2.png"/>
  </tile>
- <tile id="10">
-  <properties>
-   <property name="kind" value="FlagYellow"/>
-  </properties>
+ <tile id="10" type="FlagYellow">
   <image width="128" height="128" source="items/flagYellow_down.png"/>
   <animation>
    <frame tileid="10" duration="200"/>
@@ -91,10 +82,7 @@
  <tile id="21">
   <image width="128" height="128" source="items/star.png"/>
  </tile>
- <tile id="22">
-  <properties>
-   <property name="kind" value="Pole"/>
-  </properties>
+ <tile id="22" type="Pole">
   <image width="128" height="128" source="items/pole.png"/>
  </tile>
 </tileset>

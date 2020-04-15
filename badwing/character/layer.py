@@ -12,7 +12,7 @@ class CharacterTileLayer(TileLayer):
         self.sprites = arcade.SpriteList()
 
         for sprite in orig_sprites:
-            kind = sprite.properties.get('kind')
+            kind = sprite.properties.get('type')
             if not kind:
                 continue
             position = sprite.position

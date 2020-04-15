@@ -15,7 +15,7 @@ class Obstacle(DynamicModel):
 
     @classmethod
     def create(self, sprite):
-        kind = sprite.properties['kind']
+        kind = sprite.properties['type']
         model = kinds[kind].create(sprite)
         #print(model)
         #print(vars(sprite))
