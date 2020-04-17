@@ -72,7 +72,6 @@ class EndScreen(Level):
     def create(self):
         level = EndScreen()
         level.setup()
-        level.post_setup()
         return level
         
     #next level

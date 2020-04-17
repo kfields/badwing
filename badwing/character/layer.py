@@ -22,5 +22,6 @@ class CharacterTileLayer(TileLayer):
 
 kinds = {
     'PlayerCharacter': PlayerCharacter,
+    'hero': PlayerCharacter,
     'Skateboard': Skateboard
 }

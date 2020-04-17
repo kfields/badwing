@@ -103,7 +103,7 @@ class ButterflySprite(arcade.Sprite):
 
 class Butterfly(Model):
     def __init__(self, sprite, border=(0,0,640,480)):
-        super().__init__(sprite, ButterflyBrain(self))
+        super().__init__(sprite, brain=ButterflyBrain(self))
         self.border = border
 
     @classmethod

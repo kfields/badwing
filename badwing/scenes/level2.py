@@ -1,20 +1,11 @@
-import sys
-import os
-
-import arcade
-
-import badwing.app
-from badwing.constants import *
-from badwing.assets import asset
-from badwing.scenes.level1 import Level1
+from badwing.level import TileLevel
 
 
-class Level2(Level1):
+class Level2(TileLevel):
     @classmethod
     def create(self):
-        level = Level2()
+        level = Level2('level2')
         level.setup()
-        level.post_setup()
         return level
 
     #next level

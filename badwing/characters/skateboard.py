@@ -13,11 +13,11 @@ from badwing.model import DynamicModel, Group
 
 
 WHEEL_RADIUS = 32
-WHEEL_MASS = 1
+WHEEL_MASS = .5
 
 CHASSIS_WIDTH = 128
 CHASSIS_HEIGHT = 16
-CHASSIS_MASS = 2
+CHASSIS_MASS = 1
 
 X_PAD = 32
 Y_PAD = 32
@@ -28,16 +28,7 @@ MAX_SPEED = 100
 class Wheel(DynamicModel):
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
-        mass = WHEEL_MASS
-        radius = WHEEL_RADIUS
-        inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
-        self.body = body = pymunk.Body(mass, inertia)
-        body.position = position
-
-        shape = pymunk.Circle(body, radius, (0, 0))
-        shape.elasticity = 0.95
-        shape.friction = 0.9
-        self.shapes.append(shape)
+        self.position = position
 
     @classmethod
     def create(self, position=(0,0)):
@@ -49,29 +40,32 @@ class Wheel(DynamicModel):
         super().on_add(layer)
         layer.add_sprite(self.sprite)
 
+    def create_body(self):
+        #print(self.position)
+        mass = WHEEL_MASS
+        radius = WHEEL_RADIUS
+        inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
+        self.body = body = pymunk.Body(mass, inertia)
+        body.position = self.position
+
+    def create_shapes(self):
+        print('wheel')
+        radius = WHEEL_RADIUS
+        shape = pymunk.Circle(self.body, radius, (0, 0))
+        shape.elasticity = 0.95
+        shape.friction = 0.9
+        shape.filter = pymunk.ShapeFilter(self.gid)
+        self.shapes.append(shape)
+
 
 class Chassis(DynamicModel):
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
-
-        #width = sprite.texture.width * TILE_SCALING
-        width = CHASSIS_WIDTH * TILE_SCALING
-        height = CHASSIS_HEIGHT * TILE_SCALING
-
-        mass = CHASSIS_MASS
-        moment = pymunk.moment_for_box(mass, (width, height))
-        self.body = body = pymunk.Body(mass, moment)
-        body.position = position
-
-        shape = pymunk.Poly.create_box(body, (width, height))
-        shape.friction = 10
-        shape.elasticity = 0.2
-        self.shapes.append(shape)
+        self.position = position
 
     @classmethod
     def create(self, position=(192, 192)):
         img_src = asset("tiles/boxCrate.png")
-        #sprite = arcade.Sprite(img_src, CHARACTER_SCALING, image_width=TILE_WIDTH, image_height=CHASSIS_HEIGHT)
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         sprite.width = TILE_WIDTH * TILE_SCALING * 2
         sprite.height = CHASSIS_HEIGHT * TILE_SCALING
@@ -81,35 +75,45 @@ class Chassis(DynamicModel):
         super().on_add(layer)
         layer.add_sprite(self.sprite)
 
+    def create_body(self):
+        print('body')
+        position = self.position
+        width = CHASSIS_WIDTH * TILE_SCALING
+        height = CHASSIS_HEIGHT * TILE_SCALING
+
+        mass = CHASSIS_MASS
+        moment = pymunk.moment_for_box(mass, (width, height))
+        self.body = body = pymunk.Body(mass, moment)
+        body.position = position
+
+    def create_shapes(self):
+        width = CHASSIS_WIDTH * TILE_SCALING
+        height = CHASSIS_HEIGHT * TILE_SCALING
+
+        shape = pymunk.Poly.create_box(self.body, (width, height))
+        shape.friction = 10
+        shape.elasticity = 0.2
+        shape.filter = pymunk.ShapeFilter(self.gid)
+        self.shapes.append(shape)
+
 
 class Skateboard(Group):
     def __init__(self, position=(292, 192)):
         super().__init__()
+        self.position = position
         self.mountee = None
         self.mountee_pins = []
         self.speed = 0
         self.motors_attached = True
 
         chassis_pos = Vec2d(position)
-        back_wheel_pos = chassis_pos - (CHASSIS_WIDTH/2+X_PAD, Y_PAD)
         front_wheel_pos = chassis_pos - (-(CHASSIS_WIDTH/2+X_PAD), Y_PAD)
+        back_wheel_pos = chassis_pos - (CHASSIS_WIDTH/2+X_PAD, Y_PAD)
 
-        self.back_wheel = back_wheel = self.add_model(Wheel.create(back_wheel_pos))
         self.chassis = chassis = self.add_model(Chassis.create(chassis_pos))
         self.sprite = chassis.sprite
         self.front_wheel = front_wheel = self.add_model(Wheel.create(front_wheel_pos))
-
-        p1 = pymunk.PinJoint(back_wheel.body, chassis.body, (0,0), (-CHASSIS_WIDTH/2,0))
-        p2 = pymunk.PinJoint(back_wheel.body, chassis.body, (0,0), (0,-CHASSIS_HEIGHT/2))
-        p3 = pymunk.PinJoint(front_wheel.body, chassis.body, (0,0), (CHASSIS_WIDTH/2,0))
-        p4 = pymunk.PinJoint(front_wheel.body, chassis.body, (0,0), (0,-CHASSIS_HEIGHT/2))
-
-        self.front_motor = m1 = pymunk.constraint.SimpleMotor(front_wheel.body, chassis.body, -self.speed)
-        m1.max_force = 200000
-        self.back_motor = self.motor = m2 = pymunk.constraint.SimpleMotor(back_wheel.body, chassis.body, -self.speed)
-        m2.max_force = 200000
-
-        badwing.app.physics_engine.space.add(p1, p2, p3, p4, m1, m2)
+        self.back_wheel = back_wheel = self.add_model(Wheel.create(back_wheel_pos))
 
     @classmethod
     def create(self, position=(292, 192)):
@@ -134,10 +138,24 @@ class Skateboard(Group):
         self.mountee.on_dismount(position)
 
     def on_add(self, layer):
-        #super().on_add(layer)
+        super().on_add(layer)
+        position = self.position
+        '''
         layer.add_model(self.chassis)
         layer.add_model(self.front_wheel)
         layer.add_model(self.back_wheel)
+        '''
+        p1 = pymunk.PinJoint(self.back_wheel.body, self.chassis.body, (0,0), (-CHASSIS_WIDTH/2,0))
+        p2 = pymunk.PinJoint(self.back_wheel.body, self.chassis.body, (0,0), (0,-CHASSIS_HEIGHT/2))
+        p3 = pymunk.PinJoint(self.front_wheel.body, self.chassis.body, (0,0), (CHASSIS_WIDTH/2,0))
+        p4 = pymunk.PinJoint(self.front_wheel.body, self.chassis.body, (0,0), (0,-CHASSIS_HEIGHT/2))
+
+        self.front_motor = m1 = pymunk.constraint.SimpleMotor(self.front_wheel.body, self.chassis.body, -self.speed)
+        m1.max_force = 200000
+        self.back_motor = self.motor = m2 = pymunk.constraint.SimpleMotor(self.back_wheel.body, self.chassis.body, -self.speed)
+        m2.max_force = 200000
+
+        badwing.app.physics_engine.space.add(p1, p2, p3, p4, m1, m2)
 
     def attach_motors(self):
         if self.motors_attached:

@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="40" height="80" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#35495e" nextlayerid="13" nextobjectid="473">
+ <editorsettings>
+  <export target="stickers"/>
+ </editorsettings>
+ <tileset firstgid="1" name="objs" tilewidth="384" tileheight="332" tilecount="62" columns="0">
+  <tile id="0">
+   <image width="160" height="192" source="stickers/alter.png"/>
+  </tile>
+  <tile id="1">
+   <image width="96" height="64" source="stickers/blobBlue.png"/>
+  </tile>
+  <tile id="2">
+   <image width="96" height="64" source="stickers/blobGreen.png"/>
+  </tile>
+  <tile id="3">
+   <image width="64" height="64" source="stickers/blue.png"/>
+  </tile>
+  <tile id="4">
+   <image width="96" height="128" source="stickers/bombStroked.png"/>
+  </tile>
+  <tile id="5">
+   <image width="64" height="64" source="stickers/castleWall.png"/>
+  </tile>
+  <tile id="6">
+   <image width="384" height="128" source="stickers/cloud.png"/>
+  </tile>
+  <tile id="7">
+   <image width="128" height="192" source="stickers/column1.png"/>
+  </tile>
+  <tile id="8">
+   <image width="128" height="192" source="stickers/column2.png"/>
+  </tile>
+  <tile id="9">
+   <image width="160" height="192" source="stickers/doorBlueStroked.png"/>
+  </tile>
+  <tile id="10">
+   <image width="160" height="192" source="stickers/doorGreenStroke.png"/>
+  </tile>
+  <tile id="11">
+   <image width="160" height="192" source="stickers/doorRedStroked.png"/>
+  </tile>
+  <tile id="12">
+   <image width="160" height="192" source="stickers/doorStroked.png"/>
+  </tile>
+  <tile id="13">
+   <image width="64" height="64" source="stickers/earthWall.png"/>
+  </tile>
+  <tile id="14">
+   <image width="160" height="192" source="stickers/exit.png"/>
+  </tile>
+  <tile id="15">
+   <image width="192" height="192" source="stickers/flare.png"/>
+  </tile>
+  <tile id="16">
+   <image width="64" height="64" source="stickers/gemBlueStroked.png"/>
+  </tile>
+  <tile id="17">
+   <image width="64" height="64" source="stickers/gemRedStroked.png"/>
+  </tile>
+  <tile id="18">
+   <image width="224" height="32" source="stickers/grassLarge.png"/>
+  </tile>
+  <tile id="19">
+   <image width="160" height="32" source="stickers/grassSmall.png"/>
+  </tile>
+  <tile id="20">
+   <image width="64" height="64" source="stickers/grey.png"/>
+  </tile>
+  <tile id="21">
+   <image width="128" height="160" source="stickers/hero.png"/>
+  </tile>
+  <tile id="22">
+   <image width="96" height="64" source="stickers/keyGreenStroked.png"/>
+  </tile>
+  <tile id="23">
+   <image width="96" height="64" source="stickers/keyRedStroked.png"/>
+  </tile>
+  <tile id="24">
+   <image width="96" height="64" source="stickers/keyYellowStroked.png"/>
+  </tile>
+  <tile id="25">
+   <image width="192" height="64" source="stickers/platform1.png"/>
+  </tile>
+  <tile id="26">
+   <image width="192" height="64" source="stickers/platform2.png"/>
+  </tile>
+  <tile id="27">
+   <image width="192" height="64" source="stickers/platform3.png"/>
+  </tile>
+  <tile id="28">
+   <image width="192" height="64" source="stickers/platform4.png"/>
+  </tile>
+  <tile id="29">
+   <image width="256" height="96" source="stickers/platformBase1.png"/>
+  </tile>
+  <tile id="30">
+   <image width="256" height="96" source="stickers/platformBase2.png"/>
+  </tile>
+  <tile id="31">
+   <image width="256" height="96" source="stickers/platformBase3.png"/>
+  </tile>
+  <tile id="32">
+   <image width="256" height="96" source="stickers/platformBase4.png"/>
+  </tile>
+  <tile id="33">
+   <image width="128" height="96" source="stickers/platformBlock1.png"/>
+  </tile>
+  <tile id="34">
+   <image width="128" height="96" source="stickers/platformBlock2.png"/>
+  </tile>
+  <tile id="35">
+   <image width="128" height="96" source="stickers/platformBlock3.png"/>
+  </tile>
+  <tile id="36">
+   <image width="128" height="96" source="stickers/platformBlock4.png"/>
+  </tile>
+  <tile id="37">
+   <image width="96" height="64" source="stickers/platformConnector1.png"/>
+  </tile>
+  <tile id="38">
+   <image width="96" height="64" source="stickers/platformConnector2.png"/>
+  </tile>
+  <tile id="39">
+   <image width="96" height="64" source="stickers/platformConnector3.png"/>
+  </tile>
+  <tile id="40">
+   <image width="96" height="64" source="stickers/platformConnector4.png"/>
+  </tile>
+  <tile id="41">
+   <image width="96" height="96" source="stickers/pushBlock1.png"/>
+  </tile>
+  <tile id="42">
+   <image width="96" height="96" source="stickers/pushBlock2.png"/>
+  </tile>
+  <tile id="43">
+   <image width="96" height="96" source="stickers/pushBlock3.png"/>
+  </tile>
+  <tile id="44">
+   <image width="64" height="64" source="stickers/shadow.png"/>
+  </tile>
+  <tile id="45">
+   <image width="93" height="93" source="stickers/shieldStroked.png"/>
+  </tile>
+  <tile id="46">
+   <image width="160" height="128" source="stickers/sign.png"/>
+  </tile>
+  <tile id="48">
+   <image width="192" height="96" source="stickers/swordStroked.png"/>
+  </tile>
+  <tile id="49">
+   <image width="96" height="96" source="stickers/torch.png"/>
+  </tile>
+  <tile id="50">
+   <image width="128" height="32" source="stickers/trap.png"/>
+  </tile>
+  <tile id="51">
+   <image width="128" height="96" source="stickers/wallDecor1.png"/>
+  </tile>
+  <tile id="52">
+   <image width="128" height="96" source="stickers/wallDecor2.png"/>
+  </tile>
+  <tile id="53">
+   <image width="160" height="128" source="stickers/wallDecor3.png"/>
+  </tile>
+  <tile id="54">
+   <image width="65" height="64" source="stickers/window1.png"/>
+  </tile>
+  <tile id="55">
+   <image width="64" height="64" source="stickers/window2.png"/>
+  </tile>
+  <tile id="56">
+   <image width="56" height="59" source="stickers/window3.png"/>
+  </tile>
+  <tile id="57">
+   <image width="135" height="115" source="stickers/backgroundArch.png"/>
+  </tile>
+  <tile id="58">
+   <image width="380" height="140" source="stickers/backgroundMountain.png"/>
+  </tile>
+  <tile id="59">
+   <image width="129" height="332" source="stickers/backgroundTower.png"/>
+  </tile>
+  <tile id="60">
+   <image width="109" height="177" source="stickers/backgroundTree.png"/>
+  </tile>
+  <tile id="61">
+   <image width="64" height="64" source="stickers/earthWall2.png"/>
+  </tile>
+  <tile id="62">
+   <image width="133" height="160" source="stickers/skeleton.png"/>
+  </tile>
+ </tileset>
+ <group id="9" name="ground">
+  <objectgroup id="10" name="foreground">
+   <object id="399" gid="8" x="64" y="2304" width="128" height="192"/>
+   <object id="286" gid="8" x="576" y="2304" width="128" height="192"/>
+   <object id="279" gid="9" x="768" y="640" width="128" height="192"/>
+   <object id="278" gid="8" x="1152" y="640" width="128" height="192"/>
+   <object id="276" type="exit" gid="10" x="1056" y="416" width="160" height="192">
+    <properties>
+     <property name="map" value="scene/game/map/sandbox2.json"/>
+    </properties>
+   </object>
+  </objectgroup>
+  <objectgroup id="1" name="background">
+   <object id="193" gid="6" x="-608" y="32" width="2496" height="352"/>
+   <object id="284" gid="15" x="256" y="2304" width="160" height="192"/>
+   <object id="287" gid="54" x="704" y="448" width="160" height="128"/>
+   <object id="288" gid="2147483702" x="328.606" y="1930.91" width="160" height="128"/>
+   <object id="291" gid="54" x="512" y="704" width="160" height="128"/>
+   <object id="295" gid="54" x="883.03" y="281.939" width="160" height="128"/>
+   <object id="297" gid="50" x="1712" y="1872" width="96" height="96"/>
+   <object id="298" gid="50" x="144" y="1256" width="96" height="96"/>
+   <object id="299" gid="50" x="975.879" y="1991.03" width="96" height="96"/>
+   <object id="300" gid="50" x="875.03" y="281.939" width="96" height="96"/>
+   <object id="301" gid="50" x="1296" y="328" width="96" height="96"/>
+   <object id="353" gid="6" x="-608" y="2560" width="608" height="2560"/>
+   <object id="393" gid="6" x="1280" y="2560" width="608" height="2560"/>
+   <object id="395" gid="6" x="-608" y="2912" width="2496" height="352"/>
+   <object id="396" gid="54" x="64" y="2528" width="160" height="128"/>
+   <object id="397" gid="2147483702" x="544" y="2624" width="160" height="128"/>
+   <object id="398" gid="2147483702" x="256" y="1376" width="160" height="128"/>
+   <object id="405" type="coin" gid="24" x="593" y="1655" width="96" height="64"/>
+   <object id="412" gid="50" x="143.545" y="1794.06" width="96" height="96"/>
+   <object id="424" type="coin" gid="24" x="590" y="1224" width="96" height="64"/>
+   <object id="432" gid="50" x="1104" y="1192" width="96" height="96"/>
+  </objectgroup>
+  <objectgroup id="2" name="ground">
+   <object id="232" gid="28" x="768" y="480" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="258" gid="33" x="0" y="2400" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="259" gid="33" x="512" y="2400" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="260" gid="32" x="256" y="2400" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="261" gid="32" x="768" y="2400" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="262" gid="33" x="1024" y="2400" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="263" gid="33" x="0" y="1405" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="283" gid="29" x="736" y="1248" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="344" gid="33" x="1024" y="2208" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="351" gid="32" x="0" y="2144" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="386" gid="33" x="512" y="2144" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="403" gid="33" x="0" y="1952" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="404" gid="33" x="512" y="1824" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="406" gid="33" x="1024" y="1728" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="409" gid="32" x="1024" y="1504" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="425" gid="33" x="512" y="1410" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="427" gid="29" x="736" y="1056" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="428" gid="29" x="384" y="960" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="429" gid="28" x="384" y="1152" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="430" gid="32" x="768" y="736" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="431" gid="32" x="1024" y="736" width="256" height="96">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="false"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="436" gid="28" x="960" y="480" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="437" gid="28" x="1088" y="480" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="438" gid="29" x="32" y="704" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="439" gid="29" x="288" y="576" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="452" gid="28" x="640" y="480" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+   <object id="472" gid="28" x="128" y="832" width="192" height="64">
+    <properties>
+     <property name="bodyType" value="static"/>
+     <property name="floating" value="true"/>
+     <property name="friction" value="1.00"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </group>
+ <objectgroup id="3" name="castledeco">
+  <object id="227" gid="55" x="64" y="128" width="65" height="64"/>
+  <object id="229" gid="55" x="320" y="1664" width="65" height="64"/>
+  <object id="359" gid="54" x="943.636" y="1456.85" width="160" height="128"/>
+  <object id="367" gid="56" x="1120" y="1984" width="64" height="64"/>
+  <object id="370" gid="56" x="96" y="544" width="64" height="64"/>
+  <object id="407" gid="55" x="896" y="1536" width="65" height="64"/>
+  <object id="411" gid="54" x="831.515" y="2065.94" width="160" height="128"/>
+  <object id="441" gid="55" x="320" y="128" width="65" height="64"/>
+  <object id="442" gid="55" x="576" y="128" width="65" height="64"/>
+  <object id="443" gid="55" x="832" y="128" width="65" height="64"/>
+  <object id="445" gid="55" x="1088" y="128" width="65" height="64"/>
+  <object id="446" gid="54" x="320" y="1472" width="160" height="128"/>
+  <object id="447" gid="54" x="32" y="1120" width="160" height="128"/>
+  <object id="448" gid="54" x="992" y="896" width="160" height="128"/>
+  <object id="449" gid="2147483702" x="64" y="384" width="160" height="128"/>
+  <object id="450" gid="2147483702" x="640" y="256" width="160" height="128"/>
+  <object id="453" gid="56" x="640" y="544" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="4" name="shading" opacity="0.16">
+  <object id="112" gid="45" x="-96" y="2560" width="96" height="2560"/>
+  <object id="394" gid="45" x="1280" y="2560" width="96" height="2560"/>
+ </objectgroup>
+ <objectgroup id="5" name="light" opacity="0.5">
+  <object id="335" gid="16" x="827.03" y="273.939" width="192" height="192"/>
+  <object id="336" gid="16" x="927.879" y="1983.03" width="192" height="192"/>
+  <object id="340" gid="16" x="96" y="1248" width="192" height="192"/>
+  <object id="413" gid="16" x="95.5455" y="1786.06" width="192" height="192"/>
+  <object id="433" gid="16" x="1056" y="1184" width="192" height="192"/>
+ </objectgroup>
+ <objectgroup id="11" name="coin">
+  <object id="192" type="coin" gid="17" x="768" y="352" width="64" height="64"/>
+  <object id="435" type="coin" gid="17" x="448" y="864" width="64" height="64"/>
+  <object id="434" type="coin" gid="17" x="800" y="928" width="64" height="64"/>
+  <object id="190" type="coin" gid="17" x="448" y="1056" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="6" name="game">
+  <object id="58" name="hero" type="hero" gid="22" x="288" y="2304" width="128" height="160"/>
+  <object id="161" name="hey" type="blob" gid="3" x="92.9697" y="1753.21" width="96" height="64"/>
+  <object id="160" type="blob" gid="2" x="1056" y="1568" width="96" height="64"/>
+  <object id="189" type="enemy" gid="2147483711" x="1056" y="640" width="133" height="160"/>
+  <object id="469" type="blob" gid="2" x="728" y="630" width="96" height="64"/>
+  <object id="470" type="blob" gid="2" x="64" y="1276" width="96" height="64"/>
+  <object id="471" name="hey" type="blob" gid="3" x="88.9697" y="625.212" width="96" height="64"/>
+ </objectgroup>
+ <objectgroup id="12" name="obstacle">
+  <object id="111" type="block" gid="44" x="416" y="512" width="96" height="96">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0.45"/>
+   </properties>
+  </object>
+  <object id="410" type="block" gid="44" x="1184" y="1632" width="96" height="96">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0.45"/>
+   </properties>
+  </object>
+  <object id="401" type="block" gid="44" x="0" y="2048" width="96" height="96">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0.45"/>
+   </properties>
+  </object>
+  <object id="231" type="block" gid="44" x="1184" y="2304" width="96" height="96">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0.45"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="above">
+  <object id="379" type="spikes" gid="51" x="0" y="1312" width="128" height="32"/>
+  <object id="380" type="spikes" gid="51" x="128" y="1312" width="128" height="32"/>
+  <object id="381" type="spikes" gid="51" x="0" y="2560" width="128" height="32"/>
+  <object id="382" type="spikes" gid="51" x="128" y="2560" width="128" height="32"/>
+  <object id="416" type="spikes" gid="51" x="384" y="2560" width="128" height="32"/>
+  <object id="417" type="spikes" gid="51" x="256" y="2560" width="128" height="32"/>
+  <object id="418" type="spikes" gid="51" x="640" y="2560" width="128" height="32"/>
+  <object id="419" type="spikes" gid="51" x="512" y="2560" width="128" height="32"/>
+  <object id="420" type="spikes" gid="51" x="896" y="2560" width="128" height="32"/>
+  <object id="421" type="spikes" gid="51" x="768" y="2560" width="128" height="32"/>
+  <object id="422" type="spikes" gid="51" x="1152" y="2560" width="128" height="32"/>
+  <object id="423" type="spikes" gid="51" x="1024" y="2560" width="128" height="32"/>
+  <object id="294" gid="54" x="1460" y="2536" width="160" height="128"/>
+  <object id="454" gid="54" x="1556" y="2216" width="160" height="128"/>
+  <object id="455" gid="54" x="1428" y="1768" width="160" height="128"/>
+  <object id="457" gid="2147483702" x="1436" y="1104" width="160" height="128"/>
+  <object id="458" gid="1073741878" x="1440" y="760" width="160" height="128"/>
+  <object id="459" gid="1073741878" x="1448" y="200" width="160" height="128"/>
+  <object id="292" gid="54" x="1364" y="544" width="160" height="128"/>
+  <object id="293" gid="54" x="1364" y="1416" width="160" height="128"/>
+  <object id="361" gid="54" x="1396" y="2028" width="160" height="128"/>
+  <object id="460" gid="54" x="-364" y="2484" width="160" height="128"/>
+  <object id="461" gid="1073741878" x="-268" y="628" width="160" height="128"/>
+  <object id="462" gid="1073741878" x="-332" y="276" width="160" height="128"/>
+  <object id="463" gid="54" x="-396" y="1716" width="160" height="128"/>
+  <object id="464" gid="2147483702" x="-364" y="948" width="160" height="128"/>
+  <object id="466" gid="54" x="-428" y="1976" width="160" height="128"/>
+  <object id="467" gid="54" x="-296" y="2184" width="160" height="128"/>
+  <object id="468" gid="54" x="-316" y="1324" width="160" height="128"/>
+ </objectgroup>
+ <objectgroup id="8" name="bounds">
+  <object id="375" x="-32" y="0" width="32" height="2560">
+   <properties>
+    <property name="bodyType" value="static"/>
+   </properties>
+  </object>
+  <object id="376" x="1280" y="0" width="32" height="2560">
+   <properties>
+    <property name="bodyType" value="static"/>
+   </properties>
+  </object>
+  <object id="440" x="832" y="448" width="32" height="192">
+   <properties>
+    <property name="bodyType" value="static"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

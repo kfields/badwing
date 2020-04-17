@@ -1,6 +1,7 @@
 import arcade
 
 import badwing.app
+import badwing.coin
 import badwing.butterfly
 import badwing.flag
 
@@ -20,12 +21,18 @@ class Player:
         pass
 
     def collect(self, item):
+        if isinstance(item, badwing.coin.Coin):
+            return self.collect_coin(item)
         if isinstance(item, badwing.butterfly.Butterfly):
             return self.collect_butterfly(item)
         elif isinstance(item, badwing.flag.Flag):
             return self.collect_flag(item)
 
-    def collect_butterfly(self, butterfly):
+    def collect_coin(self, item):
+        self.score +=1
+        return True
+
+    def collect_butterfly(self, item):
         self.score +=1
         return True
 

@@ -144,28 +144,26 @@ class PcSprite(arcade.Sprite):
 class PlayerCharacter(KinematicModel):
     def __init__(self, sprite, position=(0,0)):
         super().__init__(sprite)
-        self.body = body = self.create_kinematic_body(sprite, position)
-        self.create_shapes_hull(sprite, body, position)
 
     def on_mount(self, position):
         super().on_mount()
-        print('on_mount')
+        #print('on_mount')
         width = self.sprite.texture.width * TILE_SCALING
         height = self.sprite.texture.height * TILE_SCALING
         badwing.app.physics_engine.space.remove(self.body, self.shapes)
         self.body = body = self.create_dynamic_body(self.sprite, position)
         transform = pymunk.Transform(ty=height/2)
-        self.create_shapes(self.sprite, self.body, position, collision_type=CT_DYNAMIC, transform=transform)
+        self.create_hull_shapes(self.sprite, self.body, position, collision_type=PT_DYNAMIC, transform=transform)
         badwing.app.physics_engine.space.add(self.body, self.shapes)
 
     def on_dismount(self, position):
         super().on_dismount()
-        print('on_dismount')
+        #print('on_dismount')
         width = self.sprite.texture.width * TILE_SCALING
         height = self.sprite.texture.height * TILE_SCALING
         badwing.app.physics_engine.space.remove(self.body, self.shapes)
         self.body = body = self.create_kinematic_body(self.sprite, position)
-        self.create_shapes(self.sprite, self.body, position)
+        self.create_hull_shapes(self.sprite, self.body, position)
         badwing.app.physics_engine.space.add(self.body, self.shapes)
         badwing.app.scene.pop_pc()
 
@@ -208,44 +206,34 @@ class PlayerCharacter(KinematicModel):
         self.body_offset = body_offset = Vec2d(0, -height/2)
         body.position = pc_pos + body_offset
         return body
-
-    def create_shapes(self, sprite, body, position, collision_type=CT_KINEMATIC, transform=None):
+    
+    def create_poly_shapes(self, sprite, body, position, collision_type=PT_KINEMATIC, transform=None):
         self.shapes = []
         sprite.position = position
         center = Vec2d(position)
         points = sprite.points
-        #print(points)
         polys = convex_decomposition(sprite.points, 0)
-        #polys = to_convex_hull(sprite.points, .01)
-        #print(polys)
         for poly in polys:
-            #print(poly)
-            #points = [(i.x, i.y) for i in poly ]
             points = [i - center for i in poly ]
-            #print(points)
             shape = pymunk.Poly(body, points, transform)
             shape.friction = 10
             shape.elasticity = 0.2
             shape.collision_type = collision_type
             self.shapes.append(shape)
 
-    def create_shapes_hull(self, sprite, body, position, collision_type=CT_KINEMATIC, transform=None):
+    def create_hull_shapes(self, sprite, body, position, collision_type=PT_KINEMATIC, transform=None):
         self.shapes = []
         sprite.position = position
         center = Vec2d(position)
         points = sprite.points
-        #print(points)
         poly = to_convex_hull(sprite.points, .01)
-        #print(poly)
-        #points = [(i.x, i.y) for i in poly ]
         points = [i - center for i in poly ]
-        #print(points)
         shape = pymunk.Poly(body, points, transform)
         shape.friction = 10
         shape.elasticity = 0.2
         shape.collision_type = collision_type
         self.shapes.append(shape)
-
+    
     # Hack in sprite transform here for now.  Move up the hierarchy later
     def update_sprite(self, delta_time=1/60):
         if not self.mounted:
@@ -270,7 +258,7 @@ class PcAvatar(CharacterAvatar):
         self.force = (0, 0)
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
         #
-        self.pc_layer = badwing.app.scene.pc_layer
+        self.character_layer = badwing.app.scene.character_layer
         self.platforms = badwing.app.scene.ground_layer.sprites
         self.ladders = badwing.app.scene.ladder_layer.sprites
 
@@ -286,7 +274,7 @@ class PcAvatar(CharacterAvatar):
         self.jump_needs_reset = False
 
     def mount(self):
-        hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.pc_layer.sprites)
+        hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.character_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
             if isinstance(model, badwing.characters.Chassis):
@@ -295,12 +283,14 @@ class PcAvatar(CharacterAvatar):
                 badwing.app.scene.push_pc(mount)
 
     def is_on_ladder(self):
-        # Check for touching a ladder
+        laddered = self.model.laddered
         if self.ladders:
             hit_list = check_for_collision_with_list(self.pc_sprite, self.ladders)
             if len(hit_list) > 0:
-                return True
-        return False
+                self.model.laddered = laddered = True
+            else:
+                self.model.laddered = laddered = False
+        return laddered
 
     def can_jump(self, y_distance=5) -> bool:
         # Move down to see if we are on a platform
@@ -338,19 +328,13 @@ class PcAvatar(CharacterAvatar):
 
     def update(self, delta_time=1/60):
         super().update(delta_time)
-        if not self.is_on_ladder():
-            self.pc.body.velocity -= (0, self.physics_engine.k_gravity)
 
     def process_keychange(self):
         delta_x, delta_y = 0, 0
-        """
-        Called when we change a key up/down or we move on/off a ladder.
-        """
         # Process up/down
         if self.up_pressed and not self.down_pressed:
             if self.is_on_ladder():
                 delta_y = PLAYER_MOVEMENT_SPEED
-            #elif self.can_jump() and not self.jump_needs_reset:
             elif self.pc.grounded and not self.jump_needs_reset:
                 delta_y = PLAYER_JUMP_SPEED
                 self.jump_needs_reset = True
@@ -376,6 +360,7 @@ class PcAvatar(CharacterAvatar):
         else:
             #self.pc_sprite.change_x = 0
             delta_x = 0
+
         self.pc.body.velocity = (delta_x, delta_y)
 
 
@@ -389,6 +374,8 @@ class PcAvatar(CharacterAvatar):
             self.left_pressed = True
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_pressed = True
+        elif key == arcade.key.SPACE:
+            self.pc.punching = True
 
         self.process_keychange()
 
@@ -404,5 +391,7 @@ class PcAvatar(CharacterAvatar):
             self.left_pressed = False
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_pressed = False
+        elif key == arcade.key.SPACE:
+            self.pc.punching = False
 
         self.process_keychange()

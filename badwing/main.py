@@ -1,6 +1,12 @@
 import sys
 import os
 
+import sys
+import inspect
+import pkgutil
+from pathlib import Path
+from importlib import import_module
+
 import arcade
 import pymunk
 import pyglet
@@ -26,7 +32,17 @@ class MyGame(arcade.Window):
     def avatar(self):
         return badwing.app.avatar
 
-    def get_start_scene(self):
+    def get_scene(self, scenename=None):
+        if scenename:
+            #path = os.path.abspath(os.path.dirname(__file__))
+            #path = os.path.join(path, f"../scenes/{scenename}")
+            #imported_module = import_module('.' + scenename, package=__name__)
+            imported_module = import_module('.' + scenename, package='badwing.scenes')
+            for i in dir(imported_module):
+                attribute = getattr(imported_module, i)
+                if inspect.isclass(attribute) and issubclass(attribute, Scene):
+                    return attribute
+
         if self.debug:
             from badwing.scenes.level1 import Level1
             return Level1
@@ -80,7 +96,8 @@ class MyGame(arcade.Window):
         super().update(delta_time)
         self.player.update(delta_time)
 
-def main(debug=False):
+def main(debug=False, levelname=None):
+    #print(levelname)
     pip_assets_dir = os.path.join(sys.prefix, 'share/badwing/assets')
     is_pip_install = os.path.isdir(pip_assets_dir)
     if is_pip_install:
@@ -96,7 +113,7 @@ def main(debug=False):
     
     """ Main method """
     game = MyGame(debug=debug)
-    game.show_scene(game.get_start_scene())
+    game.show_scene(game.get_scene(levelname))
     game.setup()
     arcade.run()
 

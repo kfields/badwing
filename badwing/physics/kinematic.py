@@ -59,7 +59,9 @@ class KinematicDynamicHandler(CollisionHandler):
     def pre_solve(self, arbiter, space, data):
         kshape = arbiter.shapes[0]
         kbody = kshape.body
-        kbody.model.grounded = True
+        kmodel = kbody.model
+        kmodel.grounded = True
+
         velocity = kbody.velocity
         if velocity[1] < 0:
             velocity[1] = 0
@@ -71,7 +73,7 @@ class KinematicDynamicHandler(CollisionHandler):
         position = arbiter.contact_point_set.points[0].point_b
         kbody.position += normal * penetration
 
-        impulse = velocity * .01
+        impulse = velocity * .005
         impulse[1] = 0
         point = position
         body.apply_impulse_at_local_point(impulse, point)
@@ -84,6 +86,6 @@ class KinematicPhysicsEngine(PhysicsEngine):
         self.k_gravity = k_gravity
 
     def setup(self):
-        self.kinematic_static_handler = KinematicStaticHandler(self.space.add_collision_handler(CT_KINEMATIC, CT_STATIC))
-        self.kinematic_dynamic_handler = KinematicDynamicHandler(self.space.add_collision_handler(CT_KINEMATIC, CT_DYNAMIC))
+        self.kinematic_static_handler = KinematicStaticHandler(self.space.add_collision_handler(PT_KINEMATIC, PT_STATIC))
+        self.kinematic_dynamic_handler = KinematicDynamicHandler(self.space.add_collision_handler(PT_KINEMATIC, PT_DYNAMIC))
 

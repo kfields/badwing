@@ -8,7 +8,7 @@ import badwing.assets as assets
 from badwing.model import StaticModel
 from badwing.layer import Layer
 
-class Tile(StaticModel):
+class Sticker(StaticModel):
     def __init__(self, sprite):
         super().__init__(sprite)
 
@@ -19,7 +19,7 @@ class Tile(StaticModel):
 
         self.body = body = pymunk.Body(body_type=pymunk.Body.STATIC)
         body.position = pymunk.Vec2d(sprite.center_x, sprite.center_y)
-    
+
     def create_shapes(self):
         sprite = self.sprite
         #shape = pymunk.Poly.create_box(body, (width, height))
@@ -33,7 +33,7 @@ class Tile(StaticModel):
 
         shape = pymunk.Poly(self.body, vertices)
         shape.friction = 10
-        shape.collision_type = PT_STATIC
+        #shape.collision_type = PT_STATIC
         self.shapes.append(shape)
 
     def update(self, dt):
@@ -45,21 +45,21 @@ class Tile(StaticModel):
         badwing.app.scene.debug_list.append(line_strip)
 
 
-class TileLayer(Layer):
-    def __init__(self, level, name, factory=None):
-        super().__init__(level, name, factory)
+class StickerLayer(Layer):
+    def __init__(self, level, name):
+        super().__init__(level, name)
         self.sprites = arcade.tilemap.process_layer(level.map, name, TILE_SCALING)
 
-class PhysicsTileLayer(TileLayer):
+class PhysicsStickerLayer(StickerLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
 
-class StaticTileLayer(PhysicsTileLayer):
+class StaticStickerLayer(PhysicsStickerLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
         for sprite in self.sprites:
-            self.add_model(Tile(sprite))
+            self.add_model(Sticker(sprite))
 
-class DynamicTileLayer(PhysicsTileLayer):
+class DynamicStickerLayer(PhysicsStickerLayer):
     def __init__(self, level, name):
         super().__init__(level, name)

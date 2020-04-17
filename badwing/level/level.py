@@ -37,7 +37,6 @@ class Level(Scene):
         self.push_avatar(pc.control())
 
     def pop_pc(self):
-        print('pop pc')
         pc = self.pc_stack.pop()
         badwing.app.pc = pc
         #self.pc_sprite = pc.sprite
@@ -50,8 +49,8 @@ class Level(Scene):
         dialog.setup()
         self.open_dialog(dialog)
 
-    def setup(self):
-        super().setup()
+    def do_setup(self):
+        super().do_setup()
         self.pause_dialog.setup()
 
         map_name = asset(f"{self.name}.tmx")

@@ -10,8 +10,9 @@ def cli(ctx):
 
 @cli.command()
 @click.pass_context
-def dev(ctx):
-    main(debug=True)
+@click.argument('levelname', required=False)
+def dev(ctx, levelname=None):
+    main(debug=True, levelname=levelname)
 
 @cli.command()
 @click.pass_context

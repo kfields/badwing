@@ -82,7 +82,6 @@ class StartScene(Level):
     def create(self):
         level = StartScene()
         level.setup()
-        level.post_setup()
         return level
         
     def get_next_level(self):
@@ -93,9 +92,9 @@ class StartScene(Level):
         self.button_list.append(StartButton(self, self.half_width, self.half_height, theme=self.theme))
         self.button_list.append(QuitButton(self, self.half_width, self.half_height-100, theme=self.theme))
 
-    def setup(self):
+    def do_setup(self):
+        super().do_setup()
         self.theme = badwing.app.game.theme
-        super().setup()
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
@@ -108,14 +107,9 @@ class StartScene(Level):
 
         # Name of map file to load
         map_name = asset("start.tmx")
-        # Name of the layer that has items for pick-up
-        coins_layer_name = 'coins'
 
         self.add_layer(BarrierLayer(self, 'barrier'))
-        self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
-        self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
         self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
-        self.spark_layer = self.add_layer(Layer(self, 'spark'))
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.butterfly_layer = butterfly_layer = Layer(self, 'butterflies')

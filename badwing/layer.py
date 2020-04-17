@@ -8,15 +8,25 @@ from badwing.model import Model
 from badwing.effect import EffectList
 
 class Layer:
-    def __init__(self, level, name):
+    def __init__(self, level, name, factory=None):
         self.level = level
+        self.width = level.width
+        self.height = level.height
+        self.left = level.left
+        self.bottom = level.bottom
+        self.right = level.right
+        self.top = level.top
         self.name = name
         self.models = []
         self.sprites = arcade.SpriteList()
         self.effects = EffectList()
+        self.factory = None
+        if factory:
+            self.factory = factory(self)
 
     def setup(self):
-        pass
+        if self.factory:
+            self.factory.setup()
 
     def add_model(self, model):
         self.models.append(model)
@@ -37,6 +47,7 @@ class Layer:
         for model in self.models:
             model.update(delta_time)
         self.effects.update(delta_time)
+        self.sprites.on_update(delta_time)
 
     def update_animation(self, delta_time):
         if badwing.app.scene.paused:

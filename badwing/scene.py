@@ -37,7 +37,6 @@ class Scene(arcade.application.View):
         badwing.app.avatar = avatar
 
     def pop_avatar(self):
-        print('pop_avatar')
         avatar =  self.avatar_stack.pop()
         badwing.app.avatar = avatar
         return avatar
@@ -57,15 +56,23 @@ class Scene(arcade.application.View):
         self.animated_layers.append(layer)
         return layer
 
-    def setup(self):
+    def pre_setup(self):
         arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
+    def do_setup(self):
+        pass
+    
     def post_setup(self):
         for layer in self.layers:
             layer.setup()
         if not self.mute and self.song:
             self.song.play(volume=.5)
+
+    def setup(self):
+        self.pre_setup()
+        self.do_setup()
+        self.post_setup()
 
     def shutdown(self):
         if not self.mute and self.song:
