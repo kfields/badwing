@@ -2,15 +2,16 @@ import arcade
 import pymunk
 
 from badwing.constants import *
-from badwing.physics import Physics, PhysicsEngine
+from badwing.physics import Physics, PhysicsMeta, PhysicsEngine
 
-class DynamicPhysics(Physics):
+class DynamicPhysics(Physics, metaclass=PhysicsMeta):
     def __init__(self):
-        pass
+        super().__init__(PT_DYNAMIC)
+
     def setup():
         pass
 
-    def update(self, delta_time=1/60.0):
+    def update(self, model, delta_time=1/60.0):
         pass
 
 class DynamicPhysicsEngine(PhysicsEngine):

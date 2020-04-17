@@ -315,7 +315,7 @@
      <property name="friction" type="float" value="1"/>
     </properties>
    </object>
-   <object id="180" gid="30" x="512" y="671" width="256" height="96">
+   <object id="180" gid="30" x="512" y="645" width="256" height="96">
     <properties>
      <property name="bodyType" value="static"/>
      <property name="floating" type="bool" value="true"/>
@@ -390,8 +390,8 @@
   <object id="149" gid="45" x="2272" y="351" width="32" height="128"/>
   <object id="152" gid="45" x="1888" y="351" width="32" height="64"/>
   <object id="171" gid="45" x="1440" y="991" width="32" height="192"/>
-  <object id="178" gid="45" x="512" y="735" width="32" height="160"/>
-  <object id="179" gid="45" x="736" y="735" width="32" height="160"/>
+  <object id="178" gid="45" x="512" y="735" width="32" height="184"/>
+  <object id="179" gid="45" x="736" y="735" width="32" height="185.5"/>
   <object id="181" gid="45" x="992" y="991" width="32" height="128"/>
   <object id="198" gid="45" x="2496" y="1440" width="32" height="448"/>
   <object id="199" gid="45" x="0" y="1440" width="32" height="448"/>
@@ -400,7 +400,7 @@
   <object id="58" name="hero" type="hero" gid="22" x="45" y="979.5" width="128" height="160"/>
  </objectgroup>
  <objectgroup id="13" name="obstacle">
-  <object id="111" type="block" gid="44" x="594" y="571" width="96" height="96">
+  <object id="111" type="block" gid="44" x="592" y="535" width="96" height="96">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="density" type="float" value="2"/>

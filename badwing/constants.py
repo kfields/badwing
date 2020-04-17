@@ -28,13 +28,18 @@ PLAYER_PUNCH_IMPULSE = 600
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 500
 PLAYER_JUMP_SPEED = 750
-K_GRAVITY = 30
 
 # Physics Types
 
 PT_STATIC = 0
 PT_KINEMATIC = 1
 PT_DYNAMIC = 2
+
+# Collider Types
+
+CT_GROUP = 0
+CT_HULL = 1
+CT_DECOMPSED = 2
 
 # Grid-size
 SPRITE_SIZE = 128

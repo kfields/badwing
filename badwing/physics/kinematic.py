@@ -2,16 +2,17 @@ from arcade import Sprite
 from arcade import SpriteList
 
 from badwing.constants import *
-from badwing.physics import Physics, PhysicsEngine
+from badwing.physics import Physics, PhysicsMeta, PhysicsEngine
 from badwing.physics.util import _circular_check, check_grounding
 
-class KinematicPhysics(Physics):
+class KinematicPhysics(Physics, metaclass=PhysicsMeta):
     def __init__(self):
-        pass
+        super().__init__(PT_KINEMATIC)
+
     def setup():
         pass
 
-    def update(self, delta_time=1/60.0):
+    def update(self, model, delta_time=1/60.0):
         pass
 
 class CollisionHandler:
@@ -81,9 +82,8 @@ class KinematicDynamicHandler(CollisionHandler):
         return False
 
 class KinematicPhysicsEngine(PhysicsEngine):
-    def __init__(self, k_gravity: float = 0.5):
-        super().__init__()
-        self.k_gravity = k_gravity
+    def __init__(self, gravity=GRAVITY):
+        super().__init__(gravity)
 
     def setup(self):
         self.kinematic_static_handler = KinematicStaticHandler(self.space.add_collision_handler(PT_KINEMATIC, PT_STATIC))

@@ -37,7 +37,7 @@ class StickerLevel(Level):
         super().__init__(name)
 
         # Our physics engine
-        self.physics_engine = physics_engine = KinematicPhysicsEngine(k_gravity=K_GRAVITY)
+        self.physics_engine = physics_engine = KinematicPhysicsEngine()
         #self.physics_engine = physics_engine = DynamicPhysicsEngine()
         self.space = physics_engine.space
 

@@ -1,5 +1,5 @@
 game = None
-physics = None
+physics_engine = None
 scene = None
 player = None
 pc = None

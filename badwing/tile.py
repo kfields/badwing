@@ -19,10 +19,9 @@ class Tile(StaticModel):
 
         self.body = body = pymunk.Body(body_type=pymunk.Body.STATIC)
         body.position = pymunk.Vec2d(sprite.center_x, sprite.center_y)
-    
+    '''    
     def create_shapes(self):
         sprite = self.sprite
-        #shape = pymunk.Poly.create_box(body, (width, height))
         vertices = []
         spriteX = sprite.center_x
         spriteY = sprite.center_y
@@ -35,7 +34,7 @@ class Tile(StaticModel):
         shape.friction = 10
         shape.collision_type = PT_STATIC
         self.shapes.append(shape)
-
+    '''
     def update(self, dt):
         super().update(dt)
         if not DEBUG_COLLISION:

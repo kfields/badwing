@@ -1,8 +1,29 @@
-class Physics:
-    def __init__(self):
-        pass
+import arcade
+import pymunk
+
+from badwing.constants import *
+
+
+class PhysicsMeta(type):
+
+    _instance = None
+
+    def __call__(self):
+        if self._instance is None:
+            self._instance = super().__call__()
+        return self._instance
+
+
+class Physics():
+    def __init__(self, kind):
+        self.type = kind
+
     def setup():
         pass
 
-    def update(self, delta_time=1/60.0):
+    def update(self, model, delta_time=1/60.0):
         pass
+
+    def create_body(self, model):
+        pass
+

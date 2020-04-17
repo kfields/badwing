@@ -5,13 +5,17 @@ from pymunk.autogeometry import convex_decomposition, to_convex_hull
 
 from badwing.constants import *
 import badwing.app
+import badwing.physics as physics
+import badwing.collider as collider
 
 class Model:
-    def __init__(self, sprite=None, physics=PT_STATIC, brain=None):
+    def __init__(self, sprite=None, physics=physics.StaticPhysics, collider=collider.HullCollider, brain=None):
         self.parent = None
         self._position = (0, 0)
+        self.transform = None # Body offset from model
         self.sprite = sprite
-        self.physics = physics
+        self.physics = physics()
+        self.collider = collider()
         self.brain = brain
         # TODO:  I hate monkey patching, but ...
         if sprite:
@@ -66,8 +70,8 @@ class Model:
 class Group(Model):
     id_counter = 1
 
-    def __init__(self, physics=PT_DYNAMIC):
-        super().__init__(physics=physics)
+    def __init__(self, physics=physics.DynamicPhysics, collider=collider.GroupCollider):
+        super().__init__(physics=physics, collider=collider)
         self.id_counter += 1
         self.id = self.id_counter
         self.models = []
@@ -85,8 +89,8 @@ class Group(Model):
             layer.add_model(model)
 
 class PhysicsModel(Model):
-    def __init__(self, sprite=None, physics=PT_STATIC):
-        super().__init__(sprite, physics)
+    def __init__(self, sprite=None, physics=physics.StaticPhysics, collider=collider.HullCollider):
+        super().__init__(sprite, physics, collider)
         self.body = None
         self.shapes = []
 
@@ -94,6 +98,9 @@ class PhysicsModel(Model):
         super().on_add(layer)
         self.create_body()
         self.create_shapes()
+        for shape in self.shapes:
+            shape.collision_type = self.physics.type
+
         badwing.app.physics_engine.space.add(self.body, self.shapes)
         self.body.model = self
 
@@ -104,32 +111,30 @@ class PhysicsModel(Model):
             self.sprite.angle = math.degrees(self.body.angle)
 
     def create_body(self):
-        pass
+        self.body = self.physics.create_body(self)
 
     def create_shapes(self):
-        self.create_hull_shapes(self.sprite, self.body, self.position)
-
-    def create_poly_shapes(self, sprite, body, position, collision_type=PT_KINEMATIC, transform=None):
+        #self.create_hull_shapes(self.sprite, self.body, self.position, self.physics)
+        self.shapes = self.collider.create_shapes(self)
+    '''
+    def create_poly_shapes(self, sprite, body, position, physics=physics.KinematicPhysics, transform=None):
         self.shapes = []
         sprite.position = position
         center = Vec2d(position)
         points = sprite.points
         #print(points)
         polys = convex_decomposition(sprite.points, 0)
-        #polys = to_convex_hull(sprite.points, .01)
         #print(polys)
         for poly in polys:
-            #print(poly)
-            #points = [(i.x, i.y) for i in poly ]
             points = [i - center for i in poly ]
             #print(points)
             shape = pymunk.Poly(body, points, transform)
             shape.friction = 10
             shape.elasticity = 0.2
-            shape.collision_type = collision_type
+            shape.collision_type = physics
             self.shapes.append(shape)
 
-    def create_hull_shapes(self, sprite, body, position, collision_type=PT_KINEMATIC, transform=None):
+    def create_hull_shapes(self, sprite, body, position, physics=PT_KINEMATIC, transform=None):
         self.shapes = []
         sprite.position = position
         center = Vec2d(position)
@@ -137,31 +142,30 @@ class PhysicsModel(Model):
         #print(points)
         poly = to_convex_hull(sprite.points, .01)
         #print(poly)
-        #points = [(i.x, i.y) for i in poly ]
         points = [i - center for i in poly ]
         #print(points)
         shape = pymunk.Poly(body, points, transform)
         shape.friction = 10
         shape.elasticity = 0.2
-        shape.collision_type = collision_type
+        shape.collision_type = physics
         self.shapes.append(shape)
-
+        '''
 class StaticModel(PhysicsModel):
-    def __init__(self, sprite=None):
-        super().__init__(sprite, PT_STATIC)
+    def __init__(self, sprite=None, physics=physics.StaticPhysics, collider=collider.HullCollider):
+        super().__init__(sprite, physics, collider)
 
 
 class DynamicModel(PhysicsModel):
-    def __init__(self, sprite):
-        super().__init__(sprite, PT_DYNAMIC)
-    def on_add(self, layer):
-        super().on_add(layer)
-        for shape in self.shapes:
-            shape.collision_type = PT_DYNAMIC
+    def __init__(self, sprite, physics=physics.DynamicPhysics, collider=collider.HullCollider):
+        super().__init__(sprite, physics, collider)
+        '''
+        print(self.physics.__class__)
+        print(vars(self.physics))
+        '''
 
 class KinematicModel(PhysicsModel):
-    def __init__(self, sprite):
-        super().__init__(sprite, PT_KINEMATIC)
+    def __init__(self, sprite, physics=physics.KinematicPhysics, collider=collider.HullCollider):
+        super().__init__(sprite, physics, collider)
 
     def update(self, delta_time=1/60):
         super().update(delta_time)

@@ -33,7 +33,7 @@ class Sticker(StaticModel):
 
         shape = pymunk.Poly(self.body, vertices)
         shape.friction = 10
-        #shape.collision_type = PT_STATIC
+        #shape.collision_type = CT_STATIC
         self.shapes.append(shape)
 
     def update(self, dt):
