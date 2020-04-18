@@ -35,10 +35,6 @@ class Blob(KinematicModel):
         sprite = BlobSprite(position)
         return Blob(position, sprite)
 
-    def on_add(self, layer):
-        super().on_add(layer)
-        layer.add_sprite(self.sprite)
-
 '''
     def draw_transformed(self,
                          left: float,
@@ -77,8 +73,8 @@ class Blob(Model):
         sprite = BlobSprite(position)
         return Blob(sprite)
 
-    def on_add(self, layer):
-        super().on_add(layer)
+    def do_setup(self):
+        super().do_setup()
         #layer.add_sprite(self.sprite)
         layer.add_effect(self.sprite)
 '''

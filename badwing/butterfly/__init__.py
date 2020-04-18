@@ -119,10 +119,6 @@ class Butterfly(Model):
         model = kinds[kind].create(pos, border)
         return model
 
-    def on_add(self, layer):
-        super().on_add(layer)
-        layer.add_sprite(self.sprite)
-
 class ButterflyAqua(Butterfly):
     @classmethod
     def create(self, position, border=(0,0,640,480)):

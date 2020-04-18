@@ -30,7 +30,7 @@ class Layer:
 
     def add_model(self, model):
         self.models.append(model)
-        model.on_add(self)
+        model.setup(self)
         return model
 
     def add_sprite(self, sprite):

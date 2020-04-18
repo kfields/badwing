@@ -57,6 +57,12 @@ class GroupGeom(Geom, metaclass=GeomMeta):
     def __init__(self, kind=GT_GROUP):
         super().__init__(kind)
 
+    def create_shapes(self, model):
+        model.shapes = []
+        
+    def get_moment(self, model):
+        return pymunk.moment_for_box(model.mass, (model.width, model.height))
+
 class PolyGeom(Geom):
     def __init__(self, kind):
         super().__init__(kind)

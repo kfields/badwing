@@ -4,25 +4,16 @@ import pymunk
 from badwing.constants import *
 from badwing.layer import Layer
 from badwing.model import StaticModel
-
+import badwing.geom
 BARRIER_WIDTH = 100
 BARRIER_HEIGHT = 1000
 
 class Barrier(StaticModel):
     def __init__(self, left, bottom, right, top):
-        super().__init__(None)
+        super().__init__(None, geom=badwing.geom.BoxGeom)
         self.width = width = right - left
         self.height = height = top - bottom
         self.position = (left + width/2, bottom + height/2)
-
-    def create_body(self):
-        self.body = body = pymunk.Body(body_type=pymunk.Body.STATIC)
-        body.position = pymunk.Vec2d(self.position[0], self.position[1])
-
-    def create_shapes(self):
-        shape = pymunk.Poly.create_box(self.body, (self.width, self.height))
-        shape.friction = 10
-        self.shapes.append(shape)
 
 class BarrierLayer(Layer):
     def __init__(self, level, name):

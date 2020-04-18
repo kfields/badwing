@@ -9,7 +9,8 @@ from badwing.constants import *
 from badwing.assets import asset
 from badwing.util import debounce
 from badwing.character import CharacterAvatar
-from badwing.model import DynamicModel, Group
+from badwing.model import DynamicModel, PhysicsGroup
+import badwing.geom
 
 
 WHEEL_RADIUS = 32
@@ -27,8 +28,9 @@ MAX_SPEED = 100
 
 class Wheel(DynamicModel):
     def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite)
-        self.position = position
+        super().__init__(position, sprite, geom=badwing.geom.BallGeom)
+        self.radius = WHEEL_RADIUS
+        self.mass = WHEEL_MASS
 
     @classmethod
     def create(self, position=(0,0)):
@@ -36,32 +38,12 @@ class Wheel(DynamicModel):
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         return Wheel(position, sprite)
 
-    def on_add(self, layer):
-        super().on_add(layer)
-        layer.add_sprite(self.sprite)
-
-    def create_body(self):
-        #print(self.position)
-        mass = WHEEL_MASS
-        radius = WHEEL_RADIUS
-        inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
-        self.body = body = pymunk.Body(mass, inertia)
-        body.position = self.position
-
-    def create_shapes(self):
-        print('wheel')
-        radius = WHEEL_RADIUS
-        shape = pymunk.Circle(self.body, radius, (0, 0))
-        shape.elasticity = 0.95
-        shape.friction = 0.9
-        shape.filter = pymunk.ShapeFilter(self.gid)
-        self.shapes.append(shape)
-
-
 class Chassis(DynamicModel):
     def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite)
-        self.position = position
+        super().__init__(position, sprite, geom=badwing.geom.BoxGeom)
+        self.width = CHASSIS_WIDTH * TILE_SCALING
+        self.height = CHASSIS_HEIGHT * TILE_SCALING
+        self.mass = CHASSIS_MASS
 
     @classmethod
     def create(self, position=(192, 192)):
@@ -71,36 +53,9 @@ class Chassis(DynamicModel):
         sprite.height = CHASSIS_HEIGHT * TILE_SCALING
         return Chassis(position, sprite)
 
-    def on_add(self, layer):
-        super().on_add(layer)
-        layer.add_sprite(self.sprite)
-
-    def create_body(self):
-        print('body')
-        position = self.position
-        width = CHASSIS_WIDTH * TILE_SCALING
-        height = CHASSIS_HEIGHT * TILE_SCALING
-
-        mass = CHASSIS_MASS
-        moment = pymunk.moment_for_box(mass, (width, height))
-        self.body = body = pymunk.Body(mass, moment)
-        body.position = position
-
-    def create_shapes(self):
-        width = CHASSIS_WIDTH * TILE_SCALING
-        height = CHASSIS_HEIGHT * TILE_SCALING
-
-        shape = pymunk.Poly.create_box(self.body, (width, height))
-        shape.friction = 10
-        shape.elasticity = 0.2
-        shape.filter = pymunk.ShapeFilter(self.gid)
-        self.shapes.append(shape)
-
-
-class Skateboard(Group):
-    def __init__(self, position=(292, 192)):
-        super().__init__()
-        self.position = position
+class Skateboard(PhysicsGroup):
+    def __init__(self, position=(0, 0)):
+        super().__init__(position)
         self.mountee = None
         self.mountee_pins = []
         self.speed = 0
@@ -116,7 +71,7 @@ class Skateboard(Group):
         self.back_wheel = back_wheel = self.add_model(Wheel.create(back_wheel_pos))
 
     @classmethod
-    def create(self, position=(292, 192)):
+    def create(self, position=(0,0)):
         return Skateboard(position)
 
     def control(self):
@@ -137,14 +92,9 @@ class Skateboard(Group):
         position = self.chassis.body.position + (0, CHASSIS_HEIGHT/2+Y_PAD*2)
         self.mountee.on_dismount(position)
 
-    def on_add(self, layer):
-        super().on_add(layer)
-        position = self.position
-        '''
-        layer.add_model(self.chassis)
-        layer.add_model(self.front_wheel)
-        layer.add_model(self.back_wheel)
-        '''
+    def do_setup(self):
+        super().do_setup()
+
         p1 = pymunk.PinJoint(self.back_wheel.body, self.chassis.body, (0,0), (-CHASSIS_WIDTH/2,0))
         p2 = pymunk.PinJoint(self.back_wheel.body, self.chassis.body, (0,0), (0,-CHASSIS_HEIGHT/2))
         p3 = pymunk.PinJoint(self.front_wheel.body, self.chassis.body, (0,0), (CHASSIS_WIDTH/2,0))

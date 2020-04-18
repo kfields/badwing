@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="100" height="10" tilewidth="128" tileheight="128" infinite="0" nextlayerid="12" nextobjectid="24">
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="100" height="10" tilewidth="128" tileheight="128" infinite="0" nextlayerid="12" nextobjectid="27">
  <editorsettings>
   <export target="level1.json" format="json"/>
  </editorsettings>
@@ -27,9 +27,9 @@
   <object id="10" gid="157" x="3301.41" y="900.667" width="101" height="84"/>
   <object id="11" gid="157" x="3409.71" y="899.03" width="101" height="84"/>
   <object id="12" gid="157" x="3348.26" y="803.212" width="101" height="84"/>
-  <object id="21" gid="167" x="5715.83" y="1145.17" width="63" height="63"/>
-  <object id="22" gid="167" x="5789.17" y="1145.17" width="63" height="63"/>
-  <object id="23" gid="167" x="5751.83" y="1079.83" width="63" height="63"/>
+  <object id="24" gid="167" x="491.83" y="377.17" width="63" height="63"/>
+  <object id="25" gid="167" x="565.17" y="377.17" width="63" height="63"/>
+  <object id="26" gid="167" x="527.83" y="311.83" width="63" height="63"/>
  </objectgroup>
  <layer id="4" name="butterfly" width="100" height="10" locked="1">
   <data encoding="csv">
