@@ -27,19 +27,19 @@ RATE_MIN = 0
 RATE_MAX = .1
 
 class Pole(Model):
-    def __init__(self, sprite):
-        super().__init__(sprite)
+    def __init__(self, position, sprite):
+        super().__init__(position, sprite)
         self.collected = False
 
 class Flag(Model):
-    def __init__(self, sprite):
-        super().__init__(sprite)
+    def __init__(self, position, sprite):
+        super().__init__(position, sprite)
         self.collected = False
 
     @classmethod
-    def create(self, sprite):
+    def create(self, position, sprite):
         kind = sprite.properties['type']
-        model = kinds[kind].create(sprite)
+        model = kinds[kind].create(position, sprite)
         return model
 
     def collect(self):
@@ -56,18 +56,18 @@ class Flag(Model):
 
 class FlagGreen(Flag):
     @classmethod
-    def create(self, sprite):
-        return FlagGreen(sprite)
+    def create(self, position, sprite):
+        return FlagGreen(position, sprite)
 
 class FlagYellow(Flag):
     @classmethod
-    def create(self, sprite):
-        return FlagYellow(sprite)
+    def create(self, position, sprite):
+        return FlagYellow(position, sprite)
 
 class FlagRed(Flag):
     @classmethod
-    def create(self, sprite):
-        return FlagRed(sprite)
+    def create(self, position, sprite):
+        return FlagRed(position, sprite)
 
 kinds = {
     'Pole': Pole,
@@ -76,15 +76,15 @@ kinds = {
     'FlagRed': FlagRed,
 }
 
-class FlagTileLayer(TileLayer):
+class FlagLayer(TileLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
         for sprite in self.sprites:
             kind = sprite.properties['type']
             if kind == 'Pole':
-                model = Pole(sprite)
+                model = Pole(sprite.position, sprite)
             else:
-                model = Flag.create(sprite)
+                model = Flag.create(sprite.position, sprite)
             #print('flag sprite')
             #print(vars(sprite))
             #print(sprite.properties)

@@ -15,13 +15,11 @@ from badwing.physics.kinematic import KinematicPhysicsEngine
 from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
-from badwing.tile import TileLayer, StaticTileLayer
-from badwing.ladder import LadderLayer
+from badwing.tile import TileLayer
 
 from badwing.butterfly import Butterflies
 
 from badwing.firework import Firework
-from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
 from badwing.scenes.level1 import Level1
@@ -80,12 +78,11 @@ class EndScreen(Level):
         return badwing.scenes.level1.Level1
 
     def add_buttons(self):
-        # self.button_list.append(StartButton(self, self.half_width, self.half_height, theme=self.theme))
         self.button_list.append(QuitButton(self, self.half_width, self.half_height-100, theme=self.theme))
 
-    def setup(self):
+    def do_setup(self):
         self.theme = badwing.app.game.theme
-        super().setup()
+        super().do_setup()
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
@@ -94,17 +91,9 @@ class EndScreen(Level):
         # Keep track of the score
         self.score = 0
 
-        # --- Load in a map from the tiled editor ---
-
-        # Name of map file to load
-        map_name = asset("start.tmx")
-        # Name of the layer that has items for pick-up
-        coins_layer_name = 'coins'
-
         self.add_layer(BarrierLayer(self, 'barrier'))
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
-        self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
-        self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
+        self.ladder_layer = self.add_layer(TileLayer(self, 'ladder'))
         self.spark_layer = self.add_layer(Layer(self, 'spark'))
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
@@ -113,20 +102,11 @@ class EndScreen(Level):
         self.butterfly_layer.add_model(butterflies)
         self.add_animated_layer(butterfly_layer)
 
-        self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
-        self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
-
-        self.add_buttons()
-
-        if DEBUG_COLLISION:
-            self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
-            self.debug_list = debug_layer.debug_list
-        
+        self.add_buttons()        
 
     def post_setup(self):
         super().post_setup()
         self.push_avatar(Avatar())
-
 
     def update(self, delta_time):
         super().update(delta_time)

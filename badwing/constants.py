@@ -35,11 +35,13 @@ PT_STATIC = 0
 PT_KINEMATIC = 1
 PT_DYNAMIC = 2
 
-# Collider Types
+# Geom Types
 
-CT_GROUP = 0
-CT_HULL = 1
-CT_DECOMPSED = 2
+GT_GROUP = 0
+GT_BOX = 1
+GT_BALL = 2
+GT_HULL = 3
+GT_DECOMPSED = 4
 
 # Grid-size
 SPRITE_SIZE = 128

@@ -12,7 +12,7 @@ class Enemy(Model):
     @classmethod
     def create(self, position=(0,0)):
         sprite = EnemySprite(position)
-        return Enemy(sprite)
+        return Enemy(position, sprite)
 
     def on_add(self, layer):
         super().on_add(layer)

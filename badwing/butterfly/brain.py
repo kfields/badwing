@@ -16,7 +16,7 @@ def distance2d(start, end):
 class ButterflyBrain(Brain):
     def __init__(self, model):
         super().__init__(model)
-        self.heading = 0
+        self.heading = random.randint(0, 359)
         self.wheel = 0
         self.begin_pos = (0,0)
         self.end_pos = (0,0)
@@ -85,7 +85,9 @@ class ButterflyBrain(Brain):
         #TODO:use pymunk
         
         if not need_turn:
-            need_turn = collision_list = arcade.check_for_collision_with_list(self.sprite, badwing.app.scene.ground_layer.sprites)
+            ground_layer = badwing.app.scene.ground_layer
+            if ground_layer:
+                need_turn = collision_list = arcade.check_for_collision_with_list(self.sprite, ground_layer.sprites)
 
         if(need_turn):
             self.right(45)

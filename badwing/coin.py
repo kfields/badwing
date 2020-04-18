@@ -6,17 +6,16 @@ from pymunk.vec2d import Vec2d
 from pymunk.autogeometry import convex_decomposition, to_convex_hull
 import badwing.app
 from badwing.constants import *
-from badwing.model import Model
-from badwing.sticker import StickerLayer
+from badwing.model import Model, ModelFactory
 
 class Coin(Model):
-    def __init__(self, sprite):
-        super().__init__(sprite)
+    def __init__(self, position, sprite):
+        super().__init__(position, sprite)
 
     @classmethod
-    def create(self, sprite):
+    def create(self, position, sprite):
         kind = sprite.properties['type']
-        model = kinds[kind].create(sprite)
+        model = kinds[kind].create(position, sprite)
         #print(model)
         #print(vars(sprite))
         #print(kind)
@@ -25,20 +24,22 @@ class Coin(Model):
 
 
 class Gem(Coin):
-    def __init__(self, sprite, position=(0,0)):
-        super().__init__(sprite)
+    def __init__(self, position=(0,0), sprite=None):
+        super().__init__(position, sprite)
 
     @classmethod
-    def create(self, sprite):
-        return Gem(sprite, position=(0,0))
+    def create(self, position=(0,0), sprite=None):
+        return Gem(position, sprite)
 
 
-class CoinLayer(StickerLayer):
-    def __init__(self, level, name):
-        super().__init__(level, name)
-        for sprite in self.sprites:
-            model = Coin.create(sprite)
-            self.add_model(model)
+class CoinFactory(ModelFactory):
+    def __init__(self, layer):
+        super().__init__(layer)
+
+    def setup(self):
+        for sprite in self.layer.sprites:
+            model = Coin.create(sprite.position, sprite)
+            self.layer.add_model(model)
 
 kinds = {
     'coin': Gem

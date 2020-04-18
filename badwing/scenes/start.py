@@ -15,13 +15,11 @@ from badwing.physics.kinematic import KinematicPhysicsEngine
 from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
-from badwing.tile import TileLayer, StaticTileLayer
-from badwing.ladder import LadderLayer
+from badwing.tile import TileLayer
 
 from badwing.butterfly import Butterflies
 
 from badwing.firework import Firework
-from badwing.obstacle import ObstacleTileLayer
 from badwing.debug import DebugLayer
 
 class StartButton(arcade.gui.TextButton):
@@ -103,13 +101,7 @@ class StartScene(Level):
         # Keep track of the score
         self.score = 0
 
-        # --- Load in a map from the tiled editor ---
-
-        # Name of map file to load
-        map_name = asset("start.tmx")
-
         self.add_layer(BarrierLayer(self, 'barrier'))
-        self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.butterfly_layer = butterfly_layer = Layer(self, 'butterflies')
@@ -117,25 +109,14 @@ class StartScene(Level):
         self.butterfly_layer.add_model(butterflies)
         self.add_animated_layer(butterfly_layer)
 
-        self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
-        self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
-
-        self.add_buttons()
-
-        if DEBUG_COLLISION:
-            self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
-            self.debug_list = debug_layer.debug_list
-        
+        self.add_buttons()        
 
     def post_setup(self):
         super().post_setup()
         self.push_avatar(Avatar())
 
-
     def update(self, delta_time):
         super().update(delta_time)
-        """ Movement and game logic """
-        # Move the player with the physics engine
         self.physics_engine.update()
 
     def draw(self):

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.3" name="obstacles" tilewidth="120" tileheight="98" tilecount="10" columns="0">
+<tileset version="1.2" tiledversion="1.3.3" name="obstacles" tilewidth="120" tileheight="98" tilecount="11" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" type="RockBig1">
   <image width="101" height="84" source="obstacles/meteorGrey_big1.png"/>
@@ -35,5 +35,8 @@
  </tile>
  <tile id="9">
   <image width="16" height="15" source="obstacles/meteorGrey_tiny2.png"/>
+ </tile>
+ <tile id="10" type="Ball">
+  <image width="63" height="63" source="obstacles/pool_cue_ball.png"/>
  </tile>
 </tileset>

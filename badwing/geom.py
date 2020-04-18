@@ -7,7 +7,7 @@ from pymunk.autogeometry import convex_decomposition, to_convex_hull
 from badwing.constants import *
 
 
-class ColliderMeta(type):
+class GeomMeta(type):
 
     _instance = None
 
@@ -16,24 +16,57 @@ class ColliderMeta(type):
             self._instance = super().__call__()
         return self._instance
 
-class Collider():
+class Geom():
     def __init__(self, kind):
         self.type = kind
 
     def create_shapes(self, model):
         pass
 
-class GroupCollider(Collider, metaclass=ColliderMeta):
-    def __init__(self, kind=CT_GROUP):
+class BoxGeom(Geom, metaclass=GeomMeta):
+    def __init__(self):
+        super().__init__(GT_BOX)
+
+    def get_moment(self, model):
+        return pymunk.moment_for_box(model.mass, (model.width, model.height))
+
+    def create_shapes(self, model):
+        shapes = []
+        shape = pymunk.Poly.create_box(model.body, (model.width, model.height))
+        shape.friction = 10
+        shape.elasticity = 0.2
+        shapes.append(shape)
+        return shapes
+
+class BallGeom(Geom, metaclass=GeomMeta):
+    def __init__(self):
+        super().__init__(GT_BALL)
+
+    def get_moment(self, model):
+        return pymunk.moment_for_circle(model.mass, 0, model.radius, (0, 0))
+
+    def create_shapes(self, model):
+        shapes = []
+        shape = pymunk.Circle(model.body, model.radius, (0, 0))
+        shape.elasticity = 0.95
+        shape.friction = 0.9
+        shapes.append(shape)
+        return shapes
+
+class GroupGeom(Geom, metaclass=GeomMeta):
+    def __init__(self, kind=GT_GROUP):
         super().__init__(kind)
 
-class PolyCollider(Collider):
+class PolyGeom(Geom):
     def __init__(self, kind):
         super().__init__(kind)
 
-class DecomposedCollider(PolyCollider, metaclass=ColliderMeta):
+    def get_moment(self, model):
+        return pymunk.moment_for_box(model.mass, (model.width, model.height))
+
+class DecomposedGeom(PolyGeom, metaclass=GeomMeta):
     def __init__(self):
-        super().__init__(CT_DECOMPOSED)
+        super().__init__(GT_DECOMPOSED)
 
     def create_shapes(self, model):
         sprite = model.sprite
@@ -58,9 +91,9 @@ class DecomposedCollider(PolyCollider, metaclass=ColliderMeta):
             shapes.append(shape)
         return shapes
 
-class HullCollider(PolyCollider, metaclass=ColliderMeta):
+class HullGeom(PolyGeom, metaclass=GeomMeta):
     def __init__(self):
-        super().__init__(CT_HULL)
+        super().__init__(GT_HULL)
 
     def create_shapes(self, model):
         sprite = model.sprite

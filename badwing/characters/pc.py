@@ -142,8 +142,8 @@ class PcSprite(arcade.Sprite):
         self.texture = self.walk_textures[self.cur_texture][self.character_face_direction]
 
 class PlayerCharacter(KinematicModel):
-    def __init__(self, sprite, position=(0,0)):
-        super().__init__(sprite)
+    def __init__(self, position=(0,0), sprite=None):
+        super().__init__(position, sprite)
 
     def on_mount(self, position):
         super().on_mount()
@@ -168,9 +168,9 @@ class PlayerCharacter(KinematicModel):
         badwing.app.scene.pop_pc()
 
     @classmethod
-    def create(self, position=(192, 292)):
+    def create(self, position=(0,0)):
         sprite = PcSprite(position)
-        return PlayerCharacter(sprite, position)
+        return PlayerCharacter(position, sprite)
 
     def control(self):
         return PcAvatar(self)

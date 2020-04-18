@@ -4,14 +4,15 @@ import arcade
 import pymunk
 from pymunk.vec2d import Vec2d
 from pymunk.autogeometry import convex_decomposition, to_convex_hull
+
 import badwing.app
 from badwing.constants import *
-from badwing.model import DynamicModel
-from badwing.tile import DynamicTileLayer
+import badwing.geom
+from badwing.model import ModelFactory, DynamicModel
 
 class Obstacle(DynamicModel):
-    def __init__(self, sprite):
-        super().__init__(sprite)
+    def __init__(self, position, sprite, geom):
+        super().__init__(position, sprite, geom=geom)
 
     @classmethod
     def create(self, sprite):
@@ -24,79 +25,50 @@ class Obstacle(DynamicModel):
         return model
 
 BOX_MASS = 1
-BOX_WIDTH = 128
+BALL_MASS = 1
 ROCK_MASS = 1
 
-class BoxCrate(Obstacle):
-    def __init__(self, sprite, position=(0,0)):
-        super().__init__(sprite)
-        self.position = position
-        self.width = sprite.texture.width * TILE_SCALING
-        self.height = sprite.texture.height * TILE_SCALING
-
-    def create_body(self):
-        mass = BOX_MASS
-        moment = pymunk.moment_for_box(mass, (self.width, self.height))
-        self.body = body = pymunk.Body(mass, moment)
-        body.position = self.position
-
-    def create_shapes(self):
-        shape = pymunk.Poly.create_box(self.body, (self.width, self.height))
-        shape.friction = 10
-        shape.elasticity = 0.2
-        self.shapes.append(shape)
+class Box(Obstacle):
+    def __init__(self, position=(0,0), sprite=None):
+        super().__init__(position, sprite, geom=badwing.geom.BoxGeom)
+        self.mass = BOX_MASS
 
     @classmethod
     def create(self, sprite):
-        return BoxCrate(sprite, position=(sprite.center_x, sprite.center_y))
+        return Box(sprite.position, sprite)
+
+class Ball(Obstacle):
+    def __init__(self, position=(0,0), sprite=None):
+        super().__init__(position, sprite, geom=badwing.geom.BallGeom)
+        self.mass = BALL_MASS
+
+    @classmethod
+    def create(self, sprite):
+        return Ball(sprite.position, sprite)
 
 
 class Rock(Obstacle):
-    def __init__(self, sprite, position=(0,0)):
-        super().__init__(sprite)
-        self.position = position
-        self.width = sprite.texture.width * TILE_SCALING
-        self.height = sprite.texture.height * TILE_SCALING
-
-    def create_body(self):
-        mass = BOX_MASS
-        moment = pymunk.moment_for_box(mass, (self.width, self.height))
-        #moment = pymunk.moment_for_poly(mass, points)
-        self.body = body = pymunk.Body(mass, moment)
-        body.position = self.position
-
-    def create_shapes(self):
-        center = Vec2d(self.position)
-        points = self.sprite.points
-        #print(points)
-        polys = convex_decomposition(self.sprite.points, 0)
-        #polys = to_convex_hull(sprite.points, .01)
-        #print(polys)
-
-        for poly in polys:
-            #print(poly)
-            #points = [(i.x, i.y) for i in poly ]
-            points = [i - center for i in poly ]
-            #print(points)
-            shape = pymunk.Poly(self.body, points)
-            shape.friction = 10
-            shape.elasticity = 0.2
-            self.shapes.append(shape)
+    def __init__(self, position=(0,0), sprite=None):
+        super().__init__(position, sprite, badwing.geom.HullGeom)
 
     @classmethod
     def create(self, sprite):
-        return Rock(sprite, position=(sprite.center_x, sprite.center_y))
+        return Rock(sprite.position, sprite)
 
-class ObstacleTileLayer(DynamicTileLayer):
-    def __init__(self, level, name):
-        super().__init__(level, name)
-        for sprite in self.sprites:
+class ObstacleFactory(ModelFactory):
+    def __init__(self, layer):
+        super().__init__(layer)
+
+    def setup(self):
+        for sprite in self.layer.sprites:
             model = Obstacle.create(sprite)
-            self.add_model(model)
+            self.layer.add_model(model)
+
 
 kinds = {
-    'block': BoxCrate,
-    'boxCrate': BoxCrate,
-    'boxCrate_double': BoxCrate,
+    'block': Box,
+    'boxCrate': Box,
+    'boxCrate_double': Box,
+    'Ball': Ball,
     'RockBig1': Rock
 }

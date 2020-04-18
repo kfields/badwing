@@ -6,16 +6,25 @@ from pymunk.autogeometry import convex_decomposition, to_convex_hull
 from badwing.constants import *
 import badwing.app
 import badwing.physics as physics
-import badwing.collider as collider
+import badwing.geom as geom
 
 class Model:
-    def __init__(self, sprite=None, physics=physics.StaticPhysics, collider=collider.HullCollider, brain=None):
+    def __init__(self, position=(0,0), sprite=None, physics=physics.StaticPhysics, geom=geom.HullGeom, brain=None):
         self.parent = None
-        self._position = (0, 0)
+        self.position = position
+        self.width = 0
+        self.height = 0
+        self.angle = 0
         self.transform = None # Body offset from model
         self.sprite = sprite
+        if sprite:
+            self.width = sprite.texture.width * TILE_SCALING
+            self.height = sprite.texture.height * TILE_SCALING
+            self.radius = self.width / 2
+            
         self.physics = physics()
-        self.collider = collider()
+        self.geom = geom()
+        self.mass = DEFAULT_MASS
         self.brain = brain
         # TODO:  I hate monkey patching, but ...
         if sprite:
@@ -34,6 +43,7 @@ class Model:
     def on_dismount(self):
         self.mounted = False
 
+    '''
     @property
     def position(self):
         return self._position
@@ -43,7 +53,7 @@ class Model:
         self._position = val
         if self.sprite:
             self.sprite.position = val
-
+    '''
     def on_add(self, layer):
         pass
         """
@@ -63,15 +73,17 @@ class Model:
     def update_physics(self, delta_time):
         pass
 
-    def update_sprite(self, delta_time):
-        pass
+    def update_sprite(self, delta_time=1/60):
+        if self.sprite:
+            self.sprite.position = self.position
+            self.sprite.angle = self.angle
 
 
 class Group(Model):
     id_counter = 1
 
-    def __init__(self, physics=physics.DynamicPhysics, collider=collider.GroupCollider):
-        super().__init__(physics=physics, collider=collider)
+    def __init__(self, position=(0,0), physics=physics.DynamicPhysics, geom=geom.GroupGeom):
+        super().__init__(position, physics=physics, geom=geom)
         self.id_counter += 1
         self.id = self.id_counter
         self.models = []
@@ -89,8 +101,8 @@ class Group(Model):
             layer.add_model(model)
 
 class PhysicsModel(Model):
-    def __init__(self, sprite=None, physics=physics.StaticPhysics, collider=collider.HullCollider):
-        super().__init__(sprite, physics, collider)
+    def __init__(self, position=(0,0), sprite=None, physics=physics.StaticPhysics, geom=geom.HullGeom):
+        super().__init__(position, sprite, physics, geom)
         self.body = None
         self.shapes = []
 
@@ -104,18 +116,17 @@ class PhysicsModel(Model):
         badwing.app.physics_engine.space.add(self.body, self.shapes)
         self.body.model = self
 
-    def update_sprite(self, delta_time=1/60):
-        if self.sprite:
-            pos = self.body.position
-            self.sprite.position = pos
-            self.sprite.angle = math.degrees(self.body.angle)
+    def update_physics(self, delta_time=1/60):
+        if self.body:
+            self.position = self.body.position
+            self.angle = math.degrees(self.body.angle)
 
     def create_body(self):
         self.body = self.physics.create_body(self)
 
     def create_shapes(self):
         #self.create_hull_shapes(self.sprite, self.body, self.position, self.physics)
-        self.shapes = self.collider.create_shapes(self)
+        self.shapes = self.geom.create_shapes(self)
     '''
     def create_poly_shapes(self, sprite, body, position, physics=physics.KinematicPhysics, transform=None):
         self.shapes = []
@@ -151,21 +162,21 @@ class PhysicsModel(Model):
         self.shapes.append(shape)
         '''
 class StaticModel(PhysicsModel):
-    def __init__(self, sprite=None, physics=physics.StaticPhysics, collider=collider.HullCollider):
-        super().__init__(sprite, physics, collider)
+    def __init__(self, position=(0,0), sprite=None, physics=physics.StaticPhysics, geom=geom.HullGeom):
+        super().__init__(position, sprite, physics, geom)
 
 
 class DynamicModel(PhysicsModel):
-    def __init__(self, sprite, physics=physics.DynamicPhysics, collider=collider.HullCollider):
-        super().__init__(sprite, physics, collider)
+    def __init__(self, position=(0,0), sprite=None, physics=physics.DynamicPhysics, geom=geom.HullGeom):
+        super().__init__(position, sprite, physics, geom)
         '''
         print(self.physics.__class__)
         print(vars(self.physics))
         '''
 
 class KinematicModel(PhysicsModel):
-    def __init__(self, sprite, physics=physics.KinematicPhysics, collider=collider.HullCollider):
-        super().__init__(sprite, physics, collider)
+    def __init__(self, position=(0,0), sprite=None, physics=physics.KinematicPhysics, geom=geom.HullGeom):
+        super().__init__(position, sprite, physics, geom)
 
     def update(self, delta_time=1/60):
         super().update(delta_time)

@@ -14,23 +14,17 @@ from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 
-from badwing.tile import TileLayer, StaticTileLayer
-from badwing.sticker import StickerLayer, StaticStickerLayer
-from badwing.ladder import LadderLayer
+from badwing.tile import TileLayer, TileFactory 
 
-#from badwing.character import CharacterTileLayer
-#from badwing.characters import PlayerCharacter, Skateboard, Chassis
 from badwing.characters.factory import CharacterFactory
 from badwing.characters import PlayerCharacter
 
-from badwing.box import Box
-from badwing.ball import Ball
-from badwing.flag import FlagTileLayer
-from badwing.butterfly import ButterflyTileLayer
+from badwing.flag import FlagLayer
+from badwing.butterfly import ButterflyFactory
 from badwing.firework import Firework
-from badwing.obstacle import ObstacleTileLayer
+from badwing.obstacle import ObstacleFactory
 from badwing.debug import DebugLayer
-from badwing.coin import CoinLayer
+from badwing.coin import CoinFactory
 
 class StickerLevel(Level):
     def __init__(self, name):
@@ -70,27 +64,15 @@ class StickerLevel(Level):
         self.view_bottom = 0
         self.view_left = 0
 
-        # --- Load in a map from the tiled editor ---
-        '''
-        self.scenery_layer = self.add_layer(TileLayer(self, 'scenery'))
-        self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
-        self.flag_layer = flag_layer = self.add_animated_layer(FlagTileLayer(self, 'flags'))
-        self.ground_layer = self.add_layer(StaticTileLayer(self, 'ground'))
-        self.spark_layer = self.add_layer(Layer(self, 'spark'))
-        self.character_layer = character_layer = self.add_animated_layer(CharacterTileLayer(self, 'pc'))
-        self.butterfly_layer = self.add_animated_layer(ButterflyTileLayer(self, 'butterfly'))
-        self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
-        self.object_layer = self.add_layer(ObstacleTileLayer(self, 'object'))
-        '''
         self.add_layer(BarrierLayer(self, 'barrier'))
 
         self.parallax_layer = self.add_layer(TileLayer(self, 'parallax'))
 
-        self.background_layer = self.add_layer(StickerLayer(self, 'ground/background'))
+        self.background_layer = self.add_layer(TileLayer(self, 'ground/background'))
 
-        self.ground_layer = self.add_layer(StaticStickerLayer(self, 'ground/ground'))
+        self.ground_layer = self.add_layer(TileLayer(self, 'ground/ground', TileFactory))
 
-        self.ground_layer = self.add_layer(StickerLayer(self, 'ground/foreground'))
+        self.ground_layer = self.add_layer(TileLayer(self, 'ground/foreground'))
 
         self.castle_layer = self.add_layer(TileLayer(self, 'castle'))
 
@@ -100,15 +82,15 @@ class StickerLevel(Level):
 
         self.light_layer = self.add_layer(TileLayer(self, 'light'))
 
-        self.obstacle_layer = self.add_layer(ObstacleTileLayer(self, 'obstacle'))
+        self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
 
-        self.flag_layer = flag_layer = self.add_animated_layer(FlagTileLayer(self, 'flags'))
+        self.flag_layer = flag_layer = self.add_animated_layer(FlagLayer(self, 'flags'))
 
-        self.ladder_layer = self.add_layer(LadderLayer(self, 'ladder'))
+        self.ladder_layer = self.add_layer(TileLayer(self, 'ladder'))
 
-        self.coin_layer = coin_layer = self.add_layer(CoinLayer(self, 'coin'))
+        self.coin_layer = coin_layer = self.add_layer(TileLayer(self, 'coin', CoinFactory))
 
-        self.butterfly_layer = self.add_animated_layer(ButterflyTileLayer(self, 'butterfly'))
+        self.butterfly_layer = self.add_animated_layer(TileLayer(self, 'butterfly', ButterflyFactory))
 
         self.spark_layer = self.add_layer(Layer(self, 'spark'))
 

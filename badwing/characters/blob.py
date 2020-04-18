@@ -33,7 +33,7 @@ class Blob(KinematicModel):
     @classmethod
     def create(self, position=(0,0)):
         sprite = BlobSprite(position)
-        return Blob(sprite)
+        return Blob(position, sprite)
 
     def on_add(self, layer):
         super().on_add(layer)

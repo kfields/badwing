@@ -13,6 +13,7 @@ class Scene(arcade.application.View):
     def __init__(self, name):
         super().__init__()
         badwing.app.scene = self
+        self.ground_layer = None
         self.paused = False
         self.name = name
         self.layers = []

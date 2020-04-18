@@ -26,15 +26,15 @@ SPEED_DELTA = 1
 MAX_SPEED = 100
 
 class Wheel(DynamicModel):
-    def __init__(self, sprite, position=(0,0)):
-        super().__init__(sprite)
+    def __init__(self, position=(0,0), sprite=None):
+        super().__init__(position, sprite)
         self.position = position
 
     @classmethod
     def create(self, position=(0,0)):
         img_src = asset("items/coinGold.png")
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
-        return Wheel(sprite, position)
+        return Wheel(position, sprite)
 
     def on_add(self, layer):
         super().on_add(layer)
@@ -59,8 +59,8 @@ class Wheel(DynamicModel):
 
 
 class Chassis(DynamicModel):
-    def __init__(self, sprite, position=(0,0)):
-        super().__init__(sprite)
+    def __init__(self, position=(0,0), sprite=None):
+        super().__init__(position, sprite)
         self.position = position
 
     @classmethod
@@ -69,7 +69,7 @@ class Chassis(DynamicModel):
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         sprite.width = TILE_WIDTH * TILE_SCALING * 2
         sprite.height = CHASSIS_HEIGHT * TILE_SCALING
-        return Chassis(sprite, position)
+        return Chassis(position, sprite)
 
     def on_add(self, layer):
         super().on_add(layer)

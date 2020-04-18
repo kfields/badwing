@@ -8,6 +8,7 @@ class BackgroundLayer(TileLayer):
         super().__init__(level, name)
         self.filename = filename
         self.background = None
+        
     def setup(self):
         super().setup()
         self.background = arcade.load_texture(self.filename)
