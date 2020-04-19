@@ -22,7 +22,7 @@ class CharacterFactory(ModelFactory):
                 continue
             position = sprite.position
             model = kinds[kind].create(position)
-            #print(model)
+            print(model)
             self.layer.add_model(model)
 
 kinds = {

@@ -29,8 +29,8 @@ class MyGame(arcade.Window):
         self.player = Player()
 
     @property
-    def avatar(self):
-        return badwing.app.avatar
+    def controller(self):
+        return badwing.app.controller
 
     def get_scene(self, scenename=None):
         if scenename:

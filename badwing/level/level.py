@@ -34,13 +34,13 @@ class Level(Scene):
         self.pc_stack.append(pc)
         badwing.app.pc = pc
         #self.pc_sprite = pc.sprite
-        self.push_avatar(pc.control())
+        self.push_controller(pc.control())
 
     def pop_pc(self):
         pc = self.pc_stack.pop()
         badwing.app.pc = pc
         #self.pc_sprite = pc.sprite
-        self.pop_avatar()
+        self.pop_controller()
         return pc
 
     def beat_level(self):
@@ -87,7 +87,7 @@ class Level(Scene):
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
             self.open_dialog(self.pause_dialog)
-        self.avatar.on_key_press(key, modifiers)
+        self.controller.on_key_press(key, modifiers)
 
     def on_key_release(self, key, modifiers):
-        self.avatar.on_key_release(key, modifiers)
+        self.controller.on_key_release(key, modifiers)

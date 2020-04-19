@@ -84,8 +84,8 @@ class CharacterSprite(arcade.Sprite):
         self.update_time = self.time + self.rate
 
         velocity = self.model.body.velocity
-        vel_x = velocity[0]
-        vel_y = velocity[1]
+        vel_x = int(velocity[0])
+        vel_y = int(velocity[1])
         #print(vel_x, vel_y)
         # Figure out if we need to flip face left or right
         if vel_x < 0 and self.character_face_direction == RIGHT_FACING:

@@ -23,11 +23,11 @@ class DynamicPhysics(Physics, metaclass=PhysicsMeta):
         body.model = model
 
         if offset:
-            print('offset', offset)
-            #position = (model.position[0] + offset[0], model.position[1] + offset[1])
-            pc_pos = Vec2d(model.position)
-            body_offset = Vec2d(offset)
-            position = pc_pos + body_offset
+            #print('offset', offset)
+            position = (model.position[0] + offset[0], model.position[1] + offset[1])
+            #pc_pos = Vec2d(model.position)
+            #body_offset = Vec2d(offset)
+            #position = pc_pos + body_offset
 
         else:
             position = model.position

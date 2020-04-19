@@ -8,7 +8,7 @@ import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.util import debounce
-from badwing.character import CharacterAvatar
+from badwing.character import CharacterController
 from badwing.model import DynamicModel, PhysicsGroup
 import badwing.geom
 
@@ -75,7 +75,7 @@ class Skateboard(PhysicsGroup):
         return Skateboard(position)
 
     def control(self):
-        return SkateboardAvatar(self)
+        return SkateboardController(self)
 
     def mount(self, mountee):
         self.mountee = mountee
@@ -153,7 +153,7 @@ class Skateboard(PhysicsGroup):
         if self.motors_attached:
             self.front_motor.rate = self.back_motor.rate = -self.speed
 
-class SkateboardAvatar(CharacterAvatar):
+class SkateboardController(CharacterController):
     def __init__(self, skateboard):
         super().__init__(skateboard)
         self.skateboard = skateboard

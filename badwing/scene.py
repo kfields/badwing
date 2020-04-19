@@ -27,22 +27,22 @@ class Scene(arcade.application.View):
         self.left = 0
         self.top = 0
         self.dialog = None
-        self.avatar_stack = []
+        self.controller_stack = []
         self.song = None
         self.mute = False
 
     @property
-    def avatar(self):
-        return self.avatar_stack[-1]
+    def controller(self):
+        return self.controller_stack[-1]
 
-    def push_avatar(self, avatar):
-        self.avatar_stack.append(avatar)
-        badwing.app.avatar = avatar
+    def push_controller(self, controller):
+        self.controller_stack.append(controller)
+        badwing.app.controller = controller
 
-    def pop_avatar(self):
-        avatar =  self.avatar_stack.pop()
-        badwing.app.avatar = avatar
-        return avatar
+    def pop_controller(self):
+        controller =  self.controller_stack.pop()
+        badwing.app.controller = controller
+        return controller
 
     def pause(self):
         self.paused = True
@@ -86,8 +86,8 @@ class Scene(arcade.application.View):
 
     def update(self, delta_time):
         super().update(delta_time)
-        if self.avatar:
-            self.avatar.update(delta_time)
+        if self.controller:
+            self.controller.update(delta_time)
 
         for layer in self.layers:
             layer.update(delta_time)
@@ -116,22 +116,22 @@ class Scene(arcade.application.View):
     def open_dialog(self, dialog):
         self.pause()
         self.dialog = dialog
-        self.push_avatar(dialog.control())
+        self.push_controller(dialog.control())
 
     def close_dialog(self):
         self.dialog = None
-        self.pop_avatar()
+        self.pop_controller()
         self.resume()
 
     def on_key_press(self, key, modifiers):
         super().on_key_press(key, modifiers)
-        badwing.app.avatar.on_key_press(key, modifiers)
+        badwing.app.controller.on_key_press(key, modifiers)
 
     def on_key_release(self, key, modifiers):
         super().on_key_release(key, modifiers)
-        badwing.app.avatar.on_key_release(key, modifiers)
+        badwing.app.controller.on_key_release(key, modifiers)
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         super().on_mouse_press(x, y, button, modifiers)
-        badwing.app.avatar.on_mouse_press(x, y, button, modifiers)
+        badwing.app.controller.on_mouse_press(x, y, button, modifiers)
 

@@ -8,8 +8,7 @@ GROWTH_RATE = 50
 
 class BlobSprite(arcade.Sprite):
     def __init__(self, position):
-        super().__init__(center_x=position[0], center_y=position[1])
-        self.texture = arcade.load_texture(asset('stickers/blobGreen.png'))
+        super().__init__(asset('stickers/blobGreen.png'), center_x=position[0], center_y=position[1])
         self.alpha = int(.5*255)
         self.grow = False
         self.min_width = self.width * .75

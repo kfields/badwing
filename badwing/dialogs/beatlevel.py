@@ -1,14 +1,14 @@
 import os
 import arcade
 
-import badwing.avatar
+import badwing.controller
 
 from badwing.assets import asset
 
 from badwing.scene import Scene
 import badwing.dialog
 
-class Avatar(badwing.avatar.Avatar):
+class Controller(badwing.controller.Controller):
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
             badwing.app.scene.close_dialog()
@@ -61,7 +61,7 @@ class BeatLevelDialog(badwing.dialog.Dialog):
         self.center_y = self.height / 2
 
     def control(self):
-        return Avatar(self)
+        return Controller(self)
 
     def add_buttons(self):
         #print(self.half_height)

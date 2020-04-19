@@ -20,7 +20,7 @@ Submodules
 
    badwing.app
    badwing.assets
-   badwing.avatar
+   badwing.controller
    badwing.background
    badwing.ball
    badwing.barrier

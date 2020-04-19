@@ -8,7 +8,7 @@ import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.level import Level
-from badwing.avatar import Avatar
+from badwing.controller import Controller
 
 from badwing.physics.dynamic import DynamicPhysicsEngine
 from badwing.physics.kinematic import KinematicPhysicsEngine
@@ -106,7 +106,7 @@ class EndScreen(Level):
 
     def post_setup(self):
         super().post_setup()
-        self.push_avatar(Avatar())
+        self.push_controller(Controller())
 
     def update(self, delta_time):
         super().update(delta_time)

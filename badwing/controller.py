@@ -2,7 +2,7 @@ import arcade
 
 import badwing.app
 
-class Avatar:
+class Controller:
     def __init__(self, passthrough=None):
         self.passthrough = passthrough
         self.up_down = False

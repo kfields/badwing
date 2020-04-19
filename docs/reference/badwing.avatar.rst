@@ -1,7 +1,7 @@
-badwing.avatar module
+badwing.controller module
 =====================
 
-.. automodule:: badwing.avatar
+.. automodule:: badwing.controller
    :members:
    :undoc-members:
    :show-inheritance:

@@ -2,7 +2,7 @@ import os
 import arcade
 
 import badwing.app
-import badwing.avatar
+import badwing.controller
 
 from badwing.assets import asset
 
@@ -10,7 +10,7 @@ from badwing.scene import Scene
 import badwing.dialog
 
 
-class Avatar(badwing.avatar.Avatar):
+class Controller(badwing.controller.Controller):
     def on_key_press(self, key, modifiers):
         pass
         #TODO: causing it to close on open :(
@@ -62,7 +62,7 @@ class PauseDialog(badwing.dialog.Dialog):
         self.center_y = self.height / 2
 
     def control(self):
-        return Avatar(passthrough=self)
+        return Controller(passthrough=self)
 
     def add_buttons(self):
         #print(self.half_height)
