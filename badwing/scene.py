@@ -6,6 +6,7 @@ from pyglet import gl
 
 import badwing.app
 from badwing.constants import *
+from badwing.debug import DebugLayer
 from badwing.assets import asset
 from badwing.model import Model
 
@@ -13,6 +14,7 @@ class Scene(arcade.application.View):
     def __init__(self, name):
         super().__init__()
         badwing.app.scene = self
+        self.debug_layer = None
         self.ground_layer = None
         self.paused = False
         self.name = name
@@ -74,6 +76,9 @@ class Scene(arcade.application.View):
         self.pre_setup()
         self.do_setup()
         self.post_setup()
+        if DEBUG_COLLISION:
+            self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
+            self.debug_list = debug_layer.debug_list
 
     def shutdown(self):
         if not self.mute and self.song:

@@ -17,8 +17,8 @@ class Tile(StaticModel):
         if not DEBUG_COLLISION:
             return
         #line_strip = arcade.create_line_strip(sprite.points, (255,255,255), 1)
-        line_strip = arcade.create_lines(self.sprite.points, (255,255,255), 1)
-        badwing.app.scene.debug_list.append(line_strip)
+        line_strip = arcade.create_lines(self.sprite.points, (0,0,0), 1)
+        badwing.app.debug_layer.add(line_strip)
 
 
 class TileLayer(Layer):

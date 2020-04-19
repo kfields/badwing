@@ -19,7 +19,7 @@ from badwing.tile import TileLayer, TileFactory
 from badwing.characters.factory import CharacterFactory
 from badwing.characters import PlayerCharacter
 
-from badwing.flag import FlagLayer
+from badwing.flag import FlagFactory
 from badwing.butterfly import ButterflyFactory
 from badwing.firework import Firework
 from badwing.obstacle import ObstacleFactory
@@ -84,7 +84,7 @@ class StickerLevel(Level):
 
         self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
 
-        self.flag_layer = flag_layer = self.add_animated_layer(FlagLayer(self, 'flags'))
+        self.flag_layer = flag_layer = self.add_animated_layer(TileLayer(self, 'flags', FlagFactory))
 
         self.ladder_layer = self.add_layer(TileLayer(self, 'ladder'))
 
@@ -100,10 +100,6 @@ class StickerLevel(Level):
 
         #self.above_layer = arcade.tilemap.process_layer(my_map, 'above', TILE_SCALING)
         self.above_layer = self.add_layer(TileLayer(self, 'above'))
-
-        if DEBUG_COLLISION:
-            self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
-            self.debug_list = debug_layer.debug_list
         
         # character_layer.add_model(Box.create())
         

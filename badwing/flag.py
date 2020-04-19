@@ -7,7 +7,7 @@ import badwing.app
 from badwing.assets import asset
 from badwing.constants import *
 from badwing.util import debounce
-from badwing.model import Model, Group
+from badwing.model import Model, Group, ModelFactory
 from badwing.tile import TileLayer
 
 SPRITE_WIDTH = 64
@@ -76,19 +76,15 @@ kinds = {
     'FlagRed': FlagRed,
 }
 
-class FlagLayer(TileLayer):
-    def __init__(self, level, name):
-        super().__init__(level, name)
-        for sprite in self.sprites:
+class FlagFactory(ModelFactory):
+    def __init__(self, layer):
+        super().__init__(layer)
+
+    def setup(self):
+        for sprite in self.layer.sprites:
             kind = sprite.properties['type']
             if kind == 'Pole':
                 model = Pole(sprite.position, sprite)
             else:
                 model = Flag.create(sprite.position, sprite)
-            #print('flag sprite')
-            #print(vars(sprite))
-            #print(sprite.properties)
-            #print('flag')
-            #print(vars(model))
-            self.add_model(model)
-
+            self.layer.add_model(model)

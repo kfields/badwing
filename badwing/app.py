@@ -5,6 +5,8 @@ player = None
 pc = None
 avatar = None
 
+debug_layer = None
+
 font_verdana_12 = None
 font_verdana_24 = None
 font_verdana_60 = None

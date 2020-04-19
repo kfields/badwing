@@ -20,7 +20,7 @@ class Geom():
     def __init__(self, kind):
         self.type = kind
 
-    def create_shapes(self, model):
+    def create_shapes(self, model, transform=None):
         pass
 
 class BoxGeom(Geom, metaclass=GeomMeta):
@@ -30,7 +30,7 @@ class BoxGeom(Geom, metaclass=GeomMeta):
     def get_moment(self, model):
         return pymunk.moment_for_box(model.mass, (model.width, model.height))
 
-    def create_shapes(self, model):
+    def create_shapes(self, model, transform=None):
         shapes = []
         shape = pymunk.Poly.create_box(model.body, (model.width, model.height))
         shape.friction = 10
@@ -45,7 +45,7 @@ class BallGeom(Geom, metaclass=GeomMeta):
     def get_moment(self, model):
         return pymunk.moment_for_circle(model.mass, 0, model.radius, (0, 0))
 
-    def create_shapes(self, model):
+    def create_shapes(self, model, transform=None):
         shapes = []
         shape = pymunk.Circle(model.body, model.radius, (0, 0))
         shape.elasticity = 0.95
@@ -58,7 +58,7 @@ class GroupGeom(Geom, metaclass=GeomMeta):
         super().__init__(kind)
 
     def create_shapes(self, model):
-        model.shapes = []
+        return []
         
     def get_moment(self, model):
         return pymunk.moment_for_box(model.mass, (model.width, model.height))
@@ -69,23 +69,26 @@ class PolyGeom(Geom):
 
     def get_moment(self, model):
         return pymunk.moment_for_box(model.mass, (model.width, model.height))
+        #return pymunk.moment_for_poly(model.mass, model.sprite.points, (-32,-32))
+        #return pymunk.moment_for_circle(model.mass, 0, model.radius, (0, 0))
 
+SLOP = 0.01
 class DecomposedGeom(PolyGeom, metaclass=GeomMeta):
     def __init__(self):
         super().__init__(GT_DECOMPOSED)
 
-    def create_shapes(self, model):
+    def create_shapes(self, model, transform=None):
         sprite = model.sprite
         body = model.body
         position = model.position
-        transform=model.transform
+        #transform=model.transform
 
         shapes = []
         sprite.position = position
         center = Vec2d(position)
         points = sprite.points
         #print(points)
-        polys = convex_decomposition(sprite.points, 0)
+        polys = convex_decomposition(sprite.points, SLOP)
         #print(polys)
         for poly in polys:
             points = [i - center for i in poly ]
@@ -101,22 +104,27 @@ class HullGeom(PolyGeom, metaclass=GeomMeta):
     def __init__(self):
         super().__init__(GT_HULL)
 
-    def create_shapes(self, model):
+    def create_shapes(self, model, transform=None):
+        print('transform', transform)
         sprite = model.sprite
         body = model.body
         position = model.position
-        transform=model.transform
+        #transform=model.transform
 
         shapes = []
         sprite.position = position
         center = Vec2d(position)
         points = sprite.points
         #print(points)
-        poly = to_convex_hull(sprite.points, .01)
+        poly = to_convex_hull(sprite.points, SLOP)
         #print(poly)
         points = [i - center for i in poly ]
         #print(points)
-        shape = pymunk.Poly(body, points, transform)
+        if transform:
+            shape = pymunk.Poly(body, points, transform)
+        else:
+            shape = pymunk.Poly(body, points)
+
         shape.friction = 10
         shape.elasticity = 0.2
         shape.collision_type = model.physics.type

@@ -19,7 +19,7 @@ from badwing.tile import TileLayer, TileFactory
 from badwing.characters.factory import CharacterFactory
 from badwing.characters import PlayerCharacter, Skateboard, Chassis
 
-from badwing.flag import FlagLayer
+from badwing.flag import FlagFactory
 from badwing.butterfly import ButterflyFactory
 from badwing.firework import Firework
 from badwing.obstacle import ObstacleFactory
@@ -69,18 +69,14 @@ class TileLevel(Level):
         self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
         self.scenery_layer = self.add_layer(TileLayer(self, 'scenery'))
         self.ladder_layer = self.add_layer(TileLayer(self, 'ladder'))
-        self.flag_layer = flag_layer = self.add_animated_layer(FlagLayer(self, 'flags'))
+        self.flag_layer = flag_layer = self.add_animated_layer(TileLayer(self, 'flags', FlagFactory))
         self.ground_layer = self.add_layer(TileLayer(self, 'ground', TileFactory))
         self.spark_layer = self.add_layer(Layer(self, 'spark'))
         self.character_layer = character_layer = self.add_animated_layer(TileLayer(self, 'pc', CharacterFactory))
         self.butterfly_layer = self.add_animated_layer(TileLayer(self, 'butterfly', ButterflyFactory))
         self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
         self.object_layer = self.add_layer(TileLayer(self, 'object', ObstacleFactory))
-        
-        if DEBUG_COLLISION:
-            self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
-            self.debug_list = debug_layer.debug_list
-        
+                
         # character_layer.add_model(Box.create())
         
         # --- Other stuff

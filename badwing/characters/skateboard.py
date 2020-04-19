@@ -46,7 +46,7 @@ class Chassis(DynamicModel):
         self.mass = CHASSIS_MASS
 
     @classmethod
-    def create(self, position=(192, 192)):
+    def create(self, position=(0, 0)):
         img_src = asset("tiles/boxCrate.png")
         sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         sprite.width = TILE_WIDTH * TILE_SCALING * 2
@@ -79,9 +79,13 @@ class Skateboard(PhysicsGroup):
 
     def mount(self, mountee):
         self.mountee = mountee
-        position = self.chassis.body.position + (0, CHASSIS_HEIGHT/2+Y_PAD*2)
-        mountee.on_mount(position)
-        p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0), (CHASSIS_WIDTH/2,0))
+        mount_width = self.chassis.width
+        mount_height = self.chassis.height
+
+        point = (0, CHASSIS_HEIGHT/2)
+        mountee.on_mount(self.chassis, point)
+
+        p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))
         p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))
         self.mountee_pins.extend([p5, p6])
         badwing.app.physics_engine.space.add(p5, p6)
@@ -89,8 +93,8 @@ class Skateboard(PhysicsGroup):
     def dismount(self):
         badwing.app.physics_engine.space.remove(self.mountee_pins)
         self.mountee_pins = []
-        position = self.chassis.body.position + (0, CHASSIS_HEIGHT/2+Y_PAD*2)
-        self.mountee.on_dismount(position)
+        point = (0, CHASSIS_HEIGHT/2)
+        self.mountee.on_dismount(self.chassis, point)
 
     def do_setup(self):
         super().do_setup()

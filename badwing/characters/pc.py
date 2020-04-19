@@ -19,42 +19,26 @@ from badwing.physics.util import check_grounding
 from badwing.character import CharacterAvatar, CharacterSprite
 
 PLAYER_MASS = 1
-
+SLOP = 0
 class PlayerCharacter(KinematicModel):
     def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite, geom=badwing.geom.DecomposedGeom)
+        super().__init__(position, sprite, geom=badwing.geom.HullGeom)
+        self.mass = PLAYER_MASS
 
-    def on_mount(self, position):
-        super().on_mount()
+    def on_mount(self, model, point):
+        super().on_mount(point)
+        self.position = model.get_tx_point((point[0], point[1] + self.height/2 + SLOP))
+        self.angle = model.angle
         #print('on_mount')
-        width = self.sprite.texture.width * TILE_SCALING
-        height = self.sprite.texture.height * TILE_SCALING
-        badwing.app.physics_engine.space.remove(self.body, self.shapes)
-        self.body = body = self.create_dynamic_body(self.sprite, position)
-        transform = pymunk.Transform(ty=height/2)
-        self.create_hull_shapes(self.sprite, self.body, position, collision_type=PT_DYNAMIC, transform=transform)
-        badwing.app.physics_engine.space.add(self.body, self.shapes)
-    '''
+        self.physics = badwing.physics.DynamicPhysics()
 
-    def on_mount(self, position):
-        super().on_mount()
-        #print('on_mount')
-        badwing.app.physics_engine.space.remove(self.body, self.shapes)
-        self.physics = 
-        self.body = body = self.create_dynamic_body(self.sprite, position)
-        transform = pymunk.Transform(ty=height/2)
-        self.create_hull_shapes(self.sprite, self.body, position, collision_type=PT_DYNAMIC, transform=transform)
-        badwing.app.physics_engine.space.add(self.body, self.shapes)
-    '''
-    def on_dismount(self, position):
-        super().on_dismount()
-        #print('on_dismount')
-        width = self.sprite.texture.width * TILE_SCALING
-        height = self.sprite.texture.height * TILE_SCALING
-        badwing.app.physics_engine.space.remove(self.body, self.shapes)
-        self.body = body = self.create_kinematic_body(self.sprite, position)
-        self.create_hull_shapes(self.sprite, self.body, position)
-        badwing.app.physics_engine.space.add(self.body, self.shapes)
+    def on_dismount(self, model, point):
+        super().on_dismount(point)
+        #self.position = model.get_tx_point((point[0], point[1] + self.height/2 + SLOP))
+        self.position = (model.position[0], model.position[1] + self.height/2)
+        #self.angle = model.angle
+        self.angle = 0
+        self.physics = badwing.physics.KinematicPhysics()
         badwing.app.scene.pop_pc()
 
     @classmethod
@@ -65,74 +49,29 @@ class PlayerCharacter(KinematicModel):
     def control(self):
         return PcAvatar(self)
 
-    def create_kinematic_body(self, sprite, position=(0,0)):
-        width = sprite.texture.width * TILE_SCALING
-        height = sprite.texture.height * TILE_SCALING
+    def create_body(self):
+        if self.mounted:
+            offset = (0, -self.height/2 + SLOP)
+            return self.physics.create_body(self, offset)
+        else:
+            return self.physics.create_body(self)
 
+    def create_shapes(self):
+        if self.mounted:
+            transform = pymunk.Transform(ty=self.height/2 + SLOP)
+            return self.geom.create_shapes(self, transform)
+        else:
+            return self.geom.create_shapes(self)
 
-        mass = PLAYER_MASS
-        moment = pymunk.moment_for_box(mass, (width, height))
-        #moment = pymunk.moment_for_poly(mass, points)
-        body = pymunk.Body(mass, moment, body_type=pymunk.Body.KINEMATIC)
-        body.position = position
-        body.model = self
-        return body
-
-    def create_dynamic_body(self, sprite, position=(0,0)):
-        width = sprite.texture.width * TILE_SCALING
-        height = sprite.texture.height * TILE_SCALING
-
-
-        mass = PLAYER_MASS
-        moment = pymunk.moment_for_box(mass, (width, height))
-        body = pymunk.Body(mass, moment, body_type=pymunk.Body.DYNAMIC)
-        body.model = self
-
-        pc_pos = Vec2d(position)
-        self.body_offset = body_offset = Vec2d(0, -height/2)
-        body.position = pc_pos + body_offset
-        return body
-    
-    def create_poly_shapes(self, sprite, body, position, collision_type=PT_KINEMATIC, transform=None):
-        self.shapes = []
-        sprite.position = position
-        center = Vec2d(position)
-        points = sprite.points
-        polys = convex_decomposition(sprite.points, 0)
-        for poly in polys:
-            points = [i - center for i in poly ]
-            shape = pymunk.Poly(body, points, transform)
-            shape.friction = 10
-            shape.elasticity = 0.2
-            shape.collision_type = collision_type
-            self.shapes.append(shape)
-
-    def create_hull_shapes(self, sprite, body, position, collision_type=PT_KINEMATIC, transform=None):
-        self.shapes = []
-        sprite.position = position
-        center = Vec2d(position)
-        points = sprite.points
-        poly = to_convex_hull(sprite.points, .01)
-        points = [i - center for i in poly ]
-        shape = pymunk.Poly(body, points, transform)
-        shape.friction = 10
-        shape.elasticity = 0.2
-        shape.collision_type = collision_type
-        self.shapes.append(shape)
-    
     # Hack in sprite transform here for now.  Move up the hierarchy later
+    
     def update_sprite(self, delta_time=1/60):
         if not self.mounted:
             super().update_sprite(delta_time)
             return
-
-        body_pos = self.body.position
-        angle = self.body.angle
-        model = glm.mat4()
-        model = glm.rotate(model, angle, glm.vec3(0, 0, 1))
-        rel_pos = model * glm.vec4(0, 64, 0, 1)
-        pos = rel_pos + glm.vec4(body_pos[0], body_pos[1], 0, 1) 
+        pos = self.get_tx_point((0, 64))
         self.sprite.position = (pos[0], pos[1])
+        angle = self.body.angle
         self.sprite.angle = math.degrees(angle)
 
 class PcAvatar(CharacterAvatar):

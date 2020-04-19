@@ -1,4 +1,5 @@
 import math
+import glm
 import pymunk
 from pymunk.vec2d import Vec2d
 from pymunk.autogeometry import convex_decomposition, to_convex_hull
@@ -13,10 +14,9 @@ class Model:
         self.layer = None
         self.parent = None
         self.position = position
+        self.angle = 0
         self.width = 0
         self.height = 0
-        self.angle = 0
-        self.transform = None # Body offset from model
         self.sprite = sprite
         self.radius = 0
         if sprite:
@@ -83,10 +83,12 @@ class Model:
             self.sprite.position = self.position
             self.sprite.angle = self.angle
 
-    def on_mount(self):
+    def on_mount(self, position):
+        self.position = position
         self.mounted = True
 
-    def on_dismount(self):
+    def on_dismount(self, position):
+        self.position = position
         self.mounted = False
 
 class Group(Model):
@@ -113,38 +115,63 @@ class PhysicsModel(Model):
     def __init__(self, position=(0,0), sprite=None, brain=None, physics=physics.StaticPhysics, geom=geom.HullGeom):
         super().__init__(position, sprite, brain)
         self.body = None
+        self.body_offset = None
         self.shapes = []
-        self.physics = physics()
+        self._physics = physics()
         self.geom = geom()
         self.mass = DEFAULT_MASS
+        self.transform = None # Body offset from model
+
+    @property
+    def physics(self):
+        return self._physics
+
+    @physics.setter
+    def physics(self, physics):
+        if self._physics:
+            self._physics = physics
+            badwing.app.physics_engine.space.remove(self.body, self.shapes)
+            self.body = self.create_body()
+            self.shapes = self.create_shapes()
+            badwing.app.physics_engine.space.add(self.body, self.shapes)
+        else:
+            self._physics = physics
 
     def do_setup(self):
         super().do_setup()
-        self.create_body()
-        self.create_shapes()
+        self.body = self.create_body()
+        self.shapes = self.create_shapes()
 
     def post_setup(self):
         for shape in self.shapes:
             shape.collision_type = self.physics.type
 
         badwing.app.physics_engine.space.add(self.body, self.shapes)
-        self.body.model = self
 
     def update_physics(self, delta_time=1/60):
         if self.body:
             self.position = self.body.position
             self.angle = math.degrees(self.body.angle)
 
-    def create_body(self):
-        self.body = self.physics.create_body(self)
+    def create_body(self, offset=None):
+        return self.physics.create_body(self, offset)
 
-    def create_shapes(self):
-        self.shapes = self.geom.create_shapes(self)
+    def create_shapes(self, transform=None):
+        return self.geom.create_shapes(self)
+
+    def get_tx_point(self, offset):
+        body_pos = self.body.position
+        angle = self.body.angle
+        tx = glm.mat4()
+        tx = glm.rotate(tx, angle, glm.vec3(0, 0, 1))
+        rel_pos = tx * glm.vec4(offset[0], offset[1], 0, 1)
+        pos = rel_pos + glm.vec4(body_pos[0], body_pos[1], 0, 1) 
+        return (pos[0], pos[1])
 
 class PhysicsGroup(PhysicsModel):
     id_counter = 1
 
-    def __init__(self, position=(0,0), physics=physics.DynamicPhysics, geom=geom.GroupGeom):
+    def __init__(self, position=(0,0), physics=physics.GroupPhysics, geom=geom.GroupGeom):
         super().__init__(position, physics=physics, geom=geom)
         self.id_counter += 1
         self.id = self.id_counter
@@ -159,7 +186,7 @@ class PhysicsGroup(PhysicsModel):
         super().do_setup()
         for model in self.models:
             model.gid = self.id
-            model.physics = self.physics
+            #model.physics = self.physics
             self.layer.add_model(model)
 
     def post_setup(self):
@@ -186,7 +213,7 @@ class KinematicModel(PhysicsModel):
         super().update(delta_time)
         if not self.laddered:
             self.body.velocity += (0, int(GRAVITY[1]*delta_time))
-
+    
     def create_body(self):
         sprite = self.sprite
         position = sprite.position
@@ -201,7 +228,7 @@ class KinematicModel(PhysicsModel):
         body.position = position
         body.model = self
         return body
-
+    
 
 class ModelFactory:
     def __init__(self, layer):
