@@ -30,5 +30,6 @@ kinds = {
     'hero': PlayerCharacter,
     'Skateboard': Skateboard,
     'blob': Blob,
-    'enemy': Enemy
+    'enemy': Enemy,
+    'skeleton': Enemy
 }

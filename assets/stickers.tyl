@@ -1,0 +1,6 @@
+type = 'collection'
+firstgid = 0
+source = "stickers"
+name = "stickers"
+spacing = 0
+margin = 0
