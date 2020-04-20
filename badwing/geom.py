@@ -78,10 +78,12 @@ class DecomposedGeom(PolyGeom, metaclass=GeomMeta):
         super().__init__(GT_DECOMPOSED)
 
     def create_shapes(self, model, transform=None):
+        if not transform:
+            transform = model.transform
+
         sprite = model.sprite
         body = model.body
         position = model.position
-        #transform=model.transform
 
         shapes = []
         sprite.position = position
@@ -91,8 +93,6 @@ class DecomposedGeom(PolyGeom, metaclass=GeomMeta):
         polys = convex_decomposition(points, SLOP)
         #print(polys)
         for poly in polys:
-            #points = [i - center for i in poly ]
-            #print(points)
             shape = pymunk.Poly(body, poly, transform)
             shape.friction = 10
             shape.elasticity = 0.2
@@ -105,26 +105,21 @@ class HullGeom(PolyGeom, metaclass=GeomMeta):
         super().__init__(GT_HULL)
 
     def create_shapes(self, model, transform=None):
+        if not transform:
+            transform = model.transform
         #print('transform', transform)
         sprite = model.sprite
         body = model.body
         position = model.position
-        #transform=model.transform
-
         shapes = []
         sprite.position = position
         center = Vec2d(position)
         points = sprite.get_hit_box()
-        print(model.__class__)
-        print(points)
-        points = to_convex_hull(points, SLOP)
-        #print(poly)
-        #points = [i - center for i in poly ]
+        #print(model.__class__)
         #print(points)
-        if transform:
-            shape = pymunk.Poly(body, points, transform)
-        else:
-            shape = pymunk.Poly(body, points)
+        points = to_convex_hull(points, SLOP)
+        #print(points)
+        shape = pymunk.Poly(body, points, transform)
 
         shape.friction = 10
         shape.elasticity = 0.2

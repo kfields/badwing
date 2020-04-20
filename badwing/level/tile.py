@@ -76,6 +76,7 @@ class TileLevel(Level):
         self.butterfly_layer = self.add_animated_layer(TileLayer(self, 'butterfly', ButterflyFactory))
         self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
         self.object_layer = self.add_layer(TileLayer(self, 'object', ObstacleFactory))
+        self.static_layer = self.add_layer(TileLayer(self, 'static', TileFactory))
                 
         # character_layer.add_model(Box.create())
         

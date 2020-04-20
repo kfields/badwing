@@ -1,3 +1,5 @@
+import math
+
 from arcade import Sprite
 from arcade import SpriteList
 
@@ -21,7 +23,7 @@ class KinematicPhysics(Physics, metaclass=PhysicsMeta):
         body = pymunk.Body(body_type=pymunk.Body.KINEMATIC)
         body.model = model
         body.position = model.position
-        body.angle = model.angle
+        body.angle = math.radians(model.angle)
         return body
 
 class CollisionHandler:

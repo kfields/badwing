@@ -1,3 +1,5 @@
+import math
+
 import arcade
 import pymunk
 from pymunk.vec2d import Vec2d
@@ -32,7 +34,7 @@ class DynamicPhysics(Physics, metaclass=PhysicsMeta):
         else:
             position = model.position
         body.position = position
-        body.angle = model.angle
+        body.angle = math.radians(model.angle)
         return body
 
 class DynamicPhysicsEngine(PhysicsEngine):

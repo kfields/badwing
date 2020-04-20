@@ -14,21 +14,22 @@ class Model:
         self.layer = None
         self.parent = None
         self.position = position
+        self.sprite = sprite
+        self.brain = brain
+
         self.angle = 0
         self.width = 0
         self.height = 0
-        self.sprite = sprite
         self.radius = 0
+
         if sprite:
-            self.width = sprite.texture.width * TILE_SCALING
-            self.height = sprite.texture.height * TILE_SCALING
+            sprite.model = self # TODO:  I hate monkey patching, but ...
+            #self.width = sprite.texture.width * TILE_SCALING
+            self.width = sprite.width * TILE_SCALING
+            self.height = sprite.height * TILE_SCALING
             self.radius = self.width / 2
+            self.angle = sprite.angle
             
-        self.brain = brain
-        # TODO:  I hate monkey patching, but ...
-        if sprite:
-            sprite.model = self
-        # Predicates
         self.grounded = False
         self.laddered = False
         self.jumping = False
@@ -120,7 +121,7 @@ class PhysicsModel(Model):
         self._physics = physics()
         self.geom = geom()
         self.mass = DEFAULT_MASS
-        self.transform = None # Body offset from model
+        self.transform = self.create_transform()
 
     @property
     def physics(self):
@@ -167,6 +168,16 @@ class PhysicsModel(Model):
         rel_pos = tx * glm.vec4(offset[0], offset[1], 0, 1)
         pos = rel_pos + glm.vec4(body_pos[0], body_pos[1], 0, 1) 
         return (pos[0], pos[1])
+
+    def create_transform(self):
+        sprite = self.sprite
+        if not sprite:
+            return None
+        a = sprite.width / sprite.texture.width
+        d = sprite.height / sprite.texture.height
+        #t = pymunk.Transform(a=a, d=d, tx=-center.x, ty=-center.y)
+        t = pymunk.Transform(a=a, d=d)
+        return t
 
 class PhysicsGroup(PhysicsModel):
     id_counter = 1

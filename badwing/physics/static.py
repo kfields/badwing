@@ -1,3 +1,5 @@
+import math
+
 import arcade
 import pymunk
 
@@ -18,4 +20,5 @@ class StaticPhysics(Physics, metaclass=PhysicsMeta):
         body = pymunk.Body(body_type=pymunk.Body.STATIC)
         body.model = model
         body.position = model.position
+        body.angle = math.radians(model.angle)
         return body
