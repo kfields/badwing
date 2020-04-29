@@ -20,7 +20,7 @@ def load_texture_pair(filename):
     ]
 
 class CharacterSprite(arcade.Sprite):
-    def __init__(self, position):
+    def __init__(self, position, main_path = ":resources:images/animated_characters/male_adventurer/maleAdventurer"):
         super().__init__(center_x=position[0], center_y=position[1])
 
         # Animation timing
@@ -47,7 +47,7 @@ class CharacterSprite(arcade.Sprite):
         # main_path = ":resources:images/animated_characters/female_adventurer/femaleAdventurer"
         # main_path = ":resources:images/animated_characters/female_person/femalePerson"
         # main_path = ":resources:images/animated_characters/male_person/malePerson"
-        main_path = ":resources:images/animated_characters/male_adventurer/maleAdventurer"
+        # main_path = ":resources:images/animated_characters/male_adventurer/maleAdventurer"
         # main_path = ":resources:images/animated_characters/zombie/zombie"
         # main_path = ":resources:images/animated_characters/robot/robot"
 

@@ -10,7 +10,7 @@ from badwing.util import debounce
 from badwing.model import Model, Group, ModelFactory
 from badwing.tile import TileLayer
 
-from badwing.butterfly.brain import ButterflyBrain
+from badwing.characters.butterfly.brain import ButterflyBrain
 
 SPRITE_WIDTH = 64
 SPRITE_HEIGHT = 32

@@ -1,4 +1,4 @@
-badwing.butterfly package
+badwing.characters.butterfly package
 =========================
 
 Submodules
@@ -6,12 +6,12 @@ Submodules
 
 .. toctree::
 
-   badwing.butterfly.brain
+   badwing.characters.butterfly.brain
 
 Module contents
 ---------------
 
-.. automodule:: badwing.butterfly
+.. automodule:: badwing.characters.butterfly
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,1 +1,0 @@
-from badwing.butterfly.butterfly import Butterfly, ButterflyFactory, Butterflies

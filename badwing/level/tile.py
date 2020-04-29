@@ -20,7 +20,7 @@ from badwing.characters.factory import CharacterFactory
 from badwing.characters import PlayerCharacter, Skateboard, Chassis
 
 from badwing.flag import FlagFactory
-from badwing.butterfly import ButterflyFactory
+from badwing.characters.butterfly import ButterflyFactory
 from badwing.firework import Firework
 from badwing.obstacle import ObstacleFactory
 from badwing.debug import DebugLayer

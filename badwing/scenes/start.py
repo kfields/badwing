@@ -17,7 +17,7 @@ from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 from badwing.tile import TileLayer
 
-from badwing.butterfly import Butterflies
+from badwing.characters.butterfly import Butterflies
 
 from badwing.firework import Firework
 from badwing.debug import DebugLayer

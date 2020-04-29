@@ -6,7 +6,7 @@ Subpackages
 
 .. toctree::
 
-   badwing.butterfly
+   badwing.characters.butterfly
    badwing.character
    badwing.command
    badwing.physics

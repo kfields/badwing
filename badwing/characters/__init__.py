@@ -1,4 +1,5 @@
-from badwing.characters.pc import PlayerCharacter
-from badwing.characters.skateboard import Skateboard, Chassis
-from badwing.characters.blob import Blob
-from badwing.characters.enemy import Enemy
+from .pc import PlayerCharacter
+from .skateboard import Skateboard, Chassis
+from .blob import Blob
+from .skeleton import Skeleton
+from .robot import Robot

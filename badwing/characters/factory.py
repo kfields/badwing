@@ -3,7 +3,8 @@ import arcade
 from badwing.characters import PlayerCharacter
 from badwing.characters import Skateboard
 from badwing.characters import Blob
-from badwing.characters import Enemy
+from badwing.characters import Skeleton
+from badwing.characters import Robot
 
 from badwing.model import ModelFactory
 
@@ -30,6 +31,7 @@ kinds = {
     'hero': PlayerCharacter,
     'Skateboard': Skateboard,
     'blob': Blob,
-    'enemy': Enemy,
-    'skeleton': Enemy
+    'enemy': Skeleton,
+    'skeleton': Skeleton,
+    'Robot': Robot
 }

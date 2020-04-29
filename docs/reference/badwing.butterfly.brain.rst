@@ -1,7 +1,7 @@
-badwing.butterfly.brain module
+badwing.characters.butterfly.brain module
 ==============================
 
-.. automodule:: badwing.butterfly.brain
+.. automodule:: badwing.characters.butterfly.brain
    :members:
    :undoc-members:
    :show-inheritance:
