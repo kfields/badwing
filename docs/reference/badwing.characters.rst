@@ -14,13 +14,37 @@ Subpackages
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+badwing.characters.blob module
+------------------------------
 
-   badwing.characters.blob
-   badwing.characters.factory
-   badwing.characters.pc
-   badwing.characters.skateboard
+.. automodule:: badwing.characters.blob
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.characters.factory module
+---------------------------------
+
+.. automodule:: badwing.characters.factory
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.characters.pc module
+----------------------------
+
+.. automodule:: badwing.characters.pc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.characters.skateboard module
+------------------------------------
+
+.. automodule:: badwing.characters.skateboard
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------

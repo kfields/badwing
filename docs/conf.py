@@ -42,8 +42,8 @@ extensions = [
 apidoc_module_dir = '../badwing'
 apidoc_output_dir = 'reference'
 apidoc_excluded_paths = ['tests']
-apidoc_separate_modules = True
-#apidoc_separate_modules = False
+# apidoc_separate_modules = True
+apidoc_separate_modules = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

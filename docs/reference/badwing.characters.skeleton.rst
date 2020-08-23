@@ -4,11 +4,21 @@ badwing.characters.skeleton package
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+badwing.characters.skeleton.brain module
+----------------------------------------
 
-   badwing.characters.skeleton.brain
-   badwing.characters.skeleton.skeleton
+.. automodule:: badwing.characters.skeleton.brain
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.characters.skeleton.skeleton module
+-------------------------------------------
+
+.. automodule:: badwing.characters.skeleton.skeleton
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------

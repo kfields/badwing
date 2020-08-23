@@ -12,13 +12,37 @@ Subpackages
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+badwing.character.character module
+----------------------------------
 
-   badwing.character.character
-   badwing.character.kinematic
-   badwing.character.layer
-   badwing.character.sprite
+.. automodule:: badwing.character.character
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.character.kinematic module
+----------------------------------
+
+.. automodule:: badwing.character.kinematic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.character.layer module
+------------------------------
+
+.. automodule:: badwing.character.layer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.character.sprite module
+-------------------------------
+
+.. automodule:: badwing.character.sprite
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------

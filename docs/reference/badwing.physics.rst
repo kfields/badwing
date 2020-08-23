@@ -4,15 +4,53 @@ badwing.physics package
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+badwing.physics.dynamic module
+------------------------------
 
-   badwing.physics.dynamic
-   badwing.physics.engine
-   badwing.physics.kinematic
-   badwing.physics.physics
-   badwing.physics.static
-   badwing.physics.util
+.. automodule:: badwing.physics.dynamic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.physics.engine module
+-----------------------------
+
+.. automodule:: badwing.physics.engine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.physics.kinematic module
+--------------------------------
+
+.. automodule:: badwing.physics.kinematic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.physics.physics module
+------------------------------
+
+.. automodule:: badwing.physics.physics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.physics.static module
+-----------------------------
+
+.. automodule:: badwing.physics.static
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.physics.util module
+---------------------------
+
+.. automodule:: badwing.physics.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------

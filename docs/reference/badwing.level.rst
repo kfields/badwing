@@ -4,12 +4,29 @@ badwing.level package
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+badwing.level.level module
+--------------------------
 
-   badwing.level.level
-   badwing.level.sticker
-   badwing.level.tile
+.. automodule:: badwing.level.level
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.level.sticker module
+----------------------------
+
+.. automodule:: badwing.level.sticker
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.level.tile module
+-------------------------
+
+.. automodule:: badwing.level.tile
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------

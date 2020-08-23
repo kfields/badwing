@@ -4,11 +4,21 @@ badwing.characters.robot package
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+badwing.characters.robot.brain module
+-------------------------------------
 
-   badwing.characters.robot.brain
-   badwing.characters.robot.robot
+.. automodule:: badwing.characters.robot.brain
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.characters.robot.robot module
+-------------------------------------
+
+.. automodule:: badwing.characters.robot.robot
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------

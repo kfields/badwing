@@ -4,12 +4,29 @@ badwing.characters.butterfly package
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 4
+badwing.characters.butterfly.brain module
+-----------------------------------------
 
-   badwing.characters.butterfly.brain
-   badwing.characters.butterfly.butterfly
-   badwing.characters.butterfly.sprite
+.. automodule:: badwing.characters.butterfly.brain
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.characters.butterfly.butterfly module
+---------------------------------------------
+
+.. automodule:: badwing.characters.butterfly.butterfly
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+badwing.characters.butterfly.sprite module
+------------------------------------------
+
+.. automodule:: badwing.characters.butterfly.sprite
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
