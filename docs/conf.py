@@ -23,7 +23,7 @@ copyright = '2020, Kurtis Fields'
 author = 'Kurtis Fields'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.dev41'
+release = '0.1.dev67'
 
 
 # -- General configuration ---------------------------------------------------
