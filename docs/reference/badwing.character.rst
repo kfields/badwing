@@ -1,13 +1,24 @@
 badwing.character package
 =========================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   badwing.character.controller
+
 Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
-   badwing.character.pc
-   badwing.character.skateboard
+   badwing.character.character
+   badwing.character.kinematic
+   badwing.character.layer
+   badwing.character.sprite
 
 Module contents
 ---------------

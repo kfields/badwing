@@ -5,10 +5,12 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
-   badwing.characters.butterfly
    badwing.character
+   badwing.characters
    badwing.command
+   badwing.level
    badwing.physics
    badwing.player
    badwing.util
@@ -17,24 +19,23 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    badwing.app
    badwing.assets
-   badwing.controller
    badwing.background
-   badwing.ball
    badwing.barrier
-   badwing.box
    badwing.brain
+   badwing.coin
    badwing.constants
+   badwing.controller
    badwing.debug
    badwing.dialog
    badwing.effect
    badwing.firework
    badwing.flag
-   badwing.ladder
+   badwing.geom
    badwing.layer
-   badwing.level
    badwing.main
    badwing.model
    badwing.obstacle
@@ -42,6 +43,7 @@ Submodules
    badwing.scene
    badwing.tile
    badwing.version
+   badwing.view
 
 Module contents
 ---------------

@@ -107,13 +107,7 @@ def main(debug=False, levelname=None):
         badwing.assets.assets_dir = pip_assets_dir
     else:
         badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../assets')
-    
-    if debug:
-        if is_pip_install:
-            raise Exception('You need to run this in the project root directory!')
-    else:
-        pass
-    
+        
     """ Main method """
     game = MyGame(debug=debug)
     game.show_scene(game.get_scene(levelname))

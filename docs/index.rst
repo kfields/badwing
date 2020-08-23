@@ -14,6 +14,7 @@ Skateboarder/Platformer/Lepidopterist Game using Arcade & Pymunk
 
    usage/installation
    usage/quickstart
+   usage/cli
    reference/modules
 
 
