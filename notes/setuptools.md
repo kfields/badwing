@@ -2,7 +2,7 @@
 
 ## Install
 
-    pip install setuptools wheel
+    pip install setuptools wheel twine
 
 ## Publish
 
