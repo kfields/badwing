@@ -1,6 +1,6 @@
-**********
+**********************
 Command Line Interface
-**********
+**********************
 
 These examples are for development in a virtual environment
 
@@ -14,6 +14,6 @@ python badwing run
 
 
 Development
-----------
+-----------
 
 python badwing dev sandbox

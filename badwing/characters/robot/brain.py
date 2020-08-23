@@ -30,6 +30,7 @@ class RobotBrain(Brain):
         super().__init__(model)
         with root() as root:
             with sensor(See):
+                pass
             with selector():
                 with condition(_I, _see_enemy) as sees:                
                     with action() as a:
