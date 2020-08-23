@@ -82,10 +82,13 @@ class MyGame(arcade.Window):
         self.theme.add_button_textures(normal, hover, clicked, locked)
 
     def set_theme(self):
+        pass
+        '''
         self.theme = arcade.gui.Theme()
         self.set_dialogue_box_texture()
         self.set_button_texture()
         self.theme.set_font(24, arcade.color.BLACK, font_name='Verdana')
+        '''
 
     def on_draw(self):
         arcade.start_render()

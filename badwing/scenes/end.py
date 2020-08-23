@@ -2,6 +2,7 @@ import sys
 import os
 
 import arcade
+import arcade.gui as gui
 import pyglet
 
 import badwing.app
@@ -25,9 +26,9 @@ from badwing.debug import DebugLayer
 from badwing.scenes.level1 import Level1
 
 
-class QuitButton(arcade.gui.TextButton):
-    def __init__(self, view, x, y, width=200, height=50, text="Quit", theme=None):
-        super().__init__(x, y, width, height, text, theme=theme)
+class QuitButton(gui.UIFlatButton):
+    def __init__(self, view, center_x, center_y, width=200, height=50):
+        super().__init__('Quit', center_x, center_y, width, height)
         self.view = view
 
     def on_press(self):
@@ -78,7 +79,7 @@ class EndScreen(Level):
         return badwing.scenes.level1.Level1
 
     def add_buttons(self):
-        self.button_list.append(QuitButton(self, self.half_width, self.half_height-100, theme=self.theme))
+        self.ui_manager.add_ui_element(QuitButton(self, self.half_width, self.half_height-100))
 
     def do_setup(self):
         self.theme = badwing.app.game.theme

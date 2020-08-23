@@ -1,5 +1,6 @@
 import os
 import arcade
+import arcade.gui as gui
 
 import badwing.controller
 
@@ -14,25 +15,25 @@ class Controller(badwing.controller.Controller):
             badwing.app.scene.close_dialog()
         
 
-class NextButton(arcade.gui.TextButton):
-    def __init__(self, view, x, y, width=200, height=50, text="Next", theme=None):
-        super().__init__(x, y, width, height, text, theme=theme)
+class NextButton(gui.UIFlatButton):
+    def __init__(self, view, center_x, center_y, width=200, height=50):
+        super().__init__('Next', center_x, center_y, width, height)
         self.view = view
 
     def on_press(self):
         if self.pressed:
             return
         self.pressed = True
-        badwing.app.game.show_scene(self.view.next_level)
         badwing.app.scene.close_dialog()
+        badwing.app.game.show_scene(self.view.next_level)
 
     def on_release(self):
         self.pressed = False
 
 
-class QuitButton(arcade.gui.TextButton):
-    def __init__(self, view, x, y, width=200, height=50, text="Quit", theme=None):
-        super().__init__(x, y, width, height, text, theme=theme)
+class QuitButton(gui.UIFlatButton):
+    def __init__(self, view, center_x, center_y, width=200, height=50):
+        super().__init__('Quit', center_x, center_y, width, height)
         self.view = view
 
     def on_press(self):
@@ -66,8 +67,8 @@ class BeatLevelDialog(badwing.dialog.Dialog):
     def add_buttons(self):
         #print(self.half_height)
         #print(self.half_width)
-        self.button_list.append(NextButton(self, self.half_width, self.half_height, theme=self.theme))
-        self.button_list.append(QuitButton(self, self.half_width, self.half_height - 100, theme=self.theme))
+        self.ui_manager.add_ui_element(NextButton(self, self.half_width, self.half_height))
+        self.ui_manager.add_ui_element(QuitButton(self, self.half_width, self.half_height - 100))
 
     def setup(self):
         self.theme = badwing.app.game.theme

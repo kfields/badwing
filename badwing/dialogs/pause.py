@@ -1,5 +1,6 @@
 import os
 import arcade
+import arcade.gui as gui
 
 import badwing.app
 import badwing.controller
@@ -19,14 +20,15 @@ class Controller(badwing.controller.Controller):
             badwing.app.scene.close_dialog()
         '''
 
-class ResumeButton(arcade.gui.TextButton):
-    def __init__(self, view, x, y, width=200, height=50, text="Resume", theme=None):
-        super().__init__(x, y, width, height, text, theme=theme)
+class ResumeButton(gui.UIFlatButton):
+    def __init__(self, view, center_x, center_y, width=200, height=50):
+        super().__init__('Resume', center_x, center_y, width, height)
         self.view = view
 
     def on_press(self):
         if self.pressed:
             return
+        print('resume')
         self.pressed = True
         badwing.app.scene.close_dialog()
 
@@ -34,9 +36,9 @@ class ResumeButton(arcade.gui.TextButton):
         self.pressed = False
 
 
-class QuitButton(arcade.gui.TextButton):
-    def __init__(self, view, x, y, width=200, height=50, text="Quit", theme=None):
-        super().__init__(x, y, width, height, text, theme=theme)
+class QuitButton(gui.UIFlatButton):
+    def __init__(self, view, center_x, center_y, width=200, height=50):
+        super().__init__('Quit', center_x, center_y, width, height)
         self.view = view
 
     def on_press(self):
@@ -44,6 +46,7 @@ class QuitButton(arcade.gui.TextButton):
             return
         self.pressed = True
         #print('quit')
+        self.view.close()
         import badwing.scenes.start
         badwing.app.game.show_scene(badwing.scenes.start.StartScene)
 
@@ -53,7 +56,7 @@ class QuitButton(arcade.gui.TextButton):
 
 class PauseDialog(badwing.dialog.Dialog):
     def __init__(self):
-        super().__init__('start')
+        super().__init__('pause')
         self.width = badwing.app.game.width
         self.height = badwing.app.game.height
         self.half_width = self.width/2
@@ -65,10 +68,8 @@ class PauseDialog(badwing.dialog.Dialog):
         return Controller(passthrough=self)
 
     def add_buttons(self):
-        #print(self.half_height)
-        #print(self.half_width)
-        self.button_list.append(ResumeButton(self, self.half_width, self.half_height, theme=self.theme))
-        self.button_list.append(QuitButton(self, self.half_width, self.half_height - 100, theme=self.theme))
+        self.ui_manager.add_ui_element(ResumeButton(self, self.half_width, self.half_height))
+        self.ui_manager.add_ui_element(QuitButton(self, self.half_width, self.half_height - 100))
 
     def setup(self):
         self.theme = badwing.app.game.theme

@@ -1,6 +1,8 @@
 import arcade
 
-class Dialog(arcade.application.View):
+from badwing.view import View
+
+class Dialog(View):
     def __init__(self, name):
         super().__init__()
 

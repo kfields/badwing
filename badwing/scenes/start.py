@@ -2,6 +2,7 @@ import sys
 import os
 
 import arcade
+import arcade.gui as gui
 import pyglet
 
 import badwing.app
@@ -22,9 +23,9 @@ from badwing.characters.butterfly import Butterflies
 from badwing.firework import Firework
 from badwing.debug import DebugLayer
 
-class StartButton(arcade.gui.TextButton):
-    def __init__(self, view, x, y, width=200, height=50, text="Start", theme=None):
-        super().__init__(x, y, width, height, text, theme=theme)
+class StartButton(gui.UIFlatButton):
+    def __init__(self, view, center_x, center_y, width=200, height=50):
+        super().__init__('Start', center_x, center_y, width, height)
         self.view = view
 
     def on_press(self):
@@ -36,9 +37,9 @@ class StartButton(arcade.gui.TextButton):
     def on_release(self):
         self.pressed = False
 
-class QuitButton(arcade.gui.TextButton):
-    def __init__(self, view, x, y, width=200, height=50, text="Quit", theme=None):
-        super().__init__(x, y, width, height, text, theme=theme)
+class QuitButton(gui.UIFlatButton):
+    def __init__(self, view, center_x, center_y, width=200, height=50):
+        super().__init__('Quit', center_x, center_y, width, height)
         self.view = view
 
     def on_press(self):
@@ -87,8 +88,8 @@ class StartScene(Level):
         return badwing.scenes.level1.Level1
 
     def add_buttons(self):
-        self.button_list.append(StartButton(self, self.half_width, self.half_height, theme=self.theme))
-        self.button_list.append(QuitButton(self, self.half_width, self.half_height-100, theme=self.theme))
+        self.ui_manager.add_ui_element(StartButton(self, self.half_width, self.half_height))
+        self.ui_manager.add_ui_element(QuitButton(self, self.half_width, self.half_height-100))
 
     def do_setup(self):
         super().do_setup()

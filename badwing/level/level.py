@@ -19,7 +19,6 @@ class Level(Scene):
         self.tilewidth = 0
         self.tileheight = 0
 
-        self.pause_dialog = PauseDialog()
         self.song = arcade.load_sound(asset('music/funkyrobot.ogg'))
 
     @property
@@ -45,13 +44,10 @@ class Level(Scene):
 
     def beat_level(self):
         next_level = self.get_next_level()
-        dialog = BeatLevelDialog(next_level)
-        dialog.setup()
-        self.open_dialog(dialog)
+        self.open_dialog(BeatLevelDialog(next_level))
 
     def do_setup(self):
         super().do_setup()
-        self.pause_dialog.setup()
 
         map_name = asset(f"{self.name}.tmx")
         self.map = tmx = arcade.tilemap.read_tmx(map_name)
@@ -86,7 +82,8 @@ class Level(Scene):
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
-            self.open_dialog(self.pause_dialog)
+            self.open_dialog(PauseDialog())
+
         self.controller.on_key_press(key, modifiers)
 
     def on_key_release(self, key, modifiers):

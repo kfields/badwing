@@ -5,12 +5,13 @@ import pymunk
 from pyglet import gl
 
 import badwing.app
+from badwing.view import View
 from badwing.constants import *
 from badwing.debug import DebugLayer
 from badwing.assets import asset
 from badwing.model import Model
 
-class Scene(arcade.application.View):
+class Scene(View):
     def __init__(self, name):
         super().__init__()
         badwing.app.scene = self
@@ -62,6 +63,7 @@ class Scene(arcade.application.View):
     def pre_setup(self):
         arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+        self.ui_manager.purge_ui_elements()
 
     def do_setup(self):
         pass
@@ -114,11 +116,14 @@ class Scene(arcade.application.View):
         arcade.set_viewport(viewport[0], viewport[1], viewport[2], viewport[3])
 
     def open_dialog(self, dialog):
-        self.pause()
         self.dialog = dialog
+        self.pause()
+        dialog.open()
         self.push_controller(dialog.control())
 
     def close_dialog(self):
+        if self.dialog:
+            self.dialog.close()
         self.dialog = None
         self.pop_controller()
         self.resume()
