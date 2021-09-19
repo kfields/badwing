@@ -131,10 +131,12 @@ class PhysicsModel(Model):
     def physics(self, physics):
         if self._physics:
             self._physics = physics
-            badwing.app.physics_engine.space.remove(self.body, self.shapes)
+            #badwing.app.physics_engine.space.remove(self.body, self.shapes)
+            self.remove_shapes()
             self.body = self.create_body()
             self.shapes = self.create_shapes()
-            badwing.app.physics_engine.space.add(self.body, self.shapes)
+            #badwing.app.physics_engine.space.add(self.body, self.shapes)
+            self.add_shapes()
         else:
             self._physics = physics
 
@@ -144,11 +146,12 @@ class PhysicsModel(Model):
         self.shapes = self.create_shapes()
 
     def post_setup(self):
+        self.add_shapes()
+        '''
         for shape in self.shapes:
             shape.collision_type = self.physics.type
-
-        badwing.app.physics_engine.space.add(self.body, self.shapes)
-
+            badwing.app.physics_engine.space.add(self.body, shape)
+        '''
     def update_physics(self, delta_time=1/60):
         if self.body:
             self.position = self.body.position
@@ -159,6 +162,15 @@ class PhysicsModel(Model):
 
     def create_shapes(self, transform=None):
         return self.geom.create_shapes(self)
+
+    def add_shapes(self):
+        for shape in self.shapes:
+            shape.collision_type = self.physics.type
+            badwing.app.physics_engine.space.add(self.body, shape)
+
+    def remove_shapes(self):
+        for shape in self.shapes:
+            badwing.app.physics_engine.space.remove(self.body, shape)
 
     def get_tx_point(self, offset):
         body_pos = self.body.position
@@ -175,7 +187,6 @@ class PhysicsModel(Model):
             return None
         a = sprite.width / sprite.texture.width
         d = sprite.height / sprite.texture.height
-        #t = pymunk.Transform(a=a, d=d, tx=-center.x, ty=-center.y)
         t = pymunk.Transform(a=a, d=d)
         return t
 

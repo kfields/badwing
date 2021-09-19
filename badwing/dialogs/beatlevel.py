@@ -13,42 +13,6 @@ class Controller(badwing.controller.Controller):
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
             badwing.app.scene.close_dialog()
-        
-
-class NextButton(gui.UIFlatButton):
-    def __init__(self, view, center_x, center_y, width=200, height=50):
-        super().__init__('Next', center_x, center_y, width, height)
-        self.view = view
-
-    def on_press(self):
-        if self.pressed:
-            return
-        self.pressed = True
-        badwing.app.scene.close_dialog()
-        badwing.app.game.show_scene(self.view.next_level)
-
-    def on_release(self):
-        self.pressed = False
-
-
-class QuitButton(gui.UIFlatButton):
-    def __init__(self, view, center_x, center_y, width=200, height=50):
-        super().__init__('Quit', center_x, center_y, width, height)
-        self.view = view
-
-    def on_press(self):
-        if self.pressed:
-            return
-        self.pressed = True
-        #print('quit')
-        import badwing.app
-        badwing.app.scene.close_dialog()
-        import badwing.scenes.start
-        badwing.app.game.show_scene(badwing.scenes.start.StartScene)
-
-    def on_release(self):
-        self.pressed = False
-
 
 class BeatLevelDialog(badwing.dialog.Dialog):
     def __init__(self, next_level=None):
@@ -65,10 +29,35 @@ class BeatLevelDialog(badwing.dialog.Dialog):
         return Controller(self)
 
     def add_buttons(self):
-        #print(self.half_height)
-        #print(self.half_width)
-        self.ui_manager.add_ui_element(NextButton(self, self.half_width, self.half_height))
-        self.ui_manager.add_ui_element(QuitButton(self, self.half_width, self.half_height - 100))
+        width = 200
+        height = 50
+        next_button = gui.UIFlatButton(0 , 0, width, height, "Next")
+        @next_button.event("on_click")
+        def submit(x):
+            badwing.app.scene.close_dialog()
+            badwing.app.game.show_scene(self.next_level)
+
+        quit_button = gui.UIFlatButton(0 , 0, width, height, "Quit")
+        @quit_button.event("on_click")
+        def submit(x):
+            import badwing.app
+            badwing.app.scene.close_dialog()
+            import badwing.scenes.start
+            badwing.app.game.show_scene(badwing.scenes.start.StartScene)
+
+        self.ui_manager.add(
+            gui.UIAnchorWidget(
+                anchor_x="center_x",
+                # x_align=-50,
+                anchor_y="center_y",
+                # y_align=-20,
+                child=gui.UIBoxLayout(
+                    x=0, y=0,
+                    children=[ next_button.with_space_around(bottom=20), quit_button]
+                )
+
+            )
+        )
 
     def setup(self):
         self.theme = badwing.app.game.theme
@@ -83,5 +72,5 @@ class BeatLevelDialog(badwing.dialog.Dialog):
     def draw(self):
         super().draw()
         arcade.draw_text(
-            "BadWing", self.center_x, self.center_y + 100, arcade.color.WHITE, 60, font_name='Verdana', align='center'
+            "BadWing", self.center_x, self.center_y + 100, arcade.color.WHITE, 60, font_name='Verdana', align='center', width=300
         )

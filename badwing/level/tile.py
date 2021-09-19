@@ -74,7 +74,7 @@ class TileLevel(Level):
         self.spark_layer = self.add_layer(Layer(self, 'spark'))
         self.character_layer = character_layer = self.add_animated_layer(TileLayer(self, 'pc', CharacterFactory))
         self.butterfly_layer = self.add_animated_layer(TileLayer(self, 'butterfly', ButterflyFactory))
-        self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
+        #self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
         self.object_layer = self.add_layer(TileLayer(self, 'object', ObstacleFactory))
         self.static_layer = self.add_layer(TileLayer(self, 'static', TileFactory))
                 

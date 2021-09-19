@@ -24,7 +24,8 @@ class Tile(StaticModel):
 class TileLayer(Layer):
     def __init__(self, level, name, factory=None):
         super().__init__(level, name, factory)
-        self.sprites = arcade.tilemap.process_layer(level.map, name, TILE_SCALING)
+        #self.sprites = arcade.tilemap.process_layer(level.map, name, TILE_SCALING)
+        self.sprites = level.map.sprite_lists[name]
 
 
 class TileFactory(ModelFactory):

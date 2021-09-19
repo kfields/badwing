@@ -9,6 +9,7 @@ from importlib import import_module
 
 import arcade
 import pymunk
+import pymunk.pyglet_util
 import pyglet
 
 from badwing import __version__
@@ -24,6 +25,7 @@ class MyGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         badwing.app.game = self
         self.debug = debug
+        self.draw_options = pymunk.pyglet_util.DrawOptions()
         self.scene = None
         self.theme = None
         self.player = Player()
@@ -34,9 +36,6 @@ class MyGame(arcade.Window):
 
     def get_scene(self, scenename=None):
         if scenename:
-            #path = os.path.abspath(os.path.dirname(__file__))
-            #path = os.path.join(path, f"../scenes/{scenename}")
-            #imported_module = import_module('.' + scenename, package=__name__)
             imported_module = import_module('.' + scenename, package='badwing.scenes')
             for i in dir(imported_module):
                 attribute = getattr(imported_module, i)
@@ -56,9 +55,6 @@ class MyGame(arcade.Window):
             self.scene.shutdown()
 
         def callback(delta_time):
-            #print('show_scene')
-            #TODO: Why is this not working?
-            #if not isinstance(scene_class, badwing.scene.Scene):
             if not isinstance(scene_class, type):
                 raise Exception(f'{scene_class} Must be a Scene class!')
 
@@ -68,45 +64,25 @@ class MyGame(arcade.Window):
         pyglet.clock.schedule_once(callback, delay)
 
     def setup(self):
-        self.set_theme()
-
-    def set_dialogue_box_texture(self):
-        dialogue_box = asset("gui_themes/Fantasy/DialogueBox/DialogueBox.png")
-        self.theme.add_dialogue_box_texture(dialogue_box)
-
-    def set_button_texture(self):
-        normal = asset("gui_themes/Fantasy/Buttons/Normal.png")
-        hover = asset("gui_themes/Fantasy/Buttons/Hover.png")
-        clicked = asset("gui_themes/Fantasy/Buttons/Clicked.png")
-        locked = asset("gui_themes/Fantasy/Buttons/Locked.png")
-        self.theme.add_button_textures(normal, hover, clicked, locked)
-
-    def set_theme(self):
         pass
-        '''
-        self.theme = arcade.gui.Theme()
-        self.set_dialogue_box_texture()
-        self.set_button_texture()
-        self.theme.set_font(24, arcade.color.BLACK, font_name='Verdana')
-        '''
 
     def on_draw(self):
         arcade.start_render()
         super().on_draw()
         self.scene.draw()
+        #badwing.app.physics_engine.space.debug_draw(self.draw_options)
 
     def update(self, delta_time):
         super().update(delta_time)
         self.player.update(delta_time)
 
 def main(debug=False, levelname=None):
-    #print(levelname)
     pip_assets_dir = os.path.join(sys.prefix, 'share/badwing/assets')
     is_pip_install = os.path.isdir(pip_assets_dir)
     if is_pip_install:
         badwing.assets.assets_dir = pip_assets_dir
     else:
-        badwing.assets.assets_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../assets')
+        badwing.assets.assets_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../assets'))
         
     """ Main method """
     game = MyGame(debug=debug)

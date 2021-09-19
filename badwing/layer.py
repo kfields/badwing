@@ -1,10 +1,7 @@
-import json
 import arcade
-import pymunk
 
 import badwing.app
 from badwing.constants import *
-from badwing.model import Model
 from badwing.effect import EffectList
 
 class Layer:

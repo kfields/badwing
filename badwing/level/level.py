@@ -49,14 +49,14 @@ class Level(Scene):
     def do_setup(self):
         super().do_setup()
 
-        map_name = asset(f"{self.name}.tmx")
-        self.map = tmx = arcade.tilemap.read_tmx(map_name)
+        map_name = asset(f"{self.name}.json")
+        self.map = tmx = arcade.tilemap.load_tilemap(map_name)
         #print('level setup')
 
-        self.tilewidth = tmx.tile_size.width
-        self.tileheight = tmx.tile_size.height
-        self.width = tmx.map_size.width * self.tilewidth
-        self.height = tmx.map_size.height * self.tileheight
+        self.tilewidth = tmx.tile_width
+        self.tileheight = tmx.tile_height
+        self.width = tmx.width * self.tilewidth
+        self.height = tmx.height * self.tileheight
         self.top = self.height
         self.right = self.width
         #print('width:  ', self.width)
@@ -69,7 +69,7 @@ class Level(Scene):
         if not self.paused:
             #seems to floaty to me:
             #self.physics_engine.update(delta_time)
-            self.physics_engine.update(1/40)
+            self.physics_engine.update(1/60)
             self.check_collisions()
 
         if badwing.app.player.level_beat:

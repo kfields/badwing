@@ -31,6 +31,7 @@ class Scene(View):
         self.controller_stack = []
         self.song = None
         self.mute = False
+        self.songPlayer = None
 
     @property
     def controller(self):
@@ -63,7 +64,6 @@ class Scene(View):
     def pre_setup(self):
         arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
-        self.ui_manager.purge_ui_elements()
 
     def do_setup(self):
         pass
@@ -72,7 +72,7 @@ class Scene(View):
         for layer in self.layers:
             layer.setup()
         if not self.mute and self.song:
-            self.song.play(volume=.5)
+            self.songPlayer = self.song.play(volume=.5)
 
     def setup(self):
         self.pre_setup()
@@ -84,7 +84,7 @@ class Scene(View):
 
     def shutdown(self):
         if not self.mute and self.song:
-            self.song.stop()
+            self.song.stop(self.songPlayer)
 
     def update(self, delta_time):
         super().update(delta_time)

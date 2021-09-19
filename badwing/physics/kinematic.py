@@ -1,13 +1,10 @@
 import math
 
-from arcade import Sprite
-from arcade import SpriteList
-
 import pymunk
+from pymunk.vec2d import Vec2d
 
 from badwing.constants import *
 from badwing.physics import Physics, PhysicsMeta, PhysicsEngine
-from badwing.physics.util import _circular_check, check_grounding
 
 class KinematicPhysics(Physics, metaclass=PhysicsMeta):
     def __init__(self):
@@ -55,14 +52,11 @@ class KinematicStaticHandler(CollisionHandler):
         kbody.model.grounded = True
         velocity = kbody.velocity
         if velocity[1] < 0:
-            velocity[1] = 0
+            velocity = Vec2d(velocity[0], 0)
         kbody.velocity = velocity
 
         n = -arbiter.contact_point_set.normal
         penetration = -arbiter.contact_point_set.points[0].distance
-        body = arbiter.shapes[1].body
-        impulse = arbiter.total_impulse
-        position = arbiter.contact_point_set.points[0].point_b
         kbody.position += n * penetration
         return True
 
@@ -73,14 +67,11 @@ class KinematicKinematicHandler(CollisionHandler):
         kbody.model.grounded = True
         velocity = kbody.velocity
         if velocity[1] < 0:
-            velocity[1] = 0
+            velocity = Vec2d(velocity[0], 0)
         kbody.velocity = velocity
 
         n = -arbiter.contact_point_set.normal
         penetration = -arbiter.contact_point_set.points[0].distance
-        body = arbiter.shapes[1].body
-        impulse = arbiter.total_impulse
-        position = arbiter.contact_point_set.points[0].point_b
         kbody.position += n * penetration
         return True
 
@@ -94,7 +85,7 @@ class KinematicDynamicHandler(CollisionHandler):
 
         velocity = kbody.velocity
         if velocity[1] < 0:
-            velocity[1] = 0
+            velocity = Vec2d(velocity[0], 0)
 
         normal = -arbiter.contact_point_set.normal
         penetration = -arbiter.contact_point_set.points[0].distance
@@ -104,7 +95,7 @@ class KinematicDynamicHandler(CollisionHandler):
         kbody.position += normal * penetration
 
         impulse = velocity * .005
-        impulse[1] = 0
+        impulse = Vec2d(impulse[0], 0)
         point = position
         body.apply_impulse_at_local_point(impulse, point)
         kbody.velocity = velocity

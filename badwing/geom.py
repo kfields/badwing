@@ -113,7 +113,6 @@ class HullGeom(PolyGeom, metaclass=GeomMeta):
         position = model.position
         shapes = []
         sprite.position = position
-        center = Vec2d(position)
         points = sprite.get_hit_box()
         #print(model.__class__)
         #print(points)

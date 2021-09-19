@@ -54,16 +54,16 @@ class Chassis(DynamicModel):
         return Chassis(position, sprite)
 
 class Skateboard(PhysicsGroup):
-    def __init__(self, position=(0, 0)):
+    def __init__(self, position=Vec2d(0, 0)):
         super().__init__(position)
         self.mountee = None
         self.mountee_pins = []
         self.speed = 0
         self.motors_attached = True
 
-        chassis_pos = Vec2d(position)
-        front_wheel_pos = chassis_pos - (-(CHASSIS_WIDTH/2+X_PAD), Y_PAD)
-        back_wheel_pos = chassis_pos - (CHASSIS_WIDTH/2+X_PAD, Y_PAD)
+        chassis_pos = position
+        front_wheel_pos = chassis_pos - Vec2d(-(CHASSIS_WIDTH/2+X_PAD), Y_PAD)
+        back_wheel_pos = chassis_pos - Vec2d(CHASSIS_WIDTH/2+X_PAD, Y_PAD)
 
         self.chassis = chassis = self.add_model(Chassis.create(chassis_pos))
         self.sprite = chassis.sprite
@@ -91,7 +91,7 @@ class Skateboard(PhysicsGroup):
         badwing.app.physics_engine.space.add(p5, p6)
 
     def dismount(self):
-        badwing.app.physics_engine.space.remove(self.mountee_pins)
+        badwing.app.physics_engine.space.remove(*self.mountee_pins)
         self.mountee_pins = []
         point = (0, CHASSIS_HEIGHT/2)
         self.mountee.on_dismount(self.chassis, point)
@@ -104,9 +104,9 @@ class Skateboard(PhysicsGroup):
         p3 = pymunk.PinJoint(self.front_wheel.body, self.chassis.body, (0,0), (CHASSIS_WIDTH/2,0))
         p4 = pymunk.PinJoint(self.front_wheel.body, self.chassis.body, (0,0), (0,-CHASSIS_HEIGHT/2))
 
-        self.front_motor = m1 = pymunk.constraint.SimpleMotor(self.front_wheel.body, self.chassis.body, -self.speed)
+        self.front_motor = m1 = pymunk.constraints.SimpleMotor(self.front_wheel.body, self.chassis.body, -self.speed)
         m1.max_force = 200000
-        self.back_motor = self.motor = m2 = pymunk.constraint.SimpleMotor(self.back_wheel.body, self.chassis.body, -self.speed)
+        self.back_motor = self.motor = m2 = pymunk.constraints.SimpleMotor(self.back_wheel.body, self.chassis.body, -self.speed)
         m2.max_force = 200000
 
         badwing.app.physics_engine.space.add(p1, p2, p3, p4, m1, m2)

@@ -25,22 +25,6 @@ from badwing.debug import DebugLayer
 
 from badwing.scenes.level1 import Level1
 
-
-class QuitButton(gui.UIFlatButton):
-    def __init__(self, view, center_x, center_y, width=200, height=50):
-        super().__init__('Quit', center_x, center_y, width, height)
-        self.view = view
-
-    def on_press(self):
-        if self.pressed:
-            return
-        self.pressed = True
-        #print('exit')
-        pyglet.app.exit()
-
-    def on_release(self):
-        self.pressed = False
-
 class EndScreen(Level):
     def __init__(self):
         super().__init__('start')
@@ -79,7 +63,24 @@ class EndScreen(Level):
         return badwing.scenes.level1.Level1
 
     def add_buttons(self):
-        self.ui_manager.add_ui_element(QuitButton(self, self.half_width, self.half_height-100))
+        width = 200
+        height = 50
+
+        quit_button = gui.UIFlatButton(0 , 0, width, height, "Quit")
+        @quit_button.event("on_click")
+        def submit(x):
+          pyglet.app.exit()
+
+        self.ui_manager.add(
+            gui.UIAnchorWidget(
+                anchor_x="center_x",
+                anchor_y="center_y",
+                child=gui.UIBoxLayout(
+                    x=0, y=0,
+                    children=[quit_button]
+                )
+            )
+        )
 
     def do_setup(self):
         self.theme = badwing.app.game.theme
@@ -116,7 +117,7 @@ class EndScreen(Level):
     def draw(self):
         super().draw()
         arcade.draw_text(
-            "You Win!!!", self.center_x-100, self.center_y + 100, arcade.color.WHITE, 60, font_name='Verdana', align='center'
+            "You Win!!!", self.center_x-100, self.center_y + 100, arcade.color.WHITE, 60, font_name='Verdana', align='center', width=500
         )
 
     def on_key_press(self, key, modifiers):
