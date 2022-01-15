@@ -6,8 +6,8 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9, <3.10"
-arcade = "^2.6.2"
-#arcade = {git = "https://github.com/pythonarcade/arcade.git", rev = "development"}
+arcade = "^2.6.9"
+#arcade = { git = "https://github.com/pythonarcade/arcade.git", branch = "development" }
 click = "^8.0.1"
 PyGLM = "^2.4.0"
 
