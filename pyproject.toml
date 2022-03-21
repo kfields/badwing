@@ -5,15 +5,18 @@ description = ""
 authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.9, <3.10"
-arcade = "^2.6.9"
+python = ">=3.9, <4"
+arcade = "^2.6.12"
 #arcade = { git = "https://github.com/pythonarcade/arcade.git", branch = "development" }
 click = "^8.0.1"
-PyGLM = "^2.4.0"
+PyGLM = "^2.5.7"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.1.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+badwing = 'badwing.command:cli'
