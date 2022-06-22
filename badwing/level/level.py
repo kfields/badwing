@@ -19,7 +19,7 @@ class Level(Scene):
         self.tilewidth = 0
         self.tileheight = 0
 
-        self.song = arcade.load_sound(asset('music/funkyrobot.ogg'))
+        self.song = arcade.load_sound(asset('music/funkyrobot.mp3'))
 
     @property
     def pc(self):
