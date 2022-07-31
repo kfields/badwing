@@ -11,5 +11,3 @@ class Level1(TileLevel):
     def get_next_level(self):
         import badwing.scenes.end
         return badwing.scenes.end.EndScreen
-        #import badwing.scenes.sandbox
-        #return badwing.scenes.sandbox.Sandbox
