@@ -50,13 +50,13 @@ class Level(Scene):
         super().do_setup()
 
         map_name = asset(f"{self.name}.json")
-        self.map = tmx = arcade.tilemap.load_tilemap(map_name)
+        self.map = map = arcade.tilemap.load_tilemap(map_name)
         #print('level setup')
 
-        self.tilewidth = tmx.tile_width
-        self.tileheight = tmx.tile_height
-        self.width = tmx.width * self.tilewidth
-        self.height = tmx.height * self.tileheight
+        self.tilewidth = map.tile_width
+        self.tileheight = map.tile_height
+        self.width = map.width * self.tilewidth
+        self.height = map.height * self.tileheight
         self.top = self.height
         self.right = self.width
         #print('width:  ', self.width)

@@ -52,10 +52,12 @@ class BeatLevelDialog(badwing.dialog.Dialog):
             badwing.app.game.show_scene(badwing.scenes.start.StartScene)
 
         self.ui_manager.add(
-            gui.UIAnchorLayout(
-                children=[gui.UIBoxLayout(children=[next_button, quit_button])],
-                space_between=20
-            )
+            children=[
+                gui.UIAnchorLayout(
+                    children=[gui.UIBoxLayout(children=[next_button, quit_button])],
+                    space_between=20,
+                )
+            ]
         )
 
     def setup(self):

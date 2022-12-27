@@ -57,6 +57,7 @@ class StickerLevel(Level):
         import badwing.scenes.level2
         return badwing.scenes.level2.Level2
 
+    """
     def do_setup(self):
         super().do_setup()
 
@@ -68,11 +69,11 @@ class StickerLevel(Level):
 
         self.parallax_layer = self.add_layer(TileLayer(self, 'parallax'))
 
-        self.background_layer = self.add_layer(TileLayer(self, 'ground/background'))
+        self.background_layer = self.add_layer(TileLayer(self, 'background'))
 
-        self.ground_layer = self.add_layer(TileLayer(self, 'ground/ground', TileFactory))
+        self.ground_layer = self.add_layer(TileLayer(self, 'ground', TileFactory))
 
-        self.ground_layer = self.add_layer(TileLayer(self, 'ground/foreground'))
+        self.ground_layer = self.add_layer(TileLayer(self, 'foreground'))
 
         self.castle_layer = self.add_layer(TileLayer(self, 'castle'))
 
@@ -94,21 +95,17 @@ class StickerLevel(Level):
 
         self.spark_layer = self.add_layer(Layer(self, 'spark'))
 
-        #self.game_list = arcade.tilemap.process_layer(my_map, 'game', TILE_SCALING)
-        #self.game_layer = self.add_layer(Layer(self, 'game'))
         self.character_layer = character_layer = self.add_animated_layer(TileLayer(self, 'game', CharacterFactory))
 
-        #self.above_layer = arcade.tilemap.process_layer(my_map, 'above', TILE_SCALING)
         self.above_layer = self.add_layer(TileLayer(self, 'above'))
-        
-        # character_layer.add_model(Box.create())
-        
+                
         # --- Other stuff
         # Set the background color
         if self.map.background_color:
             arcade.set_background_color(self.map.background_color)
 
         self.physics_engine.setup()
+    """
 
     def post_setup(self):
         super().post_setup()
