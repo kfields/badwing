@@ -12,33 +12,12 @@ from badwing.level import Level
 from badwing.controller import Controller
 
 from badwing.physics.dynamic import DynamicPhysicsEngine
-from badwing.physics.kinematic import KinematicPhysicsEngine
 from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
-from badwing.tile import TileLayer
 
 from badwing.characters.butterfly import Butterflies
 
-from badwing.firework import Firework
-from badwing.debug import DebugLayer
-
-"""
-:param text: Text
-:param center_x: center X of element
-:param center_y: center y of element
-:param min_size: min_size of the element
-:param size_hint: size_hint to grow/shrink within UILayout
-:param id: id of :py:class:`arcade.gui.UIElement`
-:param style: style of :py:class:`arcade.gui.UIElement`
-:param kwargs: catches unsupported named parameters
-"""
-
-"""
-        @ui_flat_button.event("on_click")
-        def on_click(*args):
-            print("clicked")
-"""
 
 class StartScene(Level):
     def __init__(self):
@@ -88,18 +67,13 @@ class StartScene(Level):
         @quit_button.event("on_click")
         def submit(x):
           pyglet.app.exit()
-
+        
         self.ui_manager.add(
-            gui.UIAnchorWidget(
-                anchor_x="center_x",
-                # x_align=-50,
-                anchor_y="center_y",
-                # y_align=-20,
-                child=gui.UIBoxLayout(
-                    x=0, y=0,
-                    children=[ start_button.with_space_around(bottom=20), quit_button]
-                )
-
+            gui.UIAnchorLayout(
+                children=[gui.UIBoxLayout(
+                    children=[ start_button, quit_button],
+                    space_between=20
+                )]
             )
         )
 

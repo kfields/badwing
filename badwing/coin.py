@@ -14,7 +14,7 @@ class Coin(Model):
 
     @classmethod
     def create(self, position, sprite):
-        kind = sprite.properties['type']
+        kind = sprite.properties['class']
         model = kinds[kind].create(position, sprite)
         #print(model)
         #print(vars(sprite))

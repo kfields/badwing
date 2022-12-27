@@ -72,13 +72,10 @@ class EndScreen(Level):
           pyglet.app.exit()
 
         self.ui_manager.add(
-            gui.UIAnchorWidget(
-                anchor_x="center_x",
-                anchor_y="center_y",
-                child=gui.UIBoxLayout(
-                    x=0, y=0,
+            gui.UIAnchorLayout(
+                children=[gui.UIBoxLayout(
                     children=[quit_button]
-                )
+                )]
             )
         )
 

@@ -99,14 +99,19 @@ class Scene(View):
             self.dialog.update(delta_time)
 
     def draw(self):
-        self.on_draw()
+        for layer in self.layers:
+            layer.draw()
+        super().draw()
+        self.draw_dialog()
 
+    """
     def on_draw(self):
         for layer in self.layers:
             layer.draw()
         super().on_draw()
         self.draw_dialog()
-
+    """
+    
     def draw_dialog(self):
         if not self.dialog:
             return

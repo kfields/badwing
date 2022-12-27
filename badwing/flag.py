@@ -38,7 +38,7 @@ class Flag(Model):
 
     @classmethod
     def create(self, position, sprite):
-        kind = sprite.properties['type']
+        kind = sprite.properties['class']
         model = kinds[kind].create(position, sprite)
         return model
 
@@ -82,7 +82,8 @@ class FlagFactory(ModelFactory):
 
     def setup(self):
         for sprite in self.layer.sprites:
-            kind = sprite.properties['type']
+            print("sprite.properties: ", sprite.properties)
+            kind = sprite.properties['class']
             if kind == 'Pole':
                 model = Pole(sprite.position, sprite)
             else:

@@ -18,7 +18,7 @@ class CharacterFactory(ModelFactory):
 
         for sprite in orig_sprites:
             #print(sprite)
-            kind = sprite.properties.get('type')
+            kind = sprite.properties.get('class')
             if not kind:
                 continue
             position = sprite.position

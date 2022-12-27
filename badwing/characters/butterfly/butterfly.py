@@ -44,7 +44,7 @@ class Butterfly(Model):
 
     @classmethod
     def create_from(self, sprite):
-        kind = sprite.properties['type']
+        kind = sprite.properties['class']
         pos = sprite.position
         border = (pos[0]-HALF_RANGE, pos[1]-HALF_RANGE, pos[0]+HALF_RANGE, pos[1]+HALF_RANGE)
         model = kinds[kind].create(pos, border)
@@ -146,7 +146,7 @@ class ButterflyFactory(ModelFactory):
 
         for sprite in orig_sprites:
             #print(sprite)
-            kind = sprite.properties.get('type')
+            kind = sprite.properties.get('class')
             if not kind:
                 continue
             position = sprite.position

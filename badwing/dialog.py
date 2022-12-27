@@ -8,6 +8,3 @@ class Dialog(View):
 
     def setup(self):
         pass
-
-    def draw(self):
-        super().on_draw()
