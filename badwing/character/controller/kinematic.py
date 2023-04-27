@@ -84,9 +84,6 @@ class KinematicController(CharacterController):
         if self.allow_multi_jump:
             self.jumps_since_ground += 1
 
-    def update(self, delta_time=1/60):
-        super().update(delta_time)
-
     def process_keychange(self):
         delta_x, delta_y = 0, 0
         # Process up/down

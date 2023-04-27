@@ -16,7 +16,8 @@ def load_texture_pair(filename):
     """
     return [
         arcade.load_texture(filename),
-        arcade.load_texture(filename, flipped_horizontally=True)
+        #arcade.load_texture(filename, flipped_horizontally=True)
+        arcade.load_texture(filename).flip_horizontally()
     ]
 
 class CharacterSprite(arcade.Sprite):

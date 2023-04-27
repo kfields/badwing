@@ -153,15 +153,15 @@ class TileLevel(Level):
             # Only scroll to integers. Otherwise we end up with pixels that
             # don't line up on the screen
             # Clamp the viewport to the level boundaries
-            (vp_left, vp_right, vp_bottom, vp_top) = viewport = arcade.get_viewport()
+            (vp_left, vp_right, vp_bottom, vp_top) = viewport = self.window.get_viewport()
             low_bottom = self.bottom
             high_bottom = self.top - (vp_top - vp_bottom)
             low_left = self.left
             high_left = self.right - (vp_right - vp_left)
             
-            self.view_bottom = int(arcade.clamp(self.view_bottom, low_bottom, high_bottom))
+            self.view_bottom = int(arcade.math.clamp(self.view_bottom, low_bottom, high_bottom))
 
-            self.view_left = int(arcade.clamp(self.view_left, low_left, high_left))
+            self.view_left = int(arcade.math.clamp(self.view_left, low_left, high_left))
 
             # Do the scrolling
             arcade.set_viewport(self.view_left,

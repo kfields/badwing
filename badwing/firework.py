@@ -1,6 +1,7 @@
 import random
 
 import arcade
+from arcade.particles import FadeParticle, Emitter, EmitBurst
 
 from badwing.constants import *
 from badwing.effect import Effect
@@ -31,12 +32,12 @@ class Firework(Effect):
 
     def make_sparks(self, position):
         spark_texture = random.choice(SPARK_TEXTURES)
-        sparks = arcade.Emitter(
+        sparks = Emitter(
             center_xy=position,
-            emit_controller=arcade.EmitBurst(self.radius),
+            emit_controller=EmitBurst(self.radius),
             particle_factory=lambda emitter: AnimatedAlphaParticle(
                 filename_or_texture=spark_texture,
-                change_xy=arcade.rand_in_circle((0.0, 0.0), 9.0),
+                change_xy=arcade.math.rand_in_circle((0.0, 0.0), 9.0),
                 start_alpha=255,
                 duration1=random.uniform(0.6, 1.0),
                 mid_alpha=0,
@@ -47,7 +48,7 @@ class Firework(Effect):
         )
         self.emitters.append(sparks)
 
-def firework_spark_mutator(particle: arcade.FadeParticle):
+def firework_spark_mutator(particle: FadeParticle):
     """mutation_callback shared by all fireworks sparks"""
     # gravity
     particle.change_y += -0.03

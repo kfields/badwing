@@ -15,7 +15,7 @@ class BackgroundLayer(TileLayer):
 
     def draw(self):
         # Draw the background texture
-        (left, right, bottom, top) = viewport = arcade.get_viewport()
+        (left, right, bottom, top) = viewport = self.level.window.get_viewport()
         arcade.draw_lrwh_rectangle_textured(left, bottom,
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
                                             self.background)

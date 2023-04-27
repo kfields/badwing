@@ -6,10 +6,10 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8, <3.12"
-arcade = "^2.7.1.dev9"
+arcade = "==3.0.0.dev20"
 #arcade = {git = "https://github.com/pythonarcade/arcade.git", rev = "development"}
 click = "^8.0.1"
-PyGLM = "^2.6.0"
+PyGLM = "^2.7.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.0"

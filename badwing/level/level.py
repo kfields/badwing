@@ -49,7 +49,8 @@ class Level(Scene):
     def do_setup(self):
         super().do_setup()
 
-        map_name = asset(f"{self.name}.json")
+        #map_name = asset(f"{self.name}.json")
+        map_name = asset(f"{self.name}.tmx")
         self.map = map = arcade.tilemap.load_tilemap(map_name)
         #print('level setup')
 

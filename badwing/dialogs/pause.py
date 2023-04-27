@@ -1,13 +1,8 @@
-import os
 import arcade
 import arcade.gui as gui
 
 import badwing.app
 import badwing.controller
-
-from badwing.assets import asset
-
-from badwing.scene import Scene
 import badwing.dialog
 
 
@@ -62,9 +57,6 @@ class PauseDialog(badwing.dialog.Dialog):
         super().setup()
 
         self.add_buttons()
-
-    def update(self, delta_time):
-        super().update(delta_time)
 
     def draw(self):
         super().draw()

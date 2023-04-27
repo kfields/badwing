@@ -103,22 +103,14 @@ class Scene(View):
             layer.draw()
         super().draw()
         self.draw_dialog()
-
-    """
-    def on_draw(self):
-        for layer in self.layers:
-            layer.draw()
-        super().on_draw()
-        self.draw_dialog()
-    """
     
     def draw_dialog(self):
         if not self.dialog:
             return
-        viewport = arcade.get_viewport()
-        arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
+        viewport = self.window.get_viewport()
+        self.window.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         self.dialog.draw()
-        arcade.set_viewport(viewport[0], viewport[1], viewport[2], viewport[3])
+        self.window.set_viewport(viewport[0], viewport[1], viewport[2], viewport[3])
 
     def open_dialog(self, dialog):
         self.dialog = dialog
