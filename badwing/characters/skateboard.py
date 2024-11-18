@@ -2,7 +2,9 @@ import math
 import glm
 import pymunk
 from pymunk import Vec2d
-import arcade
+
+from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
+from crunge.engine.d2.sprite import Sprite, SpriteVu
 
 import badwing.app
 from badwing.constants import *
@@ -29,13 +31,16 @@ MAX_SPEED = 100
 class Wheel(DynamicModel):
     def __init__(self, position=(0,0), sprite=None):
         super().__init__(position, sprite, geom=badwing.geom.BallGeom)
-        self.radius = WHEEL_RADIUS
+        #self.radius = WHEEL_RADIUS
         self.mass = WHEEL_MASS
 
     @classmethod
-    def create(self, position=(0,0)):
+    def produce(self, position=(0,0)):
         img_src = asset("items/coinGold.png")
-        sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
+        texture = ImageTextureLoader().load(img_src)
+        material = Sprite(texture)
+        sprite = SpriteVu(material).create()
+
         return Wheel(position, sprite)
 
 class Chassis(DynamicModel):
@@ -46,11 +51,15 @@ class Chassis(DynamicModel):
         self.mass = CHASSIS_MASS
 
     @classmethod
-    def create(self, position=(0, 0)):
+    def produce(self, position=(0, 0)):
         img_src = asset("tiles/boxCrate.png")
-        sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
-        sprite.width = TILE_WIDTH * TILE_SCALING * 2
-        sprite.height = CHASSIS_HEIGHT * TILE_SCALING
+        #sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
+        #sprite.width = TILE_WIDTH * TILE_SCALING * 2
+        #sprite.height = CHASSIS_HEIGHT * TILE_SCALING
+        texture = ImageTextureLoader().load(img_src)
+        material = Sprite(texture)
+        sprite = SpriteVu(material).create()
+
         return Chassis(position, sprite)
 
 class Skateboard(PhysicsGroup):
@@ -65,13 +74,14 @@ class Skateboard(PhysicsGroup):
         front_wheel_pos = chassis_pos - Vec2d(-(CHASSIS_WIDTH/2+X_PAD), Y_PAD)
         back_wheel_pos = chassis_pos - Vec2d(CHASSIS_WIDTH/2+X_PAD, Y_PAD)
 
-        self.chassis = chassis = self.add_model(Chassis.create(chassis_pos))
-        self.sprite = chassis.sprite
-        self.front_wheel = front_wheel = self.add_model(Wheel.create(front_wheel_pos))
-        self.back_wheel = back_wheel = self.add_model(Wheel.create(back_wheel_pos))
+        self.chassis = chassis = self.add_model(Chassis.produce(chassis_pos))
+        #self.sprite = chassis.sprite
+        self.vu = chassis.vu
+        self.front_wheel = front_wheel = self.add_model(Wheel.produce(front_wheel_pos))
+        self.back_wheel = back_wheel = self.add_model(Wheel.produce(back_wheel_pos))
 
     @classmethod
-    def create(self, position=(0,0)):
+    def produce(self, position=(0,0)):
         return Skateboard(position)
 
     def control(self):
@@ -96,8 +106,8 @@ class Skateboard(PhysicsGroup):
         point = (0, CHASSIS_HEIGHT/2)
         self.mountee.on_dismount(self.chassis, point)
 
-    def do_setup(self):
-        super().do_setup()
+    def _create(self):
+        super()._create()
 
         p1 = pymunk.PinJoint(self.back_wheel.body, self.chassis.body, (0,0), (-CHASSIS_WIDTH/2,0))
         p2 = pymunk.PinJoint(self.back_wheel.body, self.chassis.body, (0,0), (0,-CHASSIS_HEIGHT/2))

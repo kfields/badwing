@@ -1,6 +1,4 @@
-import json
-import arcade
-import pymunk
+from pytmx import TiledMap
 
 import badwing.app
 from badwing.constants import *
@@ -19,7 +17,7 @@ class Level(Scene):
         self.tilewidth = 0
         self.tileheight = 0
 
-        self.song = arcade.load_sound(asset('music/funkyrobot.mp3'))
+        #self.song = arcade.load_sound(asset('music/funkyrobot.mp3'))
 
     @property
     def pc(self):
@@ -27,7 +25,7 @@ class Level(Scene):
 
     @property
     def pc_sprite(self):
-        return self.pc.sprite
+        return self.pc.vu
 
     def push_pc(self, pc):
         self.pc_stack.append(pc)
@@ -46,18 +44,18 @@ class Level(Scene):
         next_level = self.get_next_level()
         self.open_dialog(BeatLevelDialog(next_level))
 
-    def do_setup(self):
-        super().do_setup()
+    def _create(self):
+        super()._create()
 
         #map_name = asset(f"{self.name}.json")
-        map_name = asset(f"{self.name}.tmx")
-        self.map = map = arcade.tilemap.load_tilemap(map_name)
+        tmx_path = asset(f"{self.name}.tmx")
+        self.map = map = self.map = TiledMap(tmx_path)
         #print('level setup')
 
-        self.tilewidth = map.tile_width
-        self.tileheight = map.tile_height
-        self.width = map.width * self.tilewidth
-        self.height = map.height * self.tileheight
+        self.tilewidth = map.tilewidth
+        self.tileheight = map.tileheight
+        #self.width = map.width * self.tilewidth
+        #self.height = map.height * self.tileheight
         self.top = self.height
         self.right = self.width
         #print('width:  ', self.width)

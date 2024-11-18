@@ -1,8 +1,6 @@
 import sys
 import os
 
-import arcade
-
 import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
@@ -21,7 +19,7 @@ from badwing.characters import PlayerCharacter
 
 from badwing.flag import FlagFactory
 from badwing.characters.butterfly import ButterflyFactory
-from badwing.firework import Firework
+#from badwing.firework import Firework
 from badwing.obstacle import ObstacleFactory
 from badwing.debug import DebugLayer
 from badwing.coin import CoinFactory
@@ -40,16 +38,16 @@ class StickerLevel(Level):
         self.view_left = 0
 
         # Load sounds
-        self.collect_butterfly_sound = arcade.load_sound(":resources:sounds/coin1.wav")
-        self.collect_flag_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
-        self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
+        self.collect_butterfly_sound = arcade.load_sound(":resources:/sounds/coin1.wav")
+        self.collect_flag_sound = arcade.load_sound(":resources:/sounds/upgrade5.wav")
+        self.jump_sound = arcade.load_sound(":resources:/sounds/jump1.wav")
         # Soundtrack
         self.song = arcade.load_sound(asset('music/funkyrobot.ogg'))
 
     @classmethod
-    def create(self):
+    def produce(self):
         level = Level1()
-        level.setup()
+        level.create()
         return level
         
     #next level
@@ -104,7 +102,7 @@ class StickerLevel(Level):
         if self.map.background_color:
             arcade.set_background_color(self.map.background_color)
 
-        self.physics_engine.setup()
+        self.physics_engine.create()
     """
 
     def post_setup(self):

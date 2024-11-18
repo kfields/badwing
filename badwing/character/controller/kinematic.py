@@ -1,7 +1,3 @@
-import arcade
-from arcade import check_for_collision_with_list
-from arcade import check_for_collision
-
 import badwing.app
 from badwing.constants import *
 
@@ -12,9 +8,9 @@ class KinematicController(CharacterController):
         super().__init__(pc)
         self.physics_engine = badwing.app.physics_engine
         self.pc = pc
-        self.pc_sprite = pc.sprite
+        self.pc_sprite = pc.vu
         self.force = (0, 0)
-        self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
+        #self.jump_sound = arcade.load_sound(":resources:/sounds/jump1.wav")
         #
         self.character_layer = badwing.app.scene.character_layer
         self.platforms = badwing.app.scene.ground_layer.sprites

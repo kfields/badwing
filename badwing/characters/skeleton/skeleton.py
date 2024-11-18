@@ -9,6 +9,6 @@ class SkeletonSprite(arcade.Sprite):
 
 class Skeleton(KinematicModel):
     @classmethod
-    def create(self, position=(0,0)):
+    def produce(self, position=(0,0)):
         sprite = SkeletonSprite(position)
         return Skeleton(position, sprite)

@@ -6,6 +6,6 @@ class Robot(KinematicCharacter):
         super().__init__(position, sprite)
 
     @classmethod
-    def create(self, position=(0,0)):
-        sprite = CharacterSprite(position, main_path = ":resources:images/animated_characters/robot/robot")
+    def produce(self, position=(0,0)):
+        sprite = CharacterSprite(main_path = ":resources:/animated_characters/robot/character_robot").create()
         return Robot(position, sprite)

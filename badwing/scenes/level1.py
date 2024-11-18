@@ -2,9 +2,9 @@ from badwing.level import TileLevel
 
 class Level1(TileLevel):
     @classmethod
-    def create(self):
+    def produce(self):
         level = Level1('level1')
-        level.setup()
+        #level.create()
         return level
         
     #next level

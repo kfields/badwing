@@ -1,8 +1,5 @@
 import json
-import arcade
 import pymunk
-
-from pyglet import gl
 
 import badwing.app
 from badwing.view import View
@@ -19,10 +16,10 @@ class Scene(View):
         self.ground_layer = None
         self.paused = False
         self.name = name
-        self.layers = []
+        #self.layers = []
         self.animated_layers = []
-        self.width = 0
-        self.height = 0
+        #self.width = 0
+        #self.height = 0
         self.right = 0
         self.bottom = 0
         self.left = 0
@@ -35,6 +32,10 @@ class Scene(View):
 
     @property
     def controller(self):
+        if not self.controller_stack:
+            return None
+        if len(self.controller_stack) == 0:
+            return None
         return self.controller_stack[-1]
 
     def push_controller(self, controller):
@@ -52,35 +53,47 @@ class Scene(View):
     def resume(self):
         self.paused = False
 
+    '''
     def add_layer(self, layer):
         self.layers.append(layer)
         return layer
+    '''
 
     def add_animated_layer(self, layer):
         self.add_layer(layer)
         self.animated_layers.append(layer)
         return layer
 
+    '''
     def pre_setup(self):
-        arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
-        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+        #arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
+        pass
+        #arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def do_setup(self):
         pass
     
     def post_setup(self):
         for layer in self.layers:
-            layer.setup()
+            layer.create()
         if not self.mute and self.song:
             self.songPlayer = self.song.play(volume=.5)
+    '''
 
-    def setup(self):
-        self.pre_setup()
-        self.do_setup()
-        self.post_setup()
+    def _create(self):
+        super()._create()
         if DEBUG_COLLISION:
             self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
             self.debug_list = debug_layer.debug_list
+
+    def _post_create(self):
+        super()._post_create()
+        for layer in self.layers:
+            layer.create()
+        '''
+        if not self.mute and self.song:
+            self.songPlayer = self.song.play(volume=.5)
+        '''
 
     def shutdown(self):
         if not self.mute and self.song:
@@ -98,12 +111,14 @@ class Scene(View):
         if self.dialog:
             self.dialog.update(delta_time)
 
+    '''
     def draw(self):
         for layer in self.layers:
             layer.draw()
         super().draw()
         self.draw_dialog()
-    
+    '''
+
     def draw_dialog(self):
         if not self.dialog:
             return

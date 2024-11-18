@@ -1,13 +1,8 @@
-import math
-import random
-import arcade
-import pymunk
-
-import badwing.app
 from badwing.assets import asset
 from badwing.constants import *
 from badwing.util import debounce
-from badwing.model import Model, Group, ModelFactory
+from badwing.model import Model, Group
+from badwing.model_factory import ModelFactory
 from badwing.tile import TileLayer
 
 SPRITE_WIDTH = 64
@@ -37,9 +32,9 @@ class Flag(Model):
         self.collected = False
 
     @classmethod
-    def create(self, position, sprite):
+    def produce(self, position, sprite):
         kind = sprite.properties['class']
-        model = kinds[kind].create(position, sprite)
+        model = kinds[kind].produce(position, sprite)
         return model
 
     def collect(self):
@@ -56,17 +51,17 @@ class Flag(Model):
 
 class FlagGreen(Flag):
     @classmethod
-    def create(self, position, sprite):
+    def produce(self, position, sprite):
         return FlagGreen(position, sprite)
 
 class FlagYellow(Flag):
     @classmethod
-    def create(self, position, sprite):
+    def produce(self, position, sprite):
         return FlagYellow(position, sprite)
 
 class FlagRed(Flag):
     @classmethod
-    def create(self, position, sprite):
+    def produce(self, position, sprite):
         return FlagRed(position, sprite)
 
 kinds = {
@@ -80,12 +75,12 @@ class FlagFactory(ModelFactory):
     def __init__(self, layer):
         super().__init__(layer)
 
-    def setup(self):
+    def produce(self):
         for sprite in self.layer.sprites:
             print("sprite.properties: ", sprite.properties)
             kind = sprite.properties['class']
             if kind == 'Pole':
                 model = Pole(sprite.position, sprite)
             else:
-                model = Flag.create(sprite.position, sprite)
+                model = Flag.produce(sprite.position, sprite)
             self.layer.add_model(model)

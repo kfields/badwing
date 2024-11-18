@@ -1,0 +1,3 @@
+```bash
+renderdoccmd capture badwing
+```

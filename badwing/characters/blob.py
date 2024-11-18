@@ -1,4 +1,4 @@
-import arcade
+from crunge.engine.d2.sprite import Sprite
 
 from badwing.model import KinematicModel
 from badwing.assets import asset
@@ -6,7 +6,7 @@ from badwing.effect import Effect
 
 GROWTH_RATE = 50
 
-class BlobSprite(arcade.Sprite):
+class BlobSprite(Sprite):
     def __init__(self, position):
         super().__init__(asset('stickers/blobGreen.png'), center_x=position[0], center_y=position[1])
         self.alpha = int(.5*255)
@@ -30,7 +30,7 @@ class BlobSprite(arcade.Sprite):
 
 class Blob(KinematicModel):
     @classmethod
-    def create(self, position=(0,0)):
+    def produce(self, position=(0,0)):
         sprite = BlobSprite(position)
         return Blob(position, sprite)
 
@@ -68,7 +68,7 @@ class BlobSprite(Effect):
 
 class Blob(Model):
     @classmethod
-    def create(self, position=(0,0)):
+    def produce(self, position=(0,0)):
         sprite = BlobSprite(position)
         return Blob(sprite)
 

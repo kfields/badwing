@@ -4,8 +4,6 @@ import pymunk
 from pymunk.vec2d import Vec2d
 from pymunk.autogeometry import convex_decomposition, to_convex_hull
 
-import arcade
-
 from badwing.constants import *
 import badwing.app
 from badwing.util import debounce
@@ -42,8 +40,8 @@ class KinematicCharacter(KinematicModel):
         badwing.app.scene.pop_pc()
 
     @classmethod
-    def create(self, position=(0,0)):
-        sprite = CharacterSprite(position)
+    def produce(self, position=(0,0)):
+        sprite = CharacterSprite().create()
         return KinematicCharacter(position, sprite)
 
     def control(self):

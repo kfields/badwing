@@ -1,4 +1,3 @@
-import arcade
 import math
 import pymunk
 from pymunk.vec2d import Vec2d
@@ -106,14 +105,16 @@ class HullGeom(PolyGeom, metaclass=GeomMeta):
 
     def create_shapes(self, model, transform=None):
         if not transform:
-            transform = model.transform
+            transform = model.geom_transform
         #print('transform', transform)
-        sprite = model.sprite
+        #sprite = model.sprite
         body = model.body
         position = model.position
         shapes = []
-        sprite.position = position
-        points = sprite.get_hit_box()
+        #sprite.position = position
+        #points = sprite.get_hit_box()
+        #points = sprite.hit_box.points
+        points = []
         #print(model.__class__)
         #print(points)
         points = to_convex_hull(points, SLOP)

@@ -1,6 +1,5 @@
-import arcade
-from arcade import check_for_collision_with_list
-from arcade import check_for_collision
+from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
+from crunge.engine.d2.sprite import Sprite, SpriteVu
 
 CHARACTER_SCALING = 1
 
@@ -15,14 +14,16 @@ def load_texture_pair(filename):
     Load a texture pair, with the second being a mirror image.
     """
     return [
-        arcade.load_texture(filename),
+        #arcade.load_texture(filename),
+        ImageTextureLoader().load(filename),
         #arcade.load_texture(filename, flipped_horizontally=True)
-        arcade.load_texture(filename).flip_horizontally()
+        #arcade.load_texture(filename).flip_horizontally()
+        ImageTextureLoader().load(filename)
     ]
 
-class CharacterSprite(arcade.Sprite):
-    def __init__(self, position, main_path = ":resources:images/animated_characters/male_adventurer/maleAdventurer"):
-        super().__init__(center_x=position[0], center_y=position[1])
+class CharacterSprite(SpriteVu):
+    def __init__(self, main_path = ":resources:/animated_characters/male_adventurer/character_maleAdventurer"):
+        super().__init__()
 
         # Animation timing
         self.time = 1
@@ -35,7 +36,7 @@ class CharacterSprite(arcade.Sprite):
 
         # Used for flipping between image sequences
         self.cur_texture = 0
-        self.scale = CHARACTER_SCALING
+        #self.scale = CHARACTER_SCALING
 
         # Track our state
         self.jumping = False
@@ -43,14 +44,6 @@ class CharacterSprite(arcade.Sprite):
         self.is_on_ladder = False
 
         # --- Load Textures ---
-
-        # Images from Kenney.nl's Asset Pack 3
-        # main_path = ":resources:images/animated_characters/female_adventurer/femaleAdventurer"
-        # main_path = ":resources:images/animated_characters/female_person/femalePerson"
-        # main_path = ":resources:images/animated_characters/male_person/malePerson"
-        # main_path = ":resources:images/animated_characters/male_adventurer/maleAdventurer"
-        # main_path = ":resources:images/animated_characters/zombie/zombie"
-        # main_path = ":resources:images/animated_characters/robot/robot"
 
         # Load textures for idle standing
         self.idle_texture_pair = load_texture_pair(f"{main_path}_idle.png")
@@ -65,9 +58,11 @@ class CharacterSprite(arcade.Sprite):
 
         # Load textures for climbing
         self.climbing_textures = []
-        texture = arcade.load_texture(f"{main_path}_climb0.png")
+        #texture = arcade.load_texture(f"{main_path}_climb0.png")
+        texture = ImageTextureLoader().load(f"{main_path}_climb0.png")
         self.climbing_textures.append(texture)
-        texture = arcade.load_texture(f"{main_path}_climb1.png")
+        #texture = arcade.load_texture(f"{main_path}_climb1.png")
+        texture = ImageTextureLoader().load(f"{main_path}_climb1.png")
         self.climbing_textures.append(texture)
 
         # Set the initial texture
@@ -76,7 +71,9 @@ class CharacterSprite(arcade.Sprite):
         # Hit box will be set based on the first image used. If you want to specify
         # a different hit box, you can do it like the code below.
         # self.set_hit_box([[-22, -64], [22, -64], [22, 28], [-22, 28]])
-        self.set_hit_box(self.texture.hit_box_points)
+        #self.set_hit_box(self.texture.hit_box_points)
+        #self.hit_box = arcade.hitbox.RotatableHitBox(self.texture.hit_box_points)
+        self.sprite = Sprite(self.texture)
 
     def update_animation(self, delta_time: float = 1/60):
         self.time += delta_time

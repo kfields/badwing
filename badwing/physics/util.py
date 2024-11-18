@@ -23,10 +23,10 @@ def check_grounding(body):
 
     return grounding
 
-from arcade import check_for_collision_with_list
-from arcade import check_for_collision
-from arcade import Sprite
-from arcade import SpriteList
+#from arcade import check_for_collision_with_list
+#from arcade import check_for_collision
+#from arcade import Sprite
+#from arcade import SpriteList
 
 
 def _circular_check(player, walls):

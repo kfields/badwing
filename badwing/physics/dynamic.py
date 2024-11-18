@@ -1,5 +1,6 @@
 import math
 
+import glm
 import pymunk
 from pymunk.vec2d import Vec2d
 
@@ -10,7 +11,7 @@ class DynamicPhysics(Physics, metaclass=PhysicsMeta):
     def __init__(self):
         super().__init__(PT_DYNAMIC)
 
-    def setup():
+    def _create():
         pass
 
     def update(self, model, delta_time=1/60.0):
@@ -25,11 +26,11 @@ class DynamicPhysics(Physics, metaclass=PhysicsMeta):
 
         if offset:
             #print('offset', offset)
-            position = (model.position[0] + offset[0], model.position[1] + offset[1])
+            position = glm.vec2(model.position.x + offset[0], model.position.y + offset[1])
 
         else:
             position = model.position
-        body.position = position
+        body.position = tuple(position)
         body.angle = math.radians(model.angle)
         return body
 

@@ -1,6 +1,3 @@
-import arcade
-import arcade.gui as gui
-
 import badwing.app
 import badwing.controller
 import badwing.dialog
@@ -52,9 +49,9 @@ class PauseDialog(badwing.dialog.Dialog):
             )
         )
 
-    def setup(self):
+    def _create(self):
         self.theme = badwing.app.game.theme
-        super().setup()
+        super()._create()
 
         self.add_buttons()
 

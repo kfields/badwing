@@ -1,23 +1,81 @@
-[tool.poetry]
-name = "badwing"
-version = "0.1.0"
-description = ""
-authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
-
-[tool.poetry.dependencies]
-python = ">=3.8, <3.12"
-arcade = "==3.0.0.dev20"
-#arcade = {git = "https://github.com/pythonarcade/arcade.git", rev = "development"}
-click = "^8.0.1"
-PyGLM = "^2.7.0"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.2.0"
-black = "^22.12.0"
-
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.scripts]
+
+[project]
+name = "badwing"
+version = "0.2.0"
+description = 'Skateboarder/Platformer/Lepidopterist Game using Crunge'
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+keywords = []
+authors = [{ name = "Kurtis Fields", email = "kurtisfields@gmail.com" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Rust",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "PyTMX ==3.32",
+    "pymunk ~=6.9.0",
+    "PyGLM ~=2.7.0",
+    "PyYAML ~=6.0.1",
+    "loguru ~=0.7.0",
+    "pydantic ~=1.10.6",
+    "click ~=8.1.7",
+]
+
+#dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = ["black ~=22.12.0"]
+test = ["pytest ~=7.2.1"]
+
+[project.gui-scripts]
 badwing = 'badwing.command:cli'
+
+[project.urls]
+homepage = "https://github.com/kfields/badwing"
+documentation = "https://kfields.github.io/badwing/"
+repository = "https://github.com/kfields/badwing"
+changelog = "https://github.com/kfields/badwing/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "badwing/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = ["pytest", "pytest-cov", "snakeviz"]
+
+[tool.hatch.envs.default.scripts]
+develop = "maturin develop"
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=badwing --cov=tests {args}"
+no-cov = "cov --no-cov {args}"
+
+[tool.hatch.envs.docs]
+dependencies = [
+  "sphinx",
+  "furo",
+  "sphinxcontrib-apidoc",
+  "sphinxemoji"
+]
+
+[tool.hatch.envs.docs.scripts]
+build = "sphinx-build docs docs/_build"
+
+[[tool.hatch.envs.test.matrix]]
+python = ["38", "39", "310", "311"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = ["badwing/__about__.py"]
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ ~= .__main__.:", "if TYPE_CHECKING:"]

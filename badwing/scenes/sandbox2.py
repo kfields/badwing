@@ -2,9 +2,9 @@ from badwing.level import StickerLevel
 
 class Sandbox(StickerLevel):
     @classmethod
-    def create(self):
+    def produce(self):
         level = Sandbox('sandbox2')
-        level.setup()
+        level.create()
         return level
         
     #next level

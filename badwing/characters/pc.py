@@ -6,6 +6,6 @@ class PlayerCharacter(KinematicCharacter):
         super().__init__(position, sprite)
 
     @classmethod
-    def create(self, position=(0,0)):
-        sprite = CharacterSprite(position)
+    def produce(self, position=(0,0)):
+        sprite = CharacterSprite().create()
         return PlayerCharacter(position, sprite)

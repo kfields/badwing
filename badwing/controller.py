@@ -1,9 +1,8 @@
-import arcade
+from crunge import engine
 
-import badwing.app
-
-class Controller:
+class Controller(engine.Controller):
     def __init__(self, passthrough=None):
+        super().__init__()
         self.passthrough = passthrough
         self.up_down = False
         self.left_down = False

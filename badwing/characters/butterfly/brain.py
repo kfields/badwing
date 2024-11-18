@@ -1,6 +1,8 @@
 import math
 import random
-import arcade
+
+from loguru import logger
+import glm
 
 import badwing.app
 from badwing.brain import Brain
@@ -18,8 +20,8 @@ class ButterflyBrain(Brain):
         super().__init__(model)
         self.heading = random.randint(0, 359)
         self.wheel = 0
-        self.begin_pos = (0,0)
-        self.end_pos = (0,0)
+        self.begin_pos = glm.vec2()
+        self.end_pos = glm.vec2()
         self.sensor_range = 512
 
     def update(self, delta_time):
@@ -58,12 +60,36 @@ class ButterflyBrain(Brain):
         self.try_move(delta)
 
     def try_move(self, delta):
+        #return
         delta_x, delta_y = delta
         next_x, next_y = 0, 0
         need_turn = False
 
-        sprite = self.model.sprite
+        bounds = self.model.bounds
+        #logger.debug(f"Bounds: {bounds}")
+        min_x, min_y, max_x, max_y = bounds.left, bounds.bottom, bounds.right, bounds.top
+        border  = self.model.border
+        #logger.debug(f"Border: {border}")
+        w_min_x, w_min_y, w_max_x, w_max_y = border.left, border.bottom, border.right, border.top
+
+        if(min_x < w_min_x):
+            delta_x = w_min_x - min_x
+            need_turn = True
+        elif(max_x > w_max_x):
+            delta_x = w_max_x - max_x
+            need_turn = True
+
+        if(min_y < w_min_y):
+            delta_y = w_min_y - min_y
+            need_turn = True
+        elif(max_y > w_max_y):
+            delta_y = w_max_y - max_y
+            need_turn = True
+
+        '''
+        sprite = self.model
         pos = sprite.position
+
         min_x, min_y, max_x, max_y = sprite.left, sprite.bottom, sprite.right, sprite.top
         border  = self.model.border
         w_min_x, w_min_y, w_max_x, w_max_y = border[0], border[1], border[2], border[3]
@@ -81,7 +107,8 @@ class ButterflyBrain(Brain):
         elif(max_y > w_max_y):
             delta_y = w_max_y - max_y
             need_turn = True
-
+        '''
+        
         #TODO:use pymunk
         
         if not need_turn:
@@ -94,12 +121,13 @@ class ButterflyBrain(Brain):
             self.randforward()
 
         pos = self.position
-        next_x = pos[0] + delta_x
-        next_y = pos[1] + delta_y                    
+        next_x = pos.x + delta_x
+        next_y = pos.y + delta_y                    
         
-        self.position = (next_x, next_y)
-        sprite.change_x = pos[0] - next_x
-        sprite.change_y = pos[1] - next_y
+        self.position = glm.vec2(next_x, next_y)
+        sprite = self.model.vu
+        sprite.change_x = pos.x - next_x
+        sprite.change_y = pos.y - next_y
 
     def left(self, angle):
         heading = self.heading - angle
@@ -125,7 +153,7 @@ class ButterflyBrain(Brain):
         x, y = self.position
         px = x+(distance*(math.cos(self.heading*degRads)))
         py = y+(distance*(math.sin(self.heading*degRads)))
-        self.move_to((px, py))
+        self.move_to(glm.vec2(px, py))
 
     def randforward(self):
         self.forward(random.randint(0, self.sensor_range))

@@ -1,24 +1,18 @@
-import math
-import random
-import arcade
-import pymunk
-from pymunk.vec2d import Vec2d
-from pymunk.autogeometry import convex_decomposition, to_convex_hull
-
 import badwing.app
 from badwing.constants import *
 import badwing.geom
-from badwing.model import ModelFactory, DynamicModel
+from badwing.model import DynamicModel
+from badwing.model_factory import ModelFactory
 
 class Obstacle(DynamicModel):
     def __init__(self, position, sprite, geom):
         super().__init__(position, sprite, geom=geom)
 
     @classmethod
-    def create(self, sprite):
+    def produce(self, sprite):
         print("sprite.properties: ", sprite.properties)
         kind = sprite.properties['class']
-        model = kinds[kind].create(sprite)
+        model = kinds[kind].produce(sprite)
         #print(model)
         #print(vars(sprite))
         #print(kind)
@@ -35,7 +29,7 @@ class Box(Obstacle):
         self.mass = BOX_MASS
 
     @classmethod
-    def create(self, sprite):
+    def produce(self, sprite):
         return Box(sprite.position, sprite)
 
 class Ball(Obstacle):
@@ -44,7 +38,7 @@ class Ball(Obstacle):
         self.mass = BALL_MASS
 
     @classmethod
-    def create(self, sprite):
+    def produce(self, sprite):
         return Ball(sprite.position, sprite)
 
 
@@ -53,16 +47,16 @@ class Rock(Obstacle):
         super().__init__(position, sprite, badwing.geom.HullGeom)
 
     @classmethod
-    def create(self, sprite):
+    def produce(self, sprite):
         return Rock(sprite.position, sprite)
 
 class ObstacleFactory(ModelFactory):
     def __init__(self, layer):
         super().__init__(layer)
 
-    def setup(self):
+    def produce(self):
         for sprite in self.layer.sprites:
-            model = Obstacle.create(sprite)
+            model = Obstacle.produce(sprite)
             self.layer.add_model(model)
 
 

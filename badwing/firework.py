@@ -1,5 +1,7 @@
 import random
 
+import glm
+
 import arcade
 from arcade.particles import FadeParticle, Emitter, EmitBurst
 
@@ -9,13 +11,13 @@ from badwing.particle import AnimatedAlphaParticle
 
 #TODO:  Some of this will go up into ParticleEffect
 class Firework(Effect):
-    def __init__(self, position=(0,0), r1=30, r2=40):
+    def __init__(self, position=glm.vec2(), r1=30, r2=40):
         super().__init__(position)
         self.radius = random.randint(r1, r2)
         self.emitters = []
         self.make_sparks(position)
 
-    def draw(self):
+    def draw(self, renderer: Renderer):
         for e in self.emitters:
             e.draw()
 

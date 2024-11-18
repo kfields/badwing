@@ -1,6 +1,7 @@
-import arcade
-from arcade.types import Point, Vector, PathOrTexture
-from arcade.particles import LifetimeParticle
+#import arcade
+#from arcade.types import Point, PathOrTexture
+#from arcade.particles import LifetimeParticle
+
 def clamp(a, low, high):
     if a > high:
         return high
@@ -15,7 +16,7 @@ class AnimatedAlphaParticle(LifetimeParticle):
     def __init__(
             self,
             filename_or_texture: PathOrTexture,
-            change_xy: Vector,
+            change_xy: Point,
             start_alpha: int = 0,
             duration1: float = 1.0,
             mid_alpha: int = 255,

@@ -1,5 +1,3 @@
-import arcade
-
 import badwing.app
 import badwing.coin
 import badwing.characters.butterfly

@@ -1,0 +1,5 @@
+-e ../crunge/pkg/core
+-e ../crunge/pkg/sdl
+-e ../crunge/pkg/wgpu
+-e ../crunge/pkg/imgui
+-e ../crunge/pkg/engine

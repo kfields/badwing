@@ -10,7 +10,7 @@ class KinematicPhysics(Physics, metaclass=PhysicsMeta):
     def __init__(self):
         super().__init__(PT_KINEMATIC)
 
-    def setup():
+    def _create():
         pass
 
     def update(self, model, delta_time=1/60.0):
@@ -19,7 +19,7 @@ class KinematicPhysics(Physics, metaclass=PhysicsMeta):
     def create_body(self, model, offset=None):
         body = pymunk.Body(body_type=pymunk.Body.KINEMATIC)
         body.model = model
-        body.position = model.position
+        body.position = tuple(model.position)
         body.angle = math.radians(model.angle)
         return body
 
@@ -105,7 +105,7 @@ class KinematicPhysicsEngine(PhysicsEngine):
     def __init__(self, gravity=GRAVITY):
         super().__init__(gravity)
 
-    def setup(self):
+    def _create(self):
         self.kinematic_static_handler = KinematicStaticHandler(self.space.add_collision_handler(PT_KINEMATIC, PT_STATIC))
         self.kinematic_static_handler = KinematicKinematicHandler(self.space.add_collision_handler(PT_KINEMATIC, PT_KINEMATIC))
         self.kinematic_dynamic_handler = KinematicDynamicHandler(self.space.add_collision_handler(PT_KINEMATIC, PT_DYNAMIC))

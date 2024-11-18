@@ -1,37 +1,37 @@
-import arcade
+from loguru import logger
+import glm
 
 from badwing.characters import PlayerCharacter
 from badwing.characters import Skateboard
-from badwing.characters import Blob
-from badwing.characters import Skeleton
+
+# from badwing.characters import Blob
+# from badwing.characters import Skeleton
 from badwing.characters import Robot
 
-from badwing.model import ModelFactory
+from badwing.model_factory import ModelFactory
+
 
 class CharacterFactory(ModelFactory):
     def __init__(self, layer):
         super().__init__(layer)
 
-    def setup(self):
-        orig_sprites = self.layer.sprites
-        self.layer.sprites = arcade.SpriteList()
+    def process_object(self, position: glm.vec2, image, properties):
+        logger.debug(f"process_object: {position}, {image}, {properties}")
+        # kind = properties.get('class')
+        kind = properties.get("type")
+        if not kind:
+            return
+        model = kinds[kind].produce(position)
+        print(model)
+        self.layer.add_model(model)
 
-        for sprite in orig_sprites:
-            #print(sprite)
-            kind = sprite.properties.get('class')
-            if not kind:
-                continue
-            position = sprite.position
-            model = kinds[kind].create(position)
-            print(model)
-            self.layer.add_model(model)
 
 kinds = {
-    'PlayerCharacter': PlayerCharacter,
-    'hero': PlayerCharacter,
-    'Skateboard': Skateboard,
-    'blob': Blob,
-    'enemy': Skeleton,
-    'skeleton': Skeleton,
-    'Robot': Robot
+    "PlayerCharacter": PlayerCharacter,
+    "Skateboard": Skateboard,
+    "Robot": Robot,
+    # "hero": PlayerCharacter,
+    #'blob': Blob,
+    #'enemy': Skeleton,
+    #'skeleton': Skeleton,
 }

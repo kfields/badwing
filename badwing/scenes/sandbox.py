@@ -29,9 +29,9 @@ from badwing.level import StickerLevel
 
 class Sandbox(StickerLevel):
     @classmethod
-    def create(self):
+    def produce(self):
         level = Sandbox('sandbox')
-        level.setup()
+        level.create()
         return level
         
     #next level
@@ -88,4 +88,4 @@ class Sandbox(StickerLevel):
         if self.map.background_color:
             arcade.set_background_color(self.map.background_color)
 
-        self.physics_engine.setup()
+        self.physics_engine.create()

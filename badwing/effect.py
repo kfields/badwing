@@ -1,20 +1,20 @@
 import random
 
-import arcade
+import glm
+
+from crunge.engine import Renderer
+from crunge.engine.d2.sprite import SpriteVu
 
 from badwing.constants import *
-from badwing.particle import AnimatedAlphaParticle
 
-class Effect(arcade.Sprite):
-    def __init__(self, position=(0,0)):
+# from badwing.particle import AnimatedAlphaParticle
+
+
+class Effect(SpriteVu):
+    def __init__(self, position=glm.vec2()):
         super().__init__(center_x=position[0], center_y=position[1])
-        #self.position = position
+        # self.position = position
 
-    def setup(self):
-        pass
-
-    def update(self, delta_time=1/60):
-        pass
 
 class EffectList:
     def __init__(self, effects=[]):
@@ -23,7 +23,7 @@ class EffectList:
     def append(self, effect):
         self.effects.append(effect)
 
-    def draw(self):
+    def draw(self, renderer: Renderer):
         for e in self.effects:
             e.draw()
 

@@ -48,13 +48,13 @@ class EndScreen(Level):
         self.score = 0
 
         # Load sounds
-        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
-        self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
+        self.collect_coin_sound = arcade.load_sound(":resources:/sounds/coin1.wav")
+        self.jump_sound = arcade.load_sound(":resources:/sounds/jump1.wav")
 
     @classmethod
-    def create(self):
+    def produce(self):
         level = EndScreen()
-        level.setup()
+        level.create()
         return level
         
     #next level
@@ -91,11 +91,11 @@ class EndScreen(Level):
         self.score = 0
 
         self.add_layer(BarrierLayer(self, 'barrier'))
-        self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
+        self.add_layer(BackgroundLayer(self, 'background', ":resources:/backgrounds/backgroundColorGrass.png"))
         self.ladder_layer = self.add_layer(TileLayer(self, 'ladder'))
         self.spark_layer = self.add_layer(Layer(self, 'spark'))
 
-        self.add_layer(BackgroundLayer(self, 'background', ":resources:images/backgrounds/abstract_1.jpg"))
+        self.add_layer(BackgroundLayer(self, 'background', ":resources:/backgrounds/backgroundColorGrass.png"))
         self.butterfly_layer = butterfly_layer = Layer(self, 'butterflies')
         butterflies = Butterflies.create_random(20, (0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
         self.butterfly_layer.add_model(butterflies)
