@@ -4,40 +4,34 @@ from loguru import logger
 import glm
 
 from crunge.engine.math import Bounds2
-from crunge.engine.d2.sprite import SpriteVuGroup
+from crunge.engine.d2.sprite import SpriteVu, SpriteVuGroup
 
 from crunge.engine.d2.entity import Entity2D, EntityGroup2D
 
-from badwing.assets import asset
-from badwing.constants import *
-from badwing.util import debounce
 from badwing.model_factory import ModelFactory
 
-from badwing.characters.butterfly.butterfly_brain import ButterflyBrain
-from badwing.characters.butterfly.butterfly_vu import ButterflyVu
+from .butterfly_brain import ButterflyBrain
 
-SPRITE_WIDTH = 64
-SPRITE_HEIGHT = 32
-CHARACTER_SCALING = 1
-
-MOVEMENT_SPEED = 5
-FRAMES = 10
-UPDATES_PER_FRAME = 2
-
-# Constants used to track if the player is facing left or right
-RIGHT_FACING = 1
-LEFT_FACING = 0
-
-RATE_DELTA = 1/60
-RATE_MIN = 0
-RATE_MAX = .1
 
 RANGE = 512 # How far they can travel
 HALF_RANGE = RANGE/2
 
+from enum import IntEnum
+
+class ButterflyKind(IntEnum):
+    Aqua = 0
+    Blue = 1
+    Brown = 2
+    Cyan = 3
+    Green = 4
+    Iridescent = 5
+    Red = 6
+    Tan = 7
+    Teal = 8
+
 class Butterfly(Entity2D):
-    def __init__(self, position=glm.vec2(), vu=None, border=Bounds2(0,0,640,480)):
-        super().__init__(position, vu=vu, brain=ButterflyBrain(self))
+    def __init__(self, position=glm.vec2(), brain=None, border=Bounds2(0,0,640,480)):
+        super().__init__(position, vu=SpriteVu(), brain=brain)
         self.border = border
 
     @classmethod
@@ -56,56 +50,56 @@ class Butterfly(Entity2D):
 class ButterflyAqua(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(8).create()
-        return ButterflyAqua(position, sprite, border)
+        brain = ButterflyBrain(8)
+        return ButterflyAqua(position, brain, border)
 
 class ButterflyBlue(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(0).create()
-        return ButterflyBlue(position, sprite, border)
+        brain = ButterflyBrain(0)
+        return ButterflyBlue(position, brain, border)
 
 class ButterflyBrown(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(4).create()
-        return ButterflyBrown(position, sprite, border)
+        brain = ButterflyBrain(4)
+        return ButterflyBrown(position, brain, border)
 
 class ButterflyCyan(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(5).create()
-        return ButterflyCyan(position, sprite, border)
+        brain = ButterflyBrain(5)
+        return ButterflyCyan(position, brain, border)
 
 class ButterflyGreen(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(1).create()
-        return ButterflyGreen(position, sprite, border)
+        brain = ButterflyBrain(1)
+        return ButterflyGreen(position, brain, border)
 
 class ButterflyIridescent(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(6).create()
-        return ButterflyIridescent(position, sprite, border)
+        brain = ButterflyBrain(6)
+        return ButterflyIridescent(position, brain, border)
 
 class ButterflyRed(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(7).create()
-        return ButterflyRed(position, sprite, border)
+        brain = ButterflyBrain(7)
+        return ButterflyRed(position, brain, border)
 
 class ButterflyTan(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(3).create()
-        return ButterflyTan(position, sprite, border)
+        brain = ButterflyBrain(3)
+        return ButterflyTan(position, brain, border)
 
 class ButterflyTeal(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflyVu(2).create()
-        return ButterflyTeal(position, sprite, border)
+        brain = ButterflyBrain(2)
+        return ButterflyTeal(position, brain, border)
 
 
 kinds = {
