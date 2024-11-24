@@ -1,18 +1,21 @@
 import glm
 
+from crunge.engine.d2.entity import StaticEntity2D
+from crunge.engine.d2.physics.geom import BoxGeom
+
 from badwing.constants import *
 from badwing.layer import Layer
-from badwing.model import StaticModel
-import badwing.geom
+#from badwing.model import StaticModel
+#import badwing.geom
 BARRIER_WIDTH = 100
 BARRIER_HEIGHT = 1000
 
-class Barrier(StaticModel):
+class Barrier(StaticEntity2D):
     def __init__(self, left, bottom, right, top):
         width = right - left
         height = top - bottom
         position = glm.vec2(left + width/2, bottom + height/2)
-        super().__init__(position, geom=badwing.geom.BoxGeom)
+        super().__init__(position, geom=BoxGeom)
         self.width = width
         self.height = height
         #self.position = (left + width/2, bottom + height/2)

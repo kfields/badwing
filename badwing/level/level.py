@@ -1,10 +1,12 @@
 from pytmx import TiledMap
 
+from crunge.engine.d2.physics import PhysicsEngine
+
 import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.scene import Scene
-from badwing.model import Model
+#from badwing.model import Model
 from badwing.dialogs.pause import PauseDialog
 from badwing.dialogs.beatlevel import BeatLevelDialog
 
@@ -12,7 +14,7 @@ class Level(Scene):
     def __init__(self, name):
         super().__init__(name)
         badwing.app.scene = self
-        self.physics_engine = None
+        self.physics_engine: PhysicsEngine = None
         self.pc_stack = []
         self.tilewidth = 0
         self.tileheight = 0

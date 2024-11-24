@@ -1,13 +1,17 @@
 import sys
 import os
 
+from crunge.engine.d2.physics import KinematicPhysicsEngine, DynamicPhysicsEngine
+from crunge.engine.d2.physics.draw_options import DrawOptions
+
 import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.level import Level
 
-from badwing.physics.dynamic import DynamicPhysicsEngine
-from badwing.physics.kinematic import KinematicPhysicsEngine
+#from badwing.physics.dynamic import DynamicPhysicsEngine
+#from badwing.physics.kinematic import KinematicPhysicsEngine
+
 from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
@@ -28,9 +32,9 @@ class TileLevel(Level):
         super().__init__(name)
 
         # Our physics engine
-        self.physics_engine = physics_engine = KinematicPhysicsEngine()
+        #self.physics_engine = physics_engine = KinematicPhysicsEngine(draw_options=self.draw_options)
         #self.physics_engine = physics_engine = DynamicPhysicsEngine()
-        self.space = physics_engine.space
+        #self.space = physics_engine.space
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
@@ -61,30 +65,35 @@ class TileLevel(Level):
         self.view_bottom = 0
         self.view_left = 0
 
+        # --- Other stuff
+        # Set the background color
+        if self.map.background_color:
+            arcade.set_background_color(self.map.background_color)
+
+        # Our physics engine
+        self.draw_options = DrawOptions(self.scratch)
+
+        self.physics_engine = physics_engine = KinematicPhysicsEngine(draw_options=self.draw_options)
+        #self.physics_engine = physics_engine = DynamicPhysicsEngine(draw_options=self.draw_options)
+        self.space = physics_engine.space
+
+        self.physics_engine.create()
+
         # --- Load in a map from the tiled editor ---
 
         self.add_layer(BarrierLayer(self, 'barrier'))
         self.add_layer(BackgroundLayer(self, 'background', ":resources:/backgrounds/backgroundColorGrass.png"))
         self.scenery_layer = self.add_layer(TileLayer(self, 'scenery'))
         self.ladder_layer = self.add_layer(TileLayer(self, 'ladder'))
-        self.flag_layer = flag_layer = self.add_animated_layer(TileLayer(self, 'flags', FlagFactory))
+        self.flag_layer = self.add_animated_layer(TileLayer(self, 'flags', FlagFactory))
         self.ground_layer = self.add_layer(TileLayer(self, 'ground', TileFactory))
         self.spark_layer = self.add_layer(Layer(self, 'spark'))
-        self.character_layer = character_layer = self.add_animated_layer(TileLayer(self, 'pc', CharacterFactory))
+        self.character_layer = self.add_animated_layer(TileLayer(self, 'pc', CharacterFactory))
         self.butterfly_layer = self.add_animated_layer(TileLayer(self, 'butterfly', ButterflyFactory))
         #self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
         self.object_layer = self.add_layer(TileLayer(self, 'object', ObstacleFactory))
         self.static_layer = self.add_layer(TileLayer(self, 'static', TileFactory))
-                
-        # character_layer.add_model(Box.produce())
         
-        # --- Other stuff
-        # Set the background color
-        if self.map.background_color:
-            arcade.set_background_color(self.map.background_color)
-
-        self.physics_engine.create()
-
     def _post_create(self):
         super()._post_create()
         pc = None
@@ -118,7 +127,7 @@ class TileLevel(Level):
         self.check_butterflies()
         self.check_flags()
 
-    def update(self, delta_time):
+    def update(self, delta_time: float):
         super().update(delta_time)
         # --- Manage Scrolling ---
         # Track if we need to change the viewport
@@ -174,6 +183,10 @@ class TileLevel(Level):
             target_y = self.pc_sprite.center_y
             self.camera.position = arcade.math.lerp_2d(self.camera.position, (target_x, target_y), 0.1)
             '''
+
+    def draw(self, renderer):
+        #self.physics_engine.debug_draw(renderer)
+        super().draw(renderer)
 
     '''
     def draw(self):

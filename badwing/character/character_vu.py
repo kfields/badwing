@@ -1,5 +1,7 @@
+from crunge.engine.math import Rect2i
 from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
 from crunge.engine.d2.sprite import Sprite, SpriteVu
+from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
 CHARACTER_SCALING = 1
 
@@ -14,14 +16,12 @@ def load_texture_pair(filename):
     Load a texture pair, with the second being a mirror image.
     """
     return [
-        #arcade.load_texture(filename),
         ImageTextureLoader().load(filename),
-        #arcade.load_texture(filename, flipped_horizontally=True)
         #arcade.load_texture(filename).flip_horizontally()
-        ImageTextureLoader().load(filename)
+        ImageTextureLoader().load(filename) #TODO: flip horizontally
     ]
 
-class CharacterSprite(SpriteVu):
+class CharacterVu(SpriteVu):
     def __init__(self, main_path = ":resources:/animated_characters/male_adventurer/character_maleAdventurer"):
         super().__init__()
 
@@ -73,15 +73,19 @@ class CharacterSprite(SpriteVu):
         # self.set_hit_box([[-22, -64], [22, -64], [22, 28], [-22, 28]])
         #self.set_hit_box(self.texture.hit_box_points)
         #self.hit_box = arcade.hitbox.RotatableHitBox(self.texture.hit_box_points)
-        self.sprite = Sprite(self.texture)
+        #self.sprite = Sprite(self.texture)
+        sprite_builder = CollidableSpriteBuilder()
+        size = self.texture.size
+        rect = Rect2i(0, 0, size.x, size.y)
+        self.sprite = sprite_builder.build(self.texture, rect)
 
-    def update_animation(self, delta_time: float = 1/60):
+    def update(self, delta_time: float = 1/60):
         self.time += delta_time
         if self.update_time > self.time:
             return
         self.update_time = self.time + self.rate
 
-        velocity = self.model.body.velocity
+        velocity = self.node.body.velocity
         vel_x = int(velocity[0])
         vel_y = int(velocity[1])
         #print(vel_x, vel_y)
@@ -105,10 +109,10 @@ class CharacterSprite(SpriteVu):
             return
 
         # Jumping animation
-        if vel_y > 0 and not self.is_on_ladder or self.model.mounted:
+        if vel_y > 0 and not self.is_on_ladder or self.node.mounted:
             self.texture = self.jump_texture_pair[self.character_face_direction]
             return
-        elif vel_y < 0 and not self.model.grounded and not self.is_on_ladder:
+        elif vel_y < 0 and not self.node.grounded and not self.is_on_ladder:
             self.texture = self.fall_texture_pair[self.character_face_direction]
             return
 

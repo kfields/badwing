@@ -1,11 +1,13 @@
+import glm
+
 from badwing.character.kinematic import KinematicCharacter
-from badwing.character import CharacterSprite
+from badwing.character import CharacterVu
 
 class PlayerCharacter(KinematicCharacter):
-    def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite)
+    def __init__(self, position=glm.vec2(), vu=None):
+        super().__init__(position, vu)
 
     @classmethod
-    def produce(self, position=(0,0)):
-        sprite = CharacterSprite().create()
-        return PlayerCharacter(position, sprite)
+    def produce(self, position=glm.vec2()):
+        vu = CharacterVu().create()
+        return PlayerCharacter(position, vu)

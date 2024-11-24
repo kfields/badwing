@@ -1,7 +1,9 @@
+from crunge.engine.d2.node_2d import Node2D
+
 from badwing.assets import asset
 from badwing.constants import *
 from badwing.util import debounce
-from badwing.model import Model, Group
+#from badwing.model import Model, Group
 from badwing.model_factory import ModelFactory
 from badwing.tile import TileLayer
 
@@ -21,12 +23,12 @@ RATE_DELTA = 1/60
 RATE_MIN = 0
 RATE_MAX = .1
 
-class Pole(Model):
+class Pole(Node2D):
     def __init__(self, position, sprite):
         super().__init__(position, sprite)
         self.collected = False
 
-class Flag(Model):
+class Flag(Node2D):
     def __init__(self, position, sprite):
         super().__init__(position, sprite)
         self.collected = False

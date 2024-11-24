@@ -6,7 +6,7 @@ from badwing.view import View
 from badwing.constants import *
 from badwing.debug import DebugLayer
 from badwing.assets import asset
-from badwing.model import Model
+#from badwing.model import Model
 
 class Scene(View):
     def __init__(self, name):

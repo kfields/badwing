@@ -1,26 +1,32 @@
 import math
+
 import glm
 import pymunk
 from pymunk.vec2d import Vec2d
 from pymunk.autogeometry import convex_decomposition, to_convex_hull
 
+from crunge.engine.d2.entity import KinematicEntity2D
+from crunge.engine.d2.physics import KinematicPhysics, DynamicPhysics, BoxGeom, BallGeom, HullGeom
+
 from badwing.constants import *
 import badwing.app
 from badwing.util import debounce
 
-import badwing.physics
-import badwing.geom
 
-from badwing.model import Model, DynamicModel, KinematicModel
-from badwing.physics.util import check_grounding
-from badwing.character import CharacterController, CharacterSprite
+#from badwing.model import Model, DynamicModel, KinematicModel
+
+#from badwing.physics.util import check_grounding
+from badwing.character import CharacterController, CharacterVu
 from badwing.character.controller import KinematicController
+
+from badwing.brain import Brain
 
 PLAYER_MASS = 1
 SLOP = 0
-class KinematicCharacter(KinematicModel):
-    def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite, geom=badwing.geom.HullGeom)
+
+class KinematicCharacter(KinematicEntity2D):
+    def __init__(self, position=glm.vec2(), vu=None):
+        super().__init__(position, vu=vu, model=vu.sprite, geom=HullGeom)
         self.mass = PLAYER_MASS
 
     def on_mount(self, model, point):
@@ -40,9 +46,9 @@ class KinematicCharacter(KinematicModel):
         badwing.app.scene.pop_pc()
 
     @classmethod
-    def produce(self, position=(0,0)):
-        sprite = CharacterSprite().create()
-        return KinematicCharacter(position, sprite)
+    def produce(self, position=glm.vec2()):
+        vu = CharacterVu().create()
+        return KinematicCharacter(position, vu)
 
     def control(self):
         return KinematicController(self)
@@ -60,6 +66,19 @@ class KinematicCharacter(KinematicModel):
             return self.geom.create_shapes(self, transform)
         else:
             return self.geom.create_shapes(self)
+
+    def update(self, delta_time=1 / 60):
+        super().update(delta_time)
+        if not self.laddered:
+            self.body.velocity += (0, int(GRAVITY[1] * delta_time))
+        
+        if not self.mounted:
+            return
+            
+        pos = self.get_tx_point((0, 64))
+        self.position = glm.vec2(pos[0], pos[1])
+        angle = self.body.angle
+        self.angle = math.degrees(angle)
 
     # Hack in sprite transform here for now.  Move up the hierarchy later
     

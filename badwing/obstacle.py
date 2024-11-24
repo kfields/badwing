@@ -1,10 +1,12 @@
+from crunge.engine.d2.entity import DynamicEntity2D
+
 import badwing.app
 from badwing.constants import *
-import badwing.geom
-from badwing.model import DynamicModel
+#import badwing.geom
+#from badwing.model import DynamicModel
 from badwing.model_factory import ModelFactory
 
-class Obstacle(DynamicModel):
+class Obstacle(DynamicEntity2D):
     def __init__(self, position, sprite, geom):
         super().__init__(position, sprite, geom=geom)
 

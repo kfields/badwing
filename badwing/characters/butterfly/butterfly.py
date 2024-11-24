@@ -6,15 +6,15 @@ import glm
 from crunge.engine.math import Bounds2
 from crunge.engine.d2.sprite import SpriteVuGroup
 
+from crunge.engine.d2.entity import Entity2D, EntityGroup2D
+
 from badwing.assets import asset
 from badwing.constants import *
 from badwing.util import debounce
-from badwing.model import Model, Group
 from badwing.model_factory import ModelFactory
-from badwing.tile import TileLayer
 
-from badwing.characters.butterfly.brain import ButterflyBrain
-from badwing.characters.butterfly.sprite import ButterflySprite
+from badwing.characters.butterfly.butterfly_brain import ButterflyBrain
+from badwing.characters.butterfly.butterfly_vu import ButterflyVu
 
 SPRITE_WIDTH = 64
 SPRITE_HEIGHT = 32
@@ -35,9 +35,9 @@ RATE_MAX = .1
 RANGE = 512 # How far they can travel
 HALF_RANGE = RANGE/2
 
-class Butterfly(Model):
-    def __init__(self, position=glm.vec2(), sprite=None, border=Bounds2(0,0,640,480)):
-        super().__init__(position, sprite, brain=ButterflyBrain(self))
+class Butterfly(Entity2D):
+    def __init__(self, position=glm.vec2(), vu=None, border=Bounds2(0,0,640,480)):
+        super().__init__(position, vu=vu, brain=ButterflyBrain(self))
         self.border = border
 
     @classmethod
@@ -56,55 +56,55 @@ class Butterfly(Model):
 class ButterflyAqua(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(8).create()
+        sprite = ButterflyVu(8).create()
         return ButterflyAqua(position, sprite, border)
 
 class ButterflyBlue(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(0).create()
+        sprite = ButterflyVu(0).create()
         return ButterflyBlue(position, sprite, border)
 
 class ButterflyBrown(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(4).create()
+        sprite = ButterflyVu(4).create()
         return ButterflyBrown(position, sprite, border)
 
 class ButterflyCyan(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(5).create()
+        sprite = ButterflyVu(5).create()
         return ButterflyCyan(position, sprite, border)
 
 class ButterflyGreen(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(1).create()
+        sprite = ButterflyVu(1).create()
         return ButterflyGreen(position, sprite, border)
 
 class ButterflyIridescent(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(6).create()
+        sprite = ButterflyVu(6).create()
         return ButterflyIridescent(position, sprite, border)
 
 class ButterflyRed(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(7).create()
+        sprite = ButterflyVu(7).create()
         return ButterflyRed(position, sprite, border)
 
 class ButterflyTan(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(3).create()
+        sprite = ButterflyVu(3).create()
         return ButterflyTan(position, sprite, border)
 
 class ButterflyTeal(Butterfly):
     @classmethod
     def produce(self, position, border=Bounds2(0,0,640,480)):
-        sprite = ButterflySprite(2).create()
+        sprite = ButterflyVu(2).create()
         return ButterflyTeal(position, sprite, border)
 
 
@@ -122,7 +122,7 @@ kinds = {
 
 kinds_list = list(kinds)
 
-class Butterflies(Group):
+class Butterflies(EntityGroup2D):
     def __init__(self, border=Bounds2(0,0,640,480)):
         super().__init__()
 

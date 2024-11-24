@@ -5,6 +5,7 @@ from crunge import imgui
 
 from crunge.engine import Renderer
 from crunge.engine.math import Bounds2
+from crunge.engine.d2.physics import DynamicPhysicsEngine
 
 import badwing.app
 from badwing.constants import *
@@ -12,7 +13,7 @@ from badwing.assets import asset
 from badwing.level import Level
 from badwing.controller import Controller
 
-from badwing.physics.dynamic import DynamicPhysicsEngine
+#from badwing.physics.dynamic import DynamicPhysicsEngine
 from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
@@ -24,7 +25,7 @@ class StartScene(Level):
     def __init__(self):
         super().__init__('start')
         # Our physics engine
-        self.physics_engine = physics_engine = DynamicPhysicsEngine()
+        self.physics_engine = physics_engine = DynamicPhysicsEngine().create()
         self.space = physics_engine.space
 
         '''

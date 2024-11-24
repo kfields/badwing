@@ -6,8 +6,8 @@ from badwing.constants import *
 from badwing.assets import asset
 from badwing.level import Level
 
-from badwing.physics.dynamic import DynamicPhysicsEngine
-from badwing.physics.kinematic import KinematicPhysicsEngine
+#from badwing.physics.dynamic import DynamicPhysicsEngine
+#from badwing.physics.kinematic import KinematicPhysicsEngine
 from badwing.layer import Layer
 from badwing.barrier import BarrierLayer
 from badwing.background import BackgroundLayer

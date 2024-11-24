@@ -65,10 +65,10 @@ class ButterflyBrain(Brain):
         next_x, next_y = 0, 0
         need_turn = False
 
-        bounds = self.model.bounds
+        bounds = self.node.bounds
         #logger.debug(f"Bounds: {bounds}")
         min_x, min_y, max_x, max_y = bounds.left, bounds.bottom, bounds.right, bounds.top
-        border  = self.model.border
+        border  = self.node.border
         #logger.debug(f"Border: {border}")
         w_min_x, w_min_y, w_max_x, w_max_y = border.left, border.bottom, border.right, border.top
 
@@ -85,29 +85,6 @@ class ButterflyBrain(Brain):
         elif(max_y > w_max_y):
             delta_y = w_max_y - max_y
             need_turn = True
-
-        '''
-        sprite = self.model
-        pos = sprite.position
-
-        min_x, min_y, max_x, max_y = sprite.left, sprite.bottom, sprite.right, sprite.top
-        border  = self.model.border
-        w_min_x, w_min_y, w_max_x, w_max_y = border[0], border[1], border[2], border[3]
-
-        if(min_x < w_min_x):
-            delta_x = w_min_x - min_x
-            need_turn = True
-        elif(max_x > w_max_x):
-            delta_x = w_max_x - max_x
-            need_turn = True
-
-        if(min_y < w_min_y):
-            delta_y = w_min_y - min_y
-            need_turn = True
-        elif(max_y > w_max_y):
-            delta_y = w_max_y - max_y
-            need_turn = True
-        '''
         
         #TODO:use pymunk
         
@@ -125,7 +102,7 @@ class ButterflyBrain(Brain):
         next_y = pos.y + delta_y                    
         
         self.position = glm.vec2(next_x, next_y)
-        sprite = self.model.vu
+        sprite = self.node.vu
         sprite.change_x = pos.x - next_x
         sprite.change_y = pos.y - next_y
 

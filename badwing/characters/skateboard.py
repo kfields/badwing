@@ -5,14 +5,17 @@ from pymunk import Vec2d
 
 from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
 from crunge.engine.d2.sprite import Sprite, SpriteVu
+from crunge.engine.d2.entity import PhysicsEntity2D, PhysicsGroup2D, DynamicEntity2D
+from crunge.engine.d2.physics import BoxGeom, BallGeom
+import crunge.engine.d2.physics.globe as physics_globe
 
 import badwing.app
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.util import debounce
 from badwing.character import CharacterController
-from badwing.model import DynamicModel, PhysicsGroup
-import badwing.geom
+#from badwing.model import DynamicModel, PhysicsGroup
+#import badwing.geom
 
 
 WHEEL_RADIUS = 32
@@ -28,9 +31,9 @@ Y_PAD = 32
 SPEED_DELTA = 1
 MAX_SPEED = 100
 
-class Wheel(DynamicModel):
-    def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite, geom=badwing.geom.BallGeom)
+class Wheel(DynamicEntity2D):
+    def __init__(self, position=glm.vec2(), vu=None):
+        super().__init__(position, vu=vu, geom=BallGeom)
         #self.radius = WHEEL_RADIUS
         self.mass = WHEEL_MASS
 
@@ -38,14 +41,14 @@ class Wheel(DynamicModel):
     def produce(self, position=(0,0)):
         img_src = asset("items/coinGold.png")
         texture = ImageTextureLoader().load(img_src)
-        material = Sprite(texture)
-        sprite = SpriteVu(material).create()
+        sprite = Sprite(texture)
+        vu = SpriteVu(sprite).create()
 
-        return Wheel(position, sprite)
+        return Wheel(position, vu)
 
-class Chassis(DynamicModel):
-    def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite, geom=badwing.geom.BoxGeom)
+class Chassis(DynamicEntity2D):
+    def __init__(self, position=glm.vec2(), vu=None):
+        super().__init__(position, vu=vu, geom=BoxGeom)
         self.width = CHASSIS_WIDTH * TILE_SCALING
         self.height = CHASSIS_HEIGHT * TILE_SCALING
         self.mass = CHASSIS_MASS
@@ -57,12 +60,12 @@ class Chassis(DynamicModel):
         #sprite.width = TILE_WIDTH * TILE_SCALING * 2
         #sprite.height = CHASSIS_HEIGHT * TILE_SCALING
         texture = ImageTextureLoader().load(img_src)
-        material = Sprite(texture)
-        sprite = SpriteVu(material).create()
+        sprite = Sprite(texture)
+        vu = SpriteVu(sprite).create()
 
-        return Chassis(position, sprite)
+        return Chassis(position, vu)
 
-class Skateboard(PhysicsGroup):
+class Skateboard(PhysicsGroup2D):
     def __init__(self, position=Vec2d(0, 0)):
         super().__init__(position)
         self.mountee = None
@@ -119,7 +122,7 @@ class Skateboard(PhysicsGroup):
         self.back_motor = self.motor = m2 = pymunk.constraints.SimpleMotor(self.back_wheel.body, self.chassis.body, -self.speed)
         m2.max_force = 200000
 
-        badwing.app.physics_engine.space.add(p1, p2, p3, p4, m1, m2)
+        physics_globe.physics_engine.space.add(p1, p2, p3, p4, m1, m2)
 
     def attach_motors(self):
         if self.motors_attached:

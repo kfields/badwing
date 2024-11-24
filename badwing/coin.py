@@ -7,12 +7,13 @@ import pymunk
 from pymunk.vec2d import Vec2d
 from pymunk.autogeometry import convex_decomposition, to_convex_hull
 
+from crunge.engine.d2.node_2d import Node2D
+
 import badwing.app
 from badwing.constants import *
-from badwing.model import Model
 from badwing.model_factory import ModelFactory
 
-class Coin(Model):
+class Coin(Node2D):
     def __init__(self, position, sprite):
         super().__init__(position, sprite)
 

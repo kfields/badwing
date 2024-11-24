@@ -1,3 +1,6 @@
+from crunge import sdl
+import crunge.engine.d2.physics.globe as physics_globe
+
 import badwing.app
 from badwing.constants import *
 
@@ -6,7 +9,7 @@ from badwing.character.controller import CharacterController
 class KinematicController(CharacterController):
     def __init__(self, pc):
         super().__init__(pc)
-        self.physics_engine = badwing.app.physics_engine
+        self.physics_engine = physics_globe.physics_engine
         self.pc = pc
         self.pc_sprite = pc.vu
         self.force = (0, 0)
@@ -89,7 +92,7 @@ class KinematicController(CharacterController):
             elif self.pc.grounded and not self.jump_needs_reset:
                 delta_y = PLAYER_JUMP_SPEED
                 self.jump_needs_reset = True
-                arcade.play_sound(self.jump_sound)
+                #arcade.play_sound(self.jump_sound)
         elif self.down_pressed and not self.up_pressed:
             if self.is_on_ladder():
                 delta_y = -PLAYER_MOVEMENT_SPEED
@@ -109,40 +112,47 @@ class KinematicController(CharacterController):
         elif self.left_pressed and not self.right_pressed:
             delta_x = -PLAYER_MOVEMENT_SPEED
         else:
-            #self.pc_sprite.change_x = 0
             delta_x = 0
 
         self.pc.body.velocity = (delta_x, delta_y)
 
 
-    def on_key_press(self, key, modifiers):
+    def on_key(self, event: sdl.KeyboardEvent):
+        super().on_key(event)
+        key = event.key
+        down = event.down
+        repeat = event.repeat
         """Called whenever a key is pressed. """
-        if key == arcade.key.UP or key == arcade.key.W:
-            self.up_pressed = True
-        elif key == arcade.key.DOWN or key == arcade.key.S:
-            self.down_pressed = True
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.left_pressed = True
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.right_pressed = True
-        elif key == arcade.key.SPACE:
-            self.pc.punching = True
-
-        self.process_keychange()
-
-    def on_key_release(self, key, modifiers):
-        """Called when the user releases a key. """
-
-        if key == arcade.key.UP or key == arcade.key.W:
-            self.up_pressed = False
-            self.jump_needs_reset = False
-        elif key == arcade.key.DOWN or key == arcade.key.S:
-            self.down_pressed = False
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.left_pressed = False
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.right_pressed = False
-        elif key == arcade.key.SPACE:
-            self.pc.punching = False
+        #if key == arcade.key.UP or key == arcade.key.W:
+        if key == sdl.SDLK_w:
+            if down:
+                self.up_pressed = True
+            else:
+                self.up_pressed = False
+                self.jump_needs_reset = False
+        #elif key == arcade.key.DOWN or key == arcade.key.S:
+        elif key == sdl.SDLK_s:
+            if down:
+                self.down_pressed = True
+            else:
+                self.down_pressed = False
+        #elif key == arcade.key.LEFT or key == arcade.key.A:
+        elif key == sdl.SDLK_a:
+            if down:
+                self.left_pressed = True
+            else:
+                self.left_pressed = False
+        #elif key == arcade.key.RIGHT or key == arcade.key.D:
+        elif key == sdl.SDLK_d:
+            if down:
+                self.right_pressed = True
+            else:
+                self.right_pressed = False
+        #elif key == arcade.key.SPACE:
+        elif key == sdl.SDLK_SPACE:
+            if down:
+                self.pc.punching = True
+            else:
+                self.pc.punching = False
 
         self.process_keychange()
