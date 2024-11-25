@@ -3,19 +3,17 @@ import glm
 import pymunk
 from pymunk import Vec2d
 
-from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
+from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
+from crunge.engine.builder.sprite import CollidableSpriteBuilder
+
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 from crunge.engine.d2.entity import PhysicsEntity2D, PhysicsGroup2D, DynamicEntity2D
 from crunge.engine.d2.physics import BoxGeom, BallGeom
 import crunge.engine.d2.physics.globe as physics_globe
 
-import badwing.app
-from badwing.constants import *
 from badwing.assets import asset
 from badwing.util import debounce
 from badwing.character import CharacterController
-#from badwing.model import DynamicModel, PhysicsGroup
-#import badwing.geom
 
 
 WHEEL_RADIUS = 32
@@ -31,6 +29,8 @@ Y_PAD = 32
 SPEED_DELTA = 1
 MAX_SPEED = 100
 
+sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
+
 class Wheel(DynamicEntity2D):
     def __init__(self, position=glm.vec2(), vu=None):
         super().__init__(position, vu=vu, geom=BallGeom)
@@ -40,8 +40,7 @@ class Wheel(DynamicEntity2D):
     @classmethod
     def produce(self, position=(0,0)):
         img_src = asset("items/coinGold.png")
-        texture = ImageTextureLoader().load(img_src)
-        sprite = Sprite(texture)
+        sprite = sprite_loader.load(img_src)
         vu = SpriteVu(sprite).create()
 
         return Wheel(position, vu)
@@ -49,18 +48,16 @@ class Wheel(DynamicEntity2D):
 class Chassis(DynamicEntity2D):
     def __init__(self, position=glm.vec2(), vu=None):
         super().__init__(position, vu=vu, geom=BoxGeom)
-        self.width = CHASSIS_WIDTH * TILE_SCALING
-        self.height = CHASSIS_HEIGHT * TILE_SCALING
+        self.width = CHASSIS_WIDTH
+        self.height = CHASSIS_HEIGHT
         self.mass = CHASSIS_MASS
 
     @classmethod
     def produce(self, position=(0, 0)):
         img_src = asset("tiles/boxCrate.png")
-        #sprite = arcade.Sprite(img_src, CHARACTER_SCALING)
         #sprite.width = TILE_WIDTH * TILE_SCALING * 2
         #sprite.height = CHASSIS_HEIGHT * TILE_SCALING
-        texture = ImageTextureLoader().load(img_src)
-        sprite = Sprite(texture)
+        sprite = sprite_loader.load(img_src)
         vu = SpriteVu(sprite).create()
 
         return Chassis(position, vu)
@@ -80,8 +77,8 @@ class Skateboard(PhysicsGroup2D):
         self.chassis = chassis = self.add_node(Chassis.produce(chassis_pos))
         #self.sprite = chassis.sprite
         self.vu = chassis.vu
-        self.front_wheel = front_wheel = self.add_node(Wheel.produce(front_wheel_pos))
-        self.back_wheel = back_wheel = self.add_node(Wheel.produce(back_wheel_pos))
+        self.front_wheel = self.add_node(Wheel.produce(front_wheel_pos))
+        self.back_wheel = self.add_node(Wheel.produce(back_wheel_pos))
 
     @classmethod
     def produce(self, position=(0,0)):
@@ -101,10 +98,10 @@ class Skateboard(PhysicsGroup2D):
         p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))
         p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))
         self.mountee_pins.extend([p5, p6])
-        badwing.app.physics_engine.space.add(p5, p6)
+        physics_globe.physics_engine.space.add(p5, p6)
 
     def dismount(self):
-        badwing.app.physics_engine.space.remove(*self.mountee_pins)
+        physics_globe.physics_engine.space.remove(*self.mountee_pins)
         self.mountee_pins = []
         point = (0, CHASSIS_HEIGHT/2)
         self.mountee.on_dismount(self.chassis, point)
@@ -128,13 +125,13 @@ class Skateboard(PhysicsGroup2D):
         if self.motors_attached:
             return
         self.front_motor.rate = self.back_motor.rate = -self.speed
-        badwing.app.physics_engine.space.add(self.back_motor, self.front_motor)
+        physics_globe.physics_engine.space.add(self.back_motor, self.front_motor)
         self.motors_attached = True
 
     def detach_motors(self):
         if not self.motors_attached:
             return
-        badwing.app.physics_engine.space.remove(self.back_motor, self.front_motor)
+        physics_globe.physics_engine.space.remove(self.back_motor, self.front_motor)
         self.motors_attached = False
 
     def accelerate(self, rate=SPEED_DELTA):

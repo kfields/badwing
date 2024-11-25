@@ -1,5 +1,6 @@
 import sys
 import os
+import glm
 
 from crunge.engine.d2.physics import KinematicPhysicsEngine, DynamicPhysicsEngine
 from crunge.engine.d2.physics.draw_options import DrawOptions
@@ -136,29 +137,31 @@ class TileLevel(Level):
 
         # Scroll left
         left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN
-        if self.pc_sprite.bounds.left < left_boundary:
-            self.view_left -= left_boundary - self.pc_sprite.bounds.left
+        if self.pc.bounds.left < left_boundary:
+            self.view_left -= left_boundary - self.pc.bounds.left
             changed = True
 
         # Scroll right
         right_boundary = self.view_left + SCREEN_WIDTH - RIGHT_VIEWPORT_MARGIN
-        if self.pc_sprite.bounds.right > right_boundary:
-            self.view_left += self.pc_sprite.bounds.right - right_boundary
+        if self.pc.bounds.right > right_boundary:
+            self.view_left += self.pc.bounds.right - right_boundary
             changed = True
 
         # Scroll up
         top_boundary = self.view_bottom + SCREEN_HEIGHT - TOP_VIEWPORT_MARGIN
-        if self.pc_sprite.bounds.top > top_boundary:
-            self.view_bottom += self.pc_sprite.bounds.top - top_boundary
+        if self.pc.bounds.top > top_boundary:
+            self.view_bottom += self.pc.bounds.top - top_boundary
             changed = True
 
         # Scroll down
         bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
-        if self.pc_sprite.bounds.bottom < bottom_boundary:
-            self.view_bottom -= bottom_boundary - self.pc_sprite.bounds.bottom
+        if self.pc.bounds.bottom < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.pc.bounds.bottom
             changed = True
 
         if changed:
+            #self.camera.position = self.pc.position
+            self.camera.position = glm.lerp(self.camera.position, self.pc.position, delta_time)
             '''
             # Only scroll to integers. Otherwise we end up with pixels that
             # don't line up on the screen

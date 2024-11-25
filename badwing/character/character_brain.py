@@ -1,10 +1,11 @@
 from loguru import logger
 
 from crunge.engine.math import Rect2i
-#from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
-from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
+#from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
+from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
+from crunge.engine.d2.sprite import SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
 
 from badwing.brain import Brain
 
@@ -16,114 +17,78 @@ UPDATES_PER_FRAME = 7
 RIGHT_FACING = 0
 LEFT_FACING = 1
 
-def load_sprite_pair(filename, sprite_loader: SpriteLoader):
-    """
-    Load a texture pair, with the second being a mirror image.
-    """
-    return [
-        sprite_loader.load(filename),
-        #arcade.load_texture(filename).flip_horizontally()
-        sprite_loader.load(filename) #TODO: flip horizontally
-    ]
-
 class CharacterBrain(Brain):
-    def __init__(self, main_path = ":resources:/animated_characters/male_adventurer/character_maleAdventurer"):
+    def __init__(self):
         super().__init__()
-
-        # Animation timing
-        self.time = 1
-        self.update_time = 0
-        #self.rate = 1/60
-        self.rate = 1/30
 
         # Default to face-right
         self.character_face_direction = RIGHT_FACING
-
-        # Used for flipping between image sequences
-        self.cur_sprite = 0
-        #self.scale = CHARACTER_SCALING
 
         # Track our state
         self.jumping = False
         self.climbing = False
         self.is_on_ladder = False
 
-        '''
-        # --- Load Sprites ---
-        sprite_loader = SpriteLoader(sprite_builder = CollidableSpriteBuilder())
-        # Load textures for idle standing
-        self.idle_sprite_pair = load_sprite_pair(f"{main_path}_idle.png", sprite_loader)
-        self.jump_sprite_pair = load_sprite_pair(f"{main_path}_jump.png", sprite_loader)
-        self.fall_sprite_pair = load_sprite_pair(f"{main_path}_fall.png", sprite_loader)
-
-        # Load textures for walking
-        self.walk_sprites = []
-        for i in range(8):
-            sprite = load_sprite_pair(f"{main_path}_walk{i}.png", sprite_loader)
-            self.walk_sprites.append(sprite)
-
-        # Load textures for climbing
-        self.climbing_sprites = []
-        #texture = arcade.load_texture(f"{main_path}_climb0.png")
-        sprite = sprite_loader.load(f"{main_path}_climb0.png")
-        self.climbing_sprites.append(sprite)
-        #texture = arcade.load_texture(f"{main_path}_climb1.png")
-        sprite = sprite_loader.load(f"{main_path}_climb1.png")
-        self.climbing_sprites.append(sprite)
-
-        # Set the initial texture
-        self.sprite = self.idle_sprite_pair[self.character_face_direction]
-
-        # Hit box will be set based on the first image used. If you want to specify
-        # a different hit box, you can do it like the code below.
-        # self.set_hit_box([[-22, -64], [22, -64], [22, 28], [-22, 28]])
-        #self.set_hit_box(self.texture.hit_box_points)
-        #self.hit_box = arcade.hitbox.RotatableHitBox(self.texture.hit_box_points)
-        #self.sprite = Sprite(self.texture)
-        #sprite_builder = CollidableSpriteBuilder()
-        #size = self.texture.size
-        #rect = Rect2i(0, 0, size.x, size.y)
-        #self.sprite = sprite_builder.build(self.texture, rect)
-        '''
+        self.animator: SpriteAnimator = None
 
     def _create(self):
         super()._create()
-        main_path = ":resources:/animated_characters/male_adventurer/character_maleAdventurer"
-        sprite_loader = SpriteLoader(sprite_builder = CollidableSpriteBuilder())
-        # Load textures for idle standing
-        self.idle_sprite_pair = load_sprite_pair(f"{main_path}_idle.png", sprite_loader)
-        self.jump_sprite_pair = load_sprite_pair(f"{main_path}_jump.png", sprite_loader)
-        self.fall_sprite_pair = load_sprite_pair(f"{main_path}_fall.png", sprite_loader)
+        self.animator = SpriteAnimator(self.node)
+        atlas = XmlSpriteAtlasLoader().load(
+            ":resources:/characters/male_adventurer/sheet.xml"
+        )
+        self.create_idle_animations(atlas, self.animator)
+        self.create_jump_animations(atlas, self.animator)
+        self.create_fall_animations(atlas, self.animator)
+        self.create_walk_animations(atlas, self.animator)
 
-        # Load textures for walking
-        self.walk_sprites = []
-        for i in range(8):
-            sprite = load_sprite_pair(f"{main_path}_walk{i}.png", sprite_loader)
-            self.walk_sprites.append(sprite)
+    def create_idle_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+        idle = SpriteAnimation("idle")
+        frame = SpriteAnimationFrame(atlas.get(f"idle"))
+        idle.add_frame(frame)
 
-        # Load textures for climbing
-        self.climbing_sprites = []
-        #texture = arcade.load_texture(f"{main_path}_climb0.png")
-        sprite = sprite_loader.load(f"{main_path}_climb0.png")
-        self.climbing_sprites.append(sprite)
-        #texture = arcade.load_texture(f"{main_path}_climb1.png")
-        sprite = sprite_loader.load(f"{main_path}_climb1.png")
-        self.climbing_sprites.append(sprite)
+        animator.add_animation(idle)
 
-        # Set the initial texture
-        self.sprite = self.idle_sprite_pair[self.character_face_direction]
+    def create_jump_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+        jump = SpriteAnimation("jump")
+        frame = SpriteAnimationFrame(atlas.get(f"jump"))
+        jump.add_frame(frame)
+
+        animator.add_animation(jump)
+
+    def create_fall_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+        fall = SpriteAnimation("fall")
+        frame = SpriteAnimationFrame(atlas.get(f"fall"))
+        fall.add_frame(frame)
+
+        animator.add_animation(fall)
+        
+    def create_walk_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+        walk_right = SpriteAnimation("walkRight")
+        for i in range(0, 8):
+            frame = SpriteAnimationFrame(atlas.get(f"walk{i}"))
+            walk_right.add_frame(frame)
+
+        animator.add_animation(walk_right)
+
+        walk_left = walk_right.mirror("walkLeft", horizontal=True)
+
+        animator.add_animation(walk_left)
 
     def update(self, delta_time: float = 1/60):
         super().update(delta_time)
-        self.time += delta_time
-        if self.update_time > self.time:
-            return
-        self.update_time = self.time + self.rate
 
         velocity = self.node.body.velocity
         vel_x = int(velocity[0])
         vel_y = int(velocity[1])
-        #print(vel_x, vel_y)
+
+        #TODO: update node velocity from body
+        '''
+        velocity = self.node.velocity
+        vel_x = velocity.x
+        vel_y = velocity.y
+        '''
+
         # Figure out if we need to flip face left or right
         if vel_x < 0 and self.character_face_direction == RIGHT_FACING:
             self.character_face_direction = LEFT_FACING
@@ -145,19 +110,18 @@ class CharacterBrain(Brain):
 
         # Jumping animation
         if vel_y > 0 and not self.is_on_ladder or self.node.mounted:
-            self.sprite = self.jump_sprite_pair[self.character_face_direction]
+            self.animator.play("jump")
             return
         elif vel_y < 0 and not self.node.grounded and not self.is_on_ladder:
-            self.sprite = self.fall_sprite_pair[self.character_face_direction]
+            self.animator.play("fall")
             return
 
         # Idle animation
         if vel_x == 0:
-            self.sprite = self.idle_sprite_pair[self.character_face_direction]
+            self.animator.play("idle")
             return
 
         # Walking animation
-        self.cur_sprite += 1
-        if self.cur_sprite > 7:
-            self.cur_sprite = 0
-        self.sprite = self.walk_sprites[self.cur_sprite][self.character_face_direction]
+        self.animator.play("walkRight" if self.character_face_direction == RIGHT_FACING else "walkLeft")
+
+        self.animator.update(delta_time)

@@ -16,7 +16,7 @@ from badwing.util import debounce
 
 #from badwing.physics.util import check_grounding
 #from badwing.character import CharacterController, CharacterVu
-from badwing.character.controller import KinematicController
+from badwing.character.controller import KinematicCharacterController
 
 from .character_brain import CharacterBrain
 
@@ -55,7 +55,7 @@ class KinematicCharacter(KinematicEntity2D):
     '''
 
     def control(self):
-        return KinematicController(self)
+        return KinematicCharacterController(self)
 
     def create_body(self):
         if self.mounted:

@@ -1,2 +1,2 @@
-from badwing.character.controller.controller import CharacterController
-from badwing.character.controller.kinematic import KinematicController
+from badwing.character.controller.character_controller import CharacterController
+from badwing.character.controller.kinematic_character_controller import KinematicCharacterController

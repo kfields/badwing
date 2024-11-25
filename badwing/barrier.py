@@ -34,6 +34,10 @@ class BarrierLayer(Layer):
         self.top_barrier = top_barrier = Barrier(left - self.barrier_width, top + BARRIER_HEIGHT, right, top)
         self.left_barrier = left_barrier = Barrier(left - self.barrier_width, bottom, left, self.height)
         self.right_barrier = right_barrier = Barrier(right, bottom, right + self.barrier_width, self.height)
+
+        #TODO: add barriers back in once I figure out how to get the level width and height
+        '''
         self.add_node(top_barrier)
         self.add_node(left_barrier)
         self.add_node(right_barrier)
+        '''

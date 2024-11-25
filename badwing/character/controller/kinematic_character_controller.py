@@ -8,12 +8,12 @@ from badwing.constants import *
 
 from badwing.character.controller import CharacterController
 
-class KinematicController(CharacterController):
+class KinematicCharacterController(CharacterController):
     def __init__(self, pc):
         super().__init__(pc)
         self.physics_engine = physics_globe.physics_engine
         self.pc = pc
-        self.pc_sprite = pc.vu
+        #self.pc_sprite = pc.vu
         self.force = (0, 0)
         #self.jump_sound = arcade.load_sound(":resources:/sounds/jump1.wav")
         #
@@ -37,7 +37,7 @@ class KinematicController(CharacterController):
         for sprite in hit_list:
             model = sprite.model
             if isinstance(model, badwing.characters.Chassis):
-                mount = model.parent
+                mount = model.group
                 mount.mount(self.pc)
                 badwing.app.scene.push_pc(mount)
 
@@ -91,11 +91,13 @@ class KinematicController(CharacterController):
         if self.up_pressed and not self.down_pressed:
             if self.is_on_ladder():
                 delta_y = PLAYER_MOVEMENT_SPEED
-            elif self.pc.grounded and not self.jump_needs_reset:
+            #elif self.pc.grounded and not self.jump_needs_reset:
+            elif self.pc.grounded:
+                logger.debug("Jumping")
                 delta_y = PLAYER_JUMP_SPEED
-                self.jump_needs_reset = True
+                #self.jump_needs_reset = True
                 #arcade.play_sound(self.jump_sound)
-        elif self.down_pressed and not self.up_pressed:
+        if self.down_pressed and not self.up_pressed:
             if self.is_on_ladder():
                 delta_y = -PLAYER_MOVEMENT_SPEED
             else:
@@ -109,12 +111,14 @@ class KinematicController(CharacterController):
                 delta_y = 0
 
         # Process left/right
-        if self.right_pressed and not self.left_pressed:
+        if self.pc.grounded and self.right_pressed and not self.left_pressed:
             delta_x = PLAYER_MOVEMENT_SPEED
-        elif self.left_pressed and not self.right_pressed:
+        elif self.pc.grounded and self.left_pressed and not self.right_pressed:
             delta_x = -PLAYER_MOVEMENT_SPEED
+        '''
         else:
             delta_x = 0
+        '''
 
         self.pc.body.velocity = (delta_x, delta_y)
 
@@ -152,7 +156,6 @@ class KinematicController(CharacterController):
                 self.right_pressed = False
         #elif key == arcade.key.SPACE:
         elif key == sdl.SDLK_SPACE:
-            logger.debug(f"SPACE: {down}")
             if down:
                 self.pc.punching = True
             else:
