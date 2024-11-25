@@ -1,3 +1,5 @@
+from loguru import logger
+
 from crunge import sdl
 import crunge.engine.d2.physics.globe as physics_globe
 
@@ -40,13 +42,13 @@ class KinematicController(CharacterController):
                 badwing.app.scene.push_pc(mount)
 
     def is_on_ladder(self):
-        laddered = self.model.laddered
+        laddered = self.node.laddered
         if self.ladders:
             hit_list = check_for_collision_with_list(self.pc_sprite, self.ladders)
             if len(hit_list) > 0:
-                self.model.laddered = laddered = True
+                self.node.laddered = laddered = True
             else:
-                self.model.laddered = laddered = False
+                self.node.laddered = laddered = False
         return laddered
 
     def can_jump(self, y_distance=5) -> bool:
@@ -150,6 +152,7 @@ class KinematicController(CharacterController):
                 self.right_pressed = False
         #elif key == arcade.key.SPACE:
         elif key == sdl.SDLK_SPACE:
+            logger.debug(f"SPACE: {down}")
             if down:
                 self.pc.punching = True
             else:

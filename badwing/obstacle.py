@@ -14,12 +14,12 @@ class Obstacle(DynamicEntity2D):
     def produce(self, sprite):
         print("sprite.properties: ", sprite.properties)
         kind = sprite.properties['class']
-        model = kinds[kind].produce(sprite)
+        node = kinds[kind].produce(sprite)
         #print(model)
         #print(vars(sprite))
         #print(kind)
         #print(sprite.points)
-        return model
+        return node
 
 BOX_MASS = 1
 BALL_MASS = 1
@@ -58,8 +58,8 @@ class ObstacleFactory(ModelFactory):
 
     def produce(self):
         for sprite in self.layer.sprites:
-            model = Obstacle.produce(sprite)
-            self.layer.add_model(model)
+            node = Obstacle.produce(sprite)
+            self.layer.add_node(node)
 
 
 kinds = {

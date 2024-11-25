@@ -16,9 +16,9 @@ class CharacterTileLayer(TileLayer):
             if not kind:
                 continue
             position = sprite.position
-            model = kinds[kind].produce(position)
+            node = kinds[kind].produce(position)
             #print(model)
-            self.add_model(model)
+            self.add_node(node)
 
 kinds = {
     'PlayerCharacter': PlayerCharacter,

@@ -36,16 +36,16 @@ class Butterfly(Entity2D):
 
     @classmethod
     def produce(self, kind, position=glm.vec2(), border=Bounds2(0,0,640,480)):
-        model = kinds[kind].produce(position, border)
-        return model
+        node = kinds[kind].produce(position, border)
+        return node
 
     @classmethod
     def create_from(self, sprite):
         kind = sprite.properties['class']
         pos = sprite.position
         border = Bounds2(pos[0]-HALF_RANGE, pos[1]-HALF_RANGE, pos[0]+HALF_RANGE, pos[1]+HALF_RANGE)
-        model = kinds[kind].produce(pos, border)
-        return model
+        node = kinds[kind].produce(pos, border)
+        return node
 
 class ButterflyAqua(Butterfly):
     @classmethod
@@ -131,7 +131,7 @@ class Butterflies(EntityGroup2D):
             ndx = random.randint(0, 8)
             kind = kinds_list[ndx]
             butterfly = Butterfly.produce(kind, position, border)
-            group.add_model(butterfly)
+            group.add_node(butterfly)
         return group
 
 class ButterflyFactory(ModelFactory):
@@ -148,6 +148,6 @@ class ButterflyFactory(ModelFactory):
             if not kind:
                 continue
             position = sprite.position
-            model = Butterfly.create_from(sprite)
+            node = Butterfly.create_from(sprite)
             #print(model)
-            self.layer.add_model(model)
+            self.layer.add_node(node)

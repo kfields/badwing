@@ -36,8 +36,8 @@ class Flag(Node2D):
     @classmethod
     def produce(self, position, sprite):
         kind = sprite.properties['class']
-        model = kinds[kind].produce(position, sprite)
-        return model
+        node = kinds[kind].produce(position, sprite)
+        return node
 
     def collect(self):
         if self.collected:
@@ -82,7 +82,7 @@ class FlagFactory(ModelFactory):
             print("sprite.properties: ", sprite.properties)
             kind = sprite.properties['class']
             if kind == 'Pole':
-                model = Pole(sprite.position, sprite)
+                node = Pole(sprite.position, sprite)
             else:
-                model = Flag.produce(sprite.position, sprite)
-            self.layer.add_model(model)
+                node = Flag.produce(sprite.position, sprite)
+            self.layer.add_node(node)

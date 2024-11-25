@@ -20,12 +20,12 @@ class Coin(Node2D):
     @classmethod
     def produce(self, position, sprite):
         kind = sprite.properties['class']
-        model = kinds[kind].produce(position, sprite)
+        node = kinds[kind].produce(position, sprite)
         #print(model)
         #print(vars(sprite))
         #print(kind)
         #print(sprite.points)
-        return model
+        return node
 
 
 class Gem(Coin):
@@ -43,8 +43,8 @@ class CoinFactory(ModelFactory):
 
     def _create(self):
         for sprite in self.layer.sprites:
-            model = Coin.produce(sprite.position, sprite)
-            self.layer.add_model(model)
+            node = Coin.produce(sprite.position, sprite)
+            self.layer.add_node(node)
 
 kinds = {
     'coin': Gem

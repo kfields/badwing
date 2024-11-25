@@ -1,5 +1,6 @@
 import math
 
+from loguru import logger
 import glm
 import pymunk
 from pymunk.vec2d import Vec2d
@@ -7,26 +8,24 @@ from pymunk.autogeometry import convex_decomposition, to_convex_hull
 
 from crunge.engine.d2.entity import KinematicEntity2D
 from crunge.engine.d2.physics import KinematicPhysics, DynamicPhysics, BoxGeom, BallGeom, HullGeom
+from crunge.engine.d2.sprite import Sprite, SpriteVu
 
 from badwing.constants import *
 import badwing.app
 from badwing.util import debounce
 
-
-#from badwing.model import Model, DynamicModel, KinematicModel
-
 #from badwing.physics.util import check_grounding
-from badwing.character import CharacterController, CharacterVu
+#from badwing.character import CharacterController, CharacterVu
 from badwing.character.controller import KinematicController
 
-from badwing.brain import Brain
+from .character_brain import CharacterBrain
 
 PLAYER_MASS = 1
 SLOP = 0
 
 class KinematicCharacter(KinematicEntity2D):
-    def __init__(self, position=glm.vec2(), vu=None):
-        super().__init__(position, vu=vu, model=vu.sprite, geom=HullGeom)
+    def __init__(self, position=glm.vec2(), vu=SpriteVu(), model=None, brain=None):
+        super().__init__(position, vu=vu, model=model, brain=brain, geom=HullGeom)
         self.mass = PLAYER_MASS
 
     def on_mount(self, model, point):
@@ -45,10 +44,15 @@ class KinematicCharacter(KinematicEntity2D):
         self.physics = badwing.physics.KinematicPhysics()
         badwing.app.scene.pop_pc()
 
+    '''
     @classmethod
     def produce(self, position=glm.vec2()):
-        vu = CharacterVu().create()
-        return KinematicCharacter(position, vu)
+        exit()
+        #vu = CharacterVu().create()
+        vu = SpriteVu()
+        brain = CharacterBrain()
+        return KinematicCharacter(position, vu=vu, brain=brain)
+    '''
 
     def control(self):
         return KinematicController(self)
@@ -69,6 +73,7 @@ class KinematicCharacter(KinematicEntity2D):
 
     def update(self, delta_time=1 / 60):
         super().update(delta_time)
+        #logger.debug(f"position: {self.position}")
         if not self.laddered:
             self.body.velocity += (0, int(GRAVITY[1] * delta_time))
         
@@ -80,8 +85,7 @@ class KinematicCharacter(KinematicEntity2D):
         angle = self.body.angle
         self.angle = math.degrees(angle)
 
-    # Hack in sprite transform here for now.  Move up the hierarchy later
-    
+    '''
     def update_sprite(self, delta_time=1/60):
         if not self.mounted:
             super().update_sprite(delta_time)
@@ -90,3 +94,4 @@ class KinematicCharacter(KinematicEntity2D):
         self.sprite.position = (pos[0], pos[1])
         angle = self.body.angle
         self.sprite.angle = math.degrees(angle)
+    '''

@@ -98,7 +98,7 @@ class EndScreen(Level):
         self.add_layer(BackgroundLayer(self, 'background', ":resources:/backgrounds/backgroundColorGrass.png"))
         self.butterfly_layer = butterfly_layer = Layer(self, 'butterflies')
         butterflies = Butterflies.create_random(20, (0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
-        self.butterfly_layer.add_model(butterflies)
+        self.butterfly_layer.add_node(butterflies)
         self.add_animated_layer(butterfly_layer)
 
         self.add_buttons()        

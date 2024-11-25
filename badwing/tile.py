@@ -52,4 +52,4 @@ class TileFactory(ModelFactory):
         logger.debug(f"sprite: {sprite}")
 
         vu = SpriteVu(sprite).create()
-        self.layer.add_model(Tile(position, vu, sprite))
+        self.layer.add_node(Tile(position, vu, sprite))

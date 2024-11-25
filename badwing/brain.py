@@ -12,7 +12,8 @@ class Brain(Base):
 
     @sprite.setter
     def sprite(self, val):
-        self.node.model = val
+        if self.node.model != val:
+            self.node.model = val
 
     @property
     def position(self):

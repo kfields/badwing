@@ -28,6 +28,7 @@ class Level(Scene):
     @property
     def pc_sprite(self):
         return self.pc.vu
+        #return self.pc
 
     def push_pc(self, pc):
         self.pc_stack.append(pc)

@@ -77,11 +77,11 @@ class Skateboard(PhysicsGroup2D):
         front_wheel_pos = chassis_pos - Vec2d(-(CHASSIS_WIDTH/2+X_PAD), Y_PAD)
         back_wheel_pos = chassis_pos - Vec2d(CHASSIS_WIDTH/2+X_PAD, Y_PAD)
 
-        self.chassis = chassis = self.add_model(Chassis.produce(chassis_pos))
+        self.chassis = chassis = self.add_node(Chassis.produce(chassis_pos))
         #self.sprite = chassis.sprite
         self.vu = chassis.vu
-        self.front_wheel = front_wheel = self.add_model(Wheel.produce(front_wheel_pos))
-        self.back_wheel = back_wheel = self.add_model(Wheel.produce(back_wheel_pos))
+        self.front_wheel = front_wheel = self.add_node(Wheel.produce(front_wheel_pos))
+        self.back_wheel = back_wheel = self.add_node(Wheel.produce(back_wheel_pos))
 
     @classmethod
     def produce(self, position=(0,0)):

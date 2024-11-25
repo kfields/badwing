@@ -97,7 +97,7 @@ class TileLevel(Level):
     def _post_create(self):
         super()._post_create()
         pc = None
-        for model in self.character_layer.models:
+        for model in self.character_layer.nodes:
             if isinstance(model, PlayerCharacter):
                 pc = model
                 break

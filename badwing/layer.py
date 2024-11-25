@@ -18,7 +18,7 @@ class Layer(ViewLayer):
         self.bottom = level.bottom
         self.right = level.right
         self.top = level.top
-        self.models = []
+        self.nodes = []
         self.sprites = SpriteVuGroup()
         self.effects = EffectList()
         self.factory = None
@@ -30,11 +30,11 @@ class Layer(ViewLayer):
         if self.factory:
             self.factory.produce()
 
-    def add_model(self, model):
-        model.layer = self
-        self.models.append(model)
-        model.enable()
-        return model
+    def add_node(self, node):
+        node.layer = self
+        self.nodes.append(node)
+        node.enable()
+        return node
 
     def add_sprite(self, sprite):
         self.sprites.append(sprite)
@@ -47,8 +47,8 @@ class Layer(ViewLayer):
     def update(self, delta_time):
         if badwing.app.scene.paused:
             return
-        for model in self.models:
-            model.update(delta_time)
+        for node in self.nodes:
+            node.update(delta_time)
         self.effects.update(delta_time)
         self.sprites.update(delta_time)
 

@@ -21,9 +21,9 @@ class CharacterFactory(ModelFactory):
         kind = properties.get("type")
         if not kind:
             return
-        model = kinds[kind].produce(position)
-        print(model)
-        self.layer.add_model(model)
+        node = kinds[kind].produce(position)
+        print(node)
+        self.layer.add_node(node)
 
 
 kinds = {
