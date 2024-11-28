@@ -5,7 +5,7 @@ import arcade
 import arcade.gui as gui
 import pyglet
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.level import Level
@@ -13,14 +13,14 @@ from badwing.controller import Controller
 
 from badwing.physics.dynamic import DynamicPhysicsEngine
 from badwing.physics.kinematic import KinematicPhysicsEngine
-from badwing.layer import Layer
-from badwing.barrier import BarrierLayer
+from badwing.scene_layer import SceneLayer
+from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 from badwing.tile import TileLayer
 
 from badwing.characters.butterfly import Butterflies
 
-from badwing.firework import Firework
+from badwing.effects.firework import Firework
 from badwing.debug import DebugLayer
 
 from badwing.scenes.level1 import Level1
@@ -33,8 +33,8 @@ class EndScreen(Level):
         self.physics_engine = physics_engine = DynamicPhysicsEngine()
         self.space = physics_engine.space
 
-        self.width = badwing.app.game.width
-        self.height = badwing.app.game.height
+        self.width = badwing.globe.game.width
+        self.height = badwing.globe.game.height
         self.half_width = self.width/2
         self.half_height = self.height/2
         self.center_x = self.width / 2
@@ -80,7 +80,6 @@ class EndScreen(Level):
         )
 
     def do_setup(self):
-        self.theme = badwing.app.game.theme
         super().do_setup()
 
         # Used to keep track of our scrolling
@@ -93,10 +92,10 @@ class EndScreen(Level):
         self.add_layer(BarrierLayer(self, 'barrier'))
         self.add_layer(BackgroundLayer(self, 'background', ":resources:/backgrounds/backgroundColorGrass.png"))
         self.ladder_layer = self.add_layer(TileLayer(self, 'ladder'))
-        self.spark_layer = self.add_layer(Layer(self, 'spark'))
+        self.spark_layer = self.add_layer(SceneLayer(self, 'spark'))
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:/backgrounds/backgroundColorGrass.png"))
-        self.butterfly_layer = butterfly_layer = Layer(self, 'butterflies')
+        self.butterfly_layer = butterfly_layer = SceneLayer(self, 'butterflies')
         butterflies = Butterflies.create_random(20, (0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
         self.butterfly_layer.add_node(butterflies)
         self.add_animated_layer(butterfly_layer)

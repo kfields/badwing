@@ -57,30 +57,6 @@ class StartScene(Level):
         import badwing.scenes.level1
         return badwing.scenes.level1.Level1
 
-    '''
-    def add_buttons(self):
-        width = 200
-        height = 50
-        start_button = gui.UIFlatButton(x=0 , y=0, width=width, height=height, text="Start")
-        @start_button.event("on_click")
-        def submit(x):
-          badwing.app.game.show_scene(self.get_next_level())
-
-        quit_button = gui.UIFlatButton(x=0 , y=0, width=width, height=height, text="Quit")
-        @quit_button.event("on_click")
-        def submit(x):
-          pyglet.app.exit()
-        
-        self.ui_manager.add(
-            gui.UIAnchorLayout(
-                children=[gui.UIBoxLayout(
-                    children=[ start_button, quit_button],
-                    space_between=20
-                )]
-            )
-        )
-    '''
-
     def _create(self):
         super()._create()
         # Used to keep track of our scrolling
@@ -119,14 +95,3 @@ class StartScene(Level):
 
         imgui.end()
         super().draw(renderer)
-    '''
-    def draw(self):
-        super().draw()
-        arcade.draw_text(
-            "BadWing", self.center_x, self.center_y + 100, arcade.color.WHITE, 60, font_name='Verdana'
-        )
-    '''
-
-    def on_key_press(self, key, modifiers):
-        if key == arcade.key.ESCAPE:
-            pyglet.app.exit()

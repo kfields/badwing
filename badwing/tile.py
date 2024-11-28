@@ -12,11 +12,11 @@ from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
 from crunge.engine.d2.entity import StaticEntity2D
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 import badwing.assets as assets
 from badwing.model_factory import ModelFactory
-from badwing.layer import Layer
+from badwing.scene_layer import SceneLayer
 
 
 class Tile(StaticEntity2D):
@@ -24,14 +24,14 @@ class Tile(StaticEntity2D):
         super().__init__(position, vu=vu, model=sprite)
 
 
-class TileLayer(Layer):
+class TileLayer(SceneLayer):
     def __init__(self, level, name, factory=None):
         super().__init__(level, name, factory)
         # self.map_layer = level.map.get_layer_by_name(name)
 
 
 class TileFactory(ModelFactory):
-    def __init__(self, layer: Layer):
+    def __init__(self, layer: SceneLayer):
         super().__init__(layer)
 
     def process_tile(self, position: glm.vec2, image, properties):
@@ -52,4 +52,4 @@ class TileFactory(ModelFactory):
         logger.debug(f"sprite: {sprite}")
 
         vu = SpriteVu(sprite).create()
-        self.layer.add_node(Tile(position, vu, sprite))
+        self.layer.attach(Tile(position, vu, sprite))

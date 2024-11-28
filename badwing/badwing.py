@@ -11,28 +11,26 @@ from crunge.engine.scheduler import Scheduler
 from crunge.engine.resource.resource_manager import ResourceManager
 
 from badwing import __version__
-import badwing.app
+import badwing.globe
 from badwing.assets import asset
 from badwing.constants import *
 from badwing.player import Player
 
-from badwing.scene import Scene
+from .scene import Scene
+from .scene_view import SceneView
 
-class MyGame(App):
+class BadWing(App):
     def __init__(self, debug=False):
-        #super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         super().__init__(glm.ivec2(SCREEN_WIDTH, SCREEN_HEIGHT), SCREEN_TITLE)
         
-        badwing.app.game = self
+        badwing.globe.game = self
         self.debug = debug
-        #self.draw_options = pymunk.pyglet_util.DrawOptions()
         self.scene = None
-        self.theme = None
         self.player = Player()
 
     @property
     def controller(self):
-        return badwing.app.controller
+        return badwing.globe.controller
 
     def get_scene(self, scenename=None):
         if scenename:
@@ -59,20 +57,13 @@ class MyGame(App):
                 raise Exception(f'{scene_class} Must be a Scene class!')
 
             self.player.on_next_level()
-            self.scene = scene = scene_class.produce().config(window=self)
-            self.view = scene
+            self.scene = scene = scene_class.produce().config(size=self.size).create()
+            self.view = SceneView(scene).config(window=self)
         Scheduler().schedule_once(callback, delay)
 
-    '''
-    def draw(self, renderer: Renderer):
-        super().draw(renderer)
-        #self.scene.draw(renderer)
-        #badwing.app.physics_engine.space.debug_draw(self.draw_options)
-    '''
-
-    def update(self, delta_time):
-        super().update(delta_time)
+    def update(self, delta_time: float):
         self.player.update(delta_time)
+        super().update(delta_time)
 
 def main(debug=False, levelname=None):
     """ Main method """
@@ -86,7 +77,7 @@ def main(debug=False, levelname=None):
         
     ResourceManager().add_path_variable('resources', badwing.assets.assets_dir)
     
-    game = MyGame(debug=debug)
+    game = BadWing(debug=debug)
     game.show_scene(game.get_scene(levelname))
     game.create().run()
 

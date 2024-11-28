@@ -1,4 +1,4 @@
-import badwing.app
+import badwing.globe
 import badwing.controller
 import badwing.dialog
 
@@ -11,8 +11,8 @@ class Controller(badwing.controller.Controller):
 class PauseDialog(badwing.dialog.Dialog):
     def __init__(self):
         super().__init__("pause")
-        self.width = badwing.app.game.width
-        self.height = badwing.app.game.height
+        self.width = badwing.globe.game.width
+        self.height = badwing.globe.game.height
         self.half_width = self.width / 2
         self.half_height = self.height / 2
         self.center_x = self.width / 2
@@ -28,7 +28,7 @@ class PauseDialog(badwing.dialog.Dialog):
 
         @resume_button.event("on_click")
         def submit(x):
-            badwing.app.scene.close_dialog()
+            badwing.globe.scene.close_dialog()
 
         quit_button = gui.UIFlatButton(0, 0, width, height, "Quit")
 
@@ -50,7 +50,6 @@ class PauseDialog(badwing.dialog.Dialog):
         )
 
     def _create(self):
-        self.theme = badwing.app.game.theme
         super()._create()
 
         self.add_buttons()

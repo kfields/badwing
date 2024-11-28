@@ -9,7 +9,7 @@ from pymunk.autogeometry import convex_decomposition, to_convex_hull
 
 from crunge.engine.d2.node_2d import Node2D
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 from badwing.model_factory import ModelFactory
 

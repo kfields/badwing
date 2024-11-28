@@ -23,7 +23,7 @@ class CharacterFactory(ModelFactory):
             return
         node = kinds[kind].produce(position)
         print(node)
-        self.layer.add_node(node)
+        self.layer.attach(node)
 
 
 kinds = {

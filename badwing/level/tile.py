@@ -5,7 +5,7 @@ import glm
 from crunge.engine.d2.physics import KinematicPhysicsEngine, DynamicPhysicsEngine
 from crunge.engine.d2.physics.draw_options import DrawOptions
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.level import Level
@@ -13,8 +13,8 @@ from badwing.level import Level
 #from badwing.physics.dynamic import DynamicPhysicsEngine
 #from badwing.physics.kinematic import KinematicPhysicsEngine
 
-from badwing.layer import Layer
-from badwing.barrier import BarrierLayer
+from badwing.scene_layer import SceneLayer
+from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 from badwing.tile import TileLayer, TileFactory
 
@@ -22,7 +22,7 @@ from badwing.tile import TileLayer, TileFactory
 from badwing.characters.factory import CharacterFactory
 from badwing.characters import PlayerCharacter, Skateboard, Chassis
 
-from badwing.flag import FlagFactory
+from badwing.objects.flag import FlagFactory
 from badwing.characters.butterfly import ButterflyFactory
 #from badwing.firework import Firework
 from badwing.obstacle import ObstacleFactory
@@ -72,9 +72,10 @@ class TileLevel(Level):
             arcade.set_background_color(self.map.background_color)
 
         # Our physics engine
-        self.draw_options = DrawOptions(self.scratch)
+        #self.draw_options = DrawOptions(self.scratch)
 
-        self.physics_engine = physics_engine = KinematicPhysicsEngine(draw_options=self.draw_options)
+        #self.physics_engine = physics_engine = KinematicPhysicsEngine(draw_options=self.draw_options)
+        self.physics_engine = physics_engine = KinematicPhysicsEngine()
         #self.physics_engine = physics_engine = DynamicPhysicsEngine(draw_options=self.draw_options)
         self.space = physics_engine.space
 
@@ -88,7 +89,7 @@ class TileLevel(Level):
         self.ladder_layer = self.add_layer(TileLayer(self, 'ladder'))
         self.flag_layer = self.add_animated_layer(TileLayer(self, 'flags', FlagFactory))
         self.ground_layer = self.add_layer(TileLayer(self, 'ground', TileFactory))
-        self.spark_layer = self.add_layer(Layer(self, 'spark'))
+        self.spark_layer = self.add_layer(SceneLayer(self, 'spark'))
         self.character_layer = self.add_animated_layer(TileLayer(self, 'pc', CharacterFactory))
         self.butterfly_layer = self.add_animated_layer(TileLayer(self, 'butterfly', ButterflyFactory))
         #self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
@@ -98,9 +99,9 @@ class TileLevel(Level):
     def _post_create(self):
         super()._post_create()
         pc = None
-        for model in self.character_layer.nodes:
-            if isinstance(model, PlayerCharacter):
-                pc = model
+        for node in self.character_layer.root.children:
+            if isinstance(node, PlayerCharacter):
+                pc = node
                 break
         self.push_pc(pc)
 
@@ -109,7 +110,7 @@ class TileLevel(Level):
         hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.butterfly_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
-            if badwing.app.player.collect(model):
+            if badwing.globe.player.collect(model):
                 # Remove the butterfly
                 sprite.remove_from_sprite_lists()
                 self.spark_layer.add_effect(Firework(sprite.position))
@@ -120,7 +121,7 @@ class TileLevel(Level):
         hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.flag_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
-            if badwing.app.player.collect(model):
+            if badwing.globe.player.collect(model):
                 self.spark_layer.add_effect(Firework(sprite.position, 60, 100))
                 arcade.play_sound(self.collect_flag_sound)
 
@@ -161,7 +162,7 @@ class TileLevel(Level):
 
         if changed:
             #self.camera.position = self.pc.position
-            self.camera.position = glm.lerp(self.camera.position, self.pc.position, delta_time)
+            #self.camera.position = glm.lerp(self.camera.position, self.pc.position, delta_time)
             '''
             # Only scroll to integers. Otherwise we end up with pixels that
             # don't line up on the screen

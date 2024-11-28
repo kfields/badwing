@@ -3,14 +3,14 @@ import os
 
 import arcade
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 from badwing.assets import asset
 
 from badwing.physics.dynamic import DynamicPhysicsEngine
 from badwing.physics.kinematic import KinematicPhysicsEngine
-from badwing.layer import Layer
-from badwing.barrier import BarrierLayer
+from badwing.scene_layer import SceneLayer
+from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 
 from badwing.tile import TileLayer, TileFactory 
@@ -18,12 +18,12 @@ from badwing.tile import TileLayer, TileFactory
 from badwing.characters.factory import CharacterFactory
 from badwing.characters import PlayerCharacter
 
-from badwing.flag import FlagFactory
+from badwing.objects.flag import FlagFactory
 from badwing.characters.butterfly import ButterflyFactory
-from badwing.firework import Firework
+from badwing.effects.firework import Firework
 from badwing.obstacle import ObstacleFactory
 from badwing.debug import DebugLayer
-from badwing.coin import CoinFactory
+from badwing.objects.coin import CoinFactory
 
 from badwing.level import StickerLevel
 
@@ -77,7 +77,7 @@ class Sandbox(StickerLevel):
 
         #self.butterfly_layer = self.add_animated_layer(TileLayer(self, 'butterfly', ButterflyFactory))
 
-        self.spark_layer = self.add_layer(Layer(self, 'spark'))
+        self.spark_layer = self.add_layer(SceneLayer(self, 'spark'))
 
         self.character_layer = character_layer = self.add_animated_layer(TileLayer(self, 'game', CharacterFactory))
 

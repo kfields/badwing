@@ -4,7 +4,7 @@ from crunge.engine.d2.entity import StaticEntity2D
 from crunge.engine.d2.physics.geom import BoxGeom
 
 from badwing.constants import *
-from badwing.layer import Layer
+from badwing.scene_layer import SceneLayer
 #from badwing.model import StaticModel
 #import badwing.geom
 BARRIER_WIDTH = 100
@@ -20,7 +20,7 @@ class Barrier(StaticEntity2D):
         self.height = height
         #self.position = (left + width/2, bottom + height/2)
 
-class BarrierLayer(Layer):
+class BarrierLayer(SceneLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
         self.barrier_width = BARRIER_WIDTH

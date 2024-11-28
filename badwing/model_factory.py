@@ -8,10 +8,10 @@ from crunge.engine.d2.sprite import Sprite, SpriteVu
 from crunge.engine.resource.texture import Texture
 from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
 
-from .layer import Layer
+from .scene_layer import SceneLayer
 
 class ModelFactory:
-    def __init__(self, layer: Layer):
+    def __init__(self, layer: SceneLayer):
         self.layer = layer
         level = self.layer.level
         self.map = level.map

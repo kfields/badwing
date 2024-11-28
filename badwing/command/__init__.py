@@ -1,7 +1,7 @@
 import os
 import click
 
-from badwing.main import main
+from badwing.badwing import main
 
 @click.group(invoke_without_command=True)
 @click.pass_context

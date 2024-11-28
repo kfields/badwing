@@ -1,25 +1,22 @@
 import json
 import pymunk
 
-import badwing.app
-from badwing.view import View
+from crunge.engine.d2.scene_2d import Scene2D
+import badwing.globe
 from badwing.constants import *
 from badwing.debug import DebugLayer
 from badwing.assets import asset
-#from badwing.model import Model
 
-class Scene(View):
+
+class Scene(Scene2D):
     def __init__(self, name):
         super().__init__()
-        badwing.app.scene = self
+        badwing.globe.scene = self
         self.debug_layer = None
         self.ground_layer = None
         self.paused = False
         self.name = name
-        #self.layers = []
         self.animated_layers = []
-        #self.width = 0
-        #self.height = 0
         self.right = 0
         self.bottom = 0
         self.left = 0
@@ -40,11 +37,11 @@ class Scene(View):
 
     def push_controller(self, controller):
         self.controller_stack.append(controller)
-        badwing.app.controller = controller
+        badwing.globe.controller = controller
 
     def pop_controller(self):
-        controller =  self.controller_stack.pop()
-        badwing.app.controller = controller
+        controller = self.controller_stack.pop()
+        badwing.globe.controller = controller
         return controller
 
     def pause(self):
@@ -53,18 +50,12 @@ class Scene(View):
     def resume(self):
         self.paused = False
 
-    '''
-    def add_layer(self, layer):
-        self.layers.append(layer)
-        return layer
-    '''
-
     def add_animated_layer(self, layer):
         self.add_layer(layer)
         self.animated_layers.append(layer)
         return layer
 
-    '''
+    """
     def pre_setup(self):
         #arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
         pass
@@ -78,22 +69,22 @@ class Scene(View):
             layer.create()
         if not self.mute and self.song:
             self.songPlayer = self.song.play(volume=.5)
-    '''
+    """
 
     def _create(self):
         super()._create()
         if DEBUG_COLLISION:
-            self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, 'debug'))
+            self.debug_layer = debug_layer = self.add_layer(DebugLayer(self, "debug"))
             self.debug_list = debug_layer.debug_list
 
     def _post_create(self):
         super()._post_create()
         for layer in self.layers:
             layer.create()
-        '''
+        """
         if not self.mute and self.song:
             self.songPlayer = self.song.play(volume=.5)
-        '''
+        """
 
     def shutdown(self):
         if not self.mute and self.song:
@@ -111,13 +102,13 @@ class Scene(View):
         if self.dialog:
             self.dialog.update(delta_time)
 
-    '''
+    """
     def draw(self):
         for layer in self.layers:
             layer.draw()
         super().draw()
         self.draw_dialog()
-    '''
+    """
 
     def draw_dialog(self):
         if not self.dialog:
@@ -142,13 +133,12 @@ class Scene(View):
 
     def on_key_press(self, key, modifiers):
         super().on_key_press(key, modifiers)
-        badwing.app.controller.on_key_press(key, modifiers)
+        badwing.globe.controller.on_key_press(key, modifiers)
 
     def on_key_release(self, key, modifiers):
         super().on_key_release(key, modifiers)
-        badwing.app.controller.on_key_release(key, modifiers)
+        badwing.globe.controller.on_key_release(key, modifiers)
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         super().on_mouse_press(x, y, button, modifiers)
-        badwing.app.controller.on_mouse_press(x, y, button, modifiers)
-
+        badwing.globe.controller.on_mouse_press(x, y, button, modifiers)

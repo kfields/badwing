@@ -4,7 +4,7 @@ import random
 from loguru import logger
 import glm
 
-import badwing.app
+import badwing.globe
 from badwing.brain import Brain
 
 from crunge.engine.math import Rect2i
@@ -188,7 +188,7 @@ class ButterflyBrain(Brain):
         #TODO:use pymunk
         
         if not need_turn:
-            ground_layer = badwing.app.scene.ground_layer
+            ground_layer = badwing.globe.scene.ground_layer
             if ground_layer:
                 need_turn = collision_list = arcade.check_for_collision_with_list(self.sprite, ground_layer.sprites)
 

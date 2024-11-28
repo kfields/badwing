@@ -4,7 +4,7 @@ import arcade
 
 from botsley.run.task import *
 
-import badwing.app
+import badwing.globe
 from badwing.brain import Brain
 
 class RobotBrain(Brain):

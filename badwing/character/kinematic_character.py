@@ -11,7 +11,7 @@ from crunge.engine.d2.physics import KinematicPhysics, DynamicPhysics, BoxGeom, 
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 
 from badwing.constants import *
-import badwing.app
+import badwing.globe
 from badwing.util import debounce
 
 #from badwing.physics.util import check_grounding
@@ -42,7 +42,7 @@ class KinematicCharacter(KinematicEntity2D):
         #self.angle = model.angle
         self.angle = 0
         self.physics = badwing.physics.KinematicPhysics()
-        badwing.app.scene.pop_pc()
+        badwing.globe.scene.pop_pc()
 
     '''
     @classmethod

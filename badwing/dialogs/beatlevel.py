@@ -42,12 +42,12 @@ class BeatLevelDialog(badwing.dialog.Dialog):
 
         @quit_button.event("on_click")
         def submit(x):
-            import badwing.app
+            import badwing.globe
 
-            badwing.app.scene.close_dialog()
+            badwing.globe.scene.close_dialog()
             import badwing.scenes.start
 
-            badwing.app.game.show_scene(badwing.scenes.start.StartScene)
+            badwing.globe.game.show_scene(badwing.scenes.start.StartScene)
 
         self.ui_manager.add(
             gui.UIAnchorLayout(
@@ -56,7 +56,6 @@ class BeatLevelDialog(badwing.dialog.Dialog):
         )
 
     def _create(self):
-        self.theme = badwing.app.game.theme
         super()._create()
 
         self.add_buttons()

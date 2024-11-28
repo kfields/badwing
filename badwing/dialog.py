@@ -1,6 +1,6 @@
-from badwing.view import View
+from badwing.scene_view import SceneView
 
-class Dialog(View):
+class Dialog(SceneView):
     def __init__(self, name):
         super().__init__()
 

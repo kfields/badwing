@@ -2,7 +2,7 @@ from pytmx import TiledMap
 
 from crunge.engine.d2.physics import PhysicsEngine
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.scene import Scene
@@ -13,7 +13,7 @@ from badwing.dialogs.beatlevel import BeatLevelDialog
 class Level(Scene):
     def __init__(self, name):
         super().__init__(name)
-        badwing.app.scene = self
+        badwing.globe.scene = self
         self.physics_engine: PhysicsEngine = None
         self.pc_stack = []
         self.tilewidth = 0
@@ -34,13 +34,13 @@ class Level(Scene):
 
     def push_pc(self, pc):
         self.pc_stack.append(pc)
-        badwing.app.pc = pc
+        badwing.globe.pc = pc
         #self.pc_sprite = pc.sprite
         self.push_controller(pc.control())
 
     def pop_pc(self):
         pc = self.pc_stack.pop()
-        badwing.app.pc = pc
+        badwing.globe.pc = pc
         #self.pc_sprite = pc.sprite
         self.pop_controller()
         return pc
@@ -76,9 +76,9 @@ class Level(Scene):
             self.physics_engine.update(1/60)
             self.check_collisions()
 
-        if badwing.app.player.level_beat:
+        if badwing.globe.player.level_beat:
             self.beat_level()
-            badwing.app.player.level_beat = False
+            badwing.globe.player.level_beat = False
             #return
 
     def check_collisions(self):

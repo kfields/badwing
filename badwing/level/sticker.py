@@ -1,15 +1,15 @@
 import sys
 import os
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.level import Level
 
 #from badwing.physics.dynamic import DynamicPhysicsEngine
 #from badwing.physics.kinematic import KinematicPhysicsEngine
-from badwing.layer import Layer
-from badwing.barrier import BarrierLayer
+from badwing.scene_layer import SceneLayer
+from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 
 from badwing.tile import TileLayer, TileFactory 
@@ -17,12 +17,12 @@ from badwing.tile import TileLayer, TileFactory
 from badwing.characters.factory import CharacterFactory
 from badwing.characters import PlayerCharacter
 
-from badwing.flag import FlagFactory
+from badwing.objects.flag import FlagFactory
 from badwing.characters.butterfly import ButterflyFactory
 #from badwing.firework import Firework
 from badwing.obstacle import ObstacleFactory
 from badwing.debug import DebugLayer
-from badwing.coin import CoinFactory
+from badwing.objects.coin import CoinFactory
 
 class StickerLevel(Level):
     def __init__(self, name):
@@ -119,7 +119,7 @@ class StickerLevel(Level):
         hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.butterfly_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
-            if badwing.app.player.collect(model):
+            if badwing.globe.player.collect(model):
                 # Remove the butterfly
                 sprite.remove_from_sprite_lists()
                 self.spark_layer.add_effect(Firework(sprite.position))
@@ -129,7 +129,7 @@ class StickerLevel(Level):
         hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.coin_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
-            if badwing.app.player.collect(model):
+            if badwing.globe.player.collect(model):
                 # Remove the butterfly
                 sprite.remove_from_sprite_lists()
                 self.spark_layer.add_effect(Firework(sprite.position))
@@ -139,7 +139,7 @@ class StickerLevel(Level):
         hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.flag_layer.sprites)
         for sprite in hit_list:
             model = sprite.model
-            if badwing.app.player.collect(model):
+            if badwing.globe.player.collect(model):
                 self.spark_layer.add_effect(Firework(sprite.position, 60, 100))
                 arcade.play_sound(self.collect_flag_sound)
 
@@ -202,6 +202,6 @@ class StickerLevel(Level):
     def draw(self):
         super().draw()
         # Draw our score on the screen, scrolling it with the viewport
-        score_text = f"Score: {badwing.app.player.score}"
+        score_text = f"Score: {badwing.globe.player.score}"
         arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
                          arcade.csscolor.BLACK, 18)

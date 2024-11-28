@@ -2,23 +2,23 @@ from loguru import logger
 
 from crunge.engine import Renderer
 from crunge.engine.d2.sprite import SpriteVuGroup
-from crunge.engine.view_layer import ViewLayer
+from crunge.engine.d2.scene_layer_2d import SceneLayer2D
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 from badwing.effect import EffectList
 
-class Layer(ViewLayer):
-    def __init__(self, level, name, factory=None):
-        super().__init__(name)
+class SceneLayer(SceneLayer2D):
+    def __init__(self, level, name: str, factory=None):
+        super().__init__(name, level.size)
         self.level = level
-        self.width = level.width
-        self.height = level.height
+        #self.width = level.width
+        #self.height = level.height
         self.left = level.left
         self.bottom = level.bottom
         self.right = level.right
         self.top = level.top
-        self.nodes = []
+        #self.nodes = []
         self.sprites = SpriteVuGroup()
         self.effects = EffectList()
         self.factory = None
@@ -30,13 +30,16 @@ class Layer(ViewLayer):
         if self.factory:
             self.factory.produce()
 
+    '''
     def add_node(self, node):
         node.layer = self
         self.nodes.append(node)
         node.enable()
         return node
+    '''
 
     def add_sprite(self, sprite):
+        exit()
         self.sprites.append(sprite)
         return sprite
 
@@ -45,7 +48,7 @@ class Layer(ViewLayer):
         return effect
 
     def update(self, delta_time):
-        if badwing.app.scene.paused:
+        if badwing.globe.scene.paused:
             return
         for node in self.nodes:
             node.update(delta_time)
@@ -53,12 +56,12 @@ class Layer(ViewLayer):
         self.sprites.update(delta_time)
 
     def update_animation(self, delta_time):
-        if badwing.app.scene.paused:
+        if badwing.globe.scene.paused:
             return
         #self.sprites.update_animation(delta_time)
 
     def draw(self, renderer: Renderer):
-        #logger.debug(f'Layer: {self.__class__.__name__} sprites: {len(self.sprites)}')
+        #logger.debug(f'Layer: {self.__class__.__name__} sprites: {len(self.sprites.members)}')
         self.sprites.draw(renderer)
         #self.effects.draw(renderer)
         super().draw(renderer)

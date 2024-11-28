@@ -3,7 +3,7 @@ from loguru import logger
 from crunge import sdl
 import crunge.engine.d2.physics.globe as physics_globe
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 
 from badwing.character.controller import CharacterController
@@ -17,9 +17,9 @@ class KinematicCharacterController(CharacterController):
         self.force = (0, 0)
         #self.jump_sound = arcade.load_sound(":resources:/sounds/jump1.wav")
         #
-        self.character_layer = badwing.app.scene.character_layer
-        self.platforms = badwing.app.scene.ground_layer.sprites
-        self.ladders = badwing.app.scene.ladder_layer.sprites
+        self.character_layer = badwing.globe.scene.character_layer
+        self.platforms = badwing.globe.scene.ground_layer.sprites
+        self.ladders = badwing.globe.scene.ladder_layer.sprites
 
         self.jumps_since_ground = 0
         self.allowed_jumps = 1
@@ -39,7 +39,7 @@ class KinematicCharacterController(CharacterController):
             if isinstance(model, badwing.characters.Chassis):
                 mount = model.group
                 mount.mount(self.pc)
-                badwing.app.scene.push_pc(mount)
+                badwing.globe.scene.push_pc(mount)
 
     def is_on_ladder(self):
         laddered = self.node.laddered

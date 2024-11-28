@@ -1,13 +1,13 @@
 from crunge.engine import Renderer
 
-import badwing.app
-from badwing.layer import Layer
+import badwing.globe
+from badwing.scene_layer import SceneLayer
 
 
-class DebugLayer(Layer):
+class DebugLayer(SceneLayer):
     def __init__(self, level, name):
         super().__init__(level, name)
-        badwing.app.debug_layer = self
+        badwing.globe.debug_layer = self
         # self.debug_list = arcade.ShapeElementList()
 
     def add(self, shape):

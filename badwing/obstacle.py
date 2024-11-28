@@ -1,6 +1,6 @@
 from crunge.engine.d2.entity import DynamicEntity2D
 
-import badwing.app
+import badwing.globe
 from badwing.constants import *
 #import badwing.geom
 #from badwing.model import DynamicModel

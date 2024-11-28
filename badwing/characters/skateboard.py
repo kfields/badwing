@@ -19,7 +19,8 @@ from badwing.character import CharacterController
 WHEEL_RADIUS = 32
 WHEEL_MASS = .5
 
-CHASSIS_WIDTH = 128
+#CHASSIS_WIDTH = 128
+CHASSIS_WIDTH = 64
 CHASSIS_HEIGHT = 16
 CHASSIS_MASS = 1
 
@@ -31,6 +32,24 @@ MAX_SPEED = 100
 
 sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
 
+class Wheel(DynamicEntity2D):
+    def __init__(self, position=glm.vec2()):
+        img_src = asset("items/coinGold.png")
+        sprite = sprite_loader.load(img_src)
+        vu = SpriteVu(sprite).create()
+        size = glm.vec2(WHEEL_RADIUS, WHEEL_RADIUS)
+        scale = glm.vec2(.5, .5)
+        #super().__init__(position, size=size, scale=scale, vu=vu, model=sprite, geom=BallGeom)
+        super().__init__(position, scale=scale, vu=vu, model=sprite, geom=BallGeom)
+        self.size = self.size * .5
+        #self.radius = WHEEL_RADIUS
+        self.mass = WHEEL_MASS
+
+    @classmethod
+    def produce(self, position=glm.vec2()):
+        return Wheel(position)
+
+'''
 class Wheel(DynamicEntity2D):
     def __init__(self, position=glm.vec2(), vu=None):
         super().__init__(position, vu=vu, geom=BallGeom)
@@ -44,12 +63,33 @@ class Wheel(DynamicEntity2D):
         vu = SpriteVu(sprite).create()
 
         return Wheel(position, vu)
+'''
 
 class Chassis(DynamicEntity2D):
-    def __init__(self, position=glm.vec2(), vu=None):
-        super().__init__(position, vu=vu, geom=BoxGeom)
+    def __init__(self, position=glm.vec2()):
+        img_src = asset("tiles/boxCrate.png")
+        sprite = sprite_loader.load(img_src)
+        vu = SpriteVu(sprite).create()
+
+        size = glm.vec2(CHASSIS_WIDTH, CHASSIS_HEIGHT)
+        scale = glm.vec2(1.5, .1)
+        super().__init__(position, size=size, scale=scale, vu=vu, model=sprite, geom=BoxGeom)
+        #self.size = self.size
         self.width = CHASSIS_WIDTH
         self.height = CHASSIS_HEIGHT
+        self.mass = CHASSIS_MASS
+
+    @classmethod
+    def produce(self, position=glm.vec2()):
+        return Chassis(position)
+
+'''
+class Chassis(DynamicEntity2D):
+    def __init__(self, position=glm.vec2(), vu=None):
+        size = glm.vec2(CHASSIS_WIDTH, CHASSIS_HEIGHT)
+        super().__init__(position, size=size, vu=vu, geom=BoxGeom)
+        #self.width = CHASSIS_WIDTH
+        #self.height = CHASSIS_HEIGHT
         self.mass = CHASSIS_MASS
 
     @classmethod
@@ -61,6 +101,7 @@ class Chassis(DynamicEntity2D):
         vu = SpriteVu(sprite).create()
 
         return Chassis(position, vu)
+'''
 
 class Skateboard(PhysicsGroup2D):
     def __init__(self, position=Vec2d(0, 0)):
