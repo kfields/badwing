@@ -21,7 +21,6 @@ from badwing.objects.flag import FlagFactory
 from badwing.characters.butterfly import ButterflyFactory
 #from badwing.firework import Firework
 from badwing.obstacle import ObstacleFactory
-from badwing.debug import DebugLayer
 from badwing.objects.coin import CoinFactory
 
 class StickerLevel(Level):
@@ -112,7 +111,7 @@ class StickerLevel(Level):
             if isinstance(model, PlayerCharacter):
                 pc = model
                 break
-        self.push_pc(pc)
+        self.push_avatar(pc)
 
 
     def check_butterflies(self):

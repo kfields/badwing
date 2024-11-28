@@ -21,7 +21,6 @@ from badwing.tile import TileLayer
 from badwing.characters.butterfly import Butterflies
 
 from badwing.effects.firework import Firework
-from badwing.debug import DebugLayer
 
 from badwing.scenes.level1 import Level1
 
@@ -101,10 +100,6 @@ class EndScreen(Level):
         self.add_animated_layer(butterfly_layer)
 
         self.add_buttons()        
-
-    def post_setup(self):
-        super().post_setup()
-        self.push_controller(Controller())
 
     def update(self, delta_time):
         super().update(delta_time)

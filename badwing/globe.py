@@ -1,7 +1,7 @@
 game = None
 scene = None
 player = None
-pc = None
+avatar = None
 controller = None
 
 debug_layer = None

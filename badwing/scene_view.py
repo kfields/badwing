@@ -18,19 +18,3 @@ class SceneView(SceneView2D):
 
     def create_renderer(self):
         self.renderer = Renderer(self.window.viewport, camera_2d=self.camera)
-
-    '''
-    def draw(self, renderer: Renderer):
-        with self.renderer:
-            #self.scene.draw(self.renderer)
-            super().draw(self.renderer)
-    '''
-    
-    '''
-    def open(self):
-        self.ui_manager.enable()
-        self.create()
-
-    def close(self):
-        self.ui_manager.disable()
-    '''

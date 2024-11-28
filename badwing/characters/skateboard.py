@@ -209,6 +209,7 @@ class SkateboardController(CharacterController):
         super().__init__(skateboard)
         self.skateboard = skateboard
 
+    '''
     def on_key_press(self, key, modifiers):
         if key == arcade.key.UP or key == arcade.key.W:
             self.skateboard.ollie()
@@ -226,6 +227,7 @@ class SkateboardController(CharacterController):
             self.left_down = False
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_down = False
+    '''
 
     def update(self, delta_time):
         if self.left_down:

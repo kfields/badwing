@@ -22,7 +22,6 @@ from badwing.objects.flag import FlagFactory
 from badwing.characters.butterfly import ButterflyFactory
 from badwing.effects.firework import Firework
 from badwing.obstacle import ObstacleFactory
-from badwing.debug import DebugLayer
 from badwing.objects.coin import CoinFactory
 
 from badwing.level import StickerLevel

@@ -6,7 +6,6 @@ import badwing.globe
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.scene import Scene
-#from badwing.model import Model
 from badwing.dialogs.pause import PauseDialog
 from badwing.dialogs.beatlevel import BeatLevelDialog
 
@@ -15,35 +14,24 @@ class Level(Scene):
         super().__init__(name)
         badwing.globe.scene = self
         self.physics_engine: PhysicsEngine = None
-        self.pc_stack = []
+        self.avatar_stack = []
         self.tilewidth = 0
         self.tileheight = 0
 
-        #self.song = arcade.load_sound(asset('music/funkyrobot.mp3'))
-
     @property
     def pc(self):
-        return self.pc_stack[-1]
+        return self.avatar_stack[-1]
 
-    '''
-    @property
-    def pc_sprite(self):
-        return self.pc.vu
-        #return self.pc
-    '''
+    def push_avatar(self, avatar):
+        self.avatar_stack.append(avatar)
+        badwing.globe.avatar = avatar
+        self.push_controller(avatar.control())
 
-    def push_pc(self, pc):
-        self.pc_stack.append(pc)
-        badwing.globe.pc = pc
-        #self.pc_sprite = pc.sprite
-        self.push_controller(pc.control())
-
-    def pop_pc(self):
-        pc = self.pc_stack.pop()
-        badwing.globe.pc = pc
-        #self.pc_sprite = pc.sprite
+    def pop_avatar(self):
+        avatar = self.avatar_stack.pop()
+        badwing.globe.avatar = avatar
         self.pop_controller()
-        return pc
+        return avatar
 
     def beat_level(self):
         next_level = self.get_next_level()
@@ -51,20 +39,11 @@ class Level(Scene):
 
     def _create(self):
         super()._create()
-
-        #map_name = asset(f"{self.name}.json")
         tmx_path = asset(f"{self.name}.tmx")
         self.map = map = self.map = TiledMap(tmx_path)
-        #print('level setup')
 
         self.tilewidth = map.tilewidth
         self.tileheight = map.tileheight
-        #self.width = map.width * self.tilewidth
-        #self.height = map.height * self.tileheight
-        self.top = self.height
-        self.right = self.width
-        #print('width:  ', self.width)
-        #print('height:  ', self.height)
 
     def update(self, delta_time):
 
@@ -84,6 +63,7 @@ class Level(Scene):
     def check_collisions(self):
         pass
 
+    '''
     def on_key_press(self, key, modifiers):
         if key == arcade.key.ESCAPE:
             self.open_dialog(PauseDialog())
@@ -92,3 +72,4 @@ class Level(Scene):
 
     def on_key_release(self, key, modifiers):
         self.controller.on_key_release(key, modifiers)
+    '''

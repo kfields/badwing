@@ -30,14 +30,6 @@ class SceneLayer(SceneLayer2D):
         if self.factory:
             self.factory.produce()
 
-    '''
-    def add_node(self, node):
-        node.layer = self
-        self.nodes.append(node)
-        node.enable()
-        return node
-    '''
-
     def add_sprite(self, sprite):
         exit()
         self.sprites.append(sprite)
@@ -54,11 +46,6 @@ class SceneLayer(SceneLayer2D):
             node.update(delta_time)
         self.effects.update(delta_time)
         self.sprites.update(delta_time)
-
-    def update_animation(self, delta_time):
-        if badwing.globe.scene.paused:
-            return
-        #self.sprites.update_animation(delta_time)
 
     def draw(self, renderer: Renderer):
         #logger.debug(f'Layer: {self.__class__.__name__} sprites: {len(self.sprites.members)}')

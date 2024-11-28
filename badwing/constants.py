@@ -33,14 +33,6 @@ PT_KINEMATIC = 1
 PT_DYNAMIC = 2
 PT_GROUP = 3
 
-# Geom Types
-
-GT_GROUP = 0
-GT_BOX = 1
-GT_BALL = 2
-GT_HULL = 3
-GT_DECOMPOSED = 4
-
 # Grid-size
 SPRITE_SIZE = 128
 
@@ -63,23 +55,3 @@ LEFT_VIEWPORT_MARGIN = 250
 RIGHT_VIEWPORT_MARGIN = 250
 BOTTOM_VIEWPORT_MARGIN = 100
 TOP_VIEWPORT_MARGIN = 100
-'''
-SPARK_TEXTURES = [arcade.make_circle_texture(8, clr) for clr in RAINBOW_COLORS]
-SPARK_PAIRS = [
-    [SPARK_TEXTURES[0], SPARK_TEXTURES[3]],
-    [SPARK_TEXTURES[1], SPARK_TEXTURES[5]],
-    [SPARK_TEXTURES[7], SPARK_TEXTURES[2]],
-]
-ROCKET_SMOKE_TEXTURE = arcade.make_soft_circle_texture(15, arcade.color.GRAY)
-PUFF_TEXTURE = arcade.make_soft_circle_texture(80, (40, 40, 40))
-FLASH_TEXTURE = arcade.make_soft_circle_texture(70, (128, 128, 90))
-CLOUD_TEXTURES = [
-    arcade.make_soft_circle_texture(50, arcade.color.WHITE),
-    arcade.make_soft_circle_texture(50, arcade.color.LIGHT_GRAY),
-    arcade.make_soft_circle_texture(50, arcade.color.LIGHT_BLUE),
-]
-STAR_TEXTURES = [
-    arcade.make_soft_circle_texture(8, arcade.color.WHITE),
-    arcade.make_soft_circle_texture(8, arcade.color.PASTEL_YELLOW),
-]
-'''

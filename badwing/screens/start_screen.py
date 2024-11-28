@@ -6,6 +6,7 @@ from crunge import imgui
 from crunge.engine import Renderer
 from crunge.engine.math import Bounds2
 from crunge.engine.d2.physics import DynamicPhysicsEngine
+from crunge.engine.d2.scene_view_2d import SceneView2D
 
 import badwing.globe
 from badwing.constants import *
@@ -20,29 +21,17 @@ from badwing.background import BackgroundLayer
 from badwing.characters.butterfly import Butterflies
 
 
-class StartScene(Level):
+class StartScreen(SceneView2D):
     def __init__(self):
         super().__init__('start')
-        # Our physics engine
-        self.physics_engine = physics_engine = DynamicPhysicsEngine().create()
-        self.space = physics_engine.space
-
         # Used to keep track of our scrolling
         self.view_bottom = 0
         self.view_left = 0
 
-        # Keep track of the score
-        self.score = 0
-
-
     @classmethod
     def produce(self):
-        level = StartScene()
+        level = StartScreen()
         return level
-        
-    def get_next_level(self):
-        import badwing.scenes.level1
-        return badwing.scenes.level1.Level1
 
     def _create(self):
         super()._create()
@@ -50,26 +39,11 @@ class StartScene(Level):
         self.view_bottom = 0
         self.view_left = 0
 
-        # Keep track of the score
-        self.score = 0
-
-        self.add_layer(BarrierLayer(self, 'barrier'))
-
-        self.add_layer(BackgroundLayer(self, 'background', ":resources:/backgrounds/backgroundColorGrass.png"))
-        self.butterfly_layer = butterfly_layer = SceneLayer(self, 'butterflies')
-        butterflies = Butterflies.create_random(20, Bounds2(0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
-        self.butterfly_layer.attach(butterflies)
-        self.add_layer(butterfly_layer)
-
-    def update(self, delta_time):
-        super().update(delta_time)
-        self.physics_engine.update()
-
     def draw(self, renderer: Renderer):
         imgui.begin("Main")
 
         if imgui.button("Start"):
-            badwing.globe.game.show_scene(self.get_next_level())
+            badwing.globe.game.show_channel("level1")
 
         if imgui.button("Quit"):
             exit()
