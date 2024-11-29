@@ -3,7 +3,7 @@ from crunge.engine.channel import SceneChannel
 
 from ..badwing import BadWing
 from ..scenes.start import StartScene
-from ..screens.start import StartScreen
+from ..screens.start_screen import StartScreen
 
 
 class StartChannel(SceneChannel):

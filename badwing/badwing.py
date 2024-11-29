@@ -34,10 +34,10 @@ class BadWing(App):
     def controller(self):
         return badwing.globe.controller
 
-    def use(self, name):
-        logger.debug(f"use {name}")
+    def install(self, name):
+        logger.debug(f"Installing: {name}")
         import importlib.util
-        spec = importlib.util.find_spec(f"badwing.channels.{name}")
+        spec = importlib.util.find_spec(name)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         module, install = module, module.install
@@ -95,8 +95,8 @@ def main(debug=False, levelname="start"):
 
     game = BadWing(debug=debug)
     #game.use_channel('start')
-    game.use('start')
-    game.use('level1')
+    game.install('badwing.channels.start')
+    game.install('badwing.channels.level1')
     #game.use_channel('level1')
     # game.show_scene(game.get_scene(levelname))
     game.show_channel(levelname)

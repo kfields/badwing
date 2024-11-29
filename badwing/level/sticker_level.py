@@ -15,7 +15,7 @@ from badwing.background import BackgroundLayer
 from badwing.tile import TileLayer, TileFactory 
 
 from badwing.characters.factory import CharacterFactory
-from badwing.characters import PlayerCharacter
+from badwing.characters import Avatar
 
 from badwing.objects.flag import FlagFactory
 from badwing.characters.butterfly import ButterflyFactory
@@ -108,7 +108,7 @@ class StickerLevel(Level):
         super().post_setup()
         pc = None
         for model in self.character_layer.models:
-            if isinstance(model, PlayerCharacter):
+            if isinstance(model, Avatar):
                 pc = model
                 break
         self.push_avatar(pc)

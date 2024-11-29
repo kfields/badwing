@@ -16,7 +16,7 @@ from badwing.background import BackgroundLayer
 from badwing.tile import TileLayer, TileFactory 
 
 from badwing.characters.factory import CharacterFactory
-from badwing.characters import PlayerCharacter
+from badwing.characters import Avatar
 
 from badwing.objects.flag import FlagFactory
 from badwing.characters.butterfly import ButterflyFactory

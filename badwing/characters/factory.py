@@ -1,7 +1,7 @@
 from loguru import logger
 import glm
 
-from badwing.characters import PlayerCharacter
+from badwing.characters import Avatar
 from badwing.characters import Skateboard
 
 # from badwing.characters import Blob
@@ -27,7 +27,7 @@ class CharacterFactory(ModelFactory):
 
 
 kinds = {
-    "PlayerCharacter": PlayerCharacter,
+    "PlayerCharacter": Avatar,
     "Skateboard": Skateboard,
     "Robot": Robot,
     # "hero": PlayerCharacter,

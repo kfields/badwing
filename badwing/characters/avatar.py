@@ -5,12 +5,10 @@ from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 from badwing.character.kinematic_character import KinematicCharacter
 
-from badwing.character import CharacterVu
-
 from ..character.character_brain import CharacterBrain
 
 
-class PlayerCharacter(KinematicCharacter):
+class Avatar(KinematicCharacter):
     def __init__(self, position=glm.vec2(), brain=None):
         model = SpriteLoader(sprite_builder=CollidableSpriteBuilder()).load(":resources:/characters/maleAdventurer_idle.png")
         vu = SpriteVu(model)
@@ -18,4 +16,4 @@ class PlayerCharacter(KinematicCharacter):
 
     @classmethod
     def produce(self, position=glm.vec2()):
-        return PlayerCharacter(position, brain=CharacterBrain())
+        return Avatar(position, brain=CharacterBrain())

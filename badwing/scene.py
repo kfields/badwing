@@ -20,8 +20,9 @@ class Scene(Scene2D):
         self.bottom = 0
         self.left = 0
         self.top = 0
-        self.controller_stack = []
+        #self.controller_stack = []
 
+    '''
     @property
     def controller(self):
         if not self.controller_stack:
@@ -38,6 +39,7 @@ class Scene(Scene2D):
         controller = self.controller_stack.pop()
         badwing.globe.controller = controller
         return controller
+    '''
 
     def pause(self):
         self.paused = True

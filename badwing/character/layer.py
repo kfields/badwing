@@ -1,6 +1,6 @@
 import arcade
 
-from badwing.characters import PlayerCharacter
+from badwing.characters import Avatar
 from badwing.characters import Skateboard
 
 from badwing.tile import TileLayer
@@ -21,7 +21,7 @@ class CharacterTileLayer(TileLayer):
             self.add_node(node)
 
 kinds = {
-    'PlayerCharacter': PlayerCharacter,
-    'hero': PlayerCharacter,
+    'PlayerCharacter': Avatar,
+    'hero': Avatar,
     'Skateboard': Skateboard
 }

@@ -14,10 +14,11 @@ class Level(Scene):
         super().__init__(name)
         badwing.globe.scene = self
         self.physics_engine: PhysicsEngine = None
-        self.avatar_stack = []
+        #self.avatar_stack = []
         self.tilewidth = 0
         self.tileheight = 0
 
+    '''
     @property
     def avatar(self):
         return self.avatar_stack[-1]
@@ -32,6 +33,7 @@ class Level(Scene):
         badwing.globe.avatar = avatar
         self.pop_controller()
         return avatar
+    '''
 
     def beat_level(self):
         next_level = self.get_next_level()

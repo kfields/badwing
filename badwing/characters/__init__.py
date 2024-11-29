@@ -1,4 +1,4 @@
-from .pc import PlayerCharacter
+from .avatar import Avatar
 from .skateboard import Skateboard, Chassis
 from .robot import Robot
 
