@@ -1,6 +1,7 @@
 from crunge import imgui
 
 from crunge.engine import Renderer
+from crunge.engine.d2.physics.draw_options import DrawOptions
 
 import badwing.globe
 from badwing.constants import *
@@ -13,6 +14,10 @@ class LevelScreen(SceneScreen):
         super().__init__(scene)
         self.avatar_stack = []
 
+    def _create(self):
+        super()._create()
+        self.draw_options = DrawOptions(self.scratch)
+    
     @property
     def avatar(self):
         return self.avatar_stack[-1]
@@ -31,11 +36,14 @@ class LevelScreen(SceneScreen):
     def draw(self, renderer: Renderer):
         imgui.begin("Main")
 
-        if imgui.button("Start"):
-            badwing.globe.game.show_channel("level1")
+        _, self.debug_draw_enabled = imgui.checkbox("Debug Draw", self.debug_draw_enabled)
 
         if imgui.button("Quit"):
             exit()
 
         imgui.end()
+
+        if self.debug_draw_enabled:
+            self.scene.physics_engine.debug_draw(self.draw_options)
+
         super().draw(renderer)

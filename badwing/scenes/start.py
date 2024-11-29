@@ -5,7 +5,8 @@ from crunge import imgui
 
 from crunge.engine import Renderer
 from crunge.engine.math import Bounds2
-from crunge.engine.d2.physics import DynamicPhysicsEngine
+#from crunge.engine.d2.physics import DynamicPhysicsEngine
+from crunge.engine.d2.physics import PhysicsEngine2D
 
 import badwing.globe
 from badwing.constants import *
@@ -21,11 +22,11 @@ from badwing.characters.butterfly import Butterflies
 
 
 class StartScene(Level):
-    def __init__(self, name='start'):
-        super().__init__(name)
+    def __init__(self, name, physics_engine: PhysicsEngine2D):
+        super().__init__(name, physics_engine)
         # Our physics engine
-        self.physics_engine = physics_engine = DynamicPhysicsEngine().create()
-        self.space = physics_engine.space
+        #self.physics_engine = physics_engine = DynamicPhysicsEngine().create()
+        #self.space = physics_engine.space
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
