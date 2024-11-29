@@ -70,12 +70,12 @@ class TileLevel(Level):
 
     def _post_create(self):
         super()._post_create()
-        pc = None
+        avatar = None
         for node in self.character_layer.root.children:
             if isinstance(node, PlayerCharacter):
-                pc = node
+                avatar = node
                 break
-        self.push_avatar(pc)
+        self.push_avatar(avatar)
 
     def check_butterflies(self):
         return
@@ -114,26 +114,26 @@ class TileLevel(Level):
 
         # Scroll left
         left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN
-        if self.pc.bounds.left < left_boundary:
-            self.view_left -= left_boundary - self.pc.bounds.left
+        if self.avatar.bounds.left < left_boundary:
+            self.view_left -= left_boundary - self.avatar.bounds.left
             changed = True
 
         # Scroll right
         right_boundary = self.view_left + SCREEN_WIDTH - RIGHT_VIEWPORT_MARGIN
-        if self.pc.bounds.right > right_boundary:
-            self.view_left += self.pc.bounds.right - right_boundary
+        if self.avatar.bounds.right > right_boundary:
+            self.view_left += self.avatar.bounds.right - right_boundary
             changed = True
 
         # Scroll up
         top_boundary = self.view_bottom + SCREEN_HEIGHT - TOP_VIEWPORT_MARGIN
-        if self.pc.bounds.top > top_boundary:
-            self.view_bottom += self.pc.bounds.top - top_boundary
+        if self.avatar.bounds.top > top_boundary:
+            self.view_bottom += self.avatar.bounds.top - top_boundary
             changed = True
 
         # Scroll down
         bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
-        if self.pc.bounds.bottom < bottom_boundary:
-            self.view_bottom -= bottom_boundary - self.pc.bounds.bottom
+        if self.avatar.bounds.bottom < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.avatar.bounds.bottom
             changed = True
 
         if changed:

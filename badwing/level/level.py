@@ -19,7 +19,7 @@ class Level(Scene):
         self.tileheight = 0
 
     @property
-    def pc(self):
+    def avatar(self):
         return self.avatar_stack[-1]
 
     def push_avatar(self, avatar):

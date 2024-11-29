@@ -21,8 +21,8 @@ from badwing.characters.butterfly import Butterflies
 
 
 class StartScene(Level):
-    def __init__(self):
-        super().__init__('start')
+    def __init__(self, name='start'):
+        super().__init__(name)
         # Our physics engine
         self.physics_engine = physics_engine = DynamicPhysicsEngine().create()
         self.space = physics_engine.space
@@ -64,15 +64,3 @@ class StartScene(Level):
     def update(self, delta_time):
         super().update(delta_time)
         self.physics_engine.update()
-
-    def draw(self, renderer: Renderer):
-        imgui.begin("Main")
-
-        if imgui.button("Start"):
-            badwing.globe.game.show_scene(self.get_next_level())
-
-        if imgui.button("Quit"):
-            exit()
-
-        imgui.end()
-        super().draw(renderer)

@@ -12,13 +12,10 @@ class SceneLayer(SceneLayer2D):
     def __init__(self, level, name: str, factory=None):
         super().__init__(name, level.size)
         self.level = level
-        #self.width = level.width
-        #self.height = level.height
         self.left = level.left
         self.bottom = level.bottom
         self.right = level.right
         self.top = level.top
-        #self.nodes = []
         self.sprites = SpriteVuGroup()
         self.effects = EffectList()
         self.factory = None
@@ -39,6 +36,7 @@ class SceneLayer(SceneLayer2D):
         self.effects.append(effect)
         return effect
 
+    '''
     def update(self, delta_time):
         if badwing.globe.scene.paused:
             return
@@ -52,3 +50,4 @@ class SceneLayer(SceneLayer2D):
         self.sprites.draw(renderer)
         #self.effects.draw(renderer)
         super().draw(renderer)
+    '''
