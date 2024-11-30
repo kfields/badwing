@@ -1,21 +1,28 @@
+from typing import TYPE_CHECKING
+
 from loguru import logger
 
-from crunge.engine import Renderer
 from crunge.engine.d2.sprite import SpriteVuGroup
 from crunge.engine.d2.scene_layer_2d import SceneLayer2D
 
-import badwing.globe
 from badwing.constants import *
 from badwing.effect import EffectList
 
+if TYPE_CHECKING:
+    from .level import Level
+
+
 class SceneLayer(SceneLayer2D):
-    def __init__(self, level, name: str, factory=None):
-        super().__init__(name, level.size)
+    def __init__(self, level: "Level", name: str, factory=None):
+        super().__init__(name)
+        self.scene = level
         self.level = level
+        '''
         self.left = level.left
         self.bottom = level.bottom
         self.right = level.right
         self.top = level.top
+        '''
         self.sprites = SpriteVuGroup()
         self.effects = EffectList()
         self.factory = None

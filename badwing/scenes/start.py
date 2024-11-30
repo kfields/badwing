@@ -24,16 +24,6 @@ from badwing.characters.butterfly import Butterflies
 class StartScene(Level):
     def __init__(self, name, physics_engine: PhysicsEngine2D):
         super().__init__(name, physics_engine)
-        # Our physics engine
-        #self.physics_engine = physics_engine = DynamicPhysicsEngine().create()
-        #self.space = physics_engine.space
-
-        # Used to keep track of our scrolling
-        self.view_bottom = 0
-        self.view_left = 0
-
-        # Keep track of the score
-        self.score = 0
 
 
     @classmethod
@@ -47,21 +37,17 @@ class StartScene(Level):
 
     def _create(self):
         super()._create()
-        # Used to keep track of our scrolling
-        self.view_bottom = 0
-        self.view_left = 0
-
-        # Keep track of the score
-        self.score = 0
-
         self.add_layer(BarrierLayer(self, 'barrier'))
 
         self.add_layer(BackgroundLayer(self, 'background', ":resources:/backgrounds/backgroundColorGrass.png"))
         self.butterfly_layer = butterfly_layer = SceneLayer(self, 'butterflies')
         butterflies = Butterflies.create_random(20, Bounds2(0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
+        #butterflies = Butterflies.create_random(20, Bounds2(0,0,self.width, self.height))
         self.butterfly_layer.attach(butterflies)
         self.add_layer(butterfly_layer)
 
+    '''
     def update(self, delta_time):
         super().update(delta_time)
         self.physics_engine.update()
+    '''

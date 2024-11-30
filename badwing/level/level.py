@@ -1,3 +1,4 @@
+import glm
 from pytmx import TiledMap
 
 from crunge.engine.d2.physics import PhysicsEngine2D
@@ -13,32 +14,22 @@ class Level(Scene):
     def __init__(self, name: str, physics_engine: PhysicsEngine2D):
         super().__init__(name, physics_engine)
         badwing.globe.scene = self
-        #self.physics_engine: PhysicsEngine2D = None
-        #self.avatar_stack = []
         self.tilewidth = 0
         self.tileheight = 0
-
-    '''
-    @property
-    def avatar(self):
-        return self.avatar_stack[-1]
-
-    def push_avatar(self, avatar):
-        self.avatar_stack.append(avatar)
-        badwing.globe.avatar = avatar
-        self.push_controller(avatar.control())
-
-    def pop_avatar(self):
-        avatar = self.avatar_stack.pop()
-        badwing.globe.avatar = avatar
-        self.pop_controller()
-        return avatar
-    '''
 
     def beat_level(self):
         next_level = self.get_next_level()
         self.open_dialog(BeatLevelDialog(next_level))
 
+    def _create(self):
+        tmx_path = asset(f"{self.name}.tmx")
+        self.map = map = self.map = TiledMap(tmx_path)
+        self.size = glm.ivec2(map.width * map.tilewidth, map.height * map.tileheight)
+        self.tilewidth = map.tilewidth
+        self.tileheight = map.tileheight
+        super()._create()
+
+    '''
     def _create(self):
         super()._create()
         tmx_path = asset(f"{self.name}.tmx")
@@ -46,6 +37,7 @@ class Level(Scene):
 
         self.tilewidth = map.tilewidth
         self.tileheight = map.tileheight
+    '''
 
     def update(self, delta_time):
 
@@ -60,7 +52,6 @@ class Level(Scene):
         if badwing.globe.player.level_beat:
             self.beat_level()
             badwing.globe.player.level_beat = False
-            #return
 
     def check_collisions(self):
         pass
