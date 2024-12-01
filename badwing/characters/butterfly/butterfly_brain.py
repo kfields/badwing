@@ -190,7 +190,8 @@ class ButterflyBrain(Brain):
         if not need_turn:
             ground_layer = badwing.globe.scene.ground_layer
             if ground_layer:
-                need_turn = collision_list = arcade.check_for_collision_with_list(self.sprite, ground_layer.sprites)
+                #need_turn = collision_list = arcade.check_for_collision_with_list(self.sprite, ground_layer.sprites)
+                pass
 
         if(need_turn):
             self.right(45)

@@ -14,12 +14,13 @@ class ModelFactory:
     def __init__(self, layer: SceneLayer):
         self.layer = layer
         level = self.layer.level
-        self.map = level.map
-        self.map_layer = self.map.get_layer_by_name(self.layer.name)
-        logger.debug(f"map_layer: {self.map_layer}")
+        #self.map = level.map
+        #self.map_layer = self.map.get_layer_by_name(self.layer.name)
+        #logger.debug(f"map_layer: {self.map_layer}")
 
     def produce(self):
-        self.process_layer()
+        #self.process_layer()
+        pass
 
     def process_layer(self):
         map = self.map

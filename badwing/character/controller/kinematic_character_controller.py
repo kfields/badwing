@@ -1,25 +1,25 @@
 from loguru import logger
+import glm
 
 from crunge import sdl
 import crunge.engine.d2.physics.globe as physics_globe
-
+from crunge.engine.d2.node_2d import Node2D
 import badwing.globe
 from badwing.constants import *
 
 from badwing.character.controller import CharacterController
 
 class KinematicCharacterController(CharacterController):
-    def __init__(self, pc):
-        super().__init__(pc)
+    def __init__(self, avatar: Node2D):
+        super().__init__(avatar)
         self.physics_engine = physics_globe.physics_engine
-        self.pc = pc
-        #self.pc_sprite = pc.vu
-        self.force = (0, 0)
+        self.avatar = avatar
+        self.force = glm.vec2()
         #self.jump_sound = arcade.load_sound(":resources:/sounds/jump1.wav")
         #
         self.character_layer = badwing.globe.scene.character_layer
-        self.platforms = badwing.globe.scene.ground_layer.sprites
-        self.ladders = badwing.globe.scene.ladder_layer.sprites
+        self.platforms = badwing.globe.scene.ground_layer.nodes
+        self.ladder_layer = badwing.globe.scene.ladder_layer
 
         self.jumps_since_ground = 0
         self.allowed_jumps = 1
@@ -33,19 +33,25 @@ class KinematicCharacterController(CharacterController):
         self.jump_needs_reset = False
 
     def mount(self):
-        hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.character_layer.sprites)
-        for sprite in hit_list:
-            model = sprite.model
-            if isinstance(model, badwing.characters.Chassis):
-                mount = model.group
-                mount.mount(self.pc)
-                badwing.globe.scene.push_pc(mount)
+        #hit_list = arcade.check_for_collision_with_list(self.pc_sprite, self.character_layer.sprites)
+        hit_list = self.character_layer.query_intersection(self.avatar.bounds)
+        for node in hit_list:
+            if isinstance(node, badwing.characters.Chassis):
+                mount = node.group
+                mount.mount(self.avatar)
+                badwing.globe.scene.push_avatar(mount)
 
     def is_on_ladder(self):
         laddered = self.node.laddered
-        if self.ladders:
-            hit_list = check_for_collision_with_list(self.pc_sprite, self.ladders)
+        if self.ladder_layer:
+            #hit_list = check_for_collision_with_list(self.pc_sprite, self.ladders)
+            hit_list = self.ladder_layer.query_intersection(self.avatar.bounds)
             if len(hit_list) > 0:
+                #logger.debug(f"on ladder: {hit_list}")
+                logger.debug(f"avatar bounds: {self.avatar.bounds}")
+                for node in hit_list:
+                    logger.debug(f"bounds: {node.bounds}")
+
                 self.node.laddered = laddered = True
             else:
                 self.node.laddered = laddered = False
@@ -87,15 +93,26 @@ class KinematicCharacterController(CharacterController):
 
     def process_keychange(self):
         delta_x, delta_y = 0, 0
+        if self.avatar.grounded:
+            self.avatar.jumping = False
+            self.jump_needs_reset = False
+
+        '''
+        if self.avatar.grounded or self.avatar.falling:
+            self.avatar.jumping = False
+        '''
+
         # Process up/down
         if self.up_pressed and not self.down_pressed:
             if self.is_on_ladder():
                 delta_y = PLAYER_MOVEMENT_SPEED
-            #elif self.pc.grounded and not self.jump_needs_reset:
-            elif self.pc.grounded:
+            #if not self.avatar.jumping:
+            if not self.avatar.jumping and not self.jump_needs_reset:
+            #if self.avatar.grounded:
                 logger.debug("Jumping")
+                self.avatar.jumping = True
+                self.jump_needs_reset = True
                 delta_y = PLAYER_JUMP_SPEED
-                #self.jump_needs_reset = True
                 #arcade.play_sound(self.jump_sound)
         if self.down_pressed and not self.up_pressed:
             if self.is_on_ladder():
@@ -111,16 +128,23 @@ class KinematicCharacterController(CharacterController):
                 delta_y = 0
 
         # Process left/right
-        if self.pc.grounded and self.right_pressed and not self.left_pressed:
-            delta_x = PLAYER_MOVEMENT_SPEED
-        elif self.pc.grounded and self.left_pressed and not self.right_pressed:
-            delta_x = -PLAYER_MOVEMENT_SPEED
+        self.avatar.falling = not self.avatar.grounded and not self.avatar.laddered and not self.avatar.jumping
+        #self.avatar.falling = not self.avatar.grounded and not self.avatar.laddered
+
+        if self.right_pressed and not self.left_pressed:
+        #if (self.avatar.grounded or self.avatar.laddered) and self.right_pressed and not self.left_pressed:
+            if not self.avatar.jumping or not self.avatar.falling:
+                delta_x = PLAYER_MOVEMENT_SPEED
+        if self.left_pressed and not self.right_pressed:
+        #elif (self.avatar.grounded or self.avatar.laddered) and self.left_pressed and not self.right_pressed:
+            if not self.avatar.jumping or not self.avatar.falling:
+                delta_x = -PLAYER_MOVEMENT_SPEED
         '''
         else:
             delta_x = 0
         '''
 
-        self.pc.body.velocity = (delta_x, delta_y)
+        self.avatar.body.velocity = (delta_x, delta_y)
 
 
     def on_key(self, event: sdl.KeyboardEvent):
@@ -157,8 +181,8 @@ class KinematicCharacterController(CharacterController):
         #elif key == arcade.key.SPACE:
         elif key == sdl.SDLK_SPACE:
             if down:
-                self.pc.punching = True
+                self.avatar.punching = True
             else:
-                self.pc.punching = False
+                self.avatar.punching = False
 
         self.process_keychange()

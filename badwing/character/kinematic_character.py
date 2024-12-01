@@ -8,6 +8,7 @@ from pymunk.autogeometry import convex_decomposition, to_convex_hull
 
 from crunge.engine.d2.entity import KinematicEntity2D
 from crunge.engine.d2.physics import KinematicPhysics, DynamicPhysics, BoxGeom, BallGeom, HullGeom
+import crunge.engine.d2.physics.globe as physics_globe
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 
 from badwing.constants import *
@@ -28,12 +29,13 @@ class KinematicCharacter(KinematicEntity2D):
         super().__init__(position, vu=vu, model=model, brain=brain, geom=HullGeom)
         self.mass = PLAYER_MASS
 
-    def on_mount(self, model, point):
-        super().on_mount(point)
-        self.position = model.get_tx_point((point[0], point[1] + self.height/2 + SLOP))
-        self.angle = model.angle
+    def on_mount(self, node, point: glm.vec2):
+        #super().on_mount(point)
+        self.mounted = True
+        self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height/2 + SLOP))
+        self.angle = node.angle
         #print('on_mount')
-        self.physics = badwing.physics.DynamicPhysics()
+        self.physics = DynamicPhysics()
 
     def on_dismount(self, model, point):
         super().on_dismount(point)
@@ -41,7 +43,7 @@ class KinematicCharacter(KinematicEntity2D):
         self.position = (model.position[0], model.position[1] + self.height/2)
         #self.angle = model.angle
         self.angle = 0
-        self.physics = badwing.physics.KinematicPhysics()
+        self.physics = KinematicPhysics()
         badwing.globe.scene.pop_pc()
 
     '''
@@ -59,7 +61,7 @@ class KinematicCharacter(KinematicEntity2D):
 
     def create_body(self):
         if self.mounted:
-            offset = (0, -self.height/2 + SLOP)
+            offset = glm.vec2(0, -self.height/2 + SLOP)
             return self.physics.create_body(self, offset)
         else:
             return self.physics.create_body(self)

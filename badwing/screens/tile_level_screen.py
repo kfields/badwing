@@ -24,6 +24,8 @@ class TileLevelScreen(LevelScreen):
         self.push_avatar(avatar)
 
     def update(self, delta_time: float):
+        if self.avatar is None:
+            return
         # --- Manage Scrolling ---
         # Track if we need to change the viewport
 

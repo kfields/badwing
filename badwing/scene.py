@@ -12,12 +12,6 @@ class Scene(PhysicsScene2D):
 
         self.ground_layer = None
         self.paused = False
-        '''
-        self.right = 0
-        self.bottom = 0
-        self.left = 0
-        self.top = 0
-        '''
 
     def pause(self):
         self.paused = True

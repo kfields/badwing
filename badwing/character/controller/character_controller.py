@@ -1,6 +1,6 @@
-from badwing.controller import Controller
+from badwing.level_controller import LevelController
 
-class CharacterController(Controller):
-    def __init__(self, node=None, passthrough=None):
-        super().__init__(passthrough)
+class CharacterController(LevelController):
+    def __init__(self, node=None):
+        super().__init__()
         self.node = node

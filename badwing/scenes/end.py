@@ -9,7 +9,7 @@ import badwing.globe
 from badwing.constants import *
 from badwing.assets import asset
 from badwing.level import Level
-from badwing.controller import Controller
+from badwing.level_controller import LevelController
 
 from badwing.physics.dynamic import DynamicPhysicsEngine
 from badwing.physics.kinematic import KinematicPhysicsEngine

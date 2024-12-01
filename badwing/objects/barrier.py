@@ -32,6 +32,6 @@ class BarrierLayer(SceneLayer):
         self.left_barrier = left_barrier = Barrier(left - self.barrier_width, bottom, left, top)
         self.right_barrier = right_barrier = Barrier(right, bottom, right + self.barrier_width, top)
 
-        self.attach(top_barrier)
-        self.attach(left_barrier)
-        self.attach(right_barrier)
+        #self.attach(top_barrier)
+        #self.attach(left_barrier)
+        #self.attach(right_barrier)

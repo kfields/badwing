@@ -133,7 +133,7 @@ class Skateboard(PhysicsGroup2D):
         mount_width = self.chassis.width
         mount_height = self.chassis.height
 
-        point = (0, CHASSIS_HEIGHT/2)
+        point = glm.vec2(0, CHASSIS_HEIGHT/2)
         mountee.on_mount(self.chassis, point)
 
         p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))

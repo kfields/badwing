@@ -1,5 +1,5 @@
 import glm
-from pytmx import TiledMap
+#from pytmx import TiledMap
 
 from crunge.engine.d2.physics import PhysicsEngine2D
 
@@ -9,6 +9,9 @@ from badwing.assets import asset
 from badwing.scene import Scene
 from badwing.dialogs.pause import PauseDialog
 from badwing.dialogs.beatlevel import BeatLevelDialog
+
+from ..map.map_loader import MapLoader
+
 
 class Level(Scene):
     def __init__(self, name: str, physics_engine: PhysicsEngine2D):
@@ -22,12 +25,19 @@ class Level(Scene):
         self.open_dialog(BeatLevelDialog(next_level))
 
     def _create(self):
+        super()._create()
+        tmx_path = asset(f"{self.name}.tmx")
+        map_loader = MapLoader(self)
+        map_loader.load(tmx_path)
+
+        '''
         tmx_path = asset(f"{self.name}.tmx")
         self.map = map = self.map = TiledMap(tmx_path)
         self.size = glm.ivec2(map.width * map.tilewidth, map.height * map.tileheight)
         self.tilewidth = map.tilewidth
         self.tileheight = map.tileheight
-        super()._create()
+        '''
+        #super()._create()
 
     '''
     def _create(self):

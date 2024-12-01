@@ -36,14 +36,20 @@ class TileLevel(Level):
             )
         )
         self.scenery_layer = self.add_layer(TileLayer(self, "scenery"))
-        self.ladder_layer = self.add_layer(TileLayer(self, "ladder"))
+        #self.ladder_layer = self.add_layer(TileLayer(self, "ladder"))
+        self.ladder_layer = self.get_layer("ladder")
         self.flag_layer = self.add_layer(TileLayer(self, "flags", FlagFactory))
         self.ground_layer = self.add_layer(TileLayer(self, "ground", TileFactory))
+        #self.ground_layer = self.get_layer("ground")
         self.spark_layer = self.add_layer(SceneLayer(self, "spark"))
-        self.character_layer = self.add_layer(TileLayer(self, "pc", CharacterFactory))
+        #self.character_layer = self.add_layer(TileLayer(self, "pc", CharacterFactory))
+        self.character_layer = self.get_layer("pc")
+        '''
         self.butterfly_layer = self.add_layer(
             TileLayer(self, "butterfly", ButterflyFactory)
         )
+        '''
+        self.butterfly_layer = self.get_layer("butterfly")
         # self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
         self.object_layer = self.add_layer(TileLayer(self, "object", ObstacleFactory))
         self.static_layer = self.add_layer(TileLayer(self, "static", TileFactory))

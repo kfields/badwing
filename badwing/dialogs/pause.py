@@ -1,9 +1,9 @@
 import badwing.globe
-import badwing.controller
+import badwing.level_controller
 import badwing.dialog
 
 
-class Controller(badwing.controller.Controller):
+class Controller(badwing.level_controller.LevelController):
     def on_key_press(self, key, modifiers):
         pass
 
@@ -17,9 +17,6 @@ class PauseDialog(badwing.dialog.Dialog):
         self.half_height = self.height / 2
         self.center_x = self.width / 2
         self.center_y = self.height / 2
-
-    def control(self):
-        return Controller(passthrough=self)
 
     def add_buttons(self):
         width = 200

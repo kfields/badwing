@@ -1,20 +1,14 @@
 from loguru import logger
 
 import glm
-import json
-import pymunk
 
 from crunge.engine.math import Rect2i
-from crunge.engine.d2.node_2d import Node2D
-from crunge.engine.d2.sprite import Sprite, SpriteVu
-from crunge.engine.resource.texture import Texture
+from crunge.engine.d2.sprite import SpriteVu
 from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
 from crunge.engine.d2.entity import StaticEntity2D
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
-import badwing.globe
 from badwing.constants import *
-import badwing.assets as assets
 from badwing.model_factory import ModelFactory
 from badwing.scene_layer import SceneLayer
 
@@ -27,7 +21,6 @@ class Tile(StaticEntity2D):
 class TileLayer(SceneLayer):
     def __init__(self, level, name, factory=None):
         super().__init__(level, name, factory)
-        # self.map_layer = level.map.get_layer_by_name(name)
 
 
 class TileFactory(ModelFactory):

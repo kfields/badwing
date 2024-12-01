@@ -25,7 +25,8 @@ class LevelScreen(SceneScreen):
     def push_avatar(self, avatar):
         self.avatar_stack.append(avatar)
         badwing.globe.avatar = avatar
-        self.push_controller(avatar.control())
+        if avatar is not None:
+            self.push_controller(avatar.control())
 
     def pop_avatar(self):
         avatar = self.avatar_stack.pop()
