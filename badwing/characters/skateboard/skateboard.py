@@ -1,7 +1,6 @@
-import math
+from loguru import logger
 import glm
 import pymunk
-from pymunk import Vec2d
 
 from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
@@ -13,16 +12,19 @@ import crunge.engine.d2.physics.globe as physics_globe
 
 from badwing.assets import asset
 from badwing.util import debounce
-from badwing.character import CharacterController
+
+from .skateboard_controller import SkateboardController
 
 
 WHEEL_RADIUS = 32
-WHEEL_MASS = .5
+#WHEEL_MASS = .5
+WHEEL_MASS = 5
 
 #CHASSIS_WIDTH = 128
 CHASSIS_WIDTH = 64
 CHASSIS_HEIGHT = 16
-CHASSIS_MASS = 1
+#CHASSIS_MASS = 1
+CHASSIS_MASS = 2
 
 X_PAD = 32
 Y_PAD = 32
@@ -39,8 +41,8 @@ class Wheel(DynamicEntity2D):
         vu = SpriteVu(sprite).create()
         size = glm.vec2(WHEEL_RADIUS, WHEEL_RADIUS)
         scale = glm.vec2(.5, .5)
-        #super().__init__(position, size=size, scale=scale, vu=vu, model=sprite, geom=BallGeom)
-        super().__init__(position, scale=scale, vu=vu, model=sprite, geom=BallGeom)
+        super().__init__(position, size=size, scale=scale, vu=vu, model=sprite, geom=BallGeom)
+        #super().__init__(position, scale=scale, vu=vu, model=sprite, geom=BallGeom)
         self.size = self.size * .5
         #self.radius = WHEEL_RADIUS
         self.mass = WHEEL_MASS
@@ -104,7 +106,7 @@ class Chassis(DynamicEntity2D):
 '''
 
 class Skateboard(PhysicsGroup2D):
-    def __init__(self, position=Vec2d(0, 0)):
+    def __init__(self, position=glm.vec2()):
         super().__init__(position)
         self.mountee = None
         self.mountee_pins = []
@@ -112,11 +114,10 @@ class Skateboard(PhysicsGroup2D):
         self.motors_attached = True
 
         chassis_pos = position
-        front_wheel_pos = chassis_pos - Vec2d(-(CHASSIS_WIDTH/2+X_PAD), Y_PAD)
-        back_wheel_pos = chassis_pos - Vec2d(CHASSIS_WIDTH/2+X_PAD, Y_PAD)
+        front_wheel_pos = chassis_pos - glm.vec2(-(CHASSIS_WIDTH/2+X_PAD), Y_PAD)
+        back_wheel_pos = chassis_pos - glm.vec2(CHASSIS_WIDTH/2+X_PAD, Y_PAD)
 
         self.chassis = chassis = self.add_node(Chassis.produce(chassis_pos))
-        #self.sprite = chassis.sprite
         self.vu = chassis.vu
         self.front_wheel = self.add_node(Wheel.produce(front_wheel_pos))
         self.back_wheel = self.add_node(Wheel.produce(back_wheel_pos))
@@ -135,16 +136,22 @@ class Skateboard(PhysicsGroup2D):
 
         point = glm.vec2(0, CHASSIS_HEIGHT/2)
         mountee.on_mount(self.chassis, point)
+        logger.debug(f"mountee body: {mountee.body}")
 
         p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))
         p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0), (0,CHASSIS_HEIGHT/2))
+        '''
+        p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0))
+        p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0))
+        '''
         self.mountee_pins.extend([p5, p6])
+
         physics_globe.physics_engine.space.add(p5, p6)
 
     def dismount(self):
         physics_globe.physics_engine.space.remove(*self.mountee_pins)
         self.mountee_pins = []
-        point = (0, CHASSIS_HEIGHT/2)
+        point = glm.vec2(0, CHASSIS_HEIGHT/2)
         self.mountee.on_dismount(self.chassis, point)
 
     def _create(self):
@@ -203,36 +210,3 @@ class Skateboard(PhysicsGroup2D):
         super().update(delta_time)
         if self.motors_attached:
             self.front_motor.rate = self.back_motor.rate = -self.speed
-
-class SkateboardController(CharacterController):
-    def __init__(self, skateboard):
-        super().__init__(skateboard)
-        self.skateboard = skateboard
-
-    '''
-    def on_key_press(self, key, modifiers):
-        if key == arcade.key.UP or key == arcade.key.W:
-            self.skateboard.ollie()
-        elif key == arcade.key.DOWN or key == arcade.key.S:
-            self.skateboard.dismount()
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.left_down = True
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.right_down = True
-
-    def on_key_release(self, key, modifiers):
-        if key == arcade.key.UP or key == arcade.key.W:
-            self.up_down = False
-        elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.left_down = False
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.right_down = False
-    '''
-
-    def update(self, delta_time):
-        if self.left_down:
-            self.skateboard.decelerate()
-        elif self.right_down:
-            self.skateboard.accelerate()
-        else:
-            self.skateboard.coast()

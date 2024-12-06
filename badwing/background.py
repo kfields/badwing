@@ -3,8 +3,8 @@ from badwing.constants import *
 from badwing.tile import TileLayer
 
 class BackgroundLayer(TileLayer):
-    def __init__(self, level, name, filename):
-        super().__init__(level, name)
+    def __init__(self, name, filename):
+        super().__init__(name)
         self.filename = filename
         self.background = None
         

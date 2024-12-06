@@ -16,16 +16,16 @@ class StartScene(Level):
 
     def _create(self):
         super()._create()
-        self.add_layer(BarrierLayer(self, "barrier"))
+        self.add_layer(BarrierLayer("barrier"))
 
         self.add_layer(
             BackgroundLayer(
-                self, "background", ":resources:/backgrounds/backgroundColorGrass.png"
+                "background", ":resources:/backgrounds/backgroundColorGrass.png"
             )
         )
-        self.butterfly_layer = butterfly_layer = SceneLayer(self, "butterflies")
+        self.butterfly_layer = butterfly_layer = SceneLayer("butterflies")
         butterflies = Butterflies.create_random(
-            20, Bounds2(0, 0, self.width, self.height)
+            20, self.bounds
         )
         self.butterfly_layer.attach(butterflies)
         self.add_layer(butterfly_layer)

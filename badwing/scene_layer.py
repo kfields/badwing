@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from loguru import logger
+import glm
 
 from crunge.engine.d2.sprite import SpriteVuGroup
 from crunge.engine.d2.scene_layer_2d import SceneLayer2D
@@ -13,24 +14,21 @@ if TYPE_CHECKING:
 
 
 class SceneLayer(SceneLayer2D):
-    def __init__(self, level: "Level", name: str, factory=None):
+    def __init__(self, name: str, factory=None):
         super().__init__(name)
-        self.scene = level
-        self.level = level
-        '''
-        self.left = level.left
-        self.bottom = level.bottom
-        self.right = level.right
-        self.top = level.top
-        '''
         self.sprites = SpriteVuGroup()
         self.effects = EffectList()
         self.factory = None
         if factory:
             self.factory = factory(self)
 
+    @property
+    def level(self) -> "Level":
+        return self.scene
+
     def _create(self):
         super()._create()
+        self.bounds = self.level.bounds
         if self.factory:
             self.factory.produce()
 

@@ -29,30 +29,30 @@ class TileLevel(Level):
 
         # --- Load in a map from the tiled editor ---
 
-        self.add_layer(BarrierLayer(self, "barrier"))
+        self.add_layer(BarrierLayer("barrier"))
         self.add_layer(
             BackgroundLayer(
-                self, "background", ":resources:/backgrounds/backgroundColorGrass.png"
+                "background", ":resources:/backgrounds/backgroundColorGrass.png"
             )
         )
-        self.scenery_layer = self.add_layer(TileLayer(self, "scenery"))
-        #self.ladder_layer = self.add_layer(TileLayer(self, "ladder"))
+        self.scenery_layer = self.add_layer(TileLayer("scenery"))
+        # self.ladder_layer = self.add_layer(TileLayer(self, "ladder"))
         self.ladder_layer = self.get_layer("ladder")
-        self.flag_layer = self.add_layer(TileLayer(self, "flags", FlagFactory))
-        self.ground_layer = self.add_layer(TileLayer(self, "ground", TileFactory))
-        #self.ground_layer = self.get_layer("ground")
-        self.spark_layer = self.add_layer(SceneLayer(self, "spark"))
-        #self.character_layer = self.add_layer(TileLayer(self, "pc", CharacterFactory))
+        self.flag_layer = self.add_layer(TileLayer("flags", FlagFactory))
+        #self.ground_layer = self.add_layer(TileLayer("ground", TileFactory))
+        self.ground_layer = self.get_layer("ground")
+        self.spark_layer = self.add_layer(SceneLayer("spark"))
+        # self.character_layer = self.add_layer(TileLayer(self, "pc", CharacterFactory))
         self.character_layer = self.get_layer("pc")
-        '''
+        """
         self.butterfly_layer = self.add_layer(
             TileLayer(self, "butterfly", ButterflyFactory)
         )
-        '''
+        """
         self.butterfly_layer = self.get_layer("butterfly")
         # self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
-        self.object_layer = self.add_layer(TileLayer(self, "object", ObstacleFactory))
-        self.static_layer = self.add_layer(TileLayer(self, "static", TileFactory))
+        self.object_layer = self.add_layer(TileLayer("object", ObstacleFactory))
+        self.static_layer = self.add_layer(TileLayer("static", TileFactory))
 
     def check_butterflies(self):
         return

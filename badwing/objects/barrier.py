@@ -1,3 +1,4 @@
+from loguru import logger
 import glm
 
 from crunge.engine.d2.entity import StaticEntity2D
@@ -18,20 +19,24 @@ class Barrier(StaticEntity2D):
 
 
 class BarrierLayer(SceneLayer):
-    def __init__(self, level, name):
-        super().__init__(level, name)
+    #def __init__(self, level, name):
+        #super().__init__(level, name)
+    def __init__(self, name: str):
+        super().__init__(name)
         self.barrier_width = BARRIER_WIDTH
-        self.barrier_height = self.scene.height
+        self.barrier_height = BARRIER_HEIGHT
         self.left_barrier = None
         self.right_barrier = None
         
     def _create(self):
         super()._create()
-        left, bottom, right, top = self.level.left, self.level.bottom, self.level.right, self.level.top
+        bounds = self.bounds
+        logger.debug(f'BarrierLayer bounds: {bounds}')
+        left, bottom, right, top = bounds.left, bounds.bottom, bounds.right, bounds.top
         self.top_barrier = top_barrier = Barrier(left - self.barrier_width, top + BARRIER_HEIGHT, right, top)
         self.left_barrier = left_barrier = Barrier(left - self.barrier_width, bottom, left, top)
         self.right_barrier = right_barrier = Barrier(right, bottom, right + self.barrier_width, top)
 
-        #self.attach(top_barrier)
-        #self.attach(left_barrier)
-        #self.attach(right_barrier)
+        self.attach(top_barrier)
+        self.attach(left_barrier)
+        self.attach(right_barrier)

@@ -152,7 +152,7 @@ class Butterflies(EntityGroup2D):
             center_x = random.randint(0, border.right)
             center_y = random.randint(0, border.top)
             position = glm.vec2(center_x, center_y)
-            logger.debug(f"position: {position}")
+            #logger.debug(f"position: {position}")
             ndx = random.randint(0, 8)
             kind = kinds_list[ndx]
             butterfly = Butterfly.produce(kind, position, border)
