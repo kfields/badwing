@@ -1,6 +1,7 @@
 from crunge import imgui
 
 from crunge.engine import Renderer
+from crunge.engine.scheduler import Scheduler
 
 import badwing.globe
 from badwing.constants import *
@@ -32,10 +33,11 @@ class SceneScreen(SceneView):
         return self.controller_stack[-1]
 
     def push_controller(self, controller):
-        self.controller_stack.append(controller)
-        badwing.globe.controller = controller
+        def callback(delta_time):
+            self.controller_stack.append(controller)
+        Scheduler().schedule_once(callback, 0)
 
     def pop_controller(self):
-        controller = self.controller_stack.pop()
-        badwing.globe.controller = controller
-        return controller
+        def callback(delta_time):
+            controller = self.controller_stack.pop()
+        Scheduler().schedule_once(callback, 0)

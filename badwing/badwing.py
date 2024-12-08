@@ -30,10 +30,6 @@ class BadWing(App):
         self.scene = None
         self.player = Player()
 
-    @property
-    def controller(self):
-        return badwing.globe.controller
-
     def install(self, name):
         logger.debug(f"Installing: {name}")
         import importlib.util

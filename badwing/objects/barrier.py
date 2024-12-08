@@ -11,7 +11,7 @@ BARRIER_WIDTH = 100
 BARRIER_HEIGHT = 1000
 
 class Barrier(StaticEntity2D):
-    def __init__(self, left, bottom, right, top):
+    def __init__(self, left: float, bottom: float, right: float, top: float):
         width = right - left
         height = top - bottom
         position = glm.vec2(left + width/2, bottom + height/2)

@@ -3,7 +3,6 @@ screen = None
 scene = None
 player = None
 avatar = None
-controller = None
 
 font_verdana_12 = None
 font_verdana_24 = None

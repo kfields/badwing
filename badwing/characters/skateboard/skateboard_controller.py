@@ -1,10 +1,14 @@
+from typing import TYPE_CHECKING
+
 from crunge import sdl
 
 from badwing.character import CharacterController
 
+if TYPE_CHECKING:
+    from .skateboard import Skateboard
 
 class SkateboardController(CharacterController):
-    def __init__(self, skateboard):
+    def __init__(self, skateboard: "Skateboard"):
         super().__init__(skateboard)
         self.skateboard = skateboard
 
@@ -12,8 +16,7 @@ class SkateboardController(CharacterController):
         if self.up_pressed:
             self.skateboard.ollie()
         elif self.down_pressed:
-            # self.skateboard.dismount()
-            pass
+            self.skateboard.dismount()
         elif self.left_pressed:
             self.skateboard.decelerate()
         elif self.right_pressed:

@@ -38,7 +38,8 @@ class KinematicCharacter(KinematicEntity2D):
         logger.debug(f"mounting at {self.position}")
         self.angle = node.angle
         # print('on_mount')
-        self.physics = DynamicPhysics()
+        #self.physics = DynamicPhysics()
+        self.physics = DynamicPhysics(glm.vec2(0, -self.height / 2))
         logger.debug(f"shapes: {self.shapes}")
 
     def on_dismount(self, node: PhysicsEntity2D, point: glm.vec2):
@@ -64,20 +65,24 @@ class KinematicCharacter(KinematicEntity2D):
     def control(self):
         return KinematicCharacterController(self)
 
+    '''
     def create_body(self):
         if self.mounted:
-            offset = glm.vec2(0, -self.height / 2)
-            return self.physics.create_body(self, offset)
+            self.physics.position = glm.vec2(0, -self.height / 2)
+            return self.physics.create_body(self)
         else:
             return self.physics.create_body(self)
+    '''
 
+    '''
     def create_shapes(self):
         if self.mounted:
             transform = pymunk.Transform(ty=self.height / 2)
             return self.geom.create_shapes(self, transform)
         else:
             return self.geom.create_shapes(self)
-
+    '''
+    
     """
     def update(self, delta_time=1 / 60):
         super().update(delta_time)
