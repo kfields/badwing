@@ -3,7 +3,6 @@ from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
-CHARACTER_SCALING = 1
 
 UPDATES_PER_FRAME = 7
 
@@ -36,7 +35,6 @@ class CharacterVu(SpriteVu):
 
         # Used for flipping between image sequences
         self.cur_texture = 0
-        #self.scale = CHARACTER_SCALING
 
         # Track our state
         self.jumping = False

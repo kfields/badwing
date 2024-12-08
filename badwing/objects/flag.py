@@ -9,7 +9,6 @@ from badwing.tile import TileLayer
 
 SPRITE_WIDTH = 64
 SPRITE_HEIGHT = 32
-CHARACTER_SCALING = 1
 
 MOVEMENT_SPEED = 5
 FRAMES = 10

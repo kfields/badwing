@@ -106,7 +106,6 @@ class KinematicCharacterController(CharacterController):
                 logger.debug("Jumping")
                 self.avatar.jumping = True
                 self.jump_needs_reset = True
-                #delta_y = PLAYER_JUMP_SPEED
                 delta.y = PLAYER_JUMP_SPEED
                 #arcade.play_sound(self.jump_sound)
         if self.down_pressed and not self.up_pressed:
@@ -119,10 +118,8 @@ class KinematicCharacterController(CharacterController):
         # Process up/down when on a ladder and no movement
         if self.is_on_ladder():
             if not self.up_pressed and not self.down_pressed:
-                #delta_y = 0
                 delta.y = 0
             elif self.up_pressed and self.down_pressed:
-                #delta_y = 0
                 delta.y = 0
 
         # Process left/right
@@ -132,12 +129,10 @@ class KinematicCharacterController(CharacterController):
         if self.right_pressed and not self.left_pressed:
         #if (self.avatar.grounded or self.avatar.laddered) and self.right_pressed and not self.left_pressed:
             if not self.avatar.jumping or not self.avatar.falling:
-                #delta_x = PLAYER_MOVEMENT_SPEED
                 delta.x += PLAYER_MOVEMENT_SPEED
         if self.left_pressed and not self.right_pressed:
         #elif (self.avatar.grounded or self.avatar.laddered) and self.left_pressed and not self.right_pressed:
             if not self.avatar.jumping or not self.avatar.falling:
-                #delta_x = -PLAYER_MOVEMENT_SPEED
                 delta.x -= PLAYER_MOVEMENT_SPEED
         '''
         else:

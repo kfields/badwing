@@ -27,7 +27,7 @@ ROCK_MASS = 1
 
 class Box(Obstacle):
     def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite, geom=badwing.geom.BoxGeom)
+        super().__init__(position, sprite, geom=badwing.geom.BoxGeom())
         self.mass = BOX_MASS
 
     @classmethod
@@ -36,7 +36,7 @@ class Box(Obstacle):
 
 class Ball(Obstacle):
     def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite, geom=badwing.geom.BallGeom)
+        super().__init__(position, sprite, geom=badwing.geom.BallGeom())
         self.mass = BALL_MASS
 
     @classmethod
@@ -46,7 +46,7 @@ class Ball(Obstacle):
 
 class Rock(Obstacle):
     def __init__(self, position=(0,0), sprite=None):
-        super().__init__(position, sprite, badwing.geom.HullGeom)
+        super().__init__(position, sprite, badwing.geom.HullGeom())
 
     @classmethod
     def produce(self, sprite):

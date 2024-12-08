@@ -9,8 +9,6 @@ from crunge.engine.d2.sprite import SpriteAnimator, SpriteAnimationFrame, Sprite
 
 from badwing.brain import Brain
 
-CHARACTER_SCALING = 1
-
 UPDATES_PER_FRAME = 7
 
 # Constants used to track if the player character is facing left or right

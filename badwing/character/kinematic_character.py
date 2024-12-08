@@ -4,7 +4,7 @@ from loguru import logger
 import glm
 import pymunk
 
-from crunge.engine.d2.entity import KinematicEntity2D
+from crunge.engine.d2.entity import PhysicsEntity2D, KinematicEntity2D
 from crunge.engine.d2.physics import (
     KinematicPhysics,
     DynamicPhysics,
@@ -12,8 +12,8 @@ from crunge.engine.d2.physics import (
     BallGeom,
     HullGeom,
 )
-import crunge.engine.d2.physics.globe as physics_globe
-from crunge.engine.d2.sprite import Sprite, SpriteVu
+
+from crunge.engine.d2.sprite import SpriteVu
 
 from badwing.constants import *
 import badwing.globe
@@ -26,10 +26,10 @@ PLAYER_MASS = 1
 
 class KinematicCharacter(KinematicEntity2D):
     def __init__(self, position=glm.vec2(), vu=SpriteVu(), model=None, brain=None):
-        super().__init__(position, vu=vu, model=model, brain=brain, geom=HullGeom)
+        super().__init__(position, vu=vu, model=model, brain=brain, geom=HullGeom())
         self.mass = PLAYER_MASS
 
-    def on_mount(self, node, point: glm.vec2):
+    def on_mount(self, node: PhysicsEntity2D, point: glm.vec2):
         # super().on_mount(point)
         self.mounted = True
         self.position = node.get_tx_point(
@@ -40,9 +40,8 @@ class KinematicCharacter(KinematicEntity2D):
         # print('on_mount')
         self.physics = DynamicPhysics()
         logger.debug(f"shapes: {self.shapes}")
-        # self.body.position = pymunk.Vec2d(self.position.x, self.position.y)
 
-    def on_dismount(self, node, point: glm.vec2):
+    def on_dismount(self, node: PhysicsEntity2D, point: glm.vec2):
         # super().on_dismount(point)
         self.mounted = False
         self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2))

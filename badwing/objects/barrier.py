@@ -15,12 +15,10 @@ class Barrier(StaticEntity2D):
         width = right - left
         height = top - bottom
         position = glm.vec2(left + width/2, bottom + height/2)
-        super().__init__(position, glm.vec2(width, height), geom=BoxGeom)
+        super().__init__(position, glm.vec2(width, height), geom=BoxGeom())
 
 
 class BarrierLayer(SceneLayer):
-    #def __init__(self, level, name):
-        #super().__init__(level, name)
     def __init__(self, name: str):
         super().__init__(name)
         self.barrier_width = BARRIER_WIDTH
