@@ -1,3 +1,4 @@
+from enum import IntEnum
 import random
 
 from loguru import logger
@@ -15,8 +16,6 @@ from .butterfly_brain import ButterflyBrain
 
 RANGE = 512  # How far they can travel
 HALF_RANGE = RANGE / 2
-
-from enum import IntEnum
 
 
 class ButterflyKind(IntEnum):
@@ -37,12 +36,14 @@ class Butterfly(Entity2D):
         self.border = border
 
     @classmethod
-    def produce(self, kind, position=glm.vec2(), border=Bounds2(0, 0, 640, 480)):
+    def produce(
+        self, kind: ButterflyKind, position=glm.vec2(), border=Bounds2(0, 0, 640, 480)
+    ):
         node = kinds[kind].produce(position, border)
         return node
 
     @classmethod
-    def produce_2(self, kind, position=glm.vec2()):
+    def produce_2(self, kind: ButterflyKind, position=glm.vec2()):
         border = Bounds2(
             position.x - HALF_RANGE,
             position.y - HALF_RANGE,
@@ -51,16 +52,6 @@ class Butterfly(Entity2D):
         )
         node = kinds[kind].produce(position, border)
         return node
-
-    """
-    @classmethod
-    def create_from(self, sprite):
-        kind = sprite.properties['class']
-        pos = sprite.position
-        border = Bounds2(pos[0]-HALF_RANGE, pos[1]-HALF_RANGE, pos[0]+HALF_RANGE, pos[1]+HALF_RANGE)
-        node = kinds[kind].produce(pos, border)
-        return node
-    """
 
 
 class ButterflyAqua(Butterfly):
@@ -152,7 +143,7 @@ class Butterflies(EntityGroup2D):
             center_x = random.randint(0, border.right)
             center_y = random.randint(0, border.top)
             position = glm.vec2(center_x, center_y)
-            #logger.debug(f"position: {position}")
+            # logger.debug(f"position: {position}")
             ndx = random.randint(0, 8)
             kind = kinds_list[ndx]
             butterfly = Butterfly.produce(kind, position, border)

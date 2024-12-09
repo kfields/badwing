@@ -7,6 +7,7 @@ from badwing.character import CharacterController
 if TYPE_CHECKING:
     from .skateboard import Skateboard
 
+
 class SkateboardController(CharacterController):
     def __init__(self, skateboard: "Skateboard"):
         super().__init__(skateboard)

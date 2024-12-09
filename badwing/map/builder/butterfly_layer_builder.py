@@ -16,8 +16,8 @@ class ButterflyLayerBuilder(tiled_builder.TileLayerBuilder):
                 logger.debug(f"kind not found: {kind}")
                 return
             #node = Butterfly.create_from(sprite)
-            node = Butterfly.produce(kind, position)
-            #node = Butterfly.produce_2(kind, position)
+            #node = Butterfly.produce(kind, position)
+            node = Butterfly.produce_2(kind, position)
 
             logger.debug(f"node: {node}")
             return node
