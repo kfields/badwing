@@ -1,9 +1,6 @@
 from loguru import logger
 
-from crunge.engine.math import Rect2i
-#from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
-from crunge.engine.d2.sprite import Sprite, SpriteVu
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 from crunge.engine.d2.sprite import SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
 

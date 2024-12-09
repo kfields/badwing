@@ -2,7 +2,6 @@ from crunge.engine.d2.sprite import Sprite
 
 from badwing.model import KinematicModel
 from badwing.assets import asset
-from badwing.effect import Effect
 
 GROWTH_RATE = 50
 

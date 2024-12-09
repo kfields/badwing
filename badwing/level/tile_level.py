@@ -1,3 +1,6 @@
+from loguru import logger
+import glm
+
 from crunge.engine.d2.physics import PhysicsEngine2D
 
 import badwing.globe
@@ -18,6 +21,7 @@ from badwing.characters.butterfly import ButterflyFactory
 # from badwing.firework import Firework
 from badwing.obstacle import ObstacleFactory
 
+from ..effects.sparks import Sparks
 
 class TileLevel(Level):
     def __init__(self, name: str, physics_engine: PhysicsEngine2D):
@@ -38,24 +42,43 @@ class TileLevel(Level):
         self.scenery_layer = self.add_layer(TileLayer("scenery"))
         # self.ladder_layer = self.add_layer(TileLayer(self, "ladder"))
         self.ladder_layer = self.get_layer("ladder")
+        logger.debug(f"ladder_layer: {self.ladder_layer}")
         self.flag_layer = self.add_layer(TileLayer("flags", FlagFactory))
         #self.ground_layer = self.add_layer(TileLayer("ground", TileFactory))
         self.ground_layer = self.get_layer("ground")
+        logger.debug(f"ground_layer: {self.ground_layer}")
         self.spark_layer = self.add_layer(SceneLayer("spark"))
         # self.character_layer = self.add_layer(TileLayer(self, "pc", CharacterFactory))
         self.character_layer = self.get_layer("pc")
+        logger.debug(f"character_layer: {self.character_layer}")
         """
         self.butterfly_layer = self.add_layer(
             TileLayer(self, "butterfly", ButterflyFactory)
         )
         """
         self.butterfly_layer = self.get_layer("butterfly")
+        logger.debug(f"butterfly_layer: {self.butterfly_layer}")
         # self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
         self.object_layer = self.add_layer(TileLayer("object", ObstacleFactory))
         self.static_layer = self.add_layer(TileLayer("static", TileFactory))
 
+    '''
     def check_butterflies(self):
-        return
+        pass
+    '''
+
+    def check_butterflies(self):
+        hit_list = self.butterfly_layer.query_intersection(badwing.globe.avatar.bounds)
+        for node in hit_list:
+            if badwing.globe.player.collect(node):
+                # Remove the butterfly
+                node.destroy()
+                self.spark_layer.attach(Sparks(node.position, glm.vec2(32, 32)))
+                #self.spark_layer.add_effect(Firework(sprite.position))
+                #arcade.play_sound(self.collect_butterfly_sound)
+
+    '''
+    def check_butterflies(self):
         hit_list = arcade.check_for_collision_with_list(
             self.pc_sprite, self.butterfly_layer.sprites
         )
@@ -66,6 +89,7 @@ class TileLevel(Level):
                 sprite.remove_from_sprite_lists()
                 self.spark_layer.add_effect(Firework(sprite.position))
                 arcade.play_sound(self.collect_butterfly_sound)
+    '''
 
     def check_flags(self):
         return

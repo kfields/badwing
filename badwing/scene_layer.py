@@ -7,7 +7,6 @@ from crunge.engine.d2.sprite import SpriteVuGroup
 from crunge.engine.d2.scene_layer_2d import SceneLayer2D
 
 from badwing.constants import *
-from badwing.effect import EffectList
 
 if TYPE_CHECKING:
     from .level import Level
@@ -17,7 +16,6 @@ class SceneLayer(SceneLayer2D):
     def __init__(self, name: str, factory=None):
         super().__init__(name)
         self.sprites = SpriteVuGroup()
-        self.effects = EffectList()
         self.factory = None
         if factory:
             self.factory = factory(self)
@@ -36,10 +34,6 @@ class SceneLayer(SceneLayer2D):
         exit()
         self.sprites.append(sprite)
         return sprite
-
-    def add_effect(self, effect):
-        self.effects.append(effect)
-        return effect
 
     '''
     def update(self, delta_time):
