@@ -2,8 +2,6 @@ from crunge.engine.d2.entity import DynamicEntity2D
 
 import badwing.globe
 from badwing.constants import *
-#import badwing.geom
-#from badwing.model import DynamicModel
 from badwing.model_factory import ModelFactory
 
 class Obstacle(DynamicEntity2D):

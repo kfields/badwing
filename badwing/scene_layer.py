@@ -31,7 +31,6 @@ class SceneLayer(SceneLayer2D):
             self.factory.produce()
 
     def add_sprite(self, sprite):
-        exit()
         self.sprites.append(sprite)
         return sprite
 

@@ -55,7 +55,6 @@ class KinematicCharacter(KinematicEntity2D):
     """
     @classmethod
     def produce(self, position=glm.vec2()):
-        exit()
         #vu = CharacterVu().create()
         vu = SpriteVu()
         brain = CharacterBrain()

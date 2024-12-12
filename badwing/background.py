@@ -1,4 +1,11 @@
+from crunge.engine.d2.background import BackgroundVu
+from crunge.engine.d2.node_2d import Node2D
+from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
+from crunge.engine.builder.sprite.background_sprite_builder import BackgroundSpriteBuilder
+from crunge.engine.color import Color
+from crunge.engine.math import Rect2i
 from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
+
 from badwing.constants import *
 from badwing.tile import TileLayer
 
@@ -10,18 +17,10 @@ class BackgroundLayer(TileLayer):
         
     def _create(self):
         super()._create()
-        #self.background = arcade.load_texture(self.filename)
-        self.background = ImageTextureLoader().load(self.filename)
+        #self.background = ImageTextureLoader().load(self.filename)
+        sprite = self.sprite = SpriteLoader(sprite_builder=BackgroundSpriteBuilder()).load(":resources:/backgrounds/backgroundColorGrass.png")
+        sprite.rect = Rect2i(0, 0, 1920, 1080)
+        vu = BackgroundVu()
+        node = self.node = Node2D(vu=vu, model=sprite)
+        self.attach(node)
 
-    '''
-    def draw(self, renderer: Renderer):
-        # Draw the background texture
-        #(left, right, bottom, top) = viewport = self.level.window.get_viewport()
-        (left, right, bottom, top) = viewport = self.level.window.viewport
-
-        arcade.draw_lbwh_rectangle_textured(left, bottom,
-                                            SCREEN_WIDTH, SCREEN_HEIGHT,
-                                            self.background)
-        # Draw the tiles
-        super().draw()
-    '''

@@ -23,6 +23,7 @@ from badwing.obstacle import ObstacleFactory
 
 from ..effects.sparks import Sparks
 
+
 class TileLevel(Level):
     def __init__(self, name: str, physics_engine: PhysicsEngine2D):
         super().__init__(name, physics_engine)
@@ -33,18 +34,20 @@ class TileLevel(Level):
 
         # --- Load in a map from the tiled editor ---
 
-        self.add_layer(BarrierLayer("barrier"))
-        self.add_layer(
+        self.barrier_layer = self.add_layer(BarrierLayer("barrier"))
+        '''
+        self.background_layer = self.add_layer(
             BackgroundLayer(
                 "background", ":resources:/backgrounds/backgroundColorGrass.png"
             )
         )
+        '''
         self.scenery_layer = self.add_layer(TileLayer("scenery"))
         # self.ladder_layer = self.add_layer(TileLayer(self, "ladder"))
         self.ladder_layer = self.get_layer("ladder")
         logger.debug(f"ladder_layer: {self.ladder_layer}")
         self.flag_layer = self.add_layer(TileLayer("flags", FlagFactory))
-        #self.ground_layer = self.add_layer(TileLayer("ground", TileFactory))
+        # self.ground_layer = self.add_layer(TileLayer("ground", TileFactory))
         self.ground_layer = self.get_layer("ground")
         logger.debug(f"ground_layer: {self.ground_layer}")
         self.spark_layer = self.add_layer(SceneLayer("spark"))
@@ -62,10 +65,10 @@ class TileLevel(Level):
         self.object_layer = self.add_layer(TileLayer("object", ObstacleFactory))
         self.static_layer = self.add_layer(TileLayer("static", TileFactory))
 
-    '''
+    """
     def check_butterflies(self):
         pass
-    '''
+    """
 
     def check_butterflies(self):
         hit_list = self.butterfly_layer.query_intersection(badwing.globe.avatar.bounds)
@@ -74,10 +77,10 @@ class TileLevel(Level):
                 # Remove the butterfly
                 node.destroy()
                 self.spark_layer.attach(Sparks(node.position, glm.vec2(32, 32)))
-                #self.spark_layer.add_effect(Firework(sprite.position))
-                #arcade.play_sound(self.collect_butterfly_sound)
+                # self.spark_layer.add_effect(Firework(sprite.position))
+                # arcade.play_sound(self.collect_butterfly_sound)
 
-    '''
+    """
     def check_butterflies(self):
         hit_list = arcade.check_for_collision_with_list(
             self.pc_sprite, self.butterfly_layer.sprites
@@ -89,7 +92,7 @@ class TileLevel(Level):
                 sprite.remove_from_sprite_lists()
                 self.spark_layer.add_effect(Firework(sprite.position))
                 arcade.play_sound(self.collect_butterfly_sound)
-    '''
+    """
 
     def check_flags(self):
         return
