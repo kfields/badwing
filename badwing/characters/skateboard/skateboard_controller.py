@@ -14,11 +14,13 @@ class SkateboardController(CharacterController):
         self.skateboard = skateboard
 
     def update(self, delta_time: float):
+        '''
         if self.up_pressed:
             self.skateboard.ollie()
         elif self.down_pressed:
             self.skateboard.dismount()
-        elif self.left_pressed:
+        '''
+        if self.left_pressed:
             self.skateboard.decelerate()
         elif self.right_pressed:
             self.skateboard.accelerate()
@@ -34,9 +36,12 @@ class SkateboardController(CharacterController):
 
         match key:
             case sdl.SDLK_w:
-                self.up_pressed = down
+                #self.up_pressed = down
+                if down and not repeat:
+                    self.skateboard.ollie()
             case sdl.SDLK_s:
-                self.down_pressed = down
+                #self.down_pressed = down
+                self.skateboard.dismount()
             case sdl.SDLK_a:
                 self.left_pressed = down
             case sdl.SDLK_d:

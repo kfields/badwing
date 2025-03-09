@@ -232,7 +232,8 @@ class Skateboard(PhysicsGroup2D):
         self.speed = 0
 
     @debounce(1)
-    def ollie(self, impulse=(0, 2000), point=(0, 0)):
+    def ollie(self, impulse=(0, 4000), point=(0, 0)):
+        logger.debug("ollie")
         self.chassis.body.apply_impulse_at_local_point(impulse, point)
 
     def update(self, delta_time=1 / 60):

@@ -42,7 +42,8 @@ class TileLevel(Level):
             )
         )
         '''
-        self.scenery_layer = self.add_layer(TileLayer("scenery"))
+        #self.scenery_layer = self.add_layer(TileLayer("scenery"))
+        self.scenery_layer = self.get_layer("scenery")
         # self.ladder_layer = self.add_layer(TileLayer(self, "ladder"))
         self.ladder_layer = self.get_layer("ladder")
         logger.debug(f"ladder_layer: {self.ladder_layer}")
@@ -62,8 +63,10 @@ class TileLevel(Level):
         self.butterfly_layer = self.get_layer("butterfly")
         logger.debug(f"butterfly_layer: {self.butterfly_layer}")
         # self.obstacle_layer = self.add_layer(TileLayer(self, 'obstacle', ObstacleFactory))
-        self.object_layer = self.add_layer(TileLayer("object", ObstacleFactory))
-        self.static_layer = self.add_layer(TileLayer("static", TileFactory))
+        #self.object_layer = self.add_layer(TileLayer("object", ObstacleFactory))
+        self.object_layer = self.get_layer("object")
+        #self.static_layer = self.add_layer(TileLayer("static", TileFactory))
+        self.static_layer = self.get_layer("static")
 
     """
     def check_butterflies(self):
