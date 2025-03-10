@@ -1,15 +1,10 @@
-import math
-
 from loguru import logger
 import glm
-import pymunk
 
 from crunge.engine.d2.entity import PhysicsEntity2D, KinematicEntity2D
 from crunge.engine.d2.physics import (
     KinematicPhysics,
     DynamicPhysics,
-    BoxGeom,
-    BallGeom,
     HullGeom,
 )
 
@@ -17,7 +12,6 @@ from crunge.engine.d2.sprite import SpriteVu
 
 from badwing.constants import *
 import badwing.globe
-from badwing.util import debounce
 
 from badwing.character.controller import KinematicCharacterController
 

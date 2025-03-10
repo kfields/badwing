@@ -1,3 +1,5 @@
+from loguru import logger
+
 from crunge import imgui
 
 from crunge.engine import Renderer
@@ -29,7 +31,8 @@ class LevelScreen(SceneScreen):
             self.push_controller(avatar.control())
 
     def pop_avatar(self):
-        avatar = self.avatar_stack.pop()
+        self.avatar_stack.pop()
+        avatar = self.avatar
         badwing.globe.avatar = avatar
         self.pop_controller()
         return avatar

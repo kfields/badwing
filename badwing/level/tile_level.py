@@ -70,18 +70,13 @@ class TileLevel(Level):
         #self.static_layer = self.add_layer(TileLayer("static", TileFactory))
         self.static_layer = self.get_layer("static")
 
-    """
-    def check_butterflies(self):
-        pass
-    """
-
     def check_butterflies(self):
         hit_list = self.butterfly_layer.query_intersection(badwing.globe.avatar.bounds)
         for node in hit_list:
             if badwing.globe.player.collect(node):
                 # Remove the butterfly
                 node.destroy()
-                self.spark_layer.attach(Sparks(node.position, glm.vec2(32, 32)))
+                self.spark_layer.attach(Sparks(node.position))
                 # self.spark_layer.add_effect(Firework(sprite.position))
                 # arcade.play_sound(self.collect_butterfly_sound)
 

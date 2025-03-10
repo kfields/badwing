@@ -10,11 +10,10 @@ from badwing.characters import Skateboard
 # from badwing.characters import Skeleton
 from badwing.characters import Robot
 
-from ...tile import Tile
 
 class CharacterLayerBuilder(tiled_builder.DefaultObjectGroupBuilder):
     def __init__(self, context: tiled_builder.SceneBuilderContext):
-        def create_node_cb(position, rotation, sprite, properties: dict):
+        def create_node_cb(position, rotation, scale, sprite, properties: dict):
             logger.debug(f"process_object: {position}, {sprite}, {properties}")
             kind = properties.get("type")
             if not kind:

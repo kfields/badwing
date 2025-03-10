@@ -27,10 +27,16 @@ class KinematicCharacterController(CharacterController):
         self.jump_needs_reset = False
         
     def mount(self):
+        logger.debug("Mounting")
+        logger.debug(f"avatar bounds: {self.avatar.bounds}")
         hit_list = self.character_layer.query_intersection(self.avatar.bounds)
         for node in hit_list:
-            if isinstance(node, badwing.characters.Chassis):
-                mount = node.group
+            logger.debug(f"Checking {node}")
+            #if isinstance(node, badwing.characters.Chassis):
+            if isinstance(node, badwing.characters.Skateboard):
+                logger.debug(f"Mounting {node}")
+                #mount = node.group
+                mount = node
                 mount.mount(self.avatar)
                 badwing.globe.screen.push_avatar(mount)
 

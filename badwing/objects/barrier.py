@@ -15,7 +15,7 @@ class Barrier(StaticEntity2D):
         width = right - left
         height = top - bottom
         position = glm.vec2(left + width/2, bottom + height/2)
-        super().__init__(position, glm.vec2(width, height), geom=BoxGeom())
+        super().__init__(position, scale=glm.vec2(width, height), geom=BoxGeom())
 
 
 class BarrierLayer(SceneLayer):
