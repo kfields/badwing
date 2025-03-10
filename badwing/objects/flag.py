@@ -4,7 +4,7 @@ from badwing.assets import asset
 from badwing.constants import *
 from badwing.util import debounce
 #from badwing.model import Model, Group
-from badwing.model_factory import ModelFactory
+#from badwing.model_factory import ModelFactory
 from badwing.tile import TileLayer
 
 SPRITE_WIDTH = 64
@@ -72,6 +72,7 @@ kinds = {
     'FlagRed': FlagRed,
 }
 
+'''
 class FlagFactory(ModelFactory):
     def __init__(self, layer):
         super().__init__(layer)
@@ -85,3 +86,4 @@ class FlagFactory(ModelFactory):
             else:
                 node = Flag.produce(sprite.position, sprite)
             self.layer.add_node(node)
+'''

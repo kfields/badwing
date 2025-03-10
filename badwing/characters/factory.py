@@ -8,7 +8,7 @@ from badwing.characters import Skateboard
 # from badwing.characters import Skeleton
 from badwing.characters import Robot
 
-from badwing.model_factory import ModelFactory
+#from badwing.model_factory import ModelFactory
 
 
 class CharacterFactory(ModelFactory):

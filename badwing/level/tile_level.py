@@ -11,15 +11,16 @@ from badwing.level import Level
 from badwing.scene_layer import SceneLayer
 from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
-from badwing.tile import TileLayer, TileFactory
+#from badwing.tile import TileLayer, TileFactory
+from badwing.tile import TileLayer
 
-from badwing.characters.factory import CharacterFactory
+#from badwing.characters.factory import CharacterFactory
 
-from badwing.objects.flag import FlagFactory
-from badwing.characters.butterfly import ButterflyFactory
+#from badwing.objects.flag import FlagFactory
+#from badwing.characters.butterfly import ButterflyFactory
 
 # from badwing.firework import Firework
-from badwing.obstacle import ObstacleFactory
+#from badwing.obstacle import ObstacleFactory
 
 from ..effects.sparks import Sparks
 
@@ -47,7 +48,8 @@ class TileLevel(Level):
         # self.ladder_layer = self.add_layer(TileLayer(self, "ladder"))
         self.ladder_layer = self.get_layer("ladder")
         logger.debug(f"ladder_layer: {self.ladder_layer}")
-        self.flag_layer = self.add_layer(TileLayer("flags", FlagFactory))
+        #self.flag_layer = self.add_layer(TileLayer("flags", FlagFactory))
+        self.flag_layer = self.get_layer("flags")
         # self.ground_layer = self.add_layer(TileLayer("ground", TileFactory))
         self.ground_layer = self.get_layer("ground")
         logger.debug(f"ground_layer: {self.ground_layer}")

@@ -2,7 +2,6 @@ from loguru import logger
 
 import crunge.engine.loader.tiled.builder as tiled_builder
 from crunge.engine.loader.tiled.builder import DefaultObjectBuilder
-from crunge.engine.d2.sprite import SpriteVu
 
 from badwing.characters import Avatar
 from badwing.characters import Skateboard
@@ -17,7 +16,6 @@ class CharacterLayerBuilder(tiled_builder.DefaultObjectGroupBuilder):
     def __init__(self, context: tiled_builder.SceneBuilderContext):
         def create_node_cb(position, rotation, sprite, properties: dict):
             logger.debug(f"process_object: {position}, {sprite}, {properties}")
-            # kind = properties.get('class')
             kind = properties.get("type")
             if not kind:
                 logger.debug(f"kind not found: {kind}")

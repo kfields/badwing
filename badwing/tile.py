@@ -9,7 +9,7 @@ from crunge.engine.d2.entity import StaticEntity2D
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
 from badwing.constants import *
-from badwing.model_factory import ModelFactory
+#from badwing.model_factory import ModelFactory
 from badwing.scene_layer import SceneLayer
 
 
@@ -22,7 +22,7 @@ class TileLayer(SceneLayer):
     def __init__(self, name, factory=None):
         super().__init__(name, factory)
 
-
+'''
 class TileFactory(ModelFactory):
     def __init__(self, layer: SceneLayer):
         super().__init__(layer)
@@ -46,3 +46,4 @@ class TileFactory(ModelFactory):
 
         vu = SpriteVu(sprite).create()
         self.layer.attach(Tile(position, vu, sprite))
+'''
