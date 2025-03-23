@@ -1,3 +1,4 @@
+from loguru import logger
 import glm
 
 from badwing.constants import *
@@ -56,6 +57,39 @@ class TileLevelScreen(LevelScreen):
             changed = True
 
         if changed:
-            self.camera.position = glm.lerp(self.camera.position, self.avatar.position, delta_time)
+            velocity = self.avatar.velocity
+            speed = glm.length(velocity) / 256
+            #speed = glm.length(velocity) / 128
+
+            #logger.debug(f"delta_time: {delta_time}")
+            #logger.debug(f"velocity: {velocity}")
+            #logger.debug(f"speed: {speed}")
+
+            frustrum = self.camera.frustrum
+
+            # Compute clamping limits to keep the frustum inside level bounds
+            min_x = self.scene.bounds.min.x + (frustrum.max.x - frustrum.min.x) / 2
+            max_x = self.scene.bounds.max.x - (frustrum.max.x - frustrum.min.x) / 2
+            min_y = self.scene.bounds.min.y + (frustrum.min.y - frustrum.max.y) / 2
+            max_y = self.scene.bounds.max.y - (frustrum.min.y - frustrum.max.y) / 2
+
+            #min_y = max(self.scene.bounds.min.y, min_y)
+            # TODO: Hack.
+            #min_y = min_y + frustrum.height - 128
+            min_y = min_y + frustrum.height
+            #max_y = min(self.scene.bounds.max.y, max_y)
+            #max_y = max_y + frustrum.height
+
+            #logger.debug(f"scene bounds: {self.scene.bounds}")
+            #logger.debug(f"frustrum: {frustrum}")
+            #logger.debug(f"min_x: {min_x}")
+            #logger.debug(f"max_x: {max_x}")
+            #logger.debug(f"min_y: {min_y}")
+            #logger.debug(f"max_y: {max_y}")
+
+            camera_position = glm.mix(self.camera.position, self.avatar.position, speed * delta_time)
+            camera_x = glm.clamp(camera_position.x, min_x, max_x)
+            camera_y = glm.clamp(camera_position.y, min_y, max_y)
+            self.camera.position = glm.vec2(camera_x, camera_y)
 
         super().update(delta_time)

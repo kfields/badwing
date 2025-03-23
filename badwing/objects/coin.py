@@ -11,7 +11,6 @@ from crunge.engine.d2.node_2d import Node2D
 
 import badwing.globe
 from badwing.constants import *
-#from badwing.model_factory import ModelFactory
 
 class Coin(Node2D):
     def __init__(self, position, sprite):
@@ -37,17 +36,6 @@ class Gem(Coin):
         return Gem(position, sprite)
 
 
-'''
-class CoinFactory(ModelFactory):
-    def __init__(self, layer):
-        super().__init__(layer)
-
-    def _create(self):
-        for sprite in self.layer.sprites:
-            node = Coin.produce(sprite.position, sprite)
-            self.layer.add_node(node)
-
 kinds = {
     'coin': Gem
 }
-'''

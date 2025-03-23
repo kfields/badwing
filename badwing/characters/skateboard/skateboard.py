@@ -17,17 +17,19 @@ from .skateboard_controller import SkateboardController
 
 
 WHEEL_RADIUS = 32
-# WHEEL_MASS = .5
+#WHEEL_MASS = .5
 WHEEL_MASS = 5
 
 # CHASSIS_WIDTH = 128
 CHASSIS_WIDTH = 64
 CHASSIS_HEIGHT = 16
-# CHASSIS_MASS = 1
-CHASSIS_MASS = 2
+CHASSIS_MASS = 1
+#CHASSIS_MASS = 2
 
-X_PAD = 32
-Y_PAD = 32
+#X_PAD = 32
+X_PAD = 48
+#Y_PAD = 32
+Y_PAD = 28
 
 SPEED_DELTA = 1
 MAX_SPEED = 100
@@ -131,6 +133,10 @@ class Skateboard(PhysicsGroup2D):
         self.front_wheel = self.add_node(Wheel.produce(front_wheel_pos))
         self.back_wheel = self.add_node(Wheel.produce(back_wheel_pos))
 
+    @property
+    def velocity(self):
+        return self.chassis.velocity
+
     @classmethod
     def produce(self, position=(0, 0)):
         return Skateboard(position)
@@ -143,15 +149,18 @@ class Skateboard(PhysicsGroup2D):
         mount_width = self.chassis.width
         mount_height = self.chassis.height
 
-        point = glm.vec2(0, CHASSIS_HEIGHT / 2)
+        #point = glm.vec2(0, CHASSIS_HEIGHT / 2)
+        point = glm.vec2(0, 16)
         mountee.on_mount(self.chassis, point)
         logger.debug(f"mountee body: {mountee.body}")
 
         p5 = pymunk.PinJoint(
-            mountee.body, self.chassis.body, (0, 0), (0, CHASSIS_HEIGHT / 2)
+            #mountee.body, self.chassis.body, (0, 0), (0, CHASSIS_HEIGHT / 2)
+            mountee.body, self.chassis.body, (-16, 0), tuple(point)
         )
         p6 = pymunk.PinJoint(
-            mountee.body, self.chassis.body, (0, 0), (0, CHASSIS_HEIGHT / 2)
+            #mountee.body, self.chassis.body, (0, 0), (0, CHASSIS_HEIGHT / 2)
+            mountee.body, self.chassis.body, (16, 0), tuple(point)
         )
         """
         p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (0,0))
@@ -234,7 +243,8 @@ class Skateboard(PhysicsGroup2D):
     @debounce(1)
     def ollie(self, impulse=(0, 4000), point=(0, 0)):
         logger.debug("ollie")
-        self.chassis.body.apply_impulse_at_local_point(impulse, point)
+        #self.chassis.body.apply_impulse_at_local_point(impulse, point)
+        self.mountee.body.apply_impulse_at_local_point(impulse, point)
 
     def update(self, delta_time=1 / 60):
         super().update(delta_time)

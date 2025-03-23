@@ -1,5 +1,4 @@
 import glm
-#from pytmx import TiledMap
 
 from crunge.engine.d2.physics import PhysicsEngine2D
 
@@ -29,25 +28,6 @@ class Level(Scene):
         tmx_path = asset(f"{self.name}.tmx")
         map_loader = MapLoader(self)
         map_loader.load(tmx_path)
-
-        '''
-        tmx_path = asset(f"{self.name}.tmx")
-        self.map = map = self.map = TiledMap(tmx_path)
-        self.size = glm.ivec2(map.width * map.tilewidth, map.height * map.tileheight)
-        self.tilewidth = map.tilewidth
-        self.tileheight = map.tileheight
-        '''
-        #super()._create()
-
-    '''
-    def _create(self):
-        super()._create()
-        tmx_path = asset(f"{self.name}.tmx")
-        self.map = map = self.map = TiledMap(tmx_path)
-
-        self.tilewidth = map.tilewidth
-        self.tileheight = map.tileheight
-    '''
 
     def update(self, delta_time):
 
