@@ -130,23 +130,19 @@ class SparksProgram(Program):
         logger.debug("create_render_bind_group_layouts")
         camera_bgl_entries = [
             wgpu.BindGroupLayoutEntry(
-                label="Camera Buffer",
                 binding=0,
                 visibility=wgpu.ShaderStage.VERTEX,
                 buffer=wgpu.BufferBindingLayout(type=wgpu.BufferBindingType.UNIFORM),
             ),
         ]
 
-        camera_bgl_desc = wgpu.BindGroupLayoutDescriptor(
-            entry_count=len(camera_bgl_entries), entries=camera_bgl_entries
-        )
+        camera_bgl_desc = wgpu.BindGroupLayoutDescriptor(entries=camera_bgl_entries)
         camera_bgl = self.device.create_bind_group_layout(camera_bgl_desc)
         logger.debug(f"camera_bgl: {camera_bgl}")
 
         # Render Bind Group Layout Entries
         render_bgl_entries = [
             wgpu.BindGroupLayoutEntry(
-                label="Model Buffer",
                 binding=0,
                 visibility=wgpu.ShaderStage.VERTEX,
                 buffer=wgpu.BufferBindingLayout(
@@ -155,7 +151,6 @@ class SparksProgram(Program):
                 ),
             ),
             wgpu.BindGroupLayoutEntry(
-                label="Particle Buffer",
                 binding=1,
                 visibility=wgpu.ShaderStage.COMPUTE | wgpu.ShaderStage.VERTEX,
                 buffer=wgpu.BufferBindingLayout(
@@ -168,7 +163,6 @@ class SparksProgram(Program):
         # Render Bind Group Layout
         render_bgl_desc = wgpu.BindGroupLayoutDescriptor(
             label="Render Bind Group Layout",
-            entry_count=len(render_bgl_entries),
             entries=render_bgl_entries,
         )
         render_bgl = self.device.create_bind_group_layout(render_bgl_desc)
@@ -200,7 +194,6 @@ class SparksProgram(Program):
         fragmentState = wgpu.FragmentState(
             module=self.fs_module,
             entry_point="fs_main",
-            target_count=1,
             targets=color_targets,
         )
 
@@ -213,12 +206,12 @@ class SparksProgram(Program):
 
         depth_stencil_state = wgpu.DepthStencilState(
             format=wgpu.TextureFormat.DEPTH24_PLUS,
+            depth_write_enabled=False,
         )
 
         # Render Pipeline Layout
         render_pll_desc = wgpu.PipelineLayoutDescriptor(
-            bind_group_layout_count=len(self.render_bind_group_layouts),
-            bind_group_layouts=self.render_bind_group_layouts,
+            bind_group_layouts=self.render_bind_group_layouts
         )
 
         render_pl_desc = wgpu.RenderPipelineDescriptor(
@@ -238,7 +231,6 @@ class SparksProgram(Program):
         # Compute Bind Group Layout Entries
         compute_bgl_entries = [
             wgpu.BindGroupLayoutEntry(
-                label="Particle Buffer",
                 binding=0,
                 visibility=wgpu.ShaderStage.COMPUTE,
                 buffer=wgpu.BufferBindingLayout(
@@ -249,9 +241,7 @@ class SparksProgram(Program):
         ]
 
         # Compute Bind Group Layout
-        compute_bgl_desc = wgpu.BindGroupLayoutDescriptor(
-            entry_count=len(compute_bgl_entries), entries=compute_bgl_entries
-        )
+        compute_bgl_desc = wgpu.BindGroupLayoutDescriptor(entries=compute_bgl_entries)
         compute_bgl = self.device.create_bind_group_layout(compute_bgl_desc)
 
         self.compute_bind_group_layouts = [compute_bgl]
@@ -260,14 +250,14 @@ class SparksProgram(Program):
 
         # Compute Pipeline Layout
         compute_pll_desc = wgpu.PipelineLayoutDescriptor(
-            bind_group_layout_count=len(self.compute_bind_group_layouts),
-            bind_group_layouts=self.compute_bind_group_layouts,
+            bind_group_layouts=self.compute_bind_group_layouts
         )
 
         compute_pl_desc = wgpu.ComputePipelineDescriptor(
             label="Main Compute Pipeline",
             layout=self.device.create_pipeline_layout(compute_pll_desc),
-            compute=wgpu.ProgrammableStageDescriptor(
+            # compute=wgpu.ProgrammableStageDescriptor(
+            compute=wgpu.ComputeState(
                 module=self.cs_module,
                 entry_point="cs_main",
             ),
@@ -294,7 +284,7 @@ class SparksVu(Vu2D):
 
     @property
     def size(self):
-        #return glm.vec2(10, 10)
+        # return glm.vec2(10, 10)
         return PARTICLE_SIZE
 
     def create_particles(self):
@@ -303,7 +293,8 @@ class SparksVu(Vu2D):
         for i in range(0, self.num_particles):
             self.particles[i].position = Vec2(0.0, 0.0)
             self.particles[i].velocity = Vec2(
-                random.uniform(-PARTICLE_VELOCITY, PARTICLE_VELOCITY), random.uniform(-PARTICLE_VELOCITY, PARTICLE_VELOCITY)
+                random.uniform(-PARTICLE_VELOCITY, PARTICLE_VELOCITY),
+                random.uniform(-PARTICLE_VELOCITY, PARTICLE_VELOCITY),
             )
             self.particles[i].color = cast_vec4(self.color)
             self.particles[i].age = 0.0
@@ -330,7 +321,6 @@ class SparksVu(Vu2D):
         compute_bind_group_desc = wgpu.BindGroupDescriptor(
             label="Compute bind group",
             layout=self.program.compute_pipeline.get_bind_group_layout(0),
-            entry_count=len(compute_bindgroup_entries),
             entries=compute_bindgroup_entries,
         )
 
@@ -349,7 +339,6 @@ class SparksVu(Vu2D):
         render_bind_group_desc = wgpu.BindGroupDescriptor(
             label="Render bind group",
             layout=self.program.render_pipeline.get_bind_group_layout(1),
-            entry_count=len(render_bindgroup_entries),
             entries=render_bindgroup_entries,
         )
 
@@ -360,12 +349,17 @@ class SparksVu(Vu2D):
 
         model_uniform = ModelUniform()
         model_uniform.transform.data = cast_matrix4(self.transform)
+
+        renderer.device.queue.write_buffer(self.model_uniform_buffer, 0, model_uniform)
+
+        """
         renderer.device.queue.write_buffer(
             self.model_uniform_buffer,
             0,
             as_capsule(model_uniform),
             self.model_uniform_buffer_size,
         )
+        """
 
         pass_enc = renderer.pass_enc
         pass_enc.set_pipeline(self.program.render_pipeline)
@@ -385,5 +379,6 @@ class SparksVu(Vu2D):
         compute_pass.set_bind_group(0, self.compute_bind_group)
         compute_pass.dispatch_workgroups(1)
         compute_pass.end()
-        commands = encoder.finish()
-        self.queue.submit(1, commands)
+        command_buffer = encoder.finish()
+
+        self.queue.submit([command_buffer])

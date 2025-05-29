@@ -90,13 +90,10 @@ def main(debug=False, levelname="start"):
     ResourceManager().add_path_variable("resources", badwing.assets.assets_dir)
 
     game = BadWing(debug=debug)
-    #game.use_channel('start')
     game.install('badwing.channels.start')
     game.install('badwing.channels.level1')
-    #game.use_channel('level1')
-    # game.show_scene(game.get_scene(levelname))
     game.show_channel(levelname)
-    game.create().run()
+    game.run()
 
 
 if __name__ == "__main__":
