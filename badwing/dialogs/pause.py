@@ -46,10 +46,10 @@ class PauseDialog(badwing.dialog.Dialog):
             )
         )
 
-    def _create(self):
-        super()._create()
-
+    def create(self):
+        super().create()
         self.add_buttons()
+        return self
 
     def draw(self):
         super().draw()

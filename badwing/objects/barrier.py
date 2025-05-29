@@ -26,8 +26,8 @@ class BarrierLayer(SceneLayer):
         self.left_barrier = None
         self.right_barrier = None
         
-    def _create(self):
-        super()._create()
+    def create(self):
+        super().create()
         bounds = self.bounds
         logger.debug(f'BarrierLayer bounds: {bounds}')
         left, bottom, right, top = bounds.left, bounds.bottom, bounds.right, bounds.top
@@ -38,3 +38,5 @@ class BarrierLayer(SceneLayer):
         self.attach(top_barrier)
         self.attach(left_barrier)
         self.attach(right_barrier)
+
+        return self

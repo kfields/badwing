@@ -12,8 +12,9 @@ class StartScreen(SceneScreen):
     def __init__(self, scene: Level):
         super().__init__(scene)
 
-    def _create(self):
-        super()._create()
+    def create(self):
+        super().create()
+        return self
 
     def draw(self, renderer: Renderer):
         imgui.begin("Main")

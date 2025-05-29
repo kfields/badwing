@@ -24,11 +24,12 @@ class SceneLayer(SceneLayer2D):
     def level(self) -> "Level":
         return self.scene
 
-    def _create(self):
-        super()._create()
+    def create(self):
+        super().create()
         self.bounds = self.level.bounds
         if self.factory:
             self.factory.produce()
+        return self
 
     def add_sprite(self, sprite):
         self.sprites.append(sprite)

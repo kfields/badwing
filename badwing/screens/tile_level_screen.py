@@ -15,14 +15,15 @@ class TileLevelScreen(LevelScreen):
         super().__init__(scene)
         self.debug_draw_enabled = False
 
-    def _post_create(self):
-        super()._post_create()
+    def create(self):
+        super().create()
         avatar = None
         for node in self.scene.character_layer.root.children:
             if isinstance(node, Avatar):
                 avatar = node
                 break
         self.push_avatar(avatar)
+        return self
 
     def update(self, delta_time: float):
         if self.avatar is None:

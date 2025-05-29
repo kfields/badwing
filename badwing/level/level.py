@@ -23,11 +23,12 @@ class Level(Scene):
         next_level = self.get_next_level()
         self.open_dialog(BeatLevelDialog(next_level))
 
-    def _create(self):
-        super()._create()
+    def create(self):
+        super().create()
         tmx_path = asset(f"{self.name}.tmx")
         map_loader = MapLoader(self)
         map_loader.load(tmx_path)
+        return self
 
     def update(self, delta_time):
 

@@ -26,8 +26,8 @@ class CharacterBrain(Brain):
 
         self.animator: SpriteAnimator = None
 
-    def _create(self):
-        super()._create()
+    def create(self):
+        super().create()
         self.animator = SpriteAnimator(self.node)
         atlas = XmlSpriteAtlasLoader(sprite_builder=CollidableSpriteBuilder()).load(
             ":resources:/characters/male_adventurer/sheet.xml"
@@ -36,6 +36,7 @@ class CharacterBrain(Brain):
         self.create_jump_animations(atlas, self.animator)
         self.create_fall_animations(atlas, self.animator)
         self.create_walk_animations(atlas, self.animator)
+        return self
 
     def create_idle_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
         idle = SpriteAnimation("idle")

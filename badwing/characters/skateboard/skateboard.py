@@ -180,8 +180,8 @@ class Skateboard(PhysicsGroup2D):
         self.mountee.on_dismount(self.chassis, point)
         self.mountee = None
 
-    def _create(self):
-        super()._create()
+    def create(self):
+        super().create()
 
         p1 = pymunk.PinJoint(
             self.back_wheel.body, self.chassis.body, (0, 0), (-CHASSIS_WIDTH / 2, 0)
@@ -206,6 +206,8 @@ class Skateboard(PhysicsGroup2D):
         m2.max_force = 200000
 
         physics_globe.physics_engine.space.add(p1, p2, p3, p4, m1, m2)
+
+        return self
 
     def attach_motors(self):
         if self.motors_attached:

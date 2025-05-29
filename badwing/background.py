@@ -15,9 +15,10 @@ class BackgroundLayer(TileLayer):
         self.filename = filename
         self.background = None
         
-    def _create(self):
-        super()._create()
+    def create(self):
+        super().create()
         sprite = self.sprite = SpriteLoader(sprite_builder=BackgroundSpriteBuilder()).load(":resources:/backgrounds/backgroundColorGrass.png")
         node = self.node = Node2D(vu=BackgroundVu(), model=sprite)
         self.attach(node)
+        return self
 

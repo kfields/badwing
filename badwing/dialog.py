@@ -4,5 +4,5 @@ class Dialog(SceneView):
     def __init__(self, name):
         super().__init__()
 
-    def _create(self):
-        pass
+    def create(self):
+        return self

@@ -18,11 +18,12 @@ class SceneScreen(SceneView):
         self.view_left = 0
         self.controller_stack = []
 
-    def _create(self):
-        super()._create()
+    def create(self):
+        super().create()
         # Used to keep track of our scrolling
         self.view_bottom = 0
         self.view_left = 0
+        return self
 
     @property
     def controller(self):
