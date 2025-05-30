@@ -52,10 +52,9 @@ class BeatLevelDialog(badwing.dialog.Dialog):
             )
         )
 
-    def create(self):
-        super().create()
+    def _create(self):
+        super()._create()
         self.add_buttons()
-        return self
 
     def draw(self):
         super().draw()

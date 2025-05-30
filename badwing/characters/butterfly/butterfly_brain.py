@@ -58,10 +58,10 @@ class ButterflyBrain(Brain):
 
         self.idle_sprite_pair = [self.sprites[0], self.sprites[1]]
 
-    def create(self):
+    def _create(self):
+        super()._create()
         self.node.angle = -45
         self.sprite = self.idle_sprite_pair[self.character_face_direction]
-        return self
 
     def update(self, delta_time):
         super().update(delta_time)

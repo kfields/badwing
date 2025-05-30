@@ -9,11 +9,10 @@ class SceneView(SceneView2D):
     def __init__(self, scene: Scene2D):
         super().__init__(scene)
 
-    def create(self):
-        super().create()
+    def _create(self):
+        super()._create()
         #self.scene.size = self.size
         self.scene.create()
-        return self
 
     def create_camera(self):
         self.camera = Camera2D(

@@ -16,10 +16,9 @@ class LevelScreen(SceneScreen):
         super().__init__(scene)
         self.avatar_stack = []
 
-    def create(self):
-        super().create()
+    def _create(self):
+        super()._create()
         self.draw_options = DrawOptions(self.scratch)
-        return self
     
     @property
     def avatar(self):

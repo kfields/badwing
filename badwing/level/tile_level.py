@@ -20,8 +20,8 @@ class TileLevel(Level):
     def __init__(self, name: str, physics_engine: PhysicsEngine2D):
         super().__init__(name, physics_engine)
 
-    def create(self):
-        super().create()
+    def _create(self):
+        super()._create()
         self.physics_engine.create()
 
         self.barrier_layer = self.add_layer(BarrierLayer("barrier"))
@@ -35,8 +35,6 @@ class TileLevel(Level):
         self.butterfly_layer = self.get_layer("butterfly")
         self.object_layer = self.get_layer("object")
         self.static_layer = self.get_layer("static")
-
-        return self
 
     def check_butterflies(self):
         hit_list = self.butterfly_layer.query_intersection(badwing.globe.avatar.bounds)

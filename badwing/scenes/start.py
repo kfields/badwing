@@ -14,8 +14,8 @@ class StartScene(Level):
     def __init__(self, name, physics_engine: PhysicsEngine2D):
         super().__init__(name, physics_engine)
 
-    def create(self):
-        super().create()
+    def _create(self):
+        super()._create()
         self.add_layer(BarrierLayer("barrier"))
 
         self.add_layer(
@@ -29,5 +29,3 @@ class StartScene(Level):
         )
         self.butterfly_layer.attach(butterflies)
         self.add_layer(butterfly_layer)
-
-        return self
