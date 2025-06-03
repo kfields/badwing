@@ -2,9 +2,6 @@ from crunge.engine.d2.background import BackgroundVu
 from crunge.engine.d2.node_2d import Node2D
 from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite.background_sprite_builder import BackgroundSpriteBuilder
-from crunge.engine.color import Color
-from crunge.engine.math import Rect2i
-from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
 
 from badwing.constants import *
 from badwing.tile import TileLayer

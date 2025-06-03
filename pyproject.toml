@@ -24,7 +24,7 @@ classifiers = [
 ]
 dependencies = [
     "PyTMX ==3.32",
-    "pymunk ~=6.9.0",
+    "pymunk ~=7.0.0",
     "PyGLM ~=2.7.0",
     "PyYAML ~=6.0.1",
     "loguru ~=0.7.0",
