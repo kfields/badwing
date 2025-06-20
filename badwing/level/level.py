@@ -4,7 +4,6 @@ from crunge.engine.d2.physics import PhysicsEngine2D
 
 import badwing.globe
 from badwing.constants import *
-from badwing.assets import asset
 from badwing.scene import Scene
 from badwing.dialogs.pause import PauseDialog
 from badwing.dialogs.beatlevel import BeatLevelDialog
@@ -25,7 +24,7 @@ class Level(Scene):
 
     def _create(self):
         super()._create()
-        tmx_path = asset(f"{self.name}.tmx")
+        tmx_path = f":resources:/{self.name}.tmx"
         map_loader = MapLoader(self)
         map_loader.load(tmx_path)
 

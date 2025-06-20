@@ -10,7 +10,6 @@ from crunge.engine.d2.entity import PhysicsEntity2D, PhysicsGroup2D, DynamicEnti
 from crunge.engine.d2.physics import BoxGeom, BallGeom
 import crunge.engine.d2.physics.globe as physics_globe
 
-from badwing.assets import asset
 from badwing.util import debounce
 
 from .skateboard_controller import SkateboardController
@@ -39,8 +38,7 @@ sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
 
 class Wheel(DynamicEntity2D):
     def __init__(self, position=glm.vec2()):
-        img_src = asset("items/coinGold.png")
-        sprite = sprite_loader.load(img_src)
+        sprite = sprite_loader.load(":resources:/items/coinGold.png")
         #size = glm.vec2(WHEEL_RADIUS, WHEEL_RADIUS)
         scale = glm.vec2(0.5, 0.5)
         super().__init__(
@@ -57,27 +55,9 @@ class Wheel(DynamicEntity2D):
         return Wheel(position)
 
 
-"""
-class Wheel(DynamicEntity2D):
-    def __init__(self, position=glm.vec2(), vu=None):
-        super().__init__(position, vu=vu, geom=BallGeom())
-        #self.radius = WHEEL_RADIUS
-        self.mass = WHEEL_MASS
-
-    @classmethod
-    def produce(self, position=(0,0)):
-        img_src = asset("items/coinGold.png")
-        sprite = sprite_loader.load(img_src)
-        vu = SpriteVu(sprite).create()
-
-        return Wheel(position, vu)
-"""
-
-
 class Chassis(DynamicEntity2D):
     def __init__(self, position=glm.vec2()):
-        img_src = asset("tiles/boxCrate.png")
-        sprite = sprite_loader.load(img_src)
+        sprite = sprite_loader.load(":resources:/tiles/boxCrate.png")
 
         #size = glm.vec2(CHASSIS_WIDTH, CHASSIS_HEIGHT)
         scale = glm.vec2(1.5, 0.1)
@@ -93,27 +73,6 @@ class Chassis(DynamicEntity2D):
     @classmethod
     def produce(self, position=glm.vec2()):
         return Chassis(position)
-
-
-"""
-class Chassis(DynamicEntity2D):
-    def __init__(self, position=glm.vec2(), vu=None):
-        size = glm.vec2(CHASSIS_WIDTH, CHASSIS_HEIGHT)
-        super().__init__(position, size=size, vu=vu, geom=BoxGeom())
-        #self.width = CHASSIS_WIDTH
-        #self.height = CHASSIS_HEIGHT
-        self.mass = CHASSIS_MASS
-
-    @classmethod
-    def produce(self, position=(0, 0)):
-        img_src = asset("tiles/boxCrate.png")
-        #sprite.width = TILE_WIDTH * TILE_SCALING * 2
-        #sprite.height = CHASSIS_HEIGHT * TILE_SCALING
-        sprite = sprite_loader.load(img_src)
-        vu = SpriteVu(sprite).create()
-
-        return Chassis(position, vu)
-"""
 
 
 class Skateboard(PhysicsGroup2D):

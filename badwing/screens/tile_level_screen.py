@@ -39,13 +39,15 @@ class TileLevelScreen(LevelScreen):
             changed = True
 
         # Scroll right
-        right_boundary = self.view_left + SCREEN_WIDTH - RIGHT_VIEWPORT_MARGIN
+        #right_boundary = self.view_left + SCREEN_WIDTH - RIGHT_VIEWPORT_MARGIN
+        right_boundary = self.view_left + self.width - RIGHT_VIEWPORT_MARGIN
         if self.avatar.bounds.right > right_boundary:
             self.view_left += self.avatar.bounds.right - right_boundary
             changed = True
 
         # Scroll up
-        top_boundary = self.view_bottom + SCREEN_HEIGHT - TOP_VIEWPORT_MARGIN
+        #top_boundary = self.view_bottom + SCREEN_HEIGHT - TOP_VIEWPORT_MARGIN
+        top_boundary = self.view_bottom + self.height - TOP_VIEWPORT_MARGIN
         if self.avatar.bounds.top > top_boundary:
             self.view_bottom += self.avatar.bounds.top - top_boundary
             changed = True

@@ -2,8 +2,6 @@ import os
 
 import badwing.level_controller
 
-from badwing.assets import asset
-
 from badwing.scene import Scene
 import badwing.dialog
 

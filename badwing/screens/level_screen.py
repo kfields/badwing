@@ -2,7 +2,7 @@ from loguru import logger
 
 from crunge import imgui
 
-from crunge.engine import Renderer
+from crunge.engine import Renderer, Scheduler
 from crunge.engine.d2.physics.draw_options import DrawOptions
 
 import badwing.globe
@@ -43,7 +43,8 @@ class LevelScreen(SceneScreen):
         _, self.debug_draw_enabled = imgui.checkbox("Debug Draw", self.debug_draw_enabled)
 
         if imgui.button("Quit"):
-            exit()
+            #exit()
+            Scheduler().schedule_once(lambda dt: exit(), 0)
 
         imgui.end()
 

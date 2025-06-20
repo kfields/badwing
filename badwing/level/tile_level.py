@@ -5,7 +5,6 @@ from crunge.engine.d2.physics import PhysicsEngine2D
 
 import badwing.globe
 from badwing.constants import *
-from badwing.assets import asset
 from badwing.level import Level
 
 from badwing.scene_layer import SceneLayer

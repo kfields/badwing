@@ -9,7 +9,6 @@ from badwing.brain import Brain
 
 from crunge.engine.loader.sprite.sprite_grid_loader import SpriteGridLoader
 
-from badwing.assets import asset
 from badwing.util import debounce
 
 SPRITE_WIDTH = 64
@@ -49,7 +48,7 @@ class ButterflyBrain(Brain):
 
         # --- Load Sprites ---
         self.sprites = SpriteGridLoader().load(
-            asset("sprites/butterflies.png"),
+            ":resources:/sprites/butterflies.png",
             frame_size=glm.vec2(SPRITE_WIDTH, SPRITE_HEIGHT),
             row_count=9,
             col_count=FRAMES * 2,
