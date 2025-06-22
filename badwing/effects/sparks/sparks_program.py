@@ -3,7 +3,7 @@ from loguru import logger
 from crunge.core import klass
 from crunge import wgpu
 
-from crunge.engine.d2.bindings import EmitterBindGroupLayout
+from crunge.engine.d2.bindings_2d import EmitterBindGroupLayout
 from crunge.engine.loader.shader_loader import ShaderLoader
 from crunge.engine.d2.render_pipeline_2d import RenderPipeline2D
 

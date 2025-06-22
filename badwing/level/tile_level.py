@@ -44,20 +44,6 @@ class TileLevel(Level):
                 self.spark_layer.attach(Sparks(node.position))
                 # arcade.play_sound(self.collect_butterfly_sound)
 
-    """
-    def check_butterflies(self):
-        hit_list = arcade.check_for_collision_with_list(
-            self.pc_sprite, self.butterfly_layer.sprites
-        )
-        for sprite in hit_list:
-            model = sprite.model
-            if badwing.globe.player.collect(model):
-                # Remove the butterfly
-                sprite.remove_from_sprite_lists()
-                self.spark_layer.add_effect(Firework(sprite.position))
-                arcade.play_sound(self.collect_butterfly_sound)
-    """
-
     def check_flags(self):
         hit_list = self.flag_layer.query_intersection(badwing.globe.avatar.bounds)
         for node in hit_list:
@@ -66,19 +52,6 @@ class TileLevel(Level):
                 node.destroy()
                 self.spark_layer.attach(Sparks(node.position))
                 # arcade.play_sound(self.collect_butterfly_sound)
-
-    '''
-    def check_flags(self):
-        return
-        hit_list = arcade.check_for_collision_with_list(
-            self.pc_sprite, self.flag_layer.sprites
-        )
-        for sprite in hit_list:
-            model = sprite.model
-            if badwing.globe.player.collect(model):
-                self.spark_layer.add_effect(Firework(sprite.position, 60, 100))
-                arcade.play_sound(self.collect_flag_sound)
-    '''
 
     def check_collisions(self):
         self.check_butterflies()

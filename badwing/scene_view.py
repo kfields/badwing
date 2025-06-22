@@ -1,6 +1,6 @@
 import glm
 
-from crunge.engine import Renderer
+from crunge.engine.d2.renderer_2d import Renderer2D
 from crunge.engine.d2.scene_view_2d import SceneView2D
 from crunge.engine.d2.scene_2d import Scene2D
 from crunge.engine.d2.camera_2d import Camera2D
@@ -22,4 +22,4 @@ class SceneView(SceneView2D):
         )
 
     def create_renderer(self):
-        self.renderer = Renderer(self.window.viewport, camera_2d=self.camera)
+        self.renderer = Renderer2D(self.window.viewport, camera=self.camera)

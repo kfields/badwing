@@ -30,7 +30,7 @@ class BarrierLayer(SceneLayer):
         super()._create()
         bounds = self.bounds
         logger.debug(f'BarrierLayer bounds: {bounds}')
-        left, bottom, right, top = bounds.left, bounds.bottom, bounds.right, bounds.top
+        left, bottom, right, top = bounds.left, bounds.bottom, bounds.right, bounds.top + 1000
         self.top_barrier = top_barrier = Barrier(left - self.barrier_width, top + BARRIER_HEIGHT, right, top)
         self.left_barrier = left_barrier = Barrier(left - self.barrier_width, bottom, left, top)
         self.right_barrier = right_barrier = Barrier(right, bottom, right + self.barrier_width, top)

@@ -29,7 +29,6 @@ class Level(Scene):
         map_loader.load(tmx_path)
 
     def update(self, delta_time):
-
         super().update(delta_time)
 
         if not self.paused:
