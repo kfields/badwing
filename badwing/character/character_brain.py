@@ -1,5 +1,7 @@
 from loguru import logger
 
+import glm
+
 from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 from crunge.engine.d2.sprite import SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
@@ -53,18 +55,22 @@ class CharacterBrain(Brain):
         animator.add_animation(climb)
 
     def create_jump_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
-        jump = SpriteAnimation("jump")
+        jump_right = SpriteAnimation("jumpRight")
         frame = SpriteAnimationFrame(atlas.get(f"jump"))
-        jump.add_frame(frame)
+        jump_right.add_frame(frame)
+        animator.add_animation(jump_right)
 
-        animator.add_animation(jump)
+        jump_left = jump_right.mirror("jumpLeft", horizontal=True)
+        animator.add_animation(jump_left)
 
     def create_fall_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
-        fall = SpriteAnimation("fall")
+        fall_right = SpriteAnimation("fallRight")
         frame = SpriteAnimationFrame(atlas.get(f"fall"))
-        fall.add_frame(frame)
+        fall_right.add_frame(frame)
+        animator.add_animation(fall_right)
 
-        animator.add_animation(fall)
+        fall_left = fall_right.mirror("fallLeft", horizontal=True)
+        animator.add_animation(fall_left)
         
     def create_walk_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
         walk_right = SpriteAnimation("walkRight")
@@ -81,54 +87,28 @@ class CharacterBrain(Brain):
     def update(self, delta_time: float = 1/60):
         super().update(delta_time)
         node = self.node
-        velocity = node.body.velocity
-        vel_x = int(velocity[0])
-        vel_y = int(velocity[1])
-
-        #TODO: update node velocity from body
-        '''
-        velocity = self.node.velocity
-        vel_x = velocity.x
-        vel_y = velocity.y
-        '''
+        #TODO: update node velocity from body and get from node
+        velocity = glm.vec2(node.body.velocity)
 
         # Figure out if we need to flip face left or right
-        if vel_x < 0 and self.character_face_direction == RIGHT_FACING:
+        if velocity.x < 0 and self.character_face_direction == RIGHT_FACING:
             self.character_face_direction = LEFT_FACING
-        elif vel_x > 0 and self.character_face_direction == LEFT_FACING:
+        elif velocity.x > 0 and self.character_face_direction == LEFT_FACING:
             self.character_face_direction = RIGHT_FACING
 
-        '''
-        # Climbing animation
-        if node.laddered:
-            #logger.debug("On ladder")
-            node.climbing = True
-        if not node.laddered and node.climbing:
-            node.climbing = False
-        '''
-
-        '''
-        if node.climbing and abs(vel_y) > 1:
-            self.cur_sprite += 1
-            if self.cur_sprite > 7:
-                self.cur_sprite = 0
-        if node.climbing:
-            self.sprite = self.climbing_sprites[self.cur_sprite // 4]
-            return
-        '''
 
         # Climbing animation
         if node.climbing :
             self.animator.play("climb")
-            if abs(vel_y) < 1:
+            if abs(velocity.y) < 1:
                 return
         # Jumping animation
-        elif vel_y > 0 and not node.climbing or node.mounted or node.jumping:
-            self.animator.play("jump")
-        elif vel_y < 0 and not node.grounded and not node.climbing:
-            self.animator.play("fall")
+        elif velocity.y > 0 and not node.climbing or node.mounted or node.jumping:
+            self.animator.play("jumpRight" if self.character_face_direction == RIGHT_FACING else "jumpLeft")
+        elif velocity.y < 0 and not node.grounded and not node.climbing:
+            self.animator.play("fallRight" if self.character_face_direction == RIGHT_FACING else "fallLeft")
         # Idle animation
-        elif vel_x == 0:
+        elif velocity.x == 0:
             self.animator.play("idle")
         else:
             # Walking animation
