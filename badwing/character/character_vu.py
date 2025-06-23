@@ -3,6 +3,7 @@ from crunge.engine.loader.texture.image_texture_loader import ImageTextureLoader
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
+# TODO:  This file is dead code.  Using it for reference only.
 
 UPDATES_PER_FRAME = 7
 
@@ -56,22 +57,14 @@ class CharacterVu(SpriteVu):
 
         # Load textures for climbing
         self.climbing_textures = []
-        #texture = arcade.load_texture(f"{main_path}_climb0.png")
         texture = ImageTextureLoader().load(f"{main_path}_climb0.png")
         self.climbing_textures.append(texture)
-        #texture = arcade.load_texture(f"{main_path}_climb1.png")
         texture = ImageTextureLoader().load(f"{main_path}_climb1.png")
         self.climbing_textures.append(texture)
 
         # Set the initial texture
         self.texture = self.idle_texture_pair[0]
 
-        # Hit box will be set based on the first image used. If you want to specify
-        # a different hit box, you can do it like the code below.
-        # self.set_hit_box([[-22, -64], [22, -64], [22, 28], [-22, 28]])
-        #self.set_hit_box(self.texture.hit_box_points)
-        #self.hit_box = arcade.hitbox.RotatableHitBox(self.texture.hit_box_points)
-        #self.sprite = Sprite(self.texture)
         sprite_builder = CollidableSpriteBuilder()
         size = self.texture.size
         rect = Rect2i(0, 0, size.x, size.y)

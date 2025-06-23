@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING
 
+from loguru import logger
+
 from crunge import sdl
 
 from badwing.character import CharacterController
@@ -36,12 +38,11 @@ class SkateboardController(CharacterController):
 
         match key:
             case sdl.SDLK_w:
-                #self.up_pressed = down
                 if down and not repeat:
                     self.skateboard.ollie()
             case sdl.SDLK_s:
-                #self.down_pressed = down
-                self.skateboard.dismount()
+                if down and not repeat:
+                    self.skateboard.dismount()
             case sdl.SDLK_a:
                 self.left_pressed = down
             case sdl.SDLK_d:

@@ -1,6 +1,5 @@
-from crunge import imgui
+from loguru import logger
 
-from crunge.engine import Renderer
 from crunge.engine.scheduler import Scheduler
 
 import badwing.globe
@@ -8,6 +7,7 @@ from badwing.constants import *
 from badwing.level import Level
 
 from ..scene_view import SceneView
+
 
 class SceneScreen(SceneView):
     def __init__(self, scene: Level):
@@ -17,12 +17,6 @@ class SceneScreen(SceneView):
         self.view_bottom = 0
         self.view_left = 0
         self.controller_stack = []
-
-    def _create(self):
-        super()._create()
-        # Used to keep track of our scrolling
-        self.view_bottom = 0
-        self.view_left = 0
 
     @property
     def controller(self):
@@ -35,9 +29,13 @@ class SceneScreen(SceneView):
     def push_controller(self, controller):
         def callback(delta_time):
             self.controller_stack.append(controller)
+
         Scheduler().schedule_once(callback, 0)
 
     def pop_controller(self):
         def callback(delta_time):
             controller = self.controller_stack.pop()
+            logger.debug(f"Popping controller: {controller}")
+            #self.controller_stack[-1].reset()
+
         Scheduler().schedule_once(callback, 0)

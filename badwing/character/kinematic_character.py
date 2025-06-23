@@ -7,6 +7,7 @@ from crunge.engine.d2.physics import (
     DynamicPhysics,
     HullGeom,
 )
+from crunge.engine.d2.physics.kinematic import KinematicState
 
 from crunge.engine.d2.sprite import SpriteVu
 
@@ -24,36 +25,24 @@ class KinematicCharacter(KinematicEntity2D):
         self.mass = PLAYER_MASS
 
     def on_mount(self, node: PhysicsEntity2D, point: glm.vec2):
-        # super().on_mount(point)
-        self.mounted = True
-        self.position = node.get_tx_point(
-            glm.vec2(point.x, point.y + self.height / 2)
-        )
+        self.kinematic_state = KinematicState.MOUNTED
+        self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2))
         logger.debug(f"mounting at {self.position}")
         self.angle = node.angle
         # print('on_mount')
-        #self.physics = DynamicPhysics()
+        # self.physics = DynamicPhysics()
         self.physics = DynamicPhysics(glm.vec2(0, -self.height / 2))
         logger.debug(f"shapes: {self.shapes}")
 
     def on_dismount(self, node: PhysicsEntity2D, point: glm.vec2):
-        # super().on_dismount(point)
-        self.mounted = False
+        #self.kinematic_state = KinematicState.GROUNDED
+        self.kinematic_state = KinematicState.FALLING
         self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2))
-        #self.position = glm.vec2(node.position[0], node.position[1] + self.height / 2)
-        # self.angle = model.angle
+        # self.position = glm.vec2(node.position[0], node.position[1] + self.height / 2)
         self.angle = 0
+        self.body.velocity = (0, 0)
         self.physics = KinematicPhysics()
         badwing.globe.screen.pop_avatar()
-
-    """
-    @classmethod
-    def produce(self, position=glm.vec2()):
-        #vu = CharacterVu().create()
-        vu = SpriteVu()
-        brain = CharacterBrain()
-        return KinematicCharacter(position, vu=vu, brain=brain)
-    """
 
     def control(self):
         return KinematicCharacterController(self)

@@ -91,7 +91,7 @@ class TileLevelScreen(LevelScreen):
             #min_y = min_y + frustrum.height - 128
             min_y = min_y + frustrum.height
             #max_y = min(self.scene.bounds.max.y, max_y)
-            max_y = max_y + frustrum.height
+            #max_y = max_y + frustrum.height
 
             #logger.debug(f"scene bounds: {self.scene.bounds}")
             #logger.debug(f"frustrum: {frustrum}")
