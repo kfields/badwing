@@ -23,17 +23,17 @@ class TileLevel(Level):
         super()._create()
         self.physics_engine.create()
 
-        self.barrier_layer = self.add_layer(BarrierLayer("barrier"))
-
         self.scenery_layer = self.get_layer("scenery")
         self.ladder_layer = self.get_layer("ladder")
         self.flag_layer = self.get_layer("flags")
         self.ground_layer = self.get_layer("ground")
-        self.spark_layer = self.add_layer(SceneLayer("spark"))
         self.character_layer = self.get_layer("pc")
         self.butterfly_layer = self.get_layer("butterfly")
         self.object_layer = self.get_layer("object")
         self.static_layer = self.get_layer("static")
+
+        self.barrier_layer = self.add_layer(BarrierLayer("barrier"))
+        self.spark_layer = self.add_layer(SceneLayer("spark"))
 
     def check_butterflies(self):
         hit_list = self.butterfly_layer.query_intersection(badwing.globe.avatar.bounds)
