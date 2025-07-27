@@ -1,5 +1,6 @@
 {% include '_camera.wgsl' %}
 {% include '_model.wgsl' %}
+{% include '_node.wgsl' %}
 {% include '_particle.vert.wgsl' %}
 
 struct VertexOutput {
@@ -19,7 +20,7 @@ fn vs_main(@builtin(vertex_index) vertexIndex: u32, @builtin(instance_index) ins
     let pos = vec2<f32>(x * 0.5, y * 0.5); // Scale quad by 0.5
 
     let vert_pos = pos + particles[instanceIndex].position;
-    output.position = camera.projection * camera.view * model.transform * vec4<f32>(vert_pos.x, vert_pos.y, 0.0, 1.0);
+    output.position = camera.projection * camera.view * node.transform * vec4<f32>(vert_pos.x, vert_pos.y, 0.0, 1.0);
     output.color = particles[instanceIndex].color;
     output.age = particles[instanceIndex].age;
     output.lifespan = particles[instanceIndex].lifespan;
