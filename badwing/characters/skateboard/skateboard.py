@@ -39,15 +39,10 @@ sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
 class Wheel(DynamicEntity2D):
     def __init__(self, position=glm.vec2()):
         sprite = sprite_loader.load(":resources:/items/coinGold.png")
-        #size = glm.vec2(WHEEL_RADIUS, WHEEL_RADIUS)
         scale = glm.vec2(0.5, 0.5)
         super().__init__(
-            #position, size=size, scale=scale, vu=vu, model=sprite, geom=BallGeom()
             position, scale=scale, vu=SpriteVu(), model=sprite, geom=BallGeom()
         )
-        # super().__init__(position, scale=scale, vu=vu, model=sprite, geom=BallGeom())
-        #self.size = self.size * 0.5
-        # self.radius = WHEEL_RADIUS
         self.mass = WHEEL_MASS
 
     @classmethod
@@ -59,15 +54,10 @@ class Chassis(DynamicEntity2D):
     def __init__(self, position=glm.vec2()):
         sprite = sprite_loader.load(":resources:/tiles/boxCrate.png")
 
-        #size = glm.vec2(CHASSIS_WIDTH, CHASSIS_HEIGHT)
         scale = glm.vec2(1.5, 0.1)
         super().__init__(
-            #position, size=size, scale=scale, vu=vu, model=sprite, geom=BoxGeom()
             position, scale=scale, vu=SpriteVu(), model=sprite, geom=BoxGeom()
         )
-
-        #self.width = CHASSIS_WIDTH
-        #self.height = CHASSIS_HEIGHT
         self.mass = CHASSIS_MASS
 
     @classmethod

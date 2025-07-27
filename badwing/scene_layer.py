@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 class SceneLayer(SceneLayer2D):
     def __init__(self, name: str, factory=None):
         super().__init__(name)
-        self.sprites = SpriteVuGroup()
+        #self.sprites = SpriteVuGroup()
         self.factory = None
         if factory:
             self.factory = factory(self)
@@ -30,9 +30,11 @@ class SceneLayer(SceneLayer2D):
         if self.factory:
             self.factory.produce()
 
+    '''
     def add_sprite(self, sprite):
         self.sprites.append(sprite)
         return sprite
+    '''
 
     '''
     def update(self, delta_time):

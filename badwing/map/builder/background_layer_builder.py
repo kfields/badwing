@@ -3,7 +3,7 @@ from pytmx import TiledTileLayer
 
 from crunge.engine.math import Bounds2
 
-from crunge.engine.loader.tiled.builder.builder_context import BuilderContext
+from crunge.engine.loader.tiled.builder import BuilderContext
 from crunge.engine.loader.tiled.builder.tile_builder import (
     TileBuilder,
     DefaultTileBuilder,

@@ -5,7 +5,7 @@ from crunge.engine.d2.sprite import SpriteVu
 from ...tile import Tile
 
 class TileLayerBuilder(tiled_builder.DefaultTileLayerBuilder):
-    def __init__(self, context: tiled_builder.SceneBuilderContext):
+    def __init__(self, context: tiled_builder.BuilderContext):
         def create_node_cb(position, sprite, properties: dict):
             return Tile(position, SpriteVu(), sprite)
 

@@ -10,7 +10,7 @@ from .obstacle_layer_builder import ObstacleLayerBuilder
 from .flag_layer_builder import FlagLayerBuilder
 
 class MapBuilder(tiled_builder.DefaultMapBuilder):
-    def __init__(self, context: tiled_builder.SceneBuilderContext):
+    def __init__(self, context: tiled_builder.BuilderContext):
         super().__init__(context)
         self.add_tile_layer_builder("background", BackgroundLayerBuilder(context))
         self.add_tile_layer_builder("ground", TileLayerBuilder(context))

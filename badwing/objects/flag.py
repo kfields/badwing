@@ -19,7 +19,7 @@ class Flag(Node2D):
         return node
 
     def collect(self):
-        self.destroy()
+        #self.destroy()
         return True
 
 class FlagGreen(Flag):

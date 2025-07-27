@@ -7,7 +7,7 @@ from ...characters.butterfly import Butterfly
 
 
 class ButterflyLayerBuilder(tiled_builder.DefaultTileLayerBuilder):
-    def __init__(self, context: tiled_builder.SceneBuilderContext):
+    def __init__(self, context: tiled_builder.BuilderContext):
         def create_node_cb(position, sprite, properties: dict):
             logger.debug(f"process_object: {position}, {sprite}, {properties}")
             # kind = properties.get('class')

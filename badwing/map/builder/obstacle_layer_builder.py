@@ -7,7 +7,7 @@ from ...obstacle import Obstacle
 
 
 class ObstacleLayerBuilder(tiled_builder.DefaultTileLayerBuilder):
-    def __init__(self, context: tiled_builder.SceneBuilderContext):
+    def __init__(self, context: tiled_builder.BuilderContext):
         def create_node_cb(position, sprite, properties: dict):
             logger.debug(f"create_node_cb: {position}, {sprite}, {properties}")
             kind = properties.get("type")
