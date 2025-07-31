@@ -40,6 +40,9 @@ class LevelScreen(SceneScreen):
     def draw(self, renderer: Renderer):
         imgui.begin("Main")
 
+        imgui.text(f"Update time: {self.window.update_time:.3f}")
+        imgui.text(f"Frame time: {self.window.frame_time:.3f}")
+
         _, self.debug_draw_enabled = imgui.checkbox("Debug Draw", self.debug_draw_enabled)
 
         if imgui.button("Quit"):

@@ -5,6 +5,8 @@ import importlib.resources
 
 from loguru import logger
 
+from crunge import imgui
+from crunge.engine import Renderer
 from crunge.engine import App
 from crunge.engine.resource.resource_manager import ResourceManager
 
@@ -31,6 +33,13 @@ class BadWing(App):
         module, install = module, module.install
         install(self)
 
+    '''
+    def draw(self, renderer: Renderer):
+        imgui.text(f"Update time: {self.update_time:.3f}")
+        imgui.text(f"Frame time: {self.frame_time:.3f}")
+        super().draw(renderer)
+    '''
+    
     def update(self, delta_time: float):
         self.player.update(delta_time)
         super().update(delta_time)
