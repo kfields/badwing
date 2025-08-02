@@ -12,7 +12,7 @@ class StartScreen(SceneScreen):
     def __init__(self, scene: Level):
         super().__init__(scene)
 
-    def draw(self, renderer: Renderer):
+    def _draw(self):
         imgui.begin("Main")
 
         if imgui.button("Start"):
@@ -23,4 +23,4 @@ class StartScreen(SceneScreen):
             Scheduler().schedule_once(lambda dt: exit(), 0)
 
         imgui.end()
-        super().draw(renderer)
+        super()._draw()

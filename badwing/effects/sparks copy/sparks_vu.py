@@ -344,22 +344,13 @@ class SparksVu(Vu2D):
 
         self.render_bind_group = self.device.create_bind_group(render_bind_group_desc)
 
-    def draw(self, renderer: Renderer):
-        # logger.debug("Drawing explosion")
+    def _draw(self):
+        renderer = Renderer.get_current()
 
         model_uniform = ModelUniform()
         model_uniform.transform.data = cast_matrix4(self.transform)
 
         renderer.device.queue.write_buffer(self.model_uniform_buffer, 0, model_uniform)
-
-        """
-        renderer.device.queue.write_buffer(
-            self.model_uniform_buffer,
-            0,
-            as_capsule(model_uniform),
-            self.model_uniform_buffer_size,
-        )
-        """
 
         pass_enc = renderer.pass_enc
         pass_enc.set_pipeline(self.program.render_pipeline)

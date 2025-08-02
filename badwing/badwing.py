@@ -32,13 +32,6 @@ class BadWing(App):
         spec.loader.exec_module(module)
         module, install = module, module.install
         install(self)
-
-    '''
-    def draw(self, renderer: Renderer):
-        imgui.text(f"Update time: {self.update_time:.3f}")
-        imgui.text(f"Frame time: {self.frame_time:.3f}")
-        super().draw(renderer)
-    '''
     
     def update(self, delta_time: float):
         self.player.update(delta_time)

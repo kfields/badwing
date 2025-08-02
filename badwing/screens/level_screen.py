@@ -37,7 +37,7 @@ class LevelScreen(SceneScreen):
         self.pop_controller()
         return avatar
 
-    def draw(self, renderer: Renderer):
+    def _draw(self):
         imgui.begin("Main")
 
         imgui.text(f"Update time: {self.window.update_time:.3f}")
@@ -54,4 +54,4 @@ class LevelScreen(SceneScreen):
         if self.debug_draw_enabled:
             self.scene.physics_engine.debug_draw(self.draw_options)
 
-        super().draw(renderer)
+        super()._draw()

@@ -29,25 +29,3 @@ class SceneLayer(SceneLayer2D):
         self.bounds = self.level.bounds
         if self.factory:
             self.factory.produce()
-
-    '''
-    def add_sprite(self, sprite):
-        self.sprites.append(sprite)
-        return sprite
-    '''
-
-    '''
-    def update(self, delta_time):
-        if badwing.globe.scene.paused:
-            return
-        for node in self.nodes:
-            node.update(delta_time)
-        self.effects.update(delta_time)
-        self.sprites.update(delta_time)
-
-    def draw(self, renderer: Renderer):
-        #logger.debug(f'Layer: {self.__class__.__name__} sprites: {len(self.sprites.members)}')
-        self.sprites.draw(renderer)
-        #self.effects.draw(renderer)
-        super().draw(renderer)
-    '''
