@@ -7,20 +7,20 @@ from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLo
 
 from badwing.character.kinematic_character import KinematicCharacter
 
-from .robot_brain import RobotBrain
+from .avatar_brain import AvatarBrain
 
 
-class Robot(KinematicCharacter):
+class Avatar(KinematicCharacter):
     def __init__(self, position=glm.vec2()):
         model = SpriteLoader(sprite_builder=CollidableSpriteBuilder()).load(
-            ":resources:/characters/robot_idle.png"
+            ":resources:/characters/maleAdventurer_idle.png"
         )
         atlas = XmlSpriteAtlasLoader(sprite_builder=CollidableSpriteBuilder()).load(
-            ":resources:/characters/robot/sheet.xml"
+            ":resources:/characters/male_adventurer/sheet.xml"
         )
-        brain = RobotBrain(atlas)
+        brain = AvatarBrain(atlas)
         super().__init__(position, vu=SpriteVu(), model=model, brain=brain)
 
     @classmethod
     def produce(self, position=glm.vec2()):
-        return Robot(position)  # TODO: Needs a brain
+        return Avatar(position)

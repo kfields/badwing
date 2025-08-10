@@ -5,6 +5,7 @@ import glm
 from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 from crunge.engine.d2.sprite import SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
+from crunge.engine.resource.sprite import SpriteAtlas
 
 from badwing.brain import Brain
 
@@ -20,9 +21,9 @@ class Command:
     PUNCH = "punch"
 
 class CharacterBrain(Brain):
-    def __init__(self):
+    def __init__(self, atlas: SpriteAtlas):
         super().__init__()
-
+        self.atlas = atlas
         self.animator: SpriteAnimator = None
         # Default to face-right
         self.character_face_direction = RIGHT_FACING
@@ -30,14 +31,11 @@ class CharacterBrain(Brain):
     def _create(self):
         super()._create()
         self.animator = SpriteAnimator(self.node)
-        atlas = XmlSpriteAtlasLoader(sprite_builder=CollidableSpriteBuilder()).load(
-            ":resources:/characters/male_adventurer/sheet.xml"
-        )
-        self.create_idle_animations(atlas, self.animator)
-        self.create_climb_animations(atlas, self.animator)
-        self.create_jump_animations(atlas, self.animator)
-        self.create_fall_animations(atlas, self.animator)
-        self.create_walk_animations(atlas, self.animator)
+        self.create_idle_animations(self.atlas, self.animator)
+        self.create_climb_animations(self.atlas, self.animator)
+        self.create_jump_animations(self.atlas, self.animator)
+        self.create_fall_animations(self.atlas, self.animator)
+        self.create_walk_animations(self.atlas, self.animator)
 
     def create_idle_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
         idle = SpriteAnimation("idle")

@@ -14,5 +14,5 @@ class Tile(StaticEntity2D):
 
 
 class TileLayer(SceneLayer):
-    def __init__(self, name, factory=None):
-        super().__init__(name, factory)
+    def __init__(self, name):
+        super().__init__(name)

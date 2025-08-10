@@ -11,13 +11,11 @@ class SceneView(SceneView2D):
 
     def _create(self):
         super()._create()
-        #self.scene.size = self.size
         self.scene.create()
 
     def create_camera(self):
         self.camera = Camera2D(
             glm.vec2(self.width / 2, self.height / 2),
-            glm.vec2(self.width, self.height),
             2.0
         )
 

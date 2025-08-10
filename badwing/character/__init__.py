@@ -1,2 +1,1 @@
 from badwing.character.controller import CharacterController
-from badwing.character.character_vu import CharacterVu

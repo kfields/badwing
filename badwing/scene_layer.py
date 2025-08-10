@@ -13,12 +13,8 @@ if TYPE_CHECKING:
 
 
 class SceneLayer(SceneLayer2D):
-    def __init__(self, name: str, factory=None):
+    def __init__(self, name: str):
         super().__init__(name)
-        #self.sprites = SpriteVuGroup()
-        self.factory = None
-        if factory:
-            self.factory = factory(self)
 
     @property
     def level(self) -> "Level":
@@ -27,5 +23,3 @@ class SceneLayer(SceneLayer2D):
     def _create(self):
         super()._create()
         self.bounds = self.level.bounds
-        if self.factory:
-            self.factory.produce()
