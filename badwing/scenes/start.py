@@ -24,8 +24,7 @@ class StartScene(Level):
             )
         )
         self.butterfly_layer = butterfly_layer = SceneLayer("butterflies")
-        butterflies = Butterflies.create_random(
-            20, self.bounds
-        )
+        #butterflies = Butterflies.create_random(20, self.bounds)
+        butterflies = Butterflies.create_random(20)
         self.butterfly_layer.attach(butterflies)
         self.add_layer(butterfly_layer)

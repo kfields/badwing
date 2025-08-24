@@ -26,19 +26,16 @@ class KinematicCharacter(KinematicEntity2D):
 
     def on_mount(self, node: PhysicsEntity2D, point: glm.vec2):
         self.kinematic_state = KinematicState.MOUNTED
-        self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2))
+        self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2 + 4))
         logger.debug(f"mounting at {self.position}")
         self.angle = node.angle
-        # print('on_mount')
-        # self.physics = DynamicPhysics()
+        # logger.debug('on_mount')
         self.physics = DynamicPhysics(glm.vec2(0, -self.height / 2))
         logger.debug(f"shapes: {self.shapes}")
 
     def on_dismount(self, node: PhysicsEntity2D, point: glm.vec2):
-        #self.kinematic_state = KinematicState.GROUNDED
         self.kinematic_state = KinematicState.FALLING
         self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2))
-        # self.position = glm.vec2(node.position[0], node.position[1] + self.height / 2)
         self.angle = 0
         self.body.velocity = (0, 0)
         self.physics = KinematicPhysics()

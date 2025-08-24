@@ -13,9 +13,6 @@ class SceneScreen(SceneView):
     def __init__(self, scene: Level):
         super().__init__(scene)
         badwing.globe.screen = self
-        # Used to keep track of our scrolling
-        self.view_bottom = 0
-        self.view_left = 0
         self.controller_stack = []
 
     @property
