@@ -1,28 +1,21 @@
-import glm
-from pytmx import TiledTileLayer
+from pytmx import TiledImageLayer
 
 from crunge.engine.math import Bounds2
 
 from crunge.engine.loader.tiled.builder import BuilderContext
-from crunge.engine.loader.tiled.builder.tile_builder import (
-    TileBuilder,
-    DefaultTileBuilder,
-)
 
-from crunge.engine.loader.tiled.builder.tile_layer_builder import TileLayerBuilder
+from crunge.engine.loader.tiled.builder.image_layer_builder import ImageLayerBuilder
 from badwing.background import BackgroundLayer
 
 
-class BackgroundLayerBuilder(TileLayerBuilder):
-    def __init__(self, context: BuilderContext, tile_builder: TileBuilder = None):
-        super().__init__(
-            context,
-            tile_builder if tile_builder is not None else DefaultTileBuilder(context),
-        )
+class BackgroundLayerBuilder(ImageLayerBuilder):
+    def __init__(self, context: BuilderContext):
+        super().__init__(context)
 
-    def build(self, layer: TiledTileLayer, layer_id: int):
+    def build(self, layer: TiledImageLayer, layer_id: int):
+        path = layer.source
         scene_layer = BackgroundLayer(
-            "background", ":resources:/backgrounds/backgroundColorGrass.png"
+            "background", path
         )
 
         size = self.context.size

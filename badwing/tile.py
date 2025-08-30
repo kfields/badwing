@@ -3,9 +3,9 @@ from loguru import logger
 import glm
 
 from crunge.engine.d2.entity import StaticEntity2D
+from crunge.engine.d2.scene_layer_2d import SceneLayer2D
 
 from badwing.constants import *
-from badwing.scene_layer import SceneLayer
 
 
 class Tile(StaticEntity2D):
@@ -13,6 +13,6 @@ class Tile(StaticEntity2D):
         super().__init__(position, vu=vu, model=sprite)
 
 
-class TileLayer(SceneLayer):
+class TileLayer(SceneLayer2D):
     def __init__(self, name):
         super().__init__(name)

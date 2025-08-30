@@ -1,9 +1,9 @@
 from crunge.engine.math import Bounds2
 from crunge.engine.d2.physics import PhysicsEngine2D
+from crunge.engine.d2.scene_layer_2d import SceneLayer2D
 
 from badwing.level import Level
 
-from badwing.scene_layer import SceneLayer
 from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 
@@ -23,7 +23,7 @@ class StartScene(Level):
                 "background", ":resources:/backgrounds/backgroundColorGrass.png"
             )
         )
-        self.butterfly_layer = butterfly_layer = SceneLayer("butterflies")
+        self.butterfly_layer = butterfly_layer = SceneLayer2D("butterflies")
         #butterflies = Butterflies.create_random(20, self.bounds)
         butterflies = Butterflies.create_random(20)
         self.butterfly_layer.attach(butterflies)

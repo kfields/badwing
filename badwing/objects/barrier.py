@@ -3,9 +3,9 @@ import glm
 
 from crunge.engine.d2.entity import StaticEntity2D
 from crunge.engine.d2.physics.geom import BoxGeom
+from crunge.engine.d2.scene_layer_2d import SceneLayer2D
 
 from badwing.constants import *
-from badwing.scene_layer import SceneLayer
 
 BARRIER_WIDTH = 100
 BARRIER_HEIGHT = 1000
@@ -18,7 +18,7 @@ class Barrier(StaticEntity2D):
         super().__init__(position, scale=glm.vec2(width, height), geom=BoxGeom())
 
 
-class BarrierLayer(SceneLayer):
+class BarrierLayer(SceneLayer2D):
     def __init__(self, name: str):
         super().__init__(name)
         self.barrier_width = BARRIER_WIDTH
