@@ -13,7 +13,7 @@ class BackgroundLayerBuilder(ImageLayerBuilder):
         super().__init__(context)
 
     def build(self, layer: TiledImageLayer, layer_id: int):
-        path = layer.source
+        path = layer.get_image_path()
         scene_layer = BackgroundLayer(
             "background", path
         )

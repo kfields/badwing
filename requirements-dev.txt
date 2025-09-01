@@ -4,4 +4,5 @@
 -e ../crunge/pkg/skia
 -e ../crunge/pkg/yoga
 -e ../crunge/pkg/imgui
+-e ../crunge/pkg/tmx
 -e ../crunge/pkg/engine
