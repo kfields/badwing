@@ -25,10 +25,6 @@ class TileLevelScreen(LevelScreen):
         self.push_avatar(avatar)
         self.update_camera()
 
-    def on_size(self):
-        super().on_size()
-        self.recenter_camera()
-
     def recenter_camera(self):
         if self.avatar is None:
             return

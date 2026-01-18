@@ -1,6 +1,9 @@
 from loguru import logger
 
+import glm
+
 from crunge.engine.scheduler import Scheduler
+from crunge.engine.math import Bounds2
 
 import badwing.globe
 from badwing.constants import *
@@ -36,3 +39,20 @@ class SceneScreen(SceneView):
             #self.controller_stack[-1].reset()
 
         Scheduler().schedule_once(callback, 0)
+
+    def on_size(self):
+        super().on_size()
+        '''
+        bounds = self.bounds
+        self.scene.bounds = Bounds2(bounds.left, bounds.bottom, bounds.right, bounds.top)
+        '''
+        self.recenter_camera()
+
+    def recenter_camera(self):
+        #bounds = self.bounds
+        bounds = self.scene.bounds
+        x = bounds.left + bounds.width / 2
+        y = bounds.height / 2
+        position = glm.vec2(x, y)
+        logger.debug(f"Recentering camera to position: {position}")
+        self.camera.position = position

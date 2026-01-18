@@ -5,7 +5,7 @@ from loguru import logger
 import glm
 
 from crunge.engine.math import Bounds2
-from crunge.engine.d2.sprite import SpriteVu, SpriteVuGroup
+from crunge.engine.d2.sprite import SpriteVu
 
 from crunge.engine.d2.entity import Entity2D, EntityGroup2D
 
@@ -17,6 +17,7 @@ HALF_RANGE = RANGE / 2
 # DEFAULT_BORDER = Bounds2(0, 0, 640, 480)
 # DEFAULT_BORDER = Bounds2(0, 0, 1280, 720)
 DEFAULT_BORDER = Bounds2(0, 0, 1920, 1080)
+
 
 class ButterflyKind(IntEnum):
     Aqua = 0
@@ -36,9 +37,7 @@ class Butterfly(Entity2D):
         self.border = border
 
     @classmethod
-    def produce(
-        self, kind: ButterflyKind, position=glm.vec2(), border=DEFAULT_BORDER
-    ):
+    def produce(self, kind: ButterflyKind, position=glm.vec2(), border=DEFAULT_BORDER):
         node = kinds[kind].produce(position, border)
         return node
 
@@ -133,15 +132,15 @@ kinds_list = list(kinds)
 
 
 class Butterflies(EntityGroup2D):
-    def __init__(self, border=DEFAULT_BORDER):
+    def __init__(self):
         super().__init__()
 
     @classmethod
-    def create_random(self, count, border=DEFAULT_BORDER):
+    def create_random(self, count, border: Bounds2 = DEFAULT_BORDER):
         group = Butterflies()
         for i in range(count):
-            center_x = random.randint(0, border.right)
-            center_y = random.randint(0, border.top)
+            center_x = random.randint(border.left, border.right)
+            center_y = random.randint(border.bottom, border.top)
             position = glm.vec2(center_x, center_y)
             # logger.debug(f"position: {position}")
             ndx = random.randint(0, 8)

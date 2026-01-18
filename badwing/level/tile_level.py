@@ -2,7 +2,7 @@ from loguru import logger
 import glm
 
 from crunge.engine.d2.physics import PhysicsEngine2D
-from crunge.engine.d2.scene_layer_2d import SceneLayer2D
+from crunge.engine.d2.graph_layer_2d import GraphLayer2D
 
 import badwing.globe
 from badwing.constants import *
@@ -33,7 +33,7 @@ class TileLevel(Level):
         self.static_layer = self.get_layer("static")
 
         self.barrier_layer = self.add_layer(BarrierLayer("barrier"))
-        self.spark_layer = self.add_layer(SceneLayer2D("spark"))
+        self.spark_layer = self.add_layer(GraphLayer2D("spark"))
 
     def check_butterflies(self):
         hit_list = self.butterfly_layer.query_intersection(badwing.globe.avatar.bounds)
