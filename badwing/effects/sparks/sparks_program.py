@@ -5,7 +5,7 @@ from crunge import wgpu
 
 from crunge.engine.d2.binding_2d import EmitterBindGroupLayout
 from crunge.engine.loader.shader_loader import ShaderLoader
-from crunge.engine.d2.render_pipeline_2d import RenderPipeline2D
+from crunge.engine.d2.renderer import RenderPipeline2D
 
 from ...badwing_program import BadwingProgram
 
