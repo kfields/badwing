@@ -10,13 +10,13 @@ from .obstacle_layer_builder import ObstacleLayerBuilder
 from .flag_layer_builder import FlagLayerBuilder
 
 class MapBuilder(tiled_builder.DefaultMapBuilder):
-    def __init__(self, context: tiled_builder.BuilderContext):
-        super().__init__(context)
-        self.add_image_layer_builder("background", BackgroundLayerBuilder(context))
-        self.add_tile_layer_builder("ground", TileLayerBuilder(context))
-        self.add_object_group_builder("pc", CharacterLayerBuilder(context))
-        self.add_tile_layer_builder("butterfly", ButterflyLayerBuilder(context))
-        self.add_object_group_builder("static", StaticObjectGroupBuilder(context))
-        self.add_object_group_builder("object", DynamicObjectGroupBuilder(context))
-        self.add_tile_layer_builder("obstacle", ObstacleLayerBuilder(context))
-        self.add_tile_layer_builder("flags", FlagLayerBuilder(context))
+    def __init__(self):
+        super().__init__()
+        self.add_image_layer_builder("background", BackgroundLayerBuilder())
+        self.add_tile_layer_builder("ground", TileLayerBuilder())
+        self.add_object_group_builder("pc", CharacterLayerBuilder())
+        self.add_tile_layer_builder("butterfly", ButterflyLayerBuilder())
+        self.add_object_group_builder("static", StaticObjectGroupBuilder())
+        self.add_object_group_builder("object", DynamicObjectGroupBuilder())
+        self.add_tile_layer_builder("obstacle", ObstacleLayerBuilder())
+        self.add_tile_layer_builder("flags", FlagLayerBuilder())

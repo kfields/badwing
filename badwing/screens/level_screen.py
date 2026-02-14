@@ -25,6 +25,8 @@ class LevelScreen(SceneScreen):
         return self.avatar_stack[-1]
 
     def push_avatar(self, avatar):
+        if avatar is None:
+            raise ValueError("Avatar cannot be None")
         self.avatar_stack.append(avatar)
         badwing.globe.avatar = avatar
         if avatar is not None:

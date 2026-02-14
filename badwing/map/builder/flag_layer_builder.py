@@ -7,7 +7,7 @@ from ...objects.flag import Pole, Flag
 
 
 class FlagLayerBuilder(tiled_builder.DefaultTileLayerBuilder):
-    def __init__(self, context: tiled_builder.BuilderContext):
+    def __init__(self):
         def create_node_cb(position, sprite, properties: dict):
             logger.debug(f"process_object: {position}, {sprite}, {properties}")
             # kind = properties.get('class')
@@ -26,6 +26,5 @@ class FlagLayerBuilder(tiled_builder.DefaultTileLayerBuilder):
             return node
 
         super().__init__(
-            context,
-            tile_builder=DefaultTileBuilder(context, create_node_cb=create_node_cb),
+            tile_builder=DefaultTileBuilder(create_node_cb=create_node_cb),
         )

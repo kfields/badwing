@@ -18,7 +18,9 @@ class TileLevelScreen(LevelScreen):
     def _create(self):
         super()._create()
         avatar = None
+        logger.debug(f"Character layer children: {self.scene.character_layer.root.children}")
         for node in self.scene.character_layer.root.children:
+            logger.debug(f"Checking node: {node}")
             if isinstance(node, Avatar):
                 avatar = node
                 break
