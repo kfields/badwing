@@ -1,16 +1,12 @@
 from loguru import logger
-import glm
 
 from crunge.engine.d2.physics import PhysicsEngine2D
 from crunge.engine.d2.graph_layer_2d import GraphLayer2D
 
-import badwing.globe
-from badwing.constants import *
-from badwing.level import Level
+from .. import globe
+from ..level import Level
 
-from badwing.objects.barrier import BarrierLayer
-from badwing.background import BackgroundLayer
-from badwing.tile import TileLayer
+from ..objects.barrier import BarrierLayer
 
 from ..effects.sparks import Sparks
 
@@ -22,6 +18,11 @@ class TileLevel(Level):
     def _create(self):
         super()._create()
         self.physics_engine.create()
+        # TODO: Replace these attributes with a more dynamic layer management system
+        # EXAMPLE:
+        # scenery_layer = self.get_layer(SceneryLayer) #???
+        # Only that would mean creating a layer class for each type of layer, which might be overkill for now
+        # Of course, I think I actually coded a way to dynamically create classes (Look at the Layer class in "Deeper"!!!)
 
         self.scenery_layer = self.get_layer("scenery")
         self.ladder_layer = self.get_layer("ladder")
@@ -36,18 +37,18 @@ class TileLevel(Level):
         self.spark_layer = self.add_layer(GraphLayer2D("spark"))
 
     def check_butterflies(self):
-        hit_list = self.butterfly_layer.query_intersection(badwing.globe.avatar.bounds)
+        hit_list = self.butterfly_layer.query_intersection(globe.avatar.bounds)
         for node in hit_list:
-            if badwing.globe.player.collect(node):
+            if globe.player.collect(node):
                 # Remove the butterfly
                 node.destroy()
                 self.spark_layer.attach(Sparks(node.position))
                 # arcade.play_sound(self.collect_butterfly_sound)
 
     def check_flags(self):
-        hit_list = self.flag_layer.query_intersection(badwing.globe.avatar.bounds)
+        hit_list = self.flag_layer.query_intersection(globe.avatar.bounds)
         for node in hit_list:
-            if badwing.globe.player.collect(node):
+            if globe.player.collect(node):
                 # Remove the flag
                 node.destroy()
                 self.spark_layer.attach(Sparks(node.position))
