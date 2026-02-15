@@ -3,7 +3,7 @@ from loguru import logger
 
 from crunge.engine.math import Bounds2
 from crunge.engine.d2.physics import PhysicsEngine2D
-from crunge.engine.d2.graph_layer_2d import GraphLayer2D
+from crunge.engine.d2.scene.layer import GraphLayer2D
 
 from badwing.level import Level
 

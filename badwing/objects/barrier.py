@@ -3,7 +3,7 @@ import glm
 
 from crunge.engine.d2.entity import StaticEntity2D
 from crunge.engine.d2.physics.geom import BoxGeom
-from crunge.engine.d2.graph_layer_2d import GraphLayer2D
+from crunge.engine.d2.scene.layer import GraphLayer2D
 
 from badwing.constants import *
 

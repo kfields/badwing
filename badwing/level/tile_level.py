@@ -1,7 +1,7 @@
 from loguru import logger
 
 from crunge.engine.d2.physics import PhysicsEngine2D
-from crunge.engine.d2.graph_layer_2d import GraphLayer2D
+from crunge.engine.d2.scene.layer import GraphLayer2D
 
 from .. import globe
 from ..level import Level

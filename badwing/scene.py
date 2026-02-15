@@ -1,4 +1,4 @@
-from crunge.engine.d2.physics_scene_2d import PhysicsScene2D
+from crunge.engine.d2.scene.physics_scene_2d import PhysicsScene2D
 from crunge.engine.d2.physics import PhysicsEngine2D
 
 import badwing.globe
