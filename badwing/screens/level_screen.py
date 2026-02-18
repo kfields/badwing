@@ -52,7 +52,6 @@ class LevelScreen(SceneScreen):
             badwing.globe.player.restart_level()
 
         if imgui.button("Quit"):
-            #exit()
             Scheduler().schedule_once(lambda dt: exit(), 0)
 
         imgui.end()

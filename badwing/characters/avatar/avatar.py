@@ -7,11 +7,12 @@ from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLo
 
 #from badwing.character.kinematic_character import KinematicCharacter
 from badwing.character.dynamic_character import DynamicCharacter
+#from badwing.character.robust_character import RobustCharacter
 
 from .avatar_brain import AvatarBrain
 
-
 class Avatar(DynamicCharacter):
+#class Avatar(RobustCharacter):
     def __init__(self, position=glm.vec2()):
         model = SpriteLoader(sprite_builder=CollidableSpriteBuilder()).load(
             ":resources:/characters/maleAdventurer_idle.png"

@@ -1,11 +1,13 @@
 from loguru import logger
 import glm
 
+from crunge.engine.math import Rect2
+
 from crunge.engine.d2.entity import PhysicsEntity2D, DynamicEntity2D
 from crunge.engine.d2.physics import HullGeom
 from crunge.engine.d2.physics.physics import MotionState
 
-from crunge.engine.d2.sprite import SpriteVu
+from crunge.engine.d2.sprite import Sprite, SpriteVu
 
 from badwing.constants import *
 import badwing.globe
@@ -16,6 +18,7 @@ PLAYER_MASS = 1
 
 
 class DynamicCharacter(DynamicEntity2D):
+    model: Sprite
     def __init__(self, position=glm.vec2(), vu=SpriteVu(), model=None, brain=None):
         super().__init__(position, vu=vu, model=model, brain=brain, geom=HullGeom())
         self.mass = PLAYER_MASS
@@ -25,6 +28,19 @@ class DynamicCharacter(DynamicEntity2D):
         super()._create()
         self.save_moment()
         self.lock_rotation()
+
+    def create_shapes(self, clip: Rect2 = None):
+        #clip = Rect2(self.x, self.y + self.height / 2, self.width, self.height / 2)
+        model = self.model
+        rect = model.rect
+        x = rect.x - rect.width / 2
+        y = -(rect.y + rect.height / 4)
+        #y = rect.y - rect.height / 2
+        width = rect.width
+        height = rect.height / 2
+        clip = Rect2(x, y, width, height)
+        logger.debug(f"clip: {clip}")
+        return super().create_shapes(clip=clip)
 
     def save_moment(self):
         self.saved_moment = self.body.moment

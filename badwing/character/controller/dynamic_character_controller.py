@@ -22,7 +22,8 @@ JUMP_IMPULSE = PLAYER_JUMP_SPEED
 FOOT_FRICTION = 1.2
 
 # New Constants for Air Control
-AIR_ACCEL_FORCE = 20_000  # Force applied when pressing keys in air
+#AIR_ACCEL_FORCE = 20_000  # Force applied when pressing keys in air
+AIR_ACCEL_FORCE = 10_000  # Force applied when pressing keys in air
 AIR_DRAG = 0.95           # Multiplier to slow down horizontal drift when keys are released
 
 CT_FOOT = 9
@@ -81,18 +82,25 @@ class DynamicCharacterController(CharacterController):
         hw = bounds.width / 2
         hh = bounds.height / 2
 
-        foot_y = -hh
+        foot_y = -hh + 16
         foot_y_offset = 16
         foot_inset = 16
         foot_toe = hw + 16
 
+        self.foot_l = pymunk.Circle(
+            body, radius=32, offset=(0, foot_y)
+        )
+
+        """
         self.foot_l = pymunk.Segment(
-            body, (-foot_inset, foot_y), (-foot_toe, foot_y - foot_y_offset), radius=10
+            body, (-foot_toe, foot_y - foot_y_offset), (foot_toe, foot_y - foot_y_offset), radius=10
         )
         self.foot_r = pymunk.Segment(
             body, (foot_inset, foot_y), (foot_toe, foot_y - foot_y_offset), radius=10
         )
-        for foot in (self.foot_l, self.foot_r):
+        """
+        #for foot in (self.foot_l, self.foot_r):
+        for foot in (self.foot_l,):
             foot.friction = FOOT_FRICTION
             foot.elasticity = 0.0
             foot.collision_type = CT_FOOT
@@ -100,10 +108,11 @@ class DynamicCharacterController(CharacterController):
         group = (id(body) & 0x7FFFFFFF) or 1
         filt = pymunk.ShapeFilter(group=group)
         self.foot_l.filter = filt
-        self.foot_r.filter = filt
+        #self.foot_r.filter = filt
         self.avatar.shapes[0].filter = filt
 
-        self.physics_engine.space.add(self.foot_l, self.foot_r)
+        #self.physics_engine.space.add(self.foot_l, self.foot_r)
+        self.physics_engine.space.add(self.foot_l)
 
     def _setup_collision_handlers(self):
         space = self.physics_engine.space
@@ -185,7 +194,7 @@ class DynamicCharacterController(CharacterController):
             target_vx = MAX_SPEED
 
         self.foot_l.surface_velocity = (-target_vx, 0)
-        self.foot_r.surface_velocity = (-target_vx, 0)
+        #self.foot_r.surface_velocity = (-target_vx, 0)
 
     def _apply_ladder_movement(self):
         """Direct velocity control + Gravity Cancel"""
