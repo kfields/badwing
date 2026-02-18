@@ -37,9 +37,9 @@ class Level(Scene):
             self.physics_engine.update(1/60)
             self.check_collisions()
 
-        if badwing.globe.player.level_beat:
+        if badwing.globe.player.level_progress.is_completed:
             self.beat_level()
-            badwing.globe.player.level_beat = False
+            badwing.globe.player.level_progress.is_completed = False
 
     def check_collisions(self):
         pass

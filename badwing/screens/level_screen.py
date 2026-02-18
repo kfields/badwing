@@ -49,6 +49,7 @@ class LevelScreen(SceneScreen):
 
         if imgui.button("Restart"):
             badwing.globe.game.show_channel("level1")
+            badwing.globe.player.restart_level()
 
         if imgui.button("Quit"):
             #exit()

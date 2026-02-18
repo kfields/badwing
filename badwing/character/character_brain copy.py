@@ -123,3 +123,42 @@ class CharacterBrain(Brain):
                 self.animator.play("idle")
 
         self.animator.update(delta_time)
+
+    """
+    def update(self, delta_time: float = 1/60):
+        super().update(delta_time)
+        node = self.node
+        #TODO: update node velocity from body and get from node
+        velocity = glm.vec2(node.body.velocity)
+
+        # Figure out if we need to flip face left or right
+        if velocity.x < 0 and self.character_face_direction == RIGHT_FACING:
+            self.character_face_direction = LEFT_FACING
+        elif velocity.x > 0 and self.character_face_direction == LEFT_FACING:
+            self.character_face_direction = RIGHT_FACING
+
+
+        # Climbing animation
+        if node.climbing :
+            self.animator.play("climb")
+            if velocity.y < 1:
+                return
+        # Jumping animation
+        x_threshold = 0.1
+        y_threshold = 0.1
+
+        #if velocity.y > y_threshold and not node.climbing or node.mounted or node.jumping:
+        if velocity.y > y_threshold and not node.grounded or node.mounted or node.jumping:
+            self.animator.play("jumpRight" if self.character_face_direction == RIGHT_FACING else "jumpLeft")
+        #elif velocity.y < -y_threshold and not node.grounded and not node.climbing:
+        elif velocity.y < -y_threshold and not node.climbing:
+            self.animator.play("fallRight" if self.character_face_direction == RIGHT_FACING else "fallLeft")
+        # Idle animation
+        elif velocity.x < x_threshold and velocity.x > -x_threshold:
+            self.animator.play("idle")
+        else:
+            # Walking animation
+            self.animator.play("walkRight" if self.character_face_direction == RIGHT_FACING else "walkLeft")
+
+        self.animator.update(delta_time)
+    """
