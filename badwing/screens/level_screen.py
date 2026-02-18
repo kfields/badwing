@@ -47,6 +47,9 @@ class LevelScreen(SceneScreen):
 
         _, self.debug_draw_enabled = imgui.checkbox("Debug Draw", self.debug_draw_enabled)
 
+        if imgui.button("Restart"):
+            badwing.globe.game.show_channel("level1")
+
         if imgui.button("Quit"):
             #exit()
             Scheduler().schedule_once(lambda dt: exit(), 0)

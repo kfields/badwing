@@ -2,7 +2,7 @@ from loguru import logger
 import glm
 
 from crunge import sdl
-from crunge.engine.d2.physics.physics import MotionState
+from crunge.engine.d2.physics.kinematic import MotionState
 import crunge.engine.d2.physics.globe as physics_globe
 from crunge.engine.d2.node_2d import Node2D
 import badwing.globe
@@ -11,7 +11,7 @@ from badwing.constants import *
 from badwing.character.controller import CharacterController
 
 
-class KinematicCharacterController(CharacterController):
+class DynamicCharacterController(CharacterController):
     def __init__(self, avatar: Node2D):
         super().__init__(avatar)
         self.physics_engine = physics_globe.physics_engine

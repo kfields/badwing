@@ -19,7 +19,6 @@ class StartScreen(SceneScreen):
             badwing.globe.game.show_channel("level1")
 
         if imgui.button("Quit"):
-            #exit()
             Scheduler().schedule_once(lambda dt: exit(), 0)
 
         imgui.end()
