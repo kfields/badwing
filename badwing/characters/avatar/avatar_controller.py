@@ -9,105 +9,35 @@ from crunge.engine.d2.physics.physics import MotionState
 import crunge.engine.d2.physics.globe as physics_globe
 from crunge.engine.d2.physics.constants import PT_DYNAMIC, PT_KINEMATIC, PT_STATIC
 from crunge.engine.d2.node_2d import Node2D
+from crunge.engine.d2.entity.character.controller import DynamicCharacterController
 
 import badwing.globe
 from badwing.constants import *
-from badwing.character.controller import CharacterController
 
 if TYPE_CHECKING:
-    from badwing.characters.avatar import Avatar
+    from .avatar import Avatar
 
 MAX_SPEED = 512
 JUMP_IMPULSE = PLAYER_JUMP_SPEED
 FOOT_FRICTION = 1.2
 
 # New Constants for Air Control
-#AIR_ACCEL_FORCE = 20_000  # Force applied when pressing keys in air
+# AIR_ACCEL_FORCE = 20_000  # Force applied when pressing keys in air
 AIR_ACCEL_FORCE = 10_000  # Force applied when pressing keys in air
-AIR_DRAG = 0.95           # Multiplier to slow down horizontal drift when keys are released
+AIR_DRAG = 0.95  # Multiplier to slow down horizontal drift when keys are released
 
 CT_FOOT = 9
 
 
-class DynamicFootSensorHandler:
-    def __init__(self, space: pymunk.Space):
-        self._ground_contacts: list[pymunk.Shape] = []
-
-        space.on_collision(CT_FOOT, PT_STATIC, begin=self.begin, separate=self.separate)
-        space.on_collision(
-            CT_FOOT, PT_KINEMATIC, begin=self.begin, separate=self.separate
-        )
-        space.on_collision(
-            CT_FOOT, PT_DYNAMIC, begin=self.begin, separate=self.separate
-        )
-
-    def begin(self, arbiter, space, data):
-        # logger.debug("Foot sensor began contact")
-        a, b = arbiter.shapes
-        other = b if a.collision_type == CT_FOOT else a
-        self._ground_contacts.append(other)
-        return True
-
-    def separate(self, arbiter, space, data):
-        # logger.debug("Foot sensor ended contact")
-        # Contact removal handled by clear()
-        return None
-
-    def clear(self) -> None:
-        self._ground_contacts.clear()
-
-    def touching(self) -> bool:
-        return bool(self._ground_contacts)
-
-
-class DynamicCharacterController(CharacterController):
+class AvatarController(DynamicCharacterController):
     def __init__(self, avatar: "Avatar"):
         super().__init__(avatar)
-        self.physics_engine = physics_globe.physics_engine
         self.avatar = avatar
 
         self.character_layer = badwing.globe.scene.character_layer
         self.ground_layer = badwing.globe.scene.ground_layer
         self.ladder_layer = badwing.globe.scene.ladder_layer
 
-        self._setup_feet_shape()
-        self._setup_collision_handlers()
-
-    def _setup_feet_shape(self):
-        body = self.avatar.body
-        bounds = self.avatar.bounds
-        hw = bounds.width / 2
-        hh = bounds.height / 2
-
-        feet_y = -hh + 16
-
-        self.feet = pymunk.Circle(
-            body, radius=32, offset=(0, feet_y)
-        )
-
-        #for foot in (self.foot_l, self.foot_r):
-        for foot in (self.feet,):
-            foot.friction = FOOT_FRICTION
-            foot.elasticity = 0.0
-            foot.collision_type = CT_FOOT
-
-        group = (id(body) & 0x7FFFFFFF) or 1
-        filt = pymunk.ShapeFilter(group=group)
-        self.feet.filter = filt
-        self.avatar.shapes[0].filter = filt
-
-        self.physics_engine.space.add(self.feet)
-
-    def _setup_collision_handlers(self):
-        space = self.physics_engine.space
-        self._foot_handler = DynamicFootSensorHandler(space)
-
-    def check_grounded(self) -> bool:
-        return self._foot_handler.touching()
-
-    # ------------------------------------------------------------------
-    # Helpers
-    # ------------------------------------------------------------------
     def mount(self):
         hit_list = self.character_layer.query_intersection(self.avatar.bounds)
         for node in hit_list:
@@ -138,7 +68,7 @@ class DynamicCharacterController(CharacterController):
 
         match avatar.motion_state:
             case MotionState.GROUNDED:
-                pass # Handled below
+                pass  # Handled below
 
             case MotionState.JUMPING:
                 if vy < -vy_threshold:
@@ -159,10 +89,10 @@ class DynamicCharacterController(CharacterController):
         # 2. Continuous Physics Application
         if avatar.motion_state == MotionState.GROUNDED:
             self._apply_ground_movement()
-            
+
         elif avatar.motion_state == MotionState.CLIMBING:
             self._apply_ladder_movement()
-            
+
         elif avatar.motion_state in (MotionState.JUMPING, MotionState.FALLING):
             self._apply_falling_movement()
 
@@ -177,15 +107,20 @@ class DynamicCharacterController(CharacterController):
         elif self.right_pressed:
             target_vx = MAX_SPEED
 
-        self.feet.surface_velocity = (-target_vx, 0)
+        self.foot_l.surface_velocity = (-target_vx, 0)
+        # self.foot_r.surface_velocity = (-target_vx, 0)
 
     def _apply_ladder_movement(self):
         """Direct velocity control + Gravity Cancel"""
         dx = dy = 0
-        if self.up_pressed: dy = PLAYER_MOVEMENT_SPEED
-        elif self.down_pressed: dy = -PLAYER_MOVEMENT_SPEED
-        if self.left_pressed: dx = -PLAYER_MOVEMENT_SPEED
-        elif self.right_pressed: dx = PLAYER_MOVEMENT_SPEED
+        if self.up_pressed:
+            dy = PLAYER_MOVEMENT_SPEED
+        elif self.down_pressed:
+            dy = -PLAYER_MOVEMENT_SPEED
+        if self.left_pressed:
+            dx = -PLAYER_MOVEMENT_SPEED
+        elif self.right_pressed:
+            dx = PLAYER_MOVEMENT_SPEED
 
         body = self.avatar.body
         gx, gy = self.physics_engine.space.gravity
@@ -205,9 +140,9 @@ class DynamicCharacterController(CharacterController):
             body.apply_force_at_local_point((-AIR_ACCEL_FORCE, 0))
         elif self.right_pressed and vx < MAX_SPEED:
             body.apply_force_at_local_point((AIR_ACCEL_FORCE, 0))
-        
+
         # 2. Apply Air Drag (if no keys pressed)
-        # This helps precise landing. 
+        # This helps precise landing.
         if not self.left_pressed and not self.right_pressed:
             # Simple linear drag on X axis only
             body.velocity = (vx * AIR_DRAG, vy)
@@ -236,12 +171,17 @@ class DynamicCharacterController(CharacterController):
         super().on_key(event)
         key = event.key
         down = event.down
-        
+
         match key:
-            case sdl.SDLK_w: self.up_pressed = down
-            case sdl.SDLK_s: self.down_pressed = down
-            case sdl.SDLK_a: self.left_pressed = down
-            case sdl.SDLK_d: self.right_pressed = down
-            case sdl.SDLK_SPACE: self.avatar.punching = down
+            case sdl.SDLK_w:
+                self.up_pressed = down
+            case sdl.SDLK_s:
+                self.down_pressed = down
+            case sdl.SDLK_a:
+                self.left_pressed = down
+            case sdl.SDLK_d:
+                self.right_pressed = down
+            case sdl.SDLK_SPACE:
+                self.avatar.punching = down
 
         self.process_keychange()
