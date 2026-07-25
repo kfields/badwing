@@ -1,17 +1,7 @@
-# Player forces
-PLAYER_MOVE_FORCE = 700
-PLAYER_JUMP_IMPULSE = 600
-PLAYER_PUNCH_IMPULSE = 600
-
-# Kinematic Constants
-# Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 500
-PLAYER_JUMP_SPEED = 750
-
-TILE_WIDTH = 128
-TILE_SCALING = 1
-SPRITE_PIXEL_SIZE = 128
-GRID_PIXEL_SIZE = SPRITE_PIXEL_SIZE * TILE_SCALING
+#PLAYER_MOVEMENT_SPEED = 500
+PLAYER_MOVEMENT_SPEED = 5.0
+PLAYER_JUMP_SPEED = 500
+#PLAYER_JUMP_SPEED = 15.0
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.

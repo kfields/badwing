@@ -17,13 +17,14 @@ from badwing.character.controller import CharacterController
 if TYPE_CHECKING:
     from badwing.characters.avatar import Avatar
 
-MAX_SPEED = 512
+#MAX_SPEED = 512
+MAX_SPEED = PLAYER_MOVEMENT_SPEED
 JUMP_IMPULSE = PLAYER_JUMP_SPEED
 FOOT_FRICTION = 1.2
 
 # New Constants for Air Control
-#AIR_ACCEL_FORCE = 20_000  # Force applied when pressing keys in air
-AIR_ACCEL_FORCE = 10_000  # Force applied when pressing keys in air
+#AIR_ACCEL_FORCE = 10_000  # Force applied when pressing keys in air
+AIR_ACCEL_FORCE = 1000.0
 AIR_DRAG = 0.95           # Multiplier to slow down horizontal drift when keys are released
 
 CT_FOOT = 9
@@ -79,11 +80,18 @@ class DynamicCharacterController(CharacterController):
         hw = bounds.width / 2
         hh = bounds.height / 2
 
-        feet_y = -hh + 16
+        #feet_y = -hh + 16
+        feet_y = -hh + .25
 
+        self.feet = pymunk.Circle(
+            body, radius=.25, offset=(0, feet_y)
+        )
+
+        '''
         self.feet = pymunk.Circle(
             body, radius=32, offset=(0, feet_y)
         )
+        '''
 
         #for foot in (self.foot_l, self.foot_r):
         for foot in (self.feet,):

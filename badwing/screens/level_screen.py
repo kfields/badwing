@@ -3,7 +3,8 @@ from loguru import logger
 from crunge import imgui
 
 from crunge.engine import Renderer, Scheduler
-from crunge.engine.d2.physics.draw_options import DrawOptions
+#from crunge.engine.d2.physics.draw_options import DrawOptions
+from crunge.engine.d2.physics.space_debug_overlay import SpaceDebugOverlay
 
 import badwing.globe
 from badwing.constants import *
@@ -18,7 +19,10 @@ class LevelScreen(SceneScreen):
 
     def _create(self):
         super()._create()
-        self.draw_options = DrawOptions(self.scratch)
+        #self.draw_options = DrawOptions(self.scratch)
+        self.debug_layer = SpaceDebugOverlay()
+        self.add_overlay(self.debug_layer)
+
     
     @property
     def avatar(self):
@@ -45,7 +49,11 @@ class LevelScreen(SceneScreen):
         imgui.text(f"Update time: {self.window.update_time:.3f}")
         imgui.text(f"Frame time: {self.window.frame_time:.3f}")
 
-        _, self.debug_draw_enabled = imgui.checkbox("Debug Draw", self.debug_draw_enabled)
+        _, self.debug_layer.visible = imgui.checkbox(
+            "Debug Draw", self.debug_layer.visible
+        )
+        #_, self.debug_draw_enabled = imgui.checkbox("Debug Draw", self.debug_draw_enabled)
+        
 
         if imgui.button("Restart"):
             badwing.globe.game.show_channel("level1")
@@ -56,7 +64,7 @@ class LevelScreen(SceneScreen):
 
         imgui.end()
 
-        if self.debug_draw_enabled:
-            self.scene.physics_engine.debug_draw(self.draw_options)
+        #if self.debug_draw_enabled:
+        #    self.scene.physics_engine.debug_draw(self.draw_options)
 
         super()._draw()

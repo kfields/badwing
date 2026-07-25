@@ -16,12 +16,6 @@ class SkateboardController(CharacterController):
         self.skateboard = skateboard
 
     def update(self, delta_time: float):
-        '''
-        if self.up_pressed:
-            self.skateboard.ollie()
-        elif self.down_pressed:
-            self.skateboard.dismount()
-        '''
         if self.left_pressed:
             self.skateboard.decelerate()
         elif self.right_pressed:

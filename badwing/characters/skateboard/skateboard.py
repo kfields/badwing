@@ -15,22 +15,23 @@ from badwing.util import debounce
 from .skateboard_controller import SkateboardController
 
 
-WHEEL_RADIUS = 32
-WHEEL_MASS = 5
+#WHEEL_RADIUS = 32
+WHEEL_RADIUS = 0.25
+WHEEL_MASS = 350.0
 
-# CHASSIS_WIDTH = 128
-CHASSIS_WIDTH = 64
-CHASSIS_HEIGHT = 16
-#CHASSIS_MASS = 1
-#CHASSIS_MASS = 10
-CHASSIS_MASS = 2
-# X_PAD = 32
-X_PAD = 48
-# Y_PAD = 32
-Y_PAD = 28
+#CHASSIS_WIDTH = 64
+CHASSIS_WIDTH = 0.5
+#CHASSIS_HEIGHT = 16
+CHASSIS_HEIGHT = 0.1
+CHASSIS_MASS = 70.0
 
-SPEED_DELTA = 1
-MAX_SPEED = 100
+#X_PAD = 48
+X_PAD = 0.3
+#Y_PAD = 28
+Y_PAD = 0.25
+
+SPEED_DELTA = 1.0
+MAX_SPEED = 100.0
 
 sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
 
@@ -94,12 +95,19 @@ class Skateboard(PhysicsGroup2D):
 
     def mount(self, mountee):
         self.mountee = mountee
-        point = glm.vec2(0, 16)
+        #point = glm.vec2(0, 16)
+        #point = glm.vec2(0, 16/128.0)
+        point = glm.vec2(0, -14/128.0)
         mountee.on_mount(self.chassis, point)
         logger.debug(f"mountee body: {mountee.body}")
 
-        p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-16, 32), tuple(point))
-        p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (16, 32), tuple(point))
+        #p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-16, 32), tuple(point))
+        #p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-16/128.0, 32/128.0), tuple(point))
+        p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-16/128.0, 0), (-16/128.0, 0))
+
+        #p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (16, 32), tuple(point))
+        #p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (16/128.0, 32/128.0), tuple(point))
+        p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (16/128.0, 0), (16/128.0, 0))
 
         self.mountee_pins.extend([p5, p6])
 
@@ -117,7 +125,7 @@ class Skateboard(PhysicsGroup2D):
 
     def _create(self):
         super()._create()
-
+        # Create the pin joints connecting the wheels to the chassis
         p1 = pymunk.PinJoint(
             self.back_wheel.body, self.chassis.body, (0, 0), (-CHASSIS_WIDTH / 2, 0)
         )
@@ -130,15 +138,17 @@ class Skateboard(PhysicsGroup2D):
         p4 = pymunk.PinJoint(
             self.front_wheel.body, self.chassis.body, (0, 0), (0, -CHASSIS_HEIGHT / 2)
         )
-
+        # Create the motors connecting the wheels to the chassis
         self.front_motor = m1 = pymunk.constraints.SimpleMotor(
             self.front_wheel.body, self.chassis.body, -self.speed
         )
-        m1.max_force = 200000
+        #m1.max_force = 200000
+        max_force = 2000.0
+        m1.max_force = max_force
         self.back_motor = self.motor = m2 = pymunk.constraints.SimpleMotor(
             self.back_wheel.body, self.chassis.body, -self.speed
         )
-        m2.max_force = 200000
+        m2.max_force = max_force
 
         physics_globe.physics_engine.space.add(p1, p2, p3, p4, m1, m2)
 
@@ -176,10 +186,18 @@ class Skateboard(PhysicsGroup2D):
         self.speed = 0
 
     @debounce(1)
+    def ollie(self, impulse=(0, 400), point=(0, 0)):
+        logger.debug("ollie")
+        self.chassis.body.apply_impulse_at_local_point(impulse, point)
+        self.mountee.body.apply_impulse_at_local_point(impulse, point)
+
+    '''
+    @debounce(1)
     def ollie(self, impulse=(0, 4000), point=(0, 0)):
         logger.debug("ollie")
         # self.chassis.body.apply_impulse_at_local_point(impulse, point)
         self.mountee.body.apply_impulse_at_local_point(impulse, point)
+    '''
 
     def update(self, delta_time=1 / 60):
         super().update(delta_time)

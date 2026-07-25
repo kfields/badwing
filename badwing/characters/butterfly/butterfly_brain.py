@@ -31,11 +31,13 @@ DEG_RADS = (math.pi * 2) / 360
 class ButterflyBrain(Brain):
     def __init__(self, index: int):
         super().__init__()
+        self.speed = 0.01
         self.heading = random.randint(0, 359)
         self.wheel = 0
         self.begin_pos = glm.vec2()
         self.end_pos = glm.vec2()
-        self.sensor_range = 512
+        #self.sensor_range = 512
+        self.sensor_range = 4.0
 
         # Animation timing
         self.time = 1
@@ -59,9 +61,8 @@ class ButterflyBrain(Brain):
 
     def _create(self):
         super()._create()
-        #self.node.angle = -45
         self.sprite = self.idle_sprite_pair[self.character_face_direction]
-        self.node.angle = -45
+        self.node.angle = glm.radians(-45)
 
     def update(self, delta_time):
         super().update(delta_time)
@@ -114,7 +115,8 @@ class ButterflyBrain(Brain):
 
     def at_goal(self):
         distance = glm.distance2(self.position, self.end_pos)
-        return distance < 5
+        #return distance < 5
+        return distance < 0.1
 
     def move_to(self, end_pos):
         self.begin_pos = self.position
@@ -137,6 +139,8 @@ class ButterflyBrain(Brain):
 
     def try_move(self, delta):
         delta_x, delta_y = delta
+        delta_x *= self.speed
+        delta_y *= self.speed
         next_x, next_y = 0, 0
         need_turn = False
 
@@ -188,9 +192,6 @@ class ButterflyBrain(Brain):
         next_y = pos.y + delta_y
 
         self.position = glm.vec2(next_x, next_y)
-        # sprite = self.node.vu
-        # sprite.change_x = pos.x - next_x
-        # sprite.change_y = pos.y - next_y
         self.velocity = glm.vec2(pos.x - next_x, pos.y - next_y)
 
     def left(self, angle):
@@ -225,12 +226,13 @@ class ButterflyBrain(Brain):
     @debounce(0.1)
     def face_left(self):
         self.character_face_direction = LEFT_FACING
-        self.node.angle = 45
+        self.node.angle = glm.radians(45)
+
 
     @debounce(0.1)
     def face_right(self):
         self.character_face_direction = RIGHT_FACING
-        self.node.angle = -45
+        self.node.angle = glm.radians(-45)
 
 
 steering = [
