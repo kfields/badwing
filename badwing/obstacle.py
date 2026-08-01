@@ -16,9 +16,9 @@ class Obstacle(DynamicEntity2D):
         return node
 
 
-BOX_MASS = 1
-BALL_MASS = 1
-ROCK_MASS = 1
+BOX_MASS = 50.0
+BALL_MASS = 50.0
+ROCK_MASS = 50.0
 
 
 class Box(Obstacle):

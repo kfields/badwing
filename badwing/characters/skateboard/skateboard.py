@@ -12,6 +12,7 @@ import crunge.engine.d2.physics.globe as physics_globe
 
 from badwing.util import debounce
 
+from ...character.dynamic_character import DynamicCharacter
 from .skateboard_controller import SkateboardController
 
 
@@ -93,7 +94,7 @@ class Skateboard(PhysicsGroup2D):
     def control(self):
         return SkateboardController(self)
 
-    def mount(self, mountee):
+    def mount(self, mountee: DynamicCharacter):
         self.mountee = mountee
         #point = glm.vec2(0, 16)
         #point = glm.vec2(0, 16/128.0)
@@ -186,7 +187,7 @@ class Skateboard(PhysicsGroup2D):
         self.speed = 0
 
     @debounce(1)
-    def ollie(self, impulse=(0, 400), point=(0, 0)):
+    def ollie(self, impulse=(0, 4000), point=(0, 0)):
         logger.debug("ollie")
         self.chassis.body.apply_impulse_at_local_point(impulse, point)
         self.mountee.body.apply_impulse_at_local_point(impulse, point)

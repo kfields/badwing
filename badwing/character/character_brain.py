@@ -4,8 +4,7 @@ from loguru import logger
 import glm
 
 from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
-from crunge.engine.builder.sprite import CollidableSpriteBuilder
-from crunge.engine.d2.sprite import SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
+from crunge.engine.d2.sprite import SpriteFlipFlags, SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
 from crunge.engine.resource.sprite import SpriteAtlas
 from crunge.engine.d2.physics.physics import MotionState
 from badwing.brain import Brain
@@ -63,7 +62,7 @@ class CharacterBrain(Brain):
         jump_right.add_frame(frame)
         animator.add_animation(jump_right)
 
-        jump_left = jump_right.mirror("jumpLeft", horizontal=True)
+        jump_left = jump_right.mirror("jumpLeft", SpriteFlipFlags.HORIZONTAL)
         animator.add_animation(jump_left)
 
     def create_fall_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
@@ -72,7 +71,7 @@ class CharacterBrain(Brain):
         fall_right.add_frame(frame)
         animator.add_animation(fall_right)
 
-        fall_left = fall_right.mirror("fallLeft", horizontal=True)
+        fall_left = fall_right.mirror("fallLeft", SpriteFlipFlags.HORIZONTAL)
         animator.add_animation(fall_left)
         
     def create_walk_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
@@ -83,7 +82,7 @@ class CharacterBrain(Brain):
 
         animator.add_animation(walk_right)
 
-        walk_left = walk_right.mirror("walkLeft", horizontal=True)
+        walk_left = walk_right.mirror("walkLeft", SpriteFlipFlags.HORIZONTAL)
 
         animator.add_animation(walk_left)
 
