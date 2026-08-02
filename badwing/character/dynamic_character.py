@@ -38,44 +38,6 @@ class DynamicCharacter(DynamicEntity2D):
         logger.debug(f"clip: {clip}")
         return super().create_shapes(clip=clip)
 
-    '''
-    def create_shapes(self, clip: Rect2 = None):
-        model = self.model
-        x = - (model.width / 2)
-        y = model.height / 4
-        width = model.width
-        height = model.height / 2
-        clip = Rect2(x, y, width, height)
-        logger.debug(f"clip: {clip}")
-        return super().create_shapes(clip=clip)
-    '''
-
-    '''
-    def create_shapes(self, clip: Rect2 = None):
-        x = - (self.width / 2)
-        y = self.height / 4
-        width = self.width
-        height = self.height / 2
-        clip = Rect2(x, y, width, height)
-        logger.debug(f"clip: {clip}")
-        return super().create_shapes(clip=clip)
-    '''
-
-    '''
-    def create_shapes(self, clip: Rect2 = None):
-        #clip = Rect2(self.x, self.y + self.height / 2, self.width, self.height / 2)
-        model = self.model
-        rect = model.rect
-        x = rect.x - rect.width / 2
-        y = -(rect.y + rect.height / 4)
-        #y = rect.y - rect.height / 2
-        width = rect.width
-        height = rect.height / 2
-        clip = Rect2(x, y, width, height)
-        logger.debug(f"clip: {clip}")
-        return super().create_shapes(clip=clip)
-    '''
-
     def save_moment(self):
         self.saved_moment = self.body.moment
 
@@ -88,7 +50,6 @@ class DynamicCharacter(DynamicEntity2D):
     def on_mount(self, node: PhysicsEntity2D, point: glm.vec2):
         self.restore_moment()
         self.motion_state = MotionState.MOUNTED
-        #self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2 + 4))
         self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2 + 0.125))
         logger.debug(f"mounting at {self.position}")
         self.body.position = tuple(self.position)

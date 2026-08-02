@@ -1,4 +1,4 @@
-from pytmx import TiledImageLayer
+from crunge import tmx
 
 from crunge.engine.math import Bounds2
 
@@ -7,7 +7,7 @@ from badwing.background import BackgroundLayer
 
 
 class BackgroundLayerBuilder(ImageLayerBuilder):
-    def build(self, tmx_layer: TiledImageLayer):
+    def build(self, tmx_layer: tmx.ImageLayer):
         path = tmx_layer.get_image_path()
         layer = BackgroundLayer(
             "background", path

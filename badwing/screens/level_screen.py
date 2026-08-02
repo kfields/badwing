@@ -2,8 +2,7 @@ from loguru import logger
 
 from crunge import imgui
 
-from crunge.engine import Renderer, Scheduler
-#from crunge.engine.d2.physics.draw_options import DrawOptions
+from crunge.engine import Scheduler
 from crunge.engine.d2.physics.space_debug_overlay import SpaceDebugOverlay
 
 import badwing.globe
@@ -19,7 +18,6 @@ class LevelScreen(SceneScreen):
 
     def _create(self):
         super()._create()
-        #self.draw_options = DrawOptions(self.scratch)
         self.debug_layer = SpaceDebugOverlay()
         self.add_overlay(self.debug_layer)
 
@@ -52,7 +50,6 @@ class LevelScreen(SceneScreen):
         _, self.debug_layer.visible = imgui.checkbox(
             "Debug Draw", self.debug_layer.visible
         )
-        #_, self.debug_draw_enabled = imgui.checkbox("Debug Draw", self.debug_draw_enabled)
         
 
         if imgui.button("Restart"):
@@ -63,8 +60,5 @@ class LevelScreen(SceneScreen):
             Scheduler().schedule_once(lambda dt: exit(), 0)
 
         imgui.end()
-
-        #if self.debug_draw_enabled:
-        #    self.scene.physics_engine.debug_draw(self.draw_options)
 
         super()._draw()

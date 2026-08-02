@@ -1,5 +1,7 @@
+import glm
+
 from crunge.engine.d2.entity import DynamicEntity2D
-from crunge.engine.d2.physics.geom import BoxGeom, BallGeom, HullGeom
+from crunge.engine.d2.physics.geom import Geom, BoxGeom, BallGeom, HullGeom
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 
 import badwing.globe
@@ -7,12 +9,12 @@ from badwing.constants import *
 
 
 class Obstacle(DynamicEntity2D):
-    def __init__(self, position, sprite, geom):
+    def __init__(self, position: glm.vec2, sprite: Sprite, geom: Geom):
         super().__init__(position, vu=SpriteVu(), model=sprite, geom=geom)
 
     @classmethod
-    def produce(self, kind, position, sprite):
-        node = kinds[kind].produce(position, sprite)
+    def produce(cls: type["Obstacle"], kind: str, position: glm.vec2, sprite: Sprite):
+        node = kinds[kind](position, sprite)
         return node
 
 
@@ -22,32 +24,21 @@ ROCK_MASS = 50.0
 
 
 class Box(Obstacle):
-    def __init__(self, position, sprite=None):
+    def __init__(self, position: glm.vec2, sprite: Sprite):
         super().__init__(position, sprite, geom=BoxGeom())
         self.mass = BOX_MASS
 
-    @classmethod
-    def produce(self, position, sprite):
-        return Box(position, sprite)
-
 
 class Ball(Obstacle):
-    def __init__(self, position, sprite=None):
+    def __init__(self, position: glm.vec2, sprite: Sprite):
         super().__init__(position, sprite, geom=BallGeom())
         self.mass = BALL_MASS
 
-    @classmethod
-    def produce(self, sprite):
-        return Ball(sprite.position, sprite)
-
 
 class Rock(Obstacle):
-    def __init__(self, position=(0, 0), sprite=None):
+    def __init__(self, position: glm.vec2, sprite: Sprite):
         super().__init__(position, sprite, geom=HullGeom())
-
-    @classmethod
-    def produce(self, sprite):
-        return Rock(sprite.position, sprite)
+        self.mass = ROCK_MASS
 
 
 kinds = {

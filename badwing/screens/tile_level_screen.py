@@ -41,7 +41,6 @@ class TileLevelScreen(LevelScreen):
         if self.avatar is None:
             return
         velocity = self.avatar.velocity
-        #speed = glm.length(velocity) / 128
         speed = glm.length(velocity)
 
         #logger.debug(f"delta_time: {delta_time}")

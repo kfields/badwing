@@ -80,20 +80,13 @@ class DynamicCharacterController(CharacterController):
         hw = bounds.width / 2
         hh = bounds.height / 2
 
-        #feet_y = -hh + 16
         feet_y = -hh + .25
 
         self.feet = pymunk.Circle(
             body, radius=.25, offset=(0, feet_y)
         )
+        self.feet.elasticity = 0.0
 
-        '''
-        self.feet = pymunk.Circle(
-            body, radius=32, offset=(0, feet_y)
-        )
-        '''
-
-        #for foot in (self.foot_l, self.foot_r):
         for foot in (self.feet,):
             foot.friction = FOOT_FRICTION
             foot.elasticity = 0.0

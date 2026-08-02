@@ -12,11 +12,9 @@ from crunge.engine.d2.entity import Entity2D, EntityGroup2D
 from .butterfly_brain import ButterflyBrain
 
 
-#RANGE = 512  # How far they can travel
-RANGE = 4.0
+RANGE = 4.0 # How far they can travel
 HALF_RANGE = RANGE / 2
 
-#DEFAULT_BORDER = Bounds2(0, 0, 1920, 1080)
 DEFAULT_BORDER = Bounds2(0, 0, 1920 / 128, 1080 / 128)
 
 

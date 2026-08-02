@@ -36,7 +36,6 @@ class ButterflyBrain(Brain):
         self.wheel = 0
         self.begin_pos = glm.vec2()
         self.end_pos = glm.vec2()
-        #self.sensor_range = 512
         self.sensor_range = 4.0
 
         # Animation timing

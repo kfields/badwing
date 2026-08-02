@@ -16,19 +16,14 @@ from ...character.dynamic_character import DynamicCharacter
 from .skateboard_controller import SkateboardController
 
 
-#WHEEL_RADIUS = 32
 WHEEL_RADIUS = 0.25
 WHEEL_MASS = 350.0
 
-#CHASSIS_WIDTH = 64
 CHASSIS_WIDTH = 0.5
-#CHASSIS_HEIGHT = 16
 CHASSIS_HEIGHT = 0.1
 CHASSIS_MASS = 70.0
 
-#X_PAD = 48
 X_PAD = 0.3
-#Y_PAD = 28
 Y_PAD = 0.25
 
 SPEED_DELTA = 1.0
@@ -96,19 +91,13 @@ class Skateboard(PhysicsGroup2D):
 
     def mount(self, mountee: DynamicCharacter):
         self.mountee = mountee
-        #point = glm.vec2(0, 16)
-        #point = glm.vec2(0, 16/128.0)
-        point = glm.vec2(0, -14/128.0)
+        point = glm.vec2(0, -0.1)
         mountee.on_mount(self.chassis, point)
         logger.debug(f"mountee body: {mountee.body}")
 
-        #p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-16, 32), tuple(point))
-        #p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-16/128.0, 32/128.0), tuple(point))
-        p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-16/128.0, 0), (-16/128.0, 0))
+        p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-0.125, 0), (-0.125, 0))
 
-        #p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (16, 32), tuple(point))
-        #p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (16/128.0, 32/128.0), tuple(point))
-        p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (16/128.0, 0), (16/128.0, 0))
+        p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (0.125, 0), (0.125, 0))
 
         self.mountee_pins.extend([p5, p6])
 

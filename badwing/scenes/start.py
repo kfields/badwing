@@ -33,6 +33,5 @@ class StartScene(Level):
         logger.debug(f"Creating butterflies within bounds: {bounds}")
 
         self.butterflies = Butterflies.create_random(20, bounds)
-        #butterflies = Butterflies.create_random(20)
         self.butterfly_layer.attach(self.butterflies)
         self.add_layer(butterfly_layer)
