@@ -7,7 +7,7 @@ from badwing.assets import asset
 from badwing.level import Level
 
 #from badwing.physics.dynamic import DynamicPhysicsEngine
-#from badwing.physics.kinematic import KinematicPhysicsEngine
+#from badwing.physics.kinematic import PhysicsWorld2D
 from badwing.scene_layer import SceneLayer
 from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
@@ -28,7 +28,7 @@ class StickerLevel(Level):
         super().__init__(name)
 
         # Our physics engine
-        self.physics_engine = physics_engine = KinematicPhysicsEngine()
+        self.physics_engine = physics_engine = PhysicsWorld2D()
         #self.physics_engine = physics_engine = DynamicPhysicsEngine()
         self.space = physics_engine.space
 

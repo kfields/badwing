@@ -1,6 +1,6 @@
 import glm
 
-from crunge.engine.d2.physics import PhysicsEngine2D
+from crunge.engine.d2.physics import PhysicsWorld2D
 
 import badwing.globe
 from badwing.constants import *
@@ -12,7 +12,7 @@ from ..map.map_loader import MapLoader
 
 
 class Level(Scene):
-    def __init__(self, name: str, physics_engine: PhysicsEngine2D):
+    def __init__(self, name: str, physics_engine: PhysicsWorld2D):
         super().__init__(name, physics_engine)
         badwing.globe.scene = self
         self.tilewidth = 0

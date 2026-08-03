@@ -5,4 +5,5 @@
 -e ../crunge/pkg/yoga
 -e ../crunge/pkg/imgui
 -e ../crunge/pkg/tmx
+-e ../crunge/pkg/box2d
 -e ../crunge/pkg/engine

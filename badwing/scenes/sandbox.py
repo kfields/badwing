@@ -8,7 +8,7 @@ from badwing.constants import *
 from badwing.assets import asset
 
 from badwing.physics.dynamic import DynamicPhysicsEngine
-from badwing.physics.kinematic import KinematicPhysicsEngine
+from badwing.physics.kinematic import PhysicsWorld2D
 from badwing.scene_layer import SceneLayer
 from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer

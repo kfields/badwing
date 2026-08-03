@@ -1,5 +1,5 @@
 from crunge.engine.math import Bounds2
-from crunge.engine.d2.physics import PhysicsEngine2D
+from crunge.engine.d2.physics import PhysicsWorld2D
 
 from badwing.level import Level
 
@@ -11,7 +11,7 @@ from badwing.characters.butterfly import Butterflies
 
 
 class EndScene(Level):
-    def __init__(self, name, physics_engine: PhysicsEngine2D):
+    def __init__(self, name, physics_engine: PhysicsWorld2D):
         super().__init__(name, physics_engine)
 
     def _create(self):

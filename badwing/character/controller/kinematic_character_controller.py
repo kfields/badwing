@@ -2,13 +2,13 @@ from loguru import logger
 import glm
 
 from crunge import sdl
-from crunge.engine.d2.physics.physics import MotionState
-import crunge.engine.d2.physics.globe as physics_globe
+from crunge.engine.d2.physics import MotionState
+from crunge.engine.d2.physics import globe as physics_globe
 from crunge.engine.d2.node_2d import Node2D
-import badwing.globe
-from badwing.constants import *
-
-from badwing.character.controller import CharacterController
+from ... import globe
+from ...constants import *
+from ... import characters
+from ...character.controller import CharacterController
 
 
 class KinematicCharacterController(CharacterController):
@@ -18,9 +18,9 @@ class KinematicCharacterController(CharacterController):
         self.avatar = avatar
         # self.jump_sound = arcade.load_sound(":resources:/sounds/jump1.wav")
         #
-        self.character_layer = badwing.globe.scene.character_layer
-        self.ground_layer = badwing.globe.scene.ground_layer
-        self.ladder_layer = badwing.globe.scene.ladder_layer
+        self.character_layer = globe.scene.character_layer
+        self.ground_layer = globe.scene.ground_layer
+        self.ladder_layer = globe.scene.ladder_layer
 
     def mount(self):
         logger.debug(f"avatar bounds: {self.avatar.bounds}")
@@ -28,12 +28,12 @@ class KinematicCharacterController(CharacterController):
         for node in hit_list:
             logger.debug(f"Checking {node}")
             # if isinstance(node, badwing.characters.Chassis):
-            if isinstance(node, badwing.characters.Skateboard):
+            if isinstance(node, characters.Skateboard):
                 logger.debug(f"Mounting {node}")
                 # mount = node.group
                 mount = node
                 mount.mount(self.avatar)
-                badwing.globe.screen.push_avatar(mount)
+                globe.screen.push_avatar(mount)
 
     def check_ladder(self):
         if self.ladder_layer:

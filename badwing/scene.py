@@ -1,11 +1,11 @@
 from crunge.engine.d2.scene.physics_scene_2d import PhysicsScene2D
-from crunge.engine.d2.physics import PhysicsEngine2D
+from crunge.engine.d2.physics import PhysicsWorld2D
 
 import badwing.globe
 
 
 class Scene(PhysicsScene2D):
-    def __init__(self, name: str, physics_engine: PhysicsEngine2D):
+    def __init__(self, name: str, physics_engine: PhysicsWorld2D):
         super().__init__(physics_engine)
         badwing.globe.scene = self
         self.name = name

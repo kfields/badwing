@@ -1,1 +1,1 @@
-from badwing.character.controller import CharacterController
+from .controller import CharacterController

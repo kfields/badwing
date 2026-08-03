@@ -2,7 +2,7 @@ from typing import List
 from loguru import logger
 
 from crunge.engine.math import Bounds2
-from crunge.engine.d2.physics import PhysicsEngine2D
+from crunge.engine.d2.physics import PhysicsWorld2D
 from crunge.engine.d2.scene.layer import GraphLayer2D
 
 from badwing.level import Level
@@ -14,7 +14,7 @@ from badwing.characters.butterfly import Butterfly, Butterflies
 
 
 class StartScene(Level):
-    def __init__(self, name, physics_engine: PhysicsEngine2D):
+    def __init__(self, name, physics_engine: PhysicsWorld2D):
         super().__init__(name, physics_engine)
         self.butterflies: List[Butterfly] = []
 

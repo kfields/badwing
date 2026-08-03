@@ -5,12 +5,12 @@ from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
 
-from badwing.character.kinematic_character import KinematicCharacter
+from badwing.character.dynamic_character import DynamicCharacter
 
 from .robot_brain import RobotBrain
 
 
-class Robot(KinematicCharacter):
+class Robot(DynamicCharacter):
     def __init__(self, position=glm.vec2()):
         model = SpriteLoader(sprite_builder=CollidableSpriteBuilder()).load(
             ":resources:/characters/robot_idle.png"

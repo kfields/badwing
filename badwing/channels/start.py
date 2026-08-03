@@ -1,7 +1,7 @@
 from crunge.engine.factory import ClassFactory
 
 from crunge.engine.channel import PhysicsSceneChannel
-from crunge.engine.d2.physics import DynamicPhysicsEngine
+from crunge.engine.d2.physics import PhysicsWorld2D
 
 from ..badwing import BadWing
 from ..scenes.start import StartScene
@@ -13,7 +13,7 @@ class StartChannel(PhysicsSceneChannel):
         super().__init__(
             ClassFactory(StartScreen),
             ClassFactory(StartScene),
-            ClassFactory(DynamicPhysicsEngine),
+            ClassFactory(PhysicsWorld2D),
             "start",
             "Start",
         )

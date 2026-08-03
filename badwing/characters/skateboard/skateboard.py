@@ -1,33 +1,38 @@
 from loguru import logger
 import glm
-import pymunk
+
+import crunge.box2d as box2d
 
 from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
 from crunge.engine.d2.sprite import SpriteVu
-from crunge.engine.d2.entity import PhysicsGroup2D, DynamicEntity2D
+from crunge.engine.d2.entity import PhysicsGroup2D, Entity2D, DynamicEntity2D
 from crunge.engine.d2.physics import BoxGeom, BallGeom
-import crunge.engine.d2.physics.globe as physics_globe
+from crunge.engine.d2.physics import globe as physics_globe
 
-from badwing.util import debounce
+from ...util import debounce
 
-from ...character.dynamic_character import DynamicCharacter
 from .skateboard_controller import SkateboardController
 
-
 WHEEL_RADIUS = 0.25
-WHEEL_MASS = 350.0
+WHEEL_MASS = 10
 
 CHASSIS_WIDTH = 0.5
 CHASSIS_HEIGHT = 0.1
-CHASSIS_MASS = 70.0
+CHASSIS_MASS = 2
 
 X_PAD = 0.3
 Y_PAD = 0.25
 
-SPEED_DELTA = 1.0
-MAX_SPEED = 100.0
+SPEED_DELTA = .001
+#MAX_SPEED = 1.0
+MAX_SPEED = 0.5
+
+# No motor/torque constants any more - propulsion is direct velocity control
+# (see update() below), same pattern DynamicCharacterController uses for
+# _apply_ground_movement. Wheel joints stay motorless/free-spinning, which
+# also removes the reaction-torque path that was causing the pitch wobble.
 
 sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
 
@@ -40,6 +45,17 @@ class Wheel(DynamicEntity2D):
             position, scale=scale, vu=SpriteVu(), model=sprite, geom=BallGeom()
         )
         self.mass = WHEEL_MASS
+
+    def add_shape(self, shape):
+        #shape.set_density(WHEEL_MASS / (4/3 * 3.14159 * WHEEL_RADIUS**3), True)
+        #shape.set_density(0.1, True)
+        #pass
+        surface_material = box2d.SurfaceMaterial(
+            #friction=0.0, restitution=0.0
+            #friction=0.1, restitution=0.1
+            friction=0.1
+        )
+        shape.set_surface_material(surface_material)
 
     @classmethod
     def produce(self, position=glm.vec2()):
@@ -56,6 +72,11 @@ class Chassis(DynamicEntity2D):
         )
         self.mass = CHASSIS_MASS
 
+    def add_shape(self, shape):
+        #shape.set_density(CHASSIS_MASS / (CHASSIS_WIDTH * CHASSIS_HEIGHT), True)
+        #shape.set_density(2, True)
+        pass
+
     @classmethod
     def produce(self, position=glm.vec2()):
         return Chassis(position)
@@ -65,13 +86,15 @@ class Skateboard(PhysicsGroup2D):
     def __init__(self, position=glm.vec2()):
         super().__init__(position)
         self.mountee = None
-        self.mountee_pins = []
+        self.mountee_joints = []
         self.speed = 0
-        self.motors_attached = True
 
         chassis_pos = position
         front_wheel_pos = chassis_pos - glm.vec2(-(CHASSIS_WIDTH / 2 + X_PAD), Y_PAD)
         back_wheel_pos = chassis_pos - glm.vec2(CHASSIS_WIDTH / 2 + X_PAD, Y_PAD)
+
+        self._front_wheel_pos = front_wheel_pos
+        self._back_wheel_pos = back_wheel_pos
 
         self.chassis = chassis = self.add_node(Chassis.produce(chassis_pos))
         self.vu = chassis.vu
@@ -83,113 +106,148 @@ class Skateboard(PhysicsGroup2D):
         return self.chassis.velocity
 
     @classmethod
-    def produce(self, position=(0, 0)):
+    def produce(self, position=glm.vec2(0, 0)):
         return Skateboard(position)
 
     def control(self):
         return SkateboardController(self)
 
-    def mount(self, mountee: DynamicCharacter):
+    def mount(self, mountee: Entity2D):
         self.mountee = mountee
-        point = glm.vec2(0, -0.1)
+        point = glm.vec2(0, 0.6)
         mountee.on_mount(self.chassis, point)
         logger.debug(f"mountee body: {mountee.body}")
 
-        p5 = pymunk.PinJoint(mountee.body, self.chassis.body, (-0.125, 0), (-0.125, 0))
+        world = physics_globe.physics_engine  # ASSUMPTION
 
-        p6 = pymunk.PinJoint(mountee.body, self.chassis.body, (0.125, 0), (0.125, 0))
+        mountee_anchor = box2d.Vec2(0, 0)
+        mounted_anchor = box2d.Vec2(0, 0.6)
+        weld_def = box2d.WeldJointDef(
+            body_id_a=mountee.body,
+            body_id_b=self.chassis.body,
+            local_frame_a=box2d.Transform(p=mountee_anchor),
+            local_frame_b=box2d.Transform(p=mounted_anchor),
 
-        self.mountee_pins.extend([p5, p6])
-
-        physics_globe.physics_engine.space.add(p5, p6)
+            #angular_hertz=3.0,          # ASSUMPTION field name
+            #angular_damping_ratio=0.7,  # ASSUMPTION field name
+            #linear_hertz=0.0,
+        )
+        weld_joint = box2d.create_weld_joint(world, weld_def)  # ASSUMPTION
+        self.mountee_joints = [weld_joint]
 
     def dismount(self):
         logger.debug("dismounting")
         if self.mountee is None:
             return
-        physics_globe.physics_engine.space.remove(*self.mountee_pins)
-        self.mountee_pins = []
+        for joint_id in self.mountee_joints:
+            box2d.destroy_joint(joint_id, False)  # ASSUMPTION
+        self.mountee_joints = []
         point = glm.vec2(0, CHASSIS_HEIGHT / 2)
         self.mountee.on_dismount(self.chassis, point)
         self.mountee = None
 
     def _create(self):
         super()._create()
-        # Create the pin joints connecting the wheels to the chassis
-        p1 = pymunk.PinJoint(
-            self.back_wheel.body, self.chassis.body, (0, 0), (-CHASSIS_WIDTH / 2, 0)
-        )
-        p2 = pymunk.PinJoint(
-            self.back_wheel.body, self.chassis.body, (0, 0), (0, -CHASSIS_HEIGHT / 2)
-        )
-        p3 = pymunk.PinJoint(
-            self.front_wheel.body, self.chassis.body, (0, 0), (CHASSIS_WIDTH / 2, 0)
-        )
-        p4 = pymunk.PinJoint(
-            self.front_wheel.body, self.chassis.body, (0, 0), (0, -CHASSIS_HEIGHT / 2)
-        )
-        # Create the motors connecting the wheels to the chassis
-        self.front_motor = m1 = pymunk.constraints.SimpleMotor(
-            self.front_wheel.body, self.chassis.body, -self.speed
-        )
-        #m1.max_force = 200000
-        max_force = 2000.0
-        m1.max_force = max_force
-        self.back_motor = self.motor = m2 = pymunk.constraints.SimpleMotor(
-            self.back_wheel.body, self.chassis.body, -self.speed
-        )
-        m2.max_force = max_force
 
-        physics_globe.physics_engine.space.add(p1, p2, p3, p4, m1, m2)
+        world = physics_globe.physics_engine
 
-    def attach_motors(self):
-        if self.motors_attached:
-            return
-        self.front_motor.rate = self.back_motor.rate = -self.speed
-        physics_globe.physics_engine.space.add(self.back_motor, self.front_motor)
-        self.motors_attached = True
+        front_anchor_on_chassis = box2d.Vec2(
+            *(self._front_wheel_pos - self.chassis.position)
+        )
+        back_anchor_on_chassis = box2d.Vec2(
+            *(self._back_wheel_pos - self.chassis.position)
+        )
+        wheel_anchor = box2d.Vec2(0, 0)
 
-    def detach_motors(self):
-        if not self.motors_attached:
-            return
-        physics_globe.physics_engine.space.remove(self.back_motor, self.front_motor)
-        self.motors_attached = False
+        front_joint_def = box2d.RevoluteJointDef(
+            body_id_a=self.front_wheel.body,
+            body_id_b=self.chassis.body,
+            local_frame_a=box2d.Transform(p=wheel_anchor),
+            local_frame_b=box2d.Transform(p=front_anchor_on_chassis),
+            enable_motor=False,  # free-spinning - propulsion applied directly to chassis velocity
+        )
+
+        back_joint_def = box2d.RevoluteJointDef(
+            body_id_a=self.back_wheel.body,
+            body_id_b=self.chassis.body,
+            local_frame_a=box2d.Transform(p=wheel_anchor),
+            local_frame_b=box2d.Transform(p=back_anchor_on_chassis),
+            enable_motor=False,
+        )
+
+        self.front_joint = box2d.create_revolute_joint(world, front_joint_def)  # ASSUMPTION
+        self.back_joint = box2d.create_revolute_joint(world, back_joint_def)  # ASSUMPTION
 
     def accelerate(self, rate=SPEED_DELTA):
-        speed = self.speed + rate
-        if speed > MAX_SPEED:
-            return
-        self.speed = speed
-        if not self.motors_attached:
-            self.attach_motors()
+        self.speed = min(self.speed + rate, MAX_SPEED)
 
     def decelerate(self, rate=SPEED_DELTA):
-        speed = self.speed - rate
-        if speed < -MAX_SPEED:
-            return
-        self.speed = speed
-        if not self.motors_attached:
-            self.attach_motors()
+        self.speed = max(self.speed - rate, -MAX_SPEED)
 
     def coast(self):
-        self.detach_motors()
         self.speed = 0
 
     @debounce(1)
-    def ollie(self, impulse=(0, 4000), point=(0, 0)):
+    def ollie(self, impulse=(0, 2.0), point=(0, 0)):
         logger.debug("ollie")
-        self.chassis.body.apply_impulse_at_local_point(impulse, point)
-        self.mountee.body.apply_impulse_at_local_point(impulse, point)
+        chassis_body = self.chassis.body
+        chassis_world_point = chassis_body.get_world_point(box2d.Vec2(*point))  # ASSUMPTION
+        chassis_body.apply_linear_impulse(box2d.Vec2(*impulse), chassis_world_point, True)
 
-    '''
-    @debounce(1)
-    def ollie(self, impulse=(0, 4000), point=(0, 0)):
-        logger.debug("ollie")
-        # self.chassis.body.apply_impulse_at_local_point(impulse, point)
-        self.mountee.body.apply_impulse_at_local_point(impulse, point)
-    '''
+        if self.mountee:
+            mountee_body = self.mountee.body
+            mountee_world_point = mountee_body.get_world_point(box2d.Vec2(*point))  # ASSUMPTION
+            mountee_body.apply_linear_impulse(box2d.Vec2(*impulse), mountee_world_point, True)
 
     def update(self, delta_time=1 / 60):
         super().update(delta_time)
-        if self.motors_attached:
-            self.front_motor.rate = self.back_motor.rate = -self.speed
+        self._apply_propulsion()
+        #self._spin_wheels_cosmetically()
+
+    '''
+    def _apply_propulsion(self):
+        body = self.chassis.body
+        angle = body.angle  # ASSUMPTION property name
+        forward = glm.vec2(glm.cos(angle), glm.sin(angle))
+
+        impulse_scale = self.speed / 50
+        impulse = forward * impulse_scale
+
+        world_point = body.get_world_point(box2d.Vec2(*self.position))
+
+        impulse_point = box2d.Vec2(world_point.x, world_point.y - .25)
+
+        body.apply_linear_impulse(box2d.Vec2(impulse.x, impulse.y), impulse_point, True)
+    '''
+
+    def _apply_propulsion(self):
+        body = self.chassis.body
+        angle = body.angle  # ASSUMPTION property name
+        forward = glm.vec2(glm.cos(angle), glm.sin(angle))
+
+        impulse_scale = self.speed
+        impulse = forward * impulse_scale
+
+        body.apply_linear_impulse_to_center(box2d.Vec2(impulse.x, impulse.y), True)
+
+    '''
+    def _apply_propulsion(self):
+        body = self.chassis.body
+        angle = body.angle  # ASSUMPTION property name
+        forward = glm.vec2(glm.cos(angle), glm.sin(angle))
+
+        vel = self.velocity
+        forward_speed = glm.dot(vel, forward)
+        perp_v = vel - forward_speed * forward
+
+        new_vel = perp_v + self.speed * forward
+        world_force = body.get_world_vector(box2d.Vec2(self.speed * 10, 0))
+        world_point = body.get_world_point(box2d.Vec2(*self.position))
+
+        body.apply_linear_impulse_to_center(box2d.Vec2(self.speed / 100, 0), True)
+    '''
+
+    def _spin_wheels_cosmetically(self):
+        wheel_angular_vel = self.speed / WHEEL_RADIUS
+        self.front_wheel.body.angular_velocity = wheel_angular_vel  # ASSUMPTION
+        self.back_wheel.body.angular_velocity = wheel_angular_vel  # ASSUMPTION

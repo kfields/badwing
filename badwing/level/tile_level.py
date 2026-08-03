@@ -1,6 +1,6 @@
 from loguru import logger
 
-from crunge.engine.d2.physics import PhysicsEngine2D
+from crunge.engine.d2.physics import PhysicsWorld2D
 from crunge.engine.d2.scene.layer import GraphLayer2D
 
 from .. import globe
@@ -12,12 +12,11 @@ from ..effects.sparks import Sparks
 
 
 class TileLevel(Level):
-    def __init__(self, name: str, physics_engine: PhysicsEngine2D):
+    def __init__(self, name: str, physics_engine: PhysicsWorld2D):
         super().__init__(name, physics_engine)
 
     def _create(self):
         super()._create()
-        self.physics_engine.create()
         # TODO: Replace these attributes with a more dynamic layer management system
         # EXAMPLE:
         # scenery_layer = self.get_layer(SceneryLayer) #???

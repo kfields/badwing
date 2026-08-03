@@ -7,14 +7,14 @@ from crunge.engine.d2.physics import (
     DynamicPhysics,
     HullGeom,
 )
-from crunge.engine.d2.physics.physics import MotionState
+from crunge.engine.d2.physics import MotionState
 
 from crunge.engine.d2.sprite import SpriteVu
 
-from badwing.constants import *
-import badwing.globe
+from ..constants import *
+from .. import globe
 
-from badwing.character.controller import KinematicCharacterController
+from ..character.controller import KinematicCharacterController
 
 PLAYER_MASS = 1
 
@@ -39,7 +39,7 @@ class KinematicCharacter(KinematicEntity2D):
         self.angle = 0
         self.body.velocity = (0, 0)
         self.physics = KinematicPhysics()
-        badwing.globe.screen.pop_avatar()
+        globe.screen.pop_avatar()
 
     def control(self):
         return KinematicCharacterController(self)

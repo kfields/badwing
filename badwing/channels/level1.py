@@ -1,7 +1,7 @@
 from crunge.engine.factory import ClassFactory
 
 from crunge.engine.channel import PhysicsSceneChannel
-from crunge.engine.d2.physics import KinematicPhysicsEngine
+from crunge.engine.d2.physics import PhysicsWorld2D
 
 
 from ..badwing import BadWing
@@ -15,7 +15,7 @@ class Level1Channel(PhysicsSceneChannel):
         super().__init__(
             ClassFactory(TileLevelScreen),
             ClassFactory(Level1),
-            ClassFactory(KinematicPhysicsEngine),
+            ClassFactory(PhysicsWorld2D),
             "level1",
             "Level 1",
         )

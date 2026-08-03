@@ -6,8 +6,8 @@ import glm
 from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
 from crunge.engine.d2.sprite import SpriteFlipFlags, SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
 from crunge.engine.resource.sprite import SpriteAtlas
-from crunge.engine.d2.physics.physics import MotionState
-from badwing.brain import Brain
+from crunge.engine.d2.physics import MotionState
+from ..brain import Brain
 
 if TYPE_CHECKING:
     from crunge.engine.d2.entity.physics_entity_2d import PhysicsEntity2D
@@ -90,7 +90,7 @@ class CharacterBrain(Brain):
         super().update(delta_time)
         node = self.node
         #TODO: update node velocity from body and get from node
-        velocity = glm.vec2(node.body.velocity)
+        velocity = node.body.linear_velocity
 
         # Figure out if we need to flip face left or right
         if velocity.x < 0 and self.character_face_direction == RIGHT_FACING:

@@ -3,7 +3,7 @@ from loguru import logger
 from crunge import imgui
 
 from crunge.engine import Scheduler
-from crunge.engine.d2.physics.space_debug_overlay import SpaceDebugOverlay
+from crunge.engine.d2.physics.world_debug_overlay import WorldDebugOverlay
 
 import badwing.globe
 from badwing.constants import *
@@ -18,7 +18,7 @@ class LevelScreen(SceneScreen):
 
     def _create(self):
         super()._create()
-        self.debug_layer = SpaceDebugOverlay()
+        self.debug_layer = WorldDebugOverlay()
         self.add_overlay(self.debug_layer)
 
     
