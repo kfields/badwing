@@ -93,11 +93,9 @@ class DynamicCharacter(DynamicEntity2D):
         logger.debug(
             f"mass data: mass={mass_data.mass}, center={mass_data.center}, inertia={mass_data.rotational_inertia}"
         )
-        '''
         mass_data.mass = 0.1
         com = mass_data.center
         mass_data.center = b2.Vec2(com.x, com.y - 1)
-        '''
         self.body.mass_data = mass_data
 
     def on_dismount(self, node: PhysicsEntity2D, point: glm.vec2):

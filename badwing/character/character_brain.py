@@ -7,7 +7,7 @@ from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLo
 from crunge.engine.d2.sprite import SpriteFlipFlags, SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
 from crunge.engine.resource.sprite import SpriteAtlas
 from crunge.engine.d2.physics import MotionState
-from ..brain import Brain
+from crunge.engine.d2.entity.brain import Brain
 
 if TYPE_CHECKING:
     from crunge.engine.d2.entity.physics_entity_2d import PhysicsEntity2D

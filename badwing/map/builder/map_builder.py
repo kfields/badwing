@@ -1,6 +1,7 @@
 import crunge.engine.loader.tiled.builder as tiled_builder
 
-from .tile_layer_builder import TileLayerBuilder
+#from .tile_layer_builder import TileLayerBuilder
+from .terrain_builder import TerrainBuilder
 from .background_layer_builder import BackgroundLayerBuilder
 from .character_layer_builder import CharacterLayerBuilder
 from .butterfly_layer_builder import ButterflyLayerBuilder
@@ -13,7 +14,8 @@ class MapBuilder(tiled_builder.DefaultMapBuilder):
     def __init__(self):
         super().__init__()
         self.add_image_layer_builder("background", BackgroundLayerBuilder())
-        self.add_tile_layer_builder("ground", TileLayerBuilder())
+        #self.add_tile_layer_builder("ground", TileLayerBuilder())
+        self.add_tile_layer_builder("ground", TerrainBuilder())
         self.add_object_group_builder("pc", CharacterLayerBuilder())
         self.add_tile_layer_builder("butterfly", ButterflyLayerBuilder())
         self.add_object_group_builder("static", StaticObjectGroupBuilder())

@@ -4,9 +4,9 @@ from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite.background_sprite_builder import (
     BackgroundSpriteBuilder,
 )
+from crunge.engine.d2.entity.tile import TileLayer
 
 from badwing.constants import *
-from badwing.tile import TileLayer
 
 
 class BackgroundLayer(TileLayer):
@@ -19,6 +19,16 @@ class BackgroundLayer(TileLayer):
         super()._create()
         sprite = self.sprite = SpriteLoader(
             sprite_builder=BackgroundSpriteBuilder()
+        ).load(self.filename)
+        node = self.node = Node2D(vu=BackgroundVu(), model=sprite)
+        self.attach(node)
+
+    '''
+    def _create(self):
+        super()._create()
+        sprite = self.sprite = SpriteLoader(
+            sprite_builder=BackgroundSpriteBuilder()
         ).load(":resources:/backgrounds/backgroundColorGrass.png")
         node = self.node = Node2D(vu=BackgroundVu(), model=sprite)
         self.attach(node)
+    '''

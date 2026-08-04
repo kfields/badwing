@@ -25,8 +25,8 @@ CHASSIS_MASS = 2
 X_PAD = 0.3
 Y_PAD = 0.25
 
-SPEED_DELTA = .001
-#MAX_SPEED = 1.0
+SPEED_DELTA = 0.001
+# MAX_SPEED = 1.0
 MAX_SPEED = 0.5
 
 # No motor/torque constants any more - propulsion is direct velocity control
@@ -47,14 +47,7 @@ class Wheel(DynamicEntity2D):
         self.mass = WHEEL_MASS
 
     def add_shape(self, shape):
-        #shape.set_density(WHEEL_MASS / (4/3 * 3.14159 * WHEEL_RADIUS**3), True)
-        #shape.set_density(0.1, True)
-        #pass
-        surface_material = box2d.SurfaceMaterial(
-            #friction=0.0, restitution=0.0
-            #friction=0.1, restitution=0.1
-            friction=0.1
-        )
+        surface_material = box2d.SurfaceMaterial(friction=0.0, restitution=0.0)
         shape.set_surface_material(surface_material)
 
     @classmethod
@@ -71,11 +64,6 @@ class Chassis(DynamicEntity2D):
             position, scale=scale, vu=SpriteVu(), model=sprite, geom=BoxGeom()
         )
         self.mass = CHASSIS_MASS
-
-    def add_shape(self, shape):
-        #shape.set_density(CHASSIS_MASS / (CHASSIS_WIDTH * CHASSIS_HEIGHT), True)
-        #shape.set_density(2, True)
-        pass
 
     @classmethod
     def produce(self, position=glm.vec2()):
@@ -96,8 +84,7 @@ class Skateboard(PhysicsGroup2D):
         self._front_wheel_pos = front_wheel_pos
         self._back_wheel_pos = back_wheel_pos
 
-        self.chassis = chassis = self.add_node(Chassis.produce(chassis_pos))
-        self.vu = chassis.vu
+        self.chassis = self.add_node(Chassis.produce(chassis_pos))
         self.front_wheel = self.add_node(Wheel.produce(front_wheel_pos))
         self.back_wheel = self.add_node(Wheel.produce(back_wheel_pos))
 
@@ -118,7 +105,7 @@ class Skateboard(PhysicsGroup2D):
         mountee.on_mount(self.chassis, point)
         logger.debug(f"mountee body: {mountee.body}")
 
-        world = physics_globe.physics_engine  # ASSUMPTION
+        world = physics_globe.physics_engine
 
         mountee_anchor = box2d.Vec2(0, 0)
         mounted_anchor = box2d.Vec2(0, 0.6)
@@ -127,12 +114,8 @@ class Skateboard(PhysicsGroup2D):
             body_id_b=self.chassis.body,
             local_frame_a=box2d.Transform(p=mountee_anchor),
             local_frame_b=box2d.Transform(p=mounted_anchor),
-
-            #angular_hertz=3.0,          # ASSUMPTION field name
-            #angular_damping_ratio=0.7,  # ASSUMPTION field name
-            #linear_hertz=0.0,
         )
-        weld_joint = box2d.create_weld_joint(world, weld_def)  # ASSUMPTION
+        weld_joint = box2d.create_weld_joint(world, weld_def)
         self.mountee_joints = [weld_joint]
 
     def dismount(self):
@@ -140,7 +123,7 @@ class Skateboard(PhysicsGroup2D):
         if self.mountee is None:
             return
         for joint_id in self.mountee_joints:
-            box2d.destroy_joint(joint_id, False)  # ASSUMPTION
+            box2d.destroy_joint(joint_id, False)
         self.mountee_joints = []
         point = glm.vec2(0, CHASSIS_HEIGHT / 2)
         self.mountee.on_dismount(self.chassis, point)
@@ -175,8 +158,12 @@ class Skateboard(PhysicsGroup2D):
             enable_motor=False,
         )
 
-        self.front_joint = box2d.create_revolute_joint(world, front_joint_def)  # ASSUMPTION
-        self.back_joint = box2d.create_revolute_joint(world, back_joint_def)  # ASSUMPTION
+        self.front_joint = box2d.create_revolute_joint(
+            world, front_joint_def
+        )
+        self.back_joint = box2d.create_revolute_joint(
+            world, back_joint_def
+        )
 
     def accelerate(self, rate=SPEED_DELTA):
         self.speed = min(self.speed + rate, MAX_SPEED)
@@ -188,37 +175,28 @@ class Skateboard(PhysicsGroup2D):
         self.speed = 0
 
     @debounce(1)
-    def ollie(self, impulse=(0, 2.0), point=(0, 0)):
+    def ollie(self, impulse=(0, 1.0), point=(0, 0)):
         logger.debug("ollie")
         chassis_body = self.chassis.body
-        chassis_world_point = chassis_body.get_world_point(box2d.Vec2(*point))  # ASSUMPTION
-        chassis_body.apply_linear_impulse(box2d.Vec2(*impulse), chassis_world_point, True)
+        chassis_world_point = chassis_body.get_world_point(
+            box2d.Vec2(*point)
+        )  # ASSUMPTION
+        chassis_body.apply_linear_impulse(
+            box2d.Vec2(*impulse), chassis_world_point, True
+        )
 
         if self.mountee:
             mountee_body = self.mountee.body
-            mountee_world_point = mountee_body.get_world_point(box2d.Vec2(*point))  # ASSUMPTION
-            mountee_body.apply_linear_impulse(box2d.Vec2(*impulse), mountee_world_point, True)
+            mountee_world_point = mountee_body.get_world_point(
+                box2d.Vec2(*point)
+            )  # ASSUMPTION
+            mountee_body.apply_linear_impulse(
+                box2d.Vec2(*impulse), mountee_world_point, True
+            )
 
     def update(self, delta_time=1 / 60):
         super().update(delta_time)
         self._apply_propulsion()
-        #self._spin_wheels_cosmetically()
-
-    '''
-    def _apply_propulsion(self):
-        body = self.chassis.body
-        angle = body.angle  # ASSUMPTION property name
-        forward = glm.vec2(glm.cos(angle), glm.sin(angle))
-
-        impulse_scale = self.speed / 50
-        impulse = forward * impulse_scale
-
-        world_point = body.get_world_point(box2d.Vec2(*self.position))
-
-        impulse_point = box2d.Vec2(world_point.x, world_point.y - .25)
-
-        body.apply_linear_impulse(box2d.Vec2(impulse.x, impulse.y), impulse_point, True)
-    '''
 
     def _apply_propulsion(self):
         body = self.chassis.body
@@ -229,25 +207,3 @@ class Skateboard(PhysicsGroup2D):
         impulse = forward * impulse_scale
 
         body.apply_linear_impulse_to_center(box2d.Vec2(impulse.x, impulse.y), True)
-
-    '''
-    def _apply_propulsion(self):
-        body = self.chassis.body
-        angle = body.angle  # ASSUMPTION property name
-        forward = glm.vec2(glm.cos(angle), glm.sin(angle))
-
-        vel = self.velocity
-        forward_speed = glm.dot(vel, forward)
-        perp_v = vel - forward_speed * forward
-
-        new_vel = perp_v + self.speed * forward
-        world_force = body.get_world_vector(box2d.Vec2(self.speed * 10, 0))
-        world_point = body.get_world_point(box2d.Vec2(*self.position))
-
-        body.apply_linear_impulse_to_center(box2d.Vec2(self.speed / 100, 0), True)
-    '''
-
-    def _spin_wheels_cosmetically(self):
-        wheel_angular_vel = self.speed / WHEEL_RADIUS
-        self.front_wheel.body.angular_velocity = wheel_angular_vel  # ASSUMPTION
-        self.back_wheel.body.angular_velocity = wheel_angular_vel  # ASSUMPTION

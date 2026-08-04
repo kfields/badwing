@@ -13,7 +13,6 @@ class TileLevelScreen(LevelScreen):
     scene: TileLevel
     def __init__(self, scene):
         super().__init__(scene)
-        self.debug_draw_enabled = False
 
     def _create(self):
         super()._create()

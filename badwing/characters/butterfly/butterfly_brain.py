@@ -4,11 +4,10 @@ import random
 from loguru import logger
 import glm
 
-import badwing.globe
-from badwing.brain import Brain
-
 from crunge.engine.loader.sprite.sprite_grid_loader import SpriteGridLoader
+from crunge.engine.d2.entity.brain import Brain
 
+import badwing.globe
 from badwing.util import debounce
 
 SPRITE_WIDTH = 64

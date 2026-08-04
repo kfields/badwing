@@ -3,7 +3,7 @@ from loguru import logger
 import crunge.engine.loader.tiled.builder as tiled_builder
 from crunge.engine.loader.tiled.builder import DefaultTileBuilder
 
-from ...obstacle import Obstacle
+from ...objects.obstacle import Obstacle
 
 
 class ObstacleLayerBuilder(tiled_builder.DefaultTileLayerBuilder):

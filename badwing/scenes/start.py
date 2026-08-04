@@ -27,9 +27,10 @@ class StartScene(Level):
                 "background", ":resources:/backgrounds/backgroundColorGrass.png"
             )
         )
+
         self.butterfly_layer = butterfly_layer = GraphLayer2D("butterflies")
 
-        bounds = Bounds2(self.bounds.left, self.bounds.bottom, self.bounds.right, self.bounds.top)
+        bounds = self.bounds
         logger.debug(f"Creating butterflies within bounds: {bounds}")
 
         self.butterflies = Butterflies.create_random(20, bounds)
