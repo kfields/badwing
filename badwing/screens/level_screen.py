@@ -15,12 +15,16 @@ class LevelScreen(SceneScreen):
     def __init__(self, scene: Level):
         super().__init__(scene)
         self.avatar_stack = []
+        self.show_beat_level_dialog = False
 
     def _create(self):
         super()._create()
         self.debug_layer = WorldDebugOverlay()
         self.add_overlay(self.debug_layer)
 
+    @property
+    def level(self) -> Level:
+        return self.scene
     
     @property
     def avatar(self):
@@ -53,11 +57,21 @@ class LevelScreen(SceneScreen):
         
 
         if imgui.button("Restart"):
-            badwing.globe.game.show_channel("level1")
-            badwing.globe.player.restart_level()
+            badwing.globe.player.remove_level_progress(self.scene.name)
+            badwing.globe.app.show_channel(self.scene.name)
 
         if imgui.button("Quit"):
             Scheduler().schedule_once(lambda dt: exit(), 0)
+
+        if self.level.beaten:
+            imgui.open_popup("Level Complete")
+
+        if imgui.begin_popup_modal("Level Complete", True)[0]:
+            imgui.text("Proceed to the next level:")
+            if imgui.button("OK"):
+                badwing.globe.app.show_channel(self.level.next_level)
+                imgui.close_current_popup()
+            imgui.end_popup()
 
         imgui.end()
 

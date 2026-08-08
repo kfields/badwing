@@ -1,26 +1,21 @@
-import glm
-
 from crunge.engine.d2.physics import PhysicsWorld2D
 
 import badwing.globe
 from badwing.constants import *
 from badwing.scene import Scene
-from badwing.dialogs.pause import PauseDialog
-from badwing.dialogs.beatlevel import BeatLevelDialog
 
 from ..map.map_loader import MapLoader
 
+from badwing.player.player import Player, LevelProgress
+
 
 class Level(Scene):
+    next_level: str = None
+
     def __init__(self, name: str, physics_engine: PhysicsWorld2D):
         super().__init__(name, physics_engine)
         badwing.globe.scene = self
-        self.tilewidth = 0
-        self.tileheight = 0
-
-    def beat_level(self):
-        next_level = self.get_next_level()
-        self.open_dialog(BeatLevelDialog(next_level))
+        self.beaten = False
 
     def _create(self):
         super()._create()
@@ -28,27 +23,21 @@ class Level(Scene):
         map_loader = MapLoader(self)
         map_loader.load(tmx_path)
 
+    def create_progress(self):
+        return LevelProgress(self.name)
+
     def update(self, delta_time):
         super().update(delta_time)
 
         if not self.paused:
-            self.physics_engine.update(1/60)
+            self.physics_engine.update(1 / 60)
             self.check_collisions()
 
         if badwing.globe.player.level_progress.is_completed:
             self.beat_level()
-            badwing.globe.player.level_progress.is_completed = False
 
     def check_collisions(self):
         pass
 
-    '''
-    def on_key_press(self, key, modifiers):
-        if key == arcade.key.ESCAPE:
-            self.open_dialog(PauseDialog())
-
-        self.controller.on_key_press(key, modifiers)
-
-    def on_key_release(self, key, modifiers):
-        self.controller.on_key_release(key, modifiers)
-    '''
+    def beat_level(self):
+        self.beaten = True

@@ -36,16 +36,11 @@ class SceneScreen(SceneView):
         def callback(delta_time):
             controller = self.controller_stack.pop()
             logger.debug(f"Popping controller: {controller}")
-            #self.controller_stack[-1].reset()
 
         Scheduler().schedule_once(callback, 0)
 
     def on_size(self):
         super().on_size()
-        '''
-        bounds = self.bounds
-        self.scene.bounds = Bounds2(bounds.left, bounds.bottom, bounds.right, bounds.top)
-        '''
         self.recenter_camera()
 
     def recenter_camera(self):

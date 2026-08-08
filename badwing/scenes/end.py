@@ -1,18 +1,22 @@
+from typing import List
+from loguru import logger
+
 from crunge.engine.math import Bounds2
 from crunge.engine.d2.physics import PhysicsWorld2D
+from crunge.engine.d2.scene.layer import GraphLayer2D
 
 from badwing.level import Level
 
-from badwing.scene_layer import SceneLayer
 from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 
-from badwing.characters.butterfly import Butterflies
+from badwing.characters.butterfly import Butterfly, Butterflies
 
 
 class EndScene(Level):
     def __init__(self, name, physics_engine: PhysicsWorld2D):
         super().__init__(name, physics_engine)
+        self.butterflies: List[Butterfly] = []
 
     def _create(self):
         super()._create()
@@ -23,9 +27,12 @@ class EndScene(Level):
                 "background", ":resources:/backgrounds/backgroundColorGrass.png"
             )
         )
-        self.butterfly_layer = butterfly_layer = SceneLayer("butterflies")
-        butterflies = Butterflies.create_random(
-            20, self.bounds
-        )
-        self.butterfly_layer.attach(butterflies)
+
+        self.butterfly_layer = butterfly_layer = GraphLayer2D("butterflies")
+
+        bounds = self.bounds
+        logger.debug(f"Creating butterflies within bounds: {bounds}")
+
+        self.butterflies = Butterflies.create_random(20, bounds)
+        self.butterfly_layer.attach(self.butterflies)
         self.add_layer(butterfly_layer)

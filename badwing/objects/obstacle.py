@@ -4,7 +4,6 @@ from crunge.engine.d2.entity import DynamicEntity2D
 from crunge.engine.d2.physics.geom import Geom, BoxGeom, BallGeom, HullGeom
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 
-import badwing.globe
 from badwing.constants import *
 
 

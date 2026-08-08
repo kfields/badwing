@@ -9,6 +9,9 @@ from crunge.engine.d2.sprite import SpriteVu
 
 from crunge.engine.d2.entity import Entity2D, EntityGroup2D
 
+from ...collectible import Collectible
+from ...player import Player
+
 from .butterfly_brain import ButterflyBrain
 
 
@@ -30,7 +33,7 @@ class ButterflyKind(IntEnum):
     Teal = 8
 
 
-class Butterfly(Entity2D):
+class Butterfly(Entity2D, Collectible):
     def __init__(self, position=glm.vec2(), brain=None, border=DEFAULT_BORDER):
         super().__init__(position, vu=SpriteVu(), brain=brain)
         self.border = border
@@ -51,6 +54,9 @@ class Butterfly(Entity2D):
         node = kinds[kind].produce(position, border)
         return node
 
+    def on_collect(self, player: Player) -> bool:
+        player.score += 1
+        return True
 
 class ButterflyAqua(Butterfly):
     @classmethod
