@@ -16,7 +16,7 @@ class EndScreen(SceneScreen):
         imgui.begin("Main")
 
         if imgui.button("Start"):
-            badwing.globe.app.show_channel("level1")
+            badwing.globe.app.show_channel("playground-1")
 
         if imgui.button("Quit"):
             #exit()

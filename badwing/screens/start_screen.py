@@ -16,7 +16,8 @@ class StartScreen(SceneScreen):
         imgui.begin("Main")
 
         if imgui.button("Start"):
-            badwing.globe.app.show_channel("level1")
+            badwing.globe.app.show_channel("playground-1")
+            #badwing.globe.app.show_channel("cavern-1")
 
         if imgui.button("Quit"):
             Scheduler().schedule_once(lambda dt: exit(), 0)

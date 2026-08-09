@@ -1,0 +1,9 @@
+name = 'mossy-decorations-and-hazards'
+type = 'slice'
+
+firstgid = 0
+source = 'mossy-decorations-and-hazards.png'
+width = 1024
+height = 1024
+spacing = 0
+margin = 0

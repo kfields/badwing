@@ -1,0 +1,123 @@
+{
+    "activeFile": "/home/kurt/Dev/crunge/resources/sticker-knight/map/sandbox.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "/home/kurt/Dev/crunge/resources/sticker-knight/map/objs.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "/home/kurt/Dev/crunge/resources/sticker-knight/map/sandbox.tmx": {
+            "scale": 0.2807159810126582,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1275.310364264074,
+                "y": 359.79426477841207
+            }
+        },
+        "/home/kurt/Dev/crunge/resources/tiled/composite_blur.tmx": {
+            "expandedGroupLayers": [
+                7,
+                5
+            ],
+            "scale": 0.33,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1087.878787878788,
+                "y": 1887.8787878787878
+            }
+        },
+        "/home/kurt/Dev/crunge/resources/tiled/compound_blur.tmx": {
+            "expandedGroupLayers": [
+                7,
+                5
+            ],
+            "scale": 0.18480468749999998,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 1920.9469456774468,
+                "y": 1282.4350031705774
+            }
+        },
+        "/home/kurt/Dev/crunge/resources/tiled/stickers.tsx": {
+            "scaleInDock": 1
+        },
+        "/home/kurt/Dev/crunge/resources/tiled/tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "/home/kurt/Dev/tyled/examples/sheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "butterflies.tsx": {
+            "scaleInDock": 1
+        },
+        "characters.tsx": {
+            "scaleInDock": 1
+        },
+        "items.tsx": {
+            "scaleInDock": 1
+        },
+        "level1.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 9,
+            "viewCenter": {
+                "x": 4939.393939393939,
+                "y": 1260.6060606060605
+            }
+        },
+        "mossy-background-decoration.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "mossy-decorations-and-hazards.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "mossy-tileset.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "obstacles.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "stickers.tsx": {
+            "scaleInDock": 1
+        },
+        "tiles.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        }
+    },
+    "last.imagePath": "/home/kurt/Dev/cave-mage/cave_mage/resources",
+    "openFiles": [
+        "level1.tmx",
+        "mossy-background-decoration.tsx",
+        "mossy-tileset.tsx",
+        "mossy-decorations-and-hazards.tsx",
+        "/home/kurt/Dev/crunge/resources/sticker-knight/map/sandbox.tmx",
+        "/home/kurt/Dev/crunge/resources/tiled/compound_blur.tmx",
+        "/home/kurt/Dev/crunge/resources/tiled/composite_blur.tmx"
+    ],
+    "project": "cave-mage.tiled-project",
+    "recentFiles": [
+        "level1.tmx",
+        "mossy-background-decoration.tsx",
+        "mossy-tileset.tsx",
+        "mossy-decorations-and-hazards.tsx",
+        "/home/kurt/Dev/crunge/resources/tiled/composite_blur.tmx",
+        "/home/kurt/Dev/crunge/resources/tiled/compound_blur.tmx",
+        "/home/kurt/Dev/crunge/resources/sticker-knight/map/sandbox.tmx",
+        "/home/kurt/Dev/tyled/examples/sheet.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 128,
+        "width": 128
+    }
+}

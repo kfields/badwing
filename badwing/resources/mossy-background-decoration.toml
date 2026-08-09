@@ -1,0 +1,9 @@
+name = 'mossy-background-decoration'
+type = 'slice'
+
+firstgid = 0
+source = 'mossy-background-decoration.png'
+width = 1024
+height = 1024
+spacing = 0
+margin = 0

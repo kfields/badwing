@@ -39,8 +39,8 @@ def main(debug=False, levelname="start"):
 
     app = BadWing(debug=debug)
     app.install("badwing.channels.start")
-    app.install("badwing.channels.level1")
-    app.install("badwing.channels.level2")
+    app.install("badwing.channels.playground")
+    app.install("badwing.channels.cavern")
     app.install("badwing.channels.end")
     app.show_channel(levelname)
     app.run()
