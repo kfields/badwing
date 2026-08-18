@@ -61,7 +61,8 @@ class LevelScreen(SceneScreen):
 
         if imgui.button("Restart"):
             player.remove_level_progress(self.scene.name)
-            app.show_channel(self.scene.name)
+            #app.show_channel(self.scene.name)
+            app.reshow_channel()
 
         if imgui.button("Quit"):
             Scheduler().schedule_once(lambda dt: exit(), 0)
@@ -72,7 +73,8 @@ class LevelScreen(SceneScreen):
         if imgui.begin_popup_modal("Level Complete", True)[0]:
             imgui.text("Proceed to the next level:")
             if imgui.button("OK"):
-                app.show_channel(app.channel.next_channel)
+                #app.show_channel(app.channel.next_channel)
+                app.show_next_channel()
                 imgui.close_current_popup()
             imgui.end_popup()
 

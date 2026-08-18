@@ -16,7 +16,7 @@ class KinematicCharacterController(CharacterController):
         super().__init__(avatar)
         self.physics_engine = physics_globe.physics_engine
         self.avatar = avatar
-        # self.jump_sound = arcade.load_sound(":resources:/sounds/jump1.wav")
+        # self.jump_sound = arcade.load_sound("${resources}/sounds/jump1.wav")
         #
         self.character_layer = globe.scene.character_layer
         self.ground_layer = globe.scene.ground_layer

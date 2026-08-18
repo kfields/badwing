@@ -26,8 +26,7 @@ X_PAD = 0.3
 Y_PAD = 0.25
 
 SPEED_DELTA = 0.001
-# MAX_SPEED = 1.0
-MAX_SPEED = 0.5
+MAX_SPEED = 0.1
 
 # No motor/torque constants any more - propulsion is direct velocity control
 # (see update() below), same pattern DynamicCharacterController uses for
@@ -39,7 +38,7 @@ sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
 
 class Wheel(DynamicEntity2D):
     def __init__(self, position=glm.vec2()):
-        sprite = sprite_loader.load(":resources:/items/coinGold.png")
+        sprite = sprite_loader.load("${resources}/items/coinGold.png")
         scale = glm.vec2(0.5, 0.5)
         super().__init__(
             position, scale=scale, vu=SpriteVu(), model=sprite, geom=BallGeom()
@@ -57,7 +56,7 @@ class Wheel(DynamicEntity2D):
 
 class Chassis(DynamicEntity2D):
     def __init__(self, position=glm.vec2()):
-        sprite = sprite_loader.load(":resources:/tiles/boxCrate.png")
+        sprite = sprite_loader.load("${resources}/tiles/boxCrate.png")
 
         scale = glm.vec2(1.5, 0.1)
         super().__init__(

@@ -24,7 +24,7 @@ class StartScene(Level):
 
         self.add_layer(
             BackgroundLayer(
-                "background", ":resources:/backgrounds/backgroundColorGrass.png"
+                "background", "${resources}/backgrounds/backgroundColorGrass.png"
             )
         )
 

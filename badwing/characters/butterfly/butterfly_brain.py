@@ -48,7 +48,7 @@ class ButterflyBrain(Brain):
 
         # --- Load Sprites ---
         self.sprites = SpriteGridLoader().load(
-            ":resources:/sprites/butterflies.png",
+            "${resources}/sprites/butterflies.png",
             frame_size=glm.vec2(SPRITE_WIDTH, SPRITE_HEIGHT),
             row_count=9,
             col_count=FRAMES * 2,

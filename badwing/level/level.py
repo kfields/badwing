@@ -16,7 +16,7 @@ class Level(Scene):
 
     def _create(self):
         super()._create()
-        tmx_path = f":resources:/{self.name}.tmx"
+        tmx_path = f"${{resources}}/{self.name}.tmx"
         map_loader = MapLoader(self)
         map_loader.load(tmx_path)
 

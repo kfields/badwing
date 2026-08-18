@@ -13,10 +13,10 @@ from .robot_brain import RobotBrain
 class Robot(DynamicCharacter):
     def __init__(self, position=glm.vec2()):
         model = SpriteLoader(sprite_builder=CollidableSpriteBuilder()).load(
-            ":resources:/characters/robot_idle.png"
+            "${resources}/characters/robot_idle.png"
         )
         atlas = XmlSpriteAtlasLoader(sprite_builder=CollidableSpriteBuilder()).load(
-            ":resources:/characters/robot/sheet.xml"
+            "${resources}/characters/robot/sheet.xml"
         )
         brain = RobotBrain(atlas)
         super().__init__(position, vu=SpriteVu(), model=model, brain=brain)

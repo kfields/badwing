@@ -12,10 +12,10 @@ from .avatar_brain import AvatarBrain
 class Avatar(DynamicCharacter):
     def __init__(self, position=glm.vec2()):
         model = SpriteLoader(sprite_builder=CollidableSpriteBuilder()).load(
-            ":resources:/characters/maleAdventurer_idle.png"
+            "${resources}/characters/maleAdventurer_idle.png"
         )
         atlas = XmlSpriteAtlasLoader(sprite_builder=CollidableSpriteBuilder()).load(
-            ":resources:/characters/male_adventurer/sheet.xml"
+            "${resources}/characters/male_adventurer/sheet.xml"
         )
         brain = AvatarBrain(atlas)
         super().__init__(position, vu=SpriteVu(), model=model, brain=brain)
