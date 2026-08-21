@@ -103,7 +103,7 @@ class DynamicCharacter(DynamicEntity2D):
         self.motion_state = MotionState.FALLING
         self.lock_rotation()
         self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2))
-        self.angle = 0
+        self.rotation = 0
 
         logger.debug(
             f"mass data: mass={self.mass_data.mass}, center={self.mass_data.center}, inertia={self.mass_data.rotational_inertia}"
