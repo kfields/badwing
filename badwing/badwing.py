@@ -9,8 +9,11 @@ from badwing import __version__
 import badwing.globe
 from badwing.player import Player
 
+from .scene_screen import SceneScreen
+
 
 class BadWing(App):
+    display: SceneScreen
     def __init__(self, debug=False):
         super().__init__(title="BadWing")
         badwing.globe.app = self
@@ -18,9 +21,12 @@ class BadWing(App):
         self.scene = None
         self.player = Player()
 
-    def on_view(self):
-        self.scene = self.view.scene
+    def on_display(self):
+        super().on_display()
+        self.scene = self.display.scene
         badwing.globe.player.level = self.scene
+
+        gui = self.display.gui # initialize the GUI overlay
 
     def install(self, name):
         logger.debug(f"Installing: {name}")

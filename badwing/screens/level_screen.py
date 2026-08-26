@@ -9,17 +9,20 @@ import badwing.globe
 from badwing.constants import *
 from badwing.level import Level
 
-from .scene_screen import SceneScreen
+from ..scene_screen import SceneScreen
 
 class LevelScreen(SceneScreen):
-    def __init__(self, scene: Level):
-        super().__init__(scene)
+    def __init__(self, scene: Level, name: str = "LevelScreen", title: str = "Level Screen"):
+        super().__init__(scene, name=name, title=title)
         self.avatar_stack = []
 
     def _create(self):
         super()._create()
         self.debug_layer = WorldDebugOverlay()
-        self.add_overlay(self.debug_layer)
+        #self.add_overlay(self.debug_layer)
+
+    def _created(self):
+        self.primary_view.add_overlay(self.debug_layer)
 
     @property
     def level(self) -> Level:

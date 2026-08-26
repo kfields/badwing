@@ -128,8 +128,8 @@ class Skateboard(PhysicsGroup2D):
         self.mountee.on_dismount(self.chassis, point)
         self.mountee = None
 
-    def _create(self):
-        super()._create()
+    def _created(self):
+        super()._created()
 
         world = physics_globe.physics_engine
 

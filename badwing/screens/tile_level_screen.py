@@ -11,11 +11,26 @@ from .level_screen import LevelScreen
 
 class TileLevelScreen(LevelScreen):
     scene: TileLevel
-    def __init__(self, scene):
-        super().__init__(scene)
+    def __init__(self, scene: TileLevel, name: str = "TileLevelScreen", title: str = "Tile Level Screen"):
+        super().__init__(scene, name=name, title=title)
 
+    """
     def _create(self):
         super()._create()
+        avatar = None
+        logger.debug(f"Character layer children: {self.scene.character_layer.root.children}")
+        for node in self.scene.character_layer.root.children:
+            logger.debug(f"Checking node: {node}")
+            if isinstance(node, Avatar):
+                avatar = node
+                break
+        self.push_avatar(avatar)
+        self.update_camera()
+    """
+
+    def _created(self):
+        super()._created()
+
         avatar = None
         logger.debug(f"Character layer children: {self.scene.character_layer.root.children}")
         for node in self.scene.character_layer.root.children:

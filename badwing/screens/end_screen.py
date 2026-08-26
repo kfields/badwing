@@ -6,7 +6,7 @@ import badwing.globe
 from badwing.constants import *
 from badwing.level import Level
 
-from .scene_screen import SceneScreen
+from ..scene_screen import SceneScreen
 
 class EndScreen(SceneScreen):
     def __init__(self, scene: Level):

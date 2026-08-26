@@ -15,8 +15,8 @@ class TileLevel(Level):
     def __init__(self, name: str, physics_engine: PhysicsWorld2D):
         super().__init__(name, physics_engine)
 
-    def _create(self):
-        super()._create()
+    def _created(self):
+        super()._created()
         # TODO: Replace these attributes with a more dynamic layer management system
         # EXAMPLE:
         # scenery_layer = self.get_layer(SceneryLayer) #???
