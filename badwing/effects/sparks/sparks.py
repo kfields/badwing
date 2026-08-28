@@ -15,9 +15,3 @@ class Sparks(Node2D):
     def _seat(self) -> None:
         self.add(SparksVu(self.color))
         super()._seat()
-
-"""
-class Sparks(Node2D):
-    def __init__(self, position: glm.vec2, color: glm.vec4 = glm.vec4(0.0, 0.0, 1.0, 1.0)) -> None:
-        super().__init__(position, scale=glm.vec2(0.005, 0.005), vu=SparksVu(color))
-"""
