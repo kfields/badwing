@@ -9,7 +9,7 @@ class DynamicObjectGroupBuilder(tiled_builder.DefaultObjectGroupBuilder):
     def __init__(self):
         def create_node_cb(position, rotation, scale, sprite, properties: dict):
             logger.debug(f"process_object: {position}, {sprite}, {properties}")
-            node = DynamicEntity2D(position, rotation, scale, vu=SpriteVu(), model=sprite)
+            node = DynamicEntity2D(position, rotation, scale, model=sprite)
             return node
 
 

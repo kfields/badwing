@@ -19,7 +19,7 @@ class Robot(DynamicCharacter):
             "${resources}/characters/robot/sheet.xml"
         )
         brain = RobotBrain(atlas)
-        super().__init__(position, vu=SpriteVu(), model=model, brain=brain)
+        super().__init__(position, model=model, brain=brain)
 
     @classmethod
     def produce(self, position=glm.vec2()):

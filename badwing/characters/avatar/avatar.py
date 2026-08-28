@@ -18,7 +18,7 @@ class Avatar(DynamicCharacter):
             "${resources}/characters/male_adventurer/sheet.xml"
         )
         brain = AvatarBrain(atlas)
-        super().__init__(position, vu=SpriteVu(), model=model, brain=brain)
+        super().__init__(position, model=model, brain=brain)
 
     @classmethod
     def produce(self, position=glm.vec2()):

@@ -9,7 +9,7 @@ from badwing.constants import *
 
 class Obstacle(DynamicEntity2D):
     def __init__(self, position: glm.vec2, sprite: Sprite, geom: Geom):
-        super().__init__(position, vu=SpriteVu(), model=sprite, geom=geom)
+        super().__init__(position, model=sprite, geom=geom)
 
     @classmethod
     def produce(cls: type["Obstacle"], kind: str, position: glm.vec2, sprite: Sprite):

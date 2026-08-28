@@ -41,7 +41,7 @@ class Wheel(DynamicEntity2D):
         sprite = sprite_loader.load("${resources}/items/coinGold.png")
         scale = glm.vec2(0.5, 0.5)
         super().__init__(
-            position, scale=scale, vu=SpriteVu(), model=sprite, geom=BallGeom()
+            position, scale=scale, model=sprite, geom=BallGeom()
         )
         self.mass = WHEEL_MASS
 
@@ -60,7 +60,7 @@ class Chassis(DynamicEntity2D):
 
         scale = glm.vec2(1.5, 0.1)
         super().__init__(
-            position, scale=scale, vu=SpriteVu(), model=sprite, geom=BoxGeom()
+            position, scale=scale, model=sprite, geom=BoxGeom()
         )
         self.mass = CHASSIS_MASS
 
