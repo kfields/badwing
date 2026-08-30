@@ -5,7 +5,7 @@ from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
 
-from badwing.character.dynamic_character import DynamicCharacter
+from badwing.character.character.dynamic_character import DynamicCharacter
 
 from .robot_brain import RobotBrain
 

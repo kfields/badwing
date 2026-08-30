@@ -11,11 +11,11 @@ from crunge.engine.d2.physics import MotionState
 
 from crunge.engine.d2.sprite import Sprite, SpriteVu
 
-from ..constants import *
-from ..collision_type import CollisionType
-from .. import globe
+from ...constants import *
+from ...collision_type import CollisionType
+from ... import globe
 
-from ..character.controller import DynamicCharacterController
+from .controller import DynamicCharacterController
 
 PLAYER_MASS = 70
 FOOT_FRICTION = 1.2

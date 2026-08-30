@@ -4,7 +4,7 @@ import glm
 from badwing.constants import *
 
 from ..level import TileLevel
-from ..characters import Avatar
+from ..character import Avatar
 
 from .level_screen import LevelScreen
 

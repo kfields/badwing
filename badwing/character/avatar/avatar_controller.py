@@ -123,7 +123,7 @@ class AvatarController(DynamicCharacterController):
             dx = PLAYER_MOVEMENT_SPEED
 
         body = self.avatar.body
-        gx, gy = self.physics_engine.space.gravity
+        gx, gy = self.world.space.gravity
         body.apply_force_at_local_point((0, -gy * body.mass))
         body.velocity = (dx, dy)
 

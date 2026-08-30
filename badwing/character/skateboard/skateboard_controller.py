@@ -4,7 +4,7 @@ from loguru import logger
 
 from crunge import sdl
 
-from ...character import CharacterController
+from ..character import CharacterController
 
 if TYPE_CHECKING:
     from .skateboard import Skateboard

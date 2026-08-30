@@ -10,12 +10,12 @@ from badwing.level import Level
 from badwing.objects.barrier import BarrierLayer
 from badwing.background import BackgroundLayer
 
-from badwing.characters.butterfly import Butterfly, Butterflies
+from badwing.character.butterfly import Butterfly, Butterflies
 
 
 class EndScene(Level):
-    def __init__(self, name, physics_engine: PhysicsWorld2D):
-        super().__init__(name, physics_engine)
+    def __init__(self, name, world: PhysicsWorld2D):
+        super().__init__(name, world)
         self.butterflies: List[Butterfly] = []
 
     def _create(self):

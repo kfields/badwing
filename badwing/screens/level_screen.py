@@ -22,6 +22,7 @@ class LevelScreen(SceneScreen):
         #self.add_overlay(self.debug_layer)
 
     def _created(self):
+        super()._created()
         self.primary_view.add_overlay(self.debug_layer)
 
     @property

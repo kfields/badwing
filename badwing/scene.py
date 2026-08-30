@@ -5,8 +5,8 @@ import badwing.globe
 
 
 class Scene(PhysicsScene2D):
-    def __init__(self, name: str, physics_engine: PhysicsWorld2D):
-        super().__init__(physics_engine)
+    def __init__(self, name: str, world: PhysicsWorld2D):
+        super().__init__(world)
         badwing.globe.scene = self
         self.name = name
 

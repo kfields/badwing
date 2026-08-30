@@ -1,12 +1,12 @@
 from loguru import logger
 import glm
 
-from badwing.characters import Avatar
-from badwing.characters import Skateboard
+from badwing.character import Avatar
+from badwing.character import Skateboard
 
 # from badwing.characters import Blob
 # from badwing.characters import Skeleton
-from badwing.characters import Robot
+from badwing.character import Robot
 
 
 kinds = {

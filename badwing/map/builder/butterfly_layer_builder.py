@@ -3,7 +3,7 @@ from loguru import logger
 import crunge.engine.loader.tiled.builder as tiled_builder
 from crunge.engine.loader.tiled.builder import DefaultTileBuilder
 
-from ...characters.butterfly import Butterfly
+from ...character.butterfly import Butterfly
 
 
 class ButterflyLayerBuilder(tiled_builder.DefaultTileLayerBuilder):

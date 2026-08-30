@@ -11,10 +11,10 @@ from crunge.engine.d2.physics import MotionState
 
 from crunge.engine.d2.sprite import SpriteVu
 
-from ..constants import *
-from .. import globe
+from ...constants import *
+from ... import globe
 
-from ..character.controller import KinematicCharacterController
+from .controller import KinematicCharacterController
 
 PLAYER_MASS = 1
 

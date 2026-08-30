@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 from loguru import logger
 import glm
 
+from ....collision_type import CollisionType
 from crunge import sdl
 from crunge import box2d as b2
 
@@ -12,20 +13,26 @@ from crunge.engine.d2.physics import MotionState
 from crunge.engine.d2.physics import globe as physics_globe
 from crunge.engine.d2.physics.constants import PT_DYNAMIC, PT_KINEMATIC, PT_STATIC
 
-from ... import globe, characters
-from ...constants import *
-from ...character.controller import CharacterController
-from ...collision_type import CollisionType
+from .... import globe, character
+from ....constants import *
+from . import CharacterController
 
 if TYPE_CHECKING:
-    from ...characters.avatar import Avatar
+    from ..dynamic_character import DynamicCharacter
 
 MAX_SPEED = 5.0
-JUMP_IMPULSE = 2.0
+JUMP_IMPULSE = 4.0
+FOOT_FRICTION = 1.2
 
 # New Constants for Air Control
 AIR_ACCEL_FORCE = 10.0
 AIR_DRAG = 0.95           # Multiplier to slow down horizontal drift when keys are released
+
+# Box2D v3 has no collision_type enum like Chipmunk. We identify the foot
+# sensor by shape id equality instead, and mark it via a category bit so it
+# can be filtered/queried if needed later.
+CATEGORY_FOOT = 0x0002
+
 
 class DynamicFootSensorHandler:
     """
@@ -72,22 +79,63 @@ class DynamicFootSensorHandler:
 
 
 class DynamicCharacterController(CharacterController):
-    def __init__(self, avatar: "Avatar"):
+    def __init__(self, avatar: "DynamicCharacter"):
         super().__init__(avatar)
-        self.physics_engine = physics_globe.physics_engine
+        self.world = physics_globe.world
         self.avatar = avatar
 
-        #scene = Scene2D.get_current()
-        scene = globe.scene
+        scene = Scene2D.get_current()
         self.character_layer = scene.get_layer("pc")
         self.ground_layer = scene.get_layer("ground")
         self.ladder_layer = scene.get_layer("ladder")
 
+        self._setup_feet_shape()
         self._setup_collision_handlers()
 
+    def _setup_feet_shape(self):
+        # avatar.body is a b2BodyId (see PPU/Box2D migration notes:
+        # geometry is authored in meters at creation time).
+        body = self.avatar.body
+        bounds = self.avatar.bounds
+        hh = bounds.height / 2
+
+        feet_y = -hh + 0.25
+
+        circle = b2.Circle()
+        circle.center = b2.Vec2(0.0, feet_y)
+        circle.radius = 0.25
+
+        shape_def = b2.ShapeDef()
+        shape_def.material = b2.SurfaceMaterial(friction = FOOT_FRICTION, restitution = 0.0)
+
+        shape_def.is_sensor = False  # feet still need contact response; only
+                                     # the *ground layer* would be a sensor
+        shape_def.enable_contact_events = True  # required on BOTH shapes
+
+        # Box2D's negative groupIndex gives the
+        # same "never collide within group" behavior.
+        group = -((id(body) & 0x7FFF) or 1)
+        shape_def.filter = b2.Filter()
+        shape_def.filter.category_bits = CATEGORY_FOOT
+        shape_def.filter.group_index = group
+
+        self.feet_shape = b2.create_circle_shape(body, shape_def, circle)
+        self.feet_shape.user_data = self
+        self.feet_shape.user_material = CollisionType.FEET
+
+        # Also apply the same never-collide-with-self group to the body's
+        # existing shape (avatar.shapes[0] -> avatar.shape_ids[0]).
+        main_shape = self.avatar.shapes[0]
+        main_filter = main_shape.get_filter()
+        main_filter.group_index = group
+        #b2.Shape_SetFilter(main_shape_id, main_filter)
+        main_shape.set_filter(main_filter)
+        # Ground/other shapes in this pair must also opt in:
+        # enableContactEvents = True is needed on the *other* shape too,
+        # wherever ground/kinematic shapes are created.
 
     def _setup_collision_handlers(self):
-        self._foot_handler = DynamicFootSensorHandler(self.avatar.feet_shape)
+        self._foot_handler = DynamicFootSensorHandler(self.feet_shape)
 
     def check_grounded(self) -> bool:
         return self._foot_handler.touching()
@@ -98,7 +146,7 @@ class DynamicCharacterController(CharacterController):
     def mount(self):
         hit_list = self.character_layer.query_intersection(self.avatar.bounds)
         for node in hit_list:
-            if isinstance(node, characters.Skateboard):
+            if isinstance(node, character.Skateboard):
                 mount = node
                 mount.mount(self.avatar)
                 globe.screen.push_avatar(mount)
@@ -118,7 +166,7 @@ class DynamicCharacterController(CharacterController):
         super().update(delta_time)
 
         # 0. Pull this frame's contact events before reading grounded state.
-        world = self.physics_engine
+        world = self.world
         self._foot_handler.poll(world)
 
         # 1. State Transitions
@@ -180,7 +228,7 @@ class DynamicCharacterController(CharacterController):
         elif self.right_pressed: dx = PLAYER_MOVEMENT_SPEED
 
         body = self.avatar.body
-        world = self.physics_engine
+        world = self.world
         gravity = world.get_gravity()
         mass = body.get_mass()
 

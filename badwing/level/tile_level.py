@@ -12,8 +12,8 @@ from ..effects.sparks import Sparks
 
 
 class TileLevel(Level):
-    def __init__(self, name: str, physics_engine: PhysicsWorld2D):
-        super().__init__(name, physics_engine)
+    def __init__(self, name: str, world: PhysicsWorld2D):
+        super().__init__(name, world)
 
     def _created(self):
         super()._created()

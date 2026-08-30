@@ -5,16 +5,16 @@ from crunge import sdl
 from crunge.engine.d2.physics import MotionState
 from crunge.engine.d2.physics import globe as physics_globe
 from crunge.engine.d2.node_2d import Node2D
-from ... import globe
-from ...constants import *
-from ... import characters
-from ...character.controller import CharacterController
+from .... import globe
+from ....constants import *
+from .... import character
+from . import CharacterController
 
 
 class KinematicCharacterController(CharacterController):
     def __init__(self, avatar: Node2D):
         super().__init__(avatar)
-        self.physics_engine = physics_globe.physics_engine
+        self.world = physics_globe.world
         self.avatar = avatar
         # self.jump_sound = arcade.load_sound("${resources}/sounds/jump1.wav")
         #
@@ -28,7 +28,7 @@ class KinematicCharacterController(CharacterController):
         for node in hit_list:
             logger.debug(f"Checking {node}")
             # if isinstance(node, badwing.characters.Chassis):
-            if isinstance(node, characters.Skateboard):
+            if isinstance(node, character.Skateboard):
                 logger.debug(f"Mounting {node}")
                 # mount = node.group
                 mount = node

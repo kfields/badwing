@@ -7,7 +7,7 @@ from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
 from crunge.engine.d2.sprite import SpriteVu
-from crunge.engine.d2.entity import PhysicsGroup2D, Entity2D, DynamicEntity2D
+from crunge.engine.d2.entity import EntityGroup2D, Entity2D, DynamicEntity2D
 from crunge.engine.d2.physics import BoxGeom, BallGeom
 from crunge.engine.d2.physics import globe as physics_globe
 
@@ -69,7 +69,7 @@ class Chassis(DynamicEntity2D):
         return Chassis(position)
 
 
-class Skateboard(PhysicsGroup2D):
+class Skateboard(EntityGroup2D):
     def __init__(self, position=glm.vec2()):
         super().__init__(position)
         self.mountee = None
@@ -104,7 +104,7 @@ class Skateboard(PhysicsGroup2D):
         mountee.on_mount(self.chassis, point)
         logger.debug(f"mountee body: {mountee.body}")
 
-        world = physics_globe.physics_engine
+        world = physics_globe.world
 
         mountee_anchor = box2d.Vec2(0, 0)
         mounted_anchor = box2d.Vec2(0, 0.6)
@@ -122,7 +122,7 @@ class Skateboard(PhysicsGroup2D):
         if self.mountee is None:
             return
         for joint_id in self.mountee_joints:
-            box2d.destroy_joint(joint_id, False)
+            box2d.destroy_joint(joint_id)
         self.mountee_joints = []
         point = glm.vec2(0, CHASSIS_HEIGHT / 2)
         self.mountee.on_dismount(self.chassis, point)
@@ -131,7 +131,7 @@ class Skateboard(PhysicsGroup2D):
     def _created(self):
         super()._created()
 
-        world = physics_globe.physics_engine
+        world = physics_globe.world
 
         front_anchor_on_chassis = box2d.Vec2(
             *(self._front_wheel_pos - self.chassis.position)
