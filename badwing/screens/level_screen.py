@@ -19,7 +19,6 @@ class LevelScreen(SceneScreen):
     def _create(self):
         super()._create()
         self.debug_layer = WorldDebugOverlay()
-        #self.add_overlay(self.debug_layer)
 
     def _created(self):
         super()._created()

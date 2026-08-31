@@ -24,11 +24,12 @@ class Level(Scene):
         return LevelProgress(self.name)
 
     def update(self, delta_time):
-        super().update(delta_time)
 
         if not self.paused:
             self.world.update(1 / 60)
             self.check_collisions()
+
+        super().update(delta_time)
 
     def check_collisions(self):
         pass

@@ -16,11 +16,9 @@ from ...util import debounce
 from .skateboard_controller import SkateboardController
 
 WHEEL_RADIUS = 0.25
-WHEEL_MASS = 10
 
 CHASSIS_WIDTH = 0.5
 CHASSIS_HEIGHT = 0.1
-CHASSIS_MASS = 2
 
 X_PAD = 0.3
 Y_PAD = 0.25
@@ -37,17 +35,12 @@ sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
 
 
 class Wheel(DynamicEntity2D):
+    geom = BallGeom()
+
     def __init__(self, position=glm.vec2()):
         sprite = sprite_loader.load("${resources}/items/coinGold.png")
         scale = glm.vec2(0.5, 0.5)
-        super().__init__(
-            position, scale=scale, model=sprite, geom=BallGeom()
-        )
-        self.mass = WHEEL_MASS
-
-    def add_shape(self, shape):
-        surface_material = box2d.SurfaceMaterial(friction=0.0, restitution=0.0)
-        shape.set_surface_material(surface_material)
+        super().__init__(position, scale=scale, model=sprite)
 
     @classmethod
     def produce(self, position=glm.vec2()):
@@ -55,14 +48,13 @@ class Wheel(DynamicEntity2D):
 
 
 class Chassis(DynamicEntity2D):
+    geom = BoxGeom()
+
     def __init__(self, position=glm.vec2()):
         sprite = sprite_loader.load("${resources}/tiles/boxCrate.png")
 
         scale = glm.vec2(1.5, 0.1)
-        super().__init__(
-            position, scale=scale, model=sprite, geom=BoxGeom()
-        )
-        self.mass = CHASSIS_MASS
+        super().__init__(position, scale=scale, model=sprite)
 
     @classmethod
     def produce(self, position=glm.vec2()):
@@ -157,12 +149,8 @@ class Skateboard(EntityGroup2D):
             enable_motor=False,
         )
 
-        self.front_joint = box2d.create_revolute_joint(
-            world, front_joint_def
-        )
-        self.back_joint = box2d.create_revolute_joint(
-            world, back_joint_def
-        )
+        self.front_joint = box2d.create_revolute_joint(world, front_joint_def)
+        self.back_joint = box2d.create_revolute_joint(world, back_joint_def)
 
     def accelerate(self, rate=SPEED_DELTA):
         self.speed = min(self.speed + rate, MAX_SPEED)
