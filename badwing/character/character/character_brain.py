@@ -7,7 +7,7 @@ from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLo
 from crunge.engine.d2.sprite import SpriteFlipFlags, SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
 from crunge.engine.resource.sprite import SpriteAtlas
 from crunge.engine.d2.physics import MotionState
-from crunge.engine.d2.entity.brain import Brain
+from crunge.engine.d2.entity.brain import EntityBrain
 
 if TYPE_CHECKING:
     from crunge.engine.d2.entity.physics_entity_2d import PhysicsEntity2D
@@ -23,7 +23,7 @@ class Command:
     RIGHT = "right"
     PUNCH = "punch"
 
-class CharacterBrain(Brain):
+class CharacterBrain(EntityBrain):
     node: "PhysicsEntity2D"
     def __init__(self, atlas: SpriteAtlas):
         super().__init__()

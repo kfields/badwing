@@ -5,9 +5,9 @@ import arcade
 from botsley.run.task import *
 
 import badwing.globe
-from badwing.brain import Brain
+from badwing.brain import EntityBrain
 
-class RobotBrain(Brain):
+class RobotBrain(EntityBrain):
     def __init__(self, model):
         super().__init__(model)
 
@@ -25,7 +25,7 @@ class RobotBrain(Brain):
 
         self.tree = top
 
-class RobotBrain(Brain):
+class RobotBrain(EntityBrain):
     def __init__(self, model):
         super().__init__(model)
         with root() as root:

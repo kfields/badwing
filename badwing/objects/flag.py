@@ -6,7 +6,7 @@ from ..collectible import Collectible
 
 
 class Pole(Node2D, Collectible):
-    default_vu = SpriteVu
+    vu_class = SpriteVu
     def __init__(self, position, sprite):
         super().__init__(position, model=sprite)
         self.collected = False
@@ -16,7 +16,7 @@ class Pole(Node2D, Collectible):
 
 
 class Flag(Node2D, Collectible):
-    default_vu = SpriteVu
+    vu_class = SpriteVu
     stage = 0
 
     def __init__(self, position, sprite):

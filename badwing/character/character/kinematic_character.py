@@ -16,17 +16,18 @@ from ... import globe
 
 from .controller import KinematicCharacterController
 
-PLAYER_MASS = 1
-
 
 class KinematicCharacter(KinematicEntity2D):
+    geom = HullGeom()
+
     def __init__(self, position=glm.vec2(), vu=SpriteVu(), model=None, brain=None):
-        super().__init__(position, vu=vu, model=model, brain=brain, geom=HullGeom())
-        self.mass = PLAYER_MASS
+        super().__init__(position, vu=vu, model=model, brain=brain)
 
     def on_mount(self, node: PhysicsEntity2D, point: glm.vec2):
         self.motion_state = MotionState.MOUNTED
-        self.position = node.get_tx_point(glm.vec2(point.x, point.y + self.height / 2 + 4))
+        self.position = node.get_tx_point(
+            glm.vec2(point.x, point.y + self.height / 2 + 4)
+        )
         logger.debug(f"mounting at {self.position}")
         self.rotation = node.rotation
         # logger.debug('on_mount')

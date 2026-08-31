@@ -17,16 +17,15 @@ from ... import globe
 
 from .controller import DynamicCharacterController
 
-PLAYER_MASS = 70
 FOOT_FRICTION = 1.2
 
 
 class DynamicCharacter(DynamicEntity2D):
     model: Sprite
+    geom = HullGeom()
 
-    def __init__(self, position: glm.vec2 = None, model=None, brain=None):
-        super().__init__(position, model=model, brain=brain, geom=HullGeom())
-        self.mass = PLAYER_MASS
+    def __init__(self, position: glm.vec2 = None, model=None):
+        super().__init__(position, model=model)
         self.mass_data: b2.MassData = None
         self.feet_shape: b2.Shape = None
 

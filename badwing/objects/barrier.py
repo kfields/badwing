@@ -12,11 +12,13 @@ BARRIER_HEIGHT = 1000
 
 
 class Barrier(StaticEntity2D):
+    geom = BoxGeom()
+
     def __init__(self, left: float, bottom: float, right: float, top: float):
         width = right - left
         height = top - bottom
         position = glm.vec2(left + width / 2, bottom + height / 2)
-        super().__init__(position, scale=glm.vec2(width, height), geom=BoxGeom())
+        super().__init__(position, scale=glm.vec2(width, height))
 
 
 class BarrierLayer(GraphLayer2D):

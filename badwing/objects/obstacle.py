@@ -8,8 +8,8 @@ from badwing.constants import *
 
 
 class Obstacle(DynamicEntity2D):
-    def __init__(self, position: glm.vec2, sprite: Sprite, geom: Geom):
-        super().__init__(position, model=sprite, geom=geom)
+    def __init__(self, position: glm.vec2, sprite: Sprite):
+        super().__init__(position, model=sprite)
 
     @classmethod
     def produce(cls: type["Obstacle"], kind: str, position: glm.vec2, sprite: Sprite):
@@ -17,27 +17,25 @@ class Obstacle(DynamicEntity2D):
         return node
 
 
-BOX_MASS = 50.0
-BALL_MASS = 50.0
-ROCK_MASS = 50.0
-
-
 class Box(Obstacle):
+    geom = BoxGeom()
+
     def __init__(self, position: glm.vec2, sprite: Sprite):
-        super().__init__(position, sprite, geom=BoxGeom())
-        self.mass = BOX_MASS
+        super().__init__(position, sprite)
 
 
 class Ball(Obstacle):
+    geom = BallGeom()
+
     def __init__(self, position: glm.vec2, sprite: Sprite):
-        super().__init__(position, sprite, geom=BallGeom())
-        self.mass = BALL_MASS
+        super().__init__(position, sprite)
 
 
 class Rock(Obstacle):
+    geom = HullGeom()
+
     def __init__(self, position: glm.vec2, sprite: Sprite):
-        super().__init__(position, sprite, geom=HullGeom())
-        self.mass = ROCK_MASS
+        super().__init__(position, sprite)
 
 
 kinds = {
