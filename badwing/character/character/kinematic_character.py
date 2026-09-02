@@ -20,8 +20,8 @@ from .controller import KinematicCharacterController
 class KinematicCharacter(KinematicEntity2D):
     geom = HullGeom()
 
-    def __init__(self, position=glm.vec2(), vu=SpriteVu(), model=None, brain=None):
-        super().__init__(position, vu=vu, model=model, brain=brain)
+    def __init__(self, position=glm.vec2(), vu=SpriteVu(), model=None):
+        super().__init__(position, vu=vu, model=model)
 
     def on_mount(self, node: PhysicsEntity2D, point: glm.vec2):
         self.motion_state = MotionState.MOUNTED
