@@ -146,8 +146,8 @@ class Butterflies(EntityGroup2D):
     def create_random(self, count, border: Bounds2 = DEFAULT_BORDER):
         group = Butterflies()
         for i in range(count):
-            center_x = random.randint(border.left, border.right)
-            center_y = random.randint(border.bottom, border.top)
+            center_x = random.uniform(border.left, border.right)
+            center_y = random.uniform(border.bottom, border.top)
             position = glm.vec2(center_x, center_y)
             # logger.debug(f"position: {position}")
             ndx = random.randint(0, 8)

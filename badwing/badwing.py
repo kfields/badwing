@@ -1,4 +1,4 @@
-import importlib.resources
+from importlib.resources import files
 
 from loguru import logger
 
@@ -39,7 +39,7 @@ class BadWing(App):
         install(self)
 
 def main(debug=False, levelname="start"):
-    resource_root = importlib.resources.path("badwing.resources", "")
+    resource_root = files("badwing.resources")
 
     ResourceManager().add_path_variable("resources", resource_root)
 

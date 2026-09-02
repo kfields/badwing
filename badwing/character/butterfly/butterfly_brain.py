@@ -219,7 +219,7 @@ class ButterflyBrain(EntityBrain):
         self.move_to(glm.vec2(px, py))
 
     def randforward(self):
-        self.forward(random.randint(0, self.sensor_range))
+        self.forward(random.uniform(0, self.sensor_range))
 
     @debounce(0.1)
     def face_left(self):
