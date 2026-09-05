@@ -142,7 +142,7 @@ class ButterflyBrain(EntityBrain):
         next_x, next_y = 0, 0
         need_turn = False
 
-        bounds = self.node.bounds
+        bounds = self.node.global_bounds
         # logger.debug(f"Bounds: {bounds}")
         min_x, min_y, max_x, max_y = (
             bounds.left,

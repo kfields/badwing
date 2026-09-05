@@ -96,7 +96,7 @@ class DynamicCharacterController(CharacterController):
         # avatar.body is a b2BodyId (see PPU/Box2D migration notes:
         # geometry is authored in meters at creation time).
         body = self.avatar.body
-        bounds = self.avatar.bounds
+        bounds = self.avatar.global_bounds
         hh = bounds.height / 2
 
         feet_y = -hh + 0.25
@@ -144,7 +144,7 @@ class DynamicCharacterController(CharacterController):
     # Helpers
     # ------------------------------------------------------------------
     def mount(self):
-        hit_list = self.character_layer.query_intersection(self.avatar.bounds)
+        hit_list = self.character_layer.query_intersection(self.avatar.global_bounds)
         for node in hit_list:
             if isinstance(node, character.Skateboard):
                 mount = node
@@ -153,7 +153,7 @@ class DynamicCharacterController(CharacterController):
 
     def check_ladder(self):
         if self.ladder_layer:
-            hit_list = self.ladder_layer.query_intersection(self.avatar.bounds)
+            hit_list = self.ladder_layer.query_intersection(self.avatar.global_bounds)
             if hit_list:
                 return True
         return False

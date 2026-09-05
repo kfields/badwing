@@ -36,7 +36,7 @@ class TileLevel(Level):
         self.spark_layer = self.add_layer(GraphLayer2D("spark"))
 
     def check_butterflies(self):
-        hit_list = self.butterfly_layer.query_intersection(globe.avatar.bounds)
+        hit_list = self.butterfly_layer.query_intersection(globe.avatar.global_bounds)
         for node in hit_list:
             if globe.player.collect(node):
                 # Remove the butterfly
@@ -45,7 +45,7 @@ class TileLevel(Level):
                 # arcade.play_sound(self.collect_butterfly_sound)
 
     def check_flags(self):
-        hit_list = self.flag_layer.query_intersection(globe.avatar.bounds)
+        hit_list = self.flag_layer.query_intersection(globe.avatar.global_bounds)
         for node in hit_list:
             if globe.player.collect(node):
                 # Remove the flag
