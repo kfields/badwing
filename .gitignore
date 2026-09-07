@@ -10,4 +10,6 @@ dist/
 build/
 _build
 
+imgui.ini
+
 .envrc
