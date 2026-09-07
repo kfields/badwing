@@ -4,7 +4,12 @@ from loguru import logger
 import glm
 
 from crunge.engine.loader.sprite.xml_sprite_atlas_loader import XmlSpriteAtlasLoader
-from crunge.engine.d2.sprite import SpriteFlipFlags, SpriteAnimator, SpriteAnimationFrame, SpriteAnimation
+from crunge.engine.d2.sprite import (
+    SpriteFlipFlags,
+    SpriteAnimator,
+    SpriteAnimationFrame,
+    SpriteAnimation,
+)
 from crunge.engine.resource.sprite import SpriteAtlas
 from crunge.engine.d2.physics import MotionState
 from crunge.engine.d2.entity.brain import EntityBrain
@@ -16,6 +21,7 @@ if TYPE_CHECKING:
 RIGHT_FACING = 0
 LEFT_FACING = 1
 
+
 class Command:
     UP = "up"
     DOWN = "down"
@@ -23,8 +29,10 @@ class Command:
     RIGHT = "right"
     PUNCH = "punch"
 
+
 class CharacterBrain(EntityBrain):
     node: "PhysicsEntity2D"
+
     def __init__(self, atlas: SpriteAtlas):
         super().__init__()
         self.atlas = atlas
@@ -41,14 +49,18 @@ class CharacterBrain(EntityBrain):
         self.create_fall_animations(self.atlas, self.animator)
         self.create_walk_animations(self.atlas, self.animator)
 
-    def create_idle_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+    def create_idle_animations(
+        self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator
+    ):
         idle = SpriteAnimation("idle")
         frame = SpriteAnimationFrame(atlas.get(f"idle"))
         idle.add_frame(frame)
 
         animator.add_animation(idle)
 
-    def create_climb_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+    def create_climb_animations(
+        self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator
+    ):
         climb = SpriteAnimation("climb")
         for i in range(0, 2):
             frame = SpriteAnimationFrame(atlas.get(f"climb{i}"))
@@ -56,7 +68,9 @@ class CharacterBrain(EntityBrain):
 
         animator.add_animation(climb)
 
-    def create_jump_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+    def create_jump_animations(
+        self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator
+    ):
         jump_right = SpriteAnimation("jumpRight")
         frame = SpriteAnimationFrame(atlas.get(f"jump"))
         jump_right.add_frame(frame)
@@ -65,7 +79,9 @@ class CharacterBrain(EntityBrain):
         jump_left = jump_right.mirror("jumpLeft", SpriteFlipFlags.HORIZONTAL)
         animator.add_animation(jump_left)
 
-    def create_fall_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+    def create_fall_animations(
+        self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator
+    ):
         fall_right = SpriteAnimation("fallRight")
         frame = SpriteAnimationFrame(atlas.get(f"fall"))
         fall_right.add_frame(frame)
@@ -73,8 +89,10 @@ class CharacterBrain(EntityBrain):
 
         fall_left = fall_right.mirror("fallLeft", SpriteFlipFlags.HORIZONTAL)
         animator.add_animation(fall_left)
-        
-    def create_walk_animations(self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator):
+
+    def create_walk_animations(
+        self, atlas: XmlSpriteAtlasLoader, animator: SpriteAnimator
+    ):
         walk_right = SpriteAnimation("walkRight")
         for i in range(0, 8):
             frame = SpriteAnimationFrame(atlas.get(f"walk{i}"))
@@ -86,10 +104,10 @@ class CharacterBrain(EntityBrain):
 
         animator.add_animation(walk_left)
 
-    def update(self, delta_time: float = 1/60):
+    def update(self, delta_time: float = 1 / 60):
         super().update(delta_time)
         node = self.node
-        #TODO: update node velocity from body and get from node
+        # TODO: update node velocity from body and get from node
         velocity = node.body.linear_velocity
 
         # Figure out if we need to flip face left or right
@@ -97,7 +115,6 @@ class CharacterBrain(EntityBrain):
             self.character_face_direction = LEFT_FACING
         elif velocity.x > 0 and self.character_face_direction == LEFT_FACING:
             self.character_face_direction = RIGHT_FACING
-
 
         # Jumping animation
         x_threshold = 0.1
@@ -108,16 +125,28 @@ class CharacterBrain(EntityBrain):
                 if velocity.x < x_threshold and velocity.x > -x_threshold:
                     self.animator.play("idle")
                 else:
-                    self.animator.play("walkRight" if self.character_face_direction == RIGHT_FACING else "walkLeft")
+                    self.animator.play(
+                        "walkRight"
+                        if self.character_face_direction == RIGHT_FACING
+                        else "walkLeft"
+                    )
             case MotionState.FALLING:
-                self.animator.play("fallRight" if self.character_face_direction == RIGHT_FACING else "fallLeft")
+                self.animator.play(
+                    "fallRight"
+                    if self.character_face_direction == RIGHT_FACING
+                    else "fallLeft"
+                )
             case MotionState.CLIMBING:
                 if velocity.y < y_threshold and velocity.y > -y_threshold:
                     self.animator.stop("climb")
                 else:
                     self.animator.play("climb")
             case MotionState.JUMPING:
-                self.animator.play("jumpRight" if self.character_face_direction == RIGHT_FACING else "jumpLeft")
+                self.animator.play(
+                    "jumpRight"
+                    if self.character_face_direction == RIGHT_FACING
+                    else "jumpLeft"
+                )
             case _:
                 self.animator.play("idle")
 

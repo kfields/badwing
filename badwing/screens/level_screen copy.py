@@ -3,7 +3,6 @@ from loguru import logger
 from crunge import imgui
 
 from crunge.engine import Scheduler
-from crunge.engine.dispatch import DispatchResult, EVENT_HANDLED
 from crunge.engine.d2.physics.world_debug_overlay import WorldDebugOverlay
 
 import badwing.globe
@@ -38,28 +37,15 @@ class LevelScreen(SceneScreen):
             raise ValueError("Avatar cannot be None")
         self.avatar_stack.append(avatar)
         badwing.globe.avatar = avatar
-        '''
         if avatar is not None:
             self.push_controller(avatar.control())
-        '''
+
     def pop_avatar(self):
         self.avatar_stack.pop()
         avatar = self.avatar
         badwing.globe.avatar = avatar
-        #self.pop_controller()
+        self.pop_controller()
         return avatar
-
-    def dispatch(self, event) -> DispatchResult:
-        # The widget tree gets first refusal, then the active avatar's
-        # controller. Avatars live in the scene rather than the widget tree,
-        # so nothing reaches them through the normal structural walk.
-        if super().dispatch(event):
-            return EVENT_HANDLED
-        avatar = self.avatar
-        #logger.debug(f"Dispatching event to avatar: {avatar}")
-        result = bool(avatar and avatar.controller and avatar.controller.dispatch(event))
-        #logger.debug(f"Event dispatch result: {result}")
-        return result
 
     def _draw(self):
         app = badwing.globe.app

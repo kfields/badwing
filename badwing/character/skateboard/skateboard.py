@@ -8,23 +8,30 @@ from crunge.engine.builder.sprite import CollidableSpriteBuilder
 
 from crunge.engine.d2.sprite import SpriteVu
 from crunge.engine.d2.entity import EntityGroup2D, Entity2D, DynamicEntity2D
-from crunge.engine.d2.physics import BoxGeom, BallGeom
+from crunge.engine.d2.physics.geom import BoxGeom, BallGeom
 from crunge.engine.d2.physics import globe as physics_globe
+from crunge.engine.d2.physics.material import PhysicsMaterial
 
 from ...util import debounce
 
 from .skateboard_controller import SkateboardController
 
-WHEEL_RADIUS = 0.25
+WHEEL_RADIUS = 0.1
 
-CHASSIS_WIDTH = 0.5
+# CHASSIS_WIDTH = 0.5
+CHASSIS_WIDTH = 1.0
 CHASSIS_HEIGHT = 0.1
 
-X_PAD = 0.3
+WHEEL_DENSITY = 1.0
+CHASSIS_DENSITY = 1.0
+
+# X_PAD = 0.3
+X_PAD = 0
 Y_PAD = 0.25
 
 SPEED_DELTA = 0.001
-MAX_SPEED = 0.1
+#MAX_SPEED = 0.5
+MAX_SPEED = 0.05
 
 # No motor/torque constants any more - propulsion is direct velocity control
 # (see update() below), same pattern DynamicCharacterController uses for
@@ -33,81 +40,100 @@ MAX_SPEED = 0.1
 
 sprite_loader = SpriteLoader(sprite_builder=CollidableSpriteBuilder())
 
+# Singleton: PhysicsMaterial allocates an id per instance, so constructing
+# one per wheel would give the two wheels different ids and grow the registry.
+WHEEL_MATERIAL = PhysicsMaterial("skateboard_wheel", friction=0.0, restitution=0.0)
+
 
 class Wheel(DynamicEntity2D):
-    geom = BallGeom()
+    geom = BallGeom(
+        radius=WHEEL_RADIUS,
+        material=WHEEL_MATERIAL,
+        density=WHEEL_DENSITY,
+    )
 
-    def __init__(self, position=glm.vec2()):
+    def __init__(self, position=None):
         sprite = sprite_loader.load("${resources}/items/coinGold.png")
-        scale = glm.vec2(0.5, 0.5)
-        super().__init__(position, scale=scale, model=sprite)
+        super().__init__(position, scale=glm.vec2(0.5, 0.5), model=sprite)
 
     @classmethod
-    def produce(self, position=glm.vec2()):
+    def produce(cls, position=None):
         return Wheel(position)
 
+DECK_MATERIAL = PhysicsMaterial("skateboard_deck", restitution=0.0)
 
-class Chassis(DynamicEntity2D):
-    geom = BoxGeom()
+class Deck(DynamicEntity2D):
+    geom = BoxGeom(
+        size=glm.vec2(CHASSIS_WIDTH, CHASSIS_HEIGHT),
+        material=DECK_MATERIAL,
+        density=CHASSIS_DENSITY,
+    )
 
-    def __init__(self, position=glm.vec2()):
+    def __init__(self, position=None):
         sprite = sprite_loader.load("${resources}/tiles/boxCrate.png")
-
-        scale = glm.vec2(1.5, 0.1)
-        super().__init__(position, scale=scale, model=sprite)
+        super().__init__(
+            position,
+            scale=glm.vec2(1.5, 0.1),
+            model=sprite,
+        )
 
     @classmethod
-    def produce(self, position=glm.vec2()):
-        return Chassis(position)
+    def produce(cls, position=None):
+        return Deck(position)
 
 
 class Skateboard(EntityGroup2D):
-    def __init__(self, position=glm.vec2()):
+    def __init__(self, position=None):
         super().__init__(position)
         self.mountee = None
         self.mountee_joints = []
         self.speed = 0
+        self.front_joint = None
+        self.back_joint = None
 
-        chassis_pos = position
-        front_wheel_pos = chassis_pos - glm.vec2(-(CHASSIS_WIDTH / 2 + X_PAD), Y_PAD)
-        back_wheel_pos = chassis_pos - glm.vec2(CHASSIS_WIDTH / 2 + X_PAD, Y_PAD)
+        chassis_pos = self.position
+        self._front_wheel_pos = chassis_pos - glm.vec2(
+            -(CHASSIS_WIDTH / 2 + X_PAD), Y_PAD
+        )
+        self._back_wheel_pos = chassis_pos - glm.vec2(CHASSIS_WIDTH / 2 + X_PAD, Y_PAD)
 
-        self._front_wheel_pos = front_wheel_pos
-        self._back_wheel_pos = back_wheel_pos
+        self.deck = self.add_node(Deck.produce(chassis_pos))
+        self.front_wheel = self.add_node(Wheel.produce(self._front_wheel_pos))
+        self.back_wheel = self.add_node(Wheel.produce(self._back_wheel_pos))
 
-        self.chassis = self.add_node(Chassis.produce(chassis_pos))
-        self.front_wheel = self.add_node(Wheel.produce(front_wheel_pos))
-        self.back_wheel = self.add_node(Wheel.produce(back_wheel_pos))
+        self.add(SkateboardController(self))
 
+    def _created(self):
+        super()._created()
+        
     @property
     def velocity(self):
-        return self.chassis.velocity
+        return self.deck.velocity
 
     @classmethod
-    def produce(self, position=glm.vec2(0, 0)):
+    def produce(cls, position=None):
         return Skateboard(position)
 
+    '''
     def control(self):
         return SkateboardController(self)
+    '''
+    # -- mounting ----------------------------------------------------------
 
     def mount(self, mountee: Entity2D):
         self.mountee = mountee
-        point = glm.vec2(0, 0.6)
-        mountee.on_mount(self.chassis, point)
-        logger.debug(f"mountee body: {mountee.body}")
+        mountee.on_mount(self.deck, glm.vec2(0, 0.6))
 
         world = physics_globe.world
-
-        mountee_anchor = box2d.Vec2(0, 0)
-        mounted_anchor = box2d.Vec2(0, 0.6)
         weld_def = box2d.WeldJointDef(
             body_id_a=mountee.body,
-            body_id_b=self.chassis.body,
-            local_frame_a=box2d.Transform(p=mountee_anchor),
-            local_frame_b=box2d.Transform(p=mounted_anchor),
+            body_id_b=self.deck.body,
+            local_frame_a=box2d.Transform(p=box2d.Vec2(0, 0)),
+            local_frame_b=box2d.Transform(p=box2d.Vec2(0, 0.6)),
         )
-        weld_joint = box2d.create_weld_joint(world, weld_def)
-        self.mountee_joints = [weld_joint]
+
+        joint = box2d.create_weld_joint(world, weld_def)
+        self.mountee_joints = [joint]
 
     def dismount(self):
         logger.debug("dismounting")
@@ -116,41 +142,49 @@ class Skateboard(EntityGroup2D):
         for joint_id in self.mountee_joints:
             box2d.destroy_joint(joint_id)
         self.mountee_joints = []
-        point = glm.vec2(0, CHASSIS_HEIGHT / 2)
-        self.mountee.on_dismount(self.chassis, point)
+        self.mountee.on_dismount(self.deck, glm.vec2(0, CHASSIS_HEIGHT / 2))
         self.mountee = None
+
+    # -- joints ------------------------------------------------------------
 
     def _created(self):
         super()._created()
 
         world = physics_globe.world
+        front_anchor = box2d.Vec2(*(self._front_wheel_pos - self.deck.position))
+        back_anchor = box2d.Vec2(*(self._back_wheel_pos - self.deck.position))
 
-        front_anchor_on_chassis = box2d.Vec2(
-            *(self._front_wheel_pos - self.chassis.position)
-        )
-        back_anchor_on_chassis = box2d.Vec2(
-            *(self._back_wheel_pos - self.chassis.position)
-        )
-        wheel_anchor = box2d.Vec2(0, 0)
+        self.front_joint = self._pin_wheel(world, self.front_wheel, front_anchor)
+        self.back_joint = self._pin_wheel(world, self.back_wheel, back_anchor)
 
-        front_joint_def = box2d.RevoluteJointDef(
-            body_id_a=self.front_wheel.body,
-            body_id_b=self.chassis.body,
-            local_frame_a=box2d.Transform(p=wheel_anchor),
-            local_frame_b=box2d.Transform(p=front_anchor_on_chassis),
-            enable_motor=False,  # free-spinning - propulsion applied directly to chassis velocity
-        )
-
-        back_joint_def = box2d.RevoluteJointDef(
-            body_id_a=self.back_wheel.body,
-            body_id_b=self.chassis.body,
-            local_frame_a=box2d.Transform(p=wheel_anchor),
-            local_frame_b=box2d.Transform(p=back_anchor_on_chassis),
+    def _pin_wheel(self, world, wheel, chassis_anchor):
+        joint_def = box2d.RevoluteJointDef(
+            body_id_a=wheel.body,
+            body_id_b=self.deck.body,
+            local_frame_a=box2d.Transform(p=box2d.Vec2(0, 0)),
+            local_frame_b=box2d.Transform(p=chassis_anchor),
+            # free-spinning; propulsion goes straight to chassis velocity
             enable_motor=False,
         )
+        return box2d.create_revolute_joint(world, joint_def)
 
-        self.front_joint = box2d.create_revolute_joint(world, front_joint_def)
-        self.back_joint = box2d.create_revolute_joint(world, back_joint_def)
+    def destroy_children(self):
+        for joint in (self.front_joint, self.back_joint):
+            if joint is not None:
+                box2d.destroy_joint(joint)
+        self.front_joint = self.back_joint = None
+        super().destroy_children()
+
+    '''
+    def _destroy(self):
+        for joint in (self.front_joint, self.back_joint):
+            if joint is not None:
+                box2d.destroy_joint(joint)
+        self.front_joint = self.back_joint = None
+        super()._destroy()
+    '''
+
+    # -- propulsion --------------------------------------------------------
 
     def accelerate(self, rate=SPEED_DELTA):
         self.speed = min(self.speed + rate, MAX_SPEED)
@@ -164,33 +198,21 @@ class Skateboard(EntityGroup2D):
     @debounce(1)
     def ollie(self, impulse=(0, 1.0), point=(0, 0)):
         logger.debug("ollie")
-        chassis_body = self.chassis.body
-        chassis_world_point = chassis_body.get_world_point(
-            box2d.Vec2(*point)
-        )  # ASSUMPTION
-        chassis_body.apply_linear_impulse(
-            box2d.Vec2(*impulse), chassis_world_point, True
-        )
-
+        self._impulse_at(self.deck, impulse, point)
         if self.mountee:
-            mountee_body = self.mountee.body
-            mountee_world_point = mountee_body.get_world_point(
-                box2d.Vec2(*point)
-            )  # ASSUMPTION
-            mountee_body.apply_linear_impulse(
-                box2d.Vec2(*impulse), mountee_world_point, True
-            )
+            self._impulse_at(self.mountee, impulse, point)
+
+    def _impulse_at(self, entity, impulse, point):
+        body = entity.body
+        world_point = body.get_world_point(box2d.Vec2(*point))
+        body.apply_linear_impulse(box2d.Vec2(*impulse), world_point, True)
 
     def update(self, delta_time=1 / 60):
         super().update(delta_time)
-        self._apply_propulsion()
-
-    def _apply_propulsion(self):
-        body = self.chassis.body
-        angle = body.angle  # ASSUMPTION property name
+        if not self.speed:
+            return
+        body = self.deck.body
+        angle = body.angle
         forward = glm.vec2(glm.cos(angle), glm.sin(angle))
-
-        impulse_scale = self.speed
-        impulse = forward * impulse_scale
-
+        impulse = forward * self.speed
         body.apply_linear_impulse_to_center(box2d.Vec2(impulse.x, impulse.y), True)

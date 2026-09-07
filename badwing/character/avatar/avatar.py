@@ -1,5 +1,5 @@
 import glm
-
+from ..character.controller import DynamicCharacterController
 from crunge.engine.d2.sprite import SpriteVu
 from crunge.engine.loader.sprite.sprite_loader import SpriteLoader
 from crunge.engine.builder.sprite import CollidableSpriteBuilder
@@ -19,6 +19,7 @@ class Avatar(DynamicCharacter):
         atlas = XmlSpriteAtlasLoader(sprite_builder=CollidableSpriteBuilder()).load(
             "${resources}/characters/male_adventurer/sheet.xml"
         )
+        self.add(DynamicCharacterController(self))
         self.add(AvatarBrain(atlas))
 
 

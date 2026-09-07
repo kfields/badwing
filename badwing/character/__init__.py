@@ -1,5 +1,5 @@
 from .avatar import Avatar
-from .skateboard import Skateboard, Chassis
+from .skateboard import Skateboard
 from .robot import Robot
 
 #from .blob import Blob

@@ -1,1 +1,1 @@
-from .skateboard import Skateboard, Chassis
+from .skateboard import Skateboard
