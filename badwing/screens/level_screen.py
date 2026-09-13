@@ -2,8 +2,9 @@ from loguru import logger
 
 from crunge import imgui
 
+from crunge.core.dispatch import DispatchResult, EVENT_HANDLED
+
 from crunge.engine import Scheduler
-from crunge.engine.dispatch import DispatchResult, EVENT_HANDLED
 from crunge.engine.d2.physics.world_debug_overlay import WorldDebugOverlay
 
 import badwing.globe

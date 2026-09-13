@@ -48,7 +48,6 @@ path = "badwing/__about__.py"
 dependencies = ["pytest", "pytest-cov", "snakeviz"]
 
 [tool.hatch.envs.default.scripts]
-develop = "maturin develop"
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=badwing --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
 

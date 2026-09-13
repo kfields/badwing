@@ -13,8 +13,6 @@ class BackgroundLayerBuilder(ImageLayerBuilder):
             "background", path
         )
 
-        size = self.context.size
-        layer.bounds = Bounds2(0, 0, size.x, size.y)
         self.context.layer = layer
         super().build(tmx_layer)
         self.context.scene.add_layer(self.context.layer)
