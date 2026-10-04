@@ -39,15 +39,11 @@ class LevelScreen(SceneScreen):
             raise ValueError("Avatar cannot be None")
         self.avatar_stack.append(avatar)
         badwing.globe.avatar = avatar
-        '''
-        if avatar is not None:
-            self.push_controller(avatar.control())
-        '''
+
     def pop_avatar(self):
         self.avatar_stack.pop()
         avatar = self.avatar
         badwing.globe.avatar = avatar
-        #self.pop_controller()
         return avatar
 
     def dispatch(self, event) -> DispatchResult:

@@ -173,7 +173,7 @@ class ButterflyBrain(EntityBrain):
             delta_y = w_max_y - max_y
             need_turn = True
 
-        # TODO:use pymunk
+        # TODO:use box2d?
 
         if not need_turn:
             ground_layer = badwing.globe.scene.ground_layer

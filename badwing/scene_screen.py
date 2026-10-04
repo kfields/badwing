@@ -18,7 +18,6 @@ class SceneScreen(SceneScreen2D):
     def __init__(self, scene: Scene2D, name: str = "SceneScreen", title: str = "Scene Screen"):
         super().__init__(scene, name=name, title=title)
         badwing.globe.screen = self
-        #self.controller_stack = []
 
     def create_views(self):
         logger.debug("Creating screen views")
@@ -32,29 +31,6 @@ class SceneScreen(SceneScreen2D):
     @property
     def camera(self) -> Camera2D:
         return self.view.camera
-
-    '''
-    @property
-    def controller(self):
-        if not self.controller_stack:
-            return None
-        if len(self.controller_stack) == 0:
-            return None
-        return self.controller_stack[-1]
-
-    def push_controller(self, controller):
-        def callback(delta_time: float):
-            self.controller_stack.append(controller)
-
-        Scheduler().schedule_once(callback, 0)
-
-    def pop_controller(self):
-        def callback(delta_time: float):
-            controller = self.controller_stack.pop()
-            logger.debug(f"Popping controller: {controller}")
-
-        Scheduler().schedule_once(callback, 0)
-    '''
 
     def on_size(self):
         super().on_size()

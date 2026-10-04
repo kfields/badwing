@@ -21,7 +21,7 @@ class Robot(DynamicCharacter):
         )
         brain = RobotBrain(atlas)
 
-        self.add(brain)
+        self.add_chip(brain)
 
     @classmethod
     def produce(self, position=glm.vec2()):

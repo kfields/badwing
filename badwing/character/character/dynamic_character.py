@@ -36,12 +36,12 @@ class DynamicCharacter(DynamicEntity2D):
     def __init__(self, position=None, model=None):
         super().__init__(position, model=model)
         self.mass_data: b2.MassData = None
-        #self.add(DynamicCharacterController(self))
+        #self.add_chip(DynamicCharacterController(self))
 
     '''
     def _seat(self):
         super()._seat()
-        self.add(DynamicCharacterController(self))
+        self.add_chip(DynamicCharacterController(self))
     '''
 
     def _create(self):

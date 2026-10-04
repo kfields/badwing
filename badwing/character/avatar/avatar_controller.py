@@ -1,8 +1,6 @@
 from typing import TYPE_CHECKING
 
 from loguru import logger
-import pymunk
-import glm
 
 from crunge import sdl
 from crunge.engine.d2.physics.physics import MotionState
@@ -11,7 +9,7 @@ from crunge.engine.d2.physics.constants import PT_DYNAMIC, PT_KINEMATIC, PT_STAT
 from crunge.engine.d2.node_2d import Node2D
 from crunge.engine.d2.entity.character.controller import DynamicCharacterController
 
-import badwing.globe
+from badwing import globe
 from badwing.constants import *
 
 if TYPE_CHECKING:
@@ -34,9 +32,9 @@ class AvatarController(DynamicCharacterController):
         super().__init__(avatar)
         self.avatar = avatar
 
-        self.character_layer = badwing.globe.scene.character_layer
-        self.ground_layer = badwing.globe.scene.ground_layer
-        self.ladder_layer = badwing.globe.scene.ladder_layer
+        self.character_layer = globe.scene.character_layer
+        self.ground_layer = globe.scene.ground_layer
+        self.ladder_layer = globe.scene.ladder_layer
 
     def mount(self):
         hit_list = self.character_layer.query_intersection(self.avatar.bounds)
@@ -44,7 +42,7 @@ class AvatarController(DynamicCharacterController):
             if isinstance(node, badwing.characters.Skateboard):
                 mount = node
                 mount.mount(self.avatar)
-                badwing.globe.screen.push_avatar(mount)
+                globe.screen.push_avatar(mount)
 
     def check_ladder(self):
         if self.ladder_layer:

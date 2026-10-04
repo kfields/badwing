@@ -13,5 +13,5 @@ class Sparks(Node2D):
         self.color = color
 
     def _seat(self) -> None:
-        self.add(SparksVu(self.color))
+        self.add_chip(SparksVu(self.color))
         super()._seat()

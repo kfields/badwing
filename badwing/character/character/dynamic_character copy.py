@@ -28,7 +28,7 @@ class DynamicCharacter(DynamicEntity2D):
         super().__init__(position, model=model)
         self.mass_data: b2.MassData = None
         self.feet_shape: b2.Shape = None
-        self.add(DynamicCharacterController(self))
+        self.add_chip(DynamicCharacterController(self))
 
     def _create(self):
         super()._create()

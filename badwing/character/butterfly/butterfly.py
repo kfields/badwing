@@ -37,7 +37,7 @@ class Butterfly(Entity2D, Collectible):
     vu_class = SpriteVu
     def __init__(self, position=glm.vec2(), brain=None, border=DEFAULT_BORDER):
         super().__init__(position)
-        self.add(brain)
+        self.add_chip(brain)
         self.border = border
 
     @classmethod
