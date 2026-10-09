@@ -49,9 +49,7 @@ python = "3.12"
 installer = "uv"
 workspace.members = [
   # Build toolchain
-  "../cxbuild",
-  # Generation toolchain (cxbuild requirement)
-  "../cxbind",
+  "../cxbuild",  "../cxbind",
 
   # Crunge packages
   "../crunge/pkg/core", "../crunge/pkg/imgui", "../crunge/pkg/wgpu", "../crunge/pkg/skia", "../crunge/pkg/yoga",
@@ -87,8 +85,10 @@ omit = ["badwing/__about__.py"]
 exclude_lines = ["no cov", "if __name__ ~= .__main__.:", "if TYPE_CHECKING:"]
 
 [tool.uv]
-# The crunge packages build inside the hatch environment, where cxbuild, cxbind and
-# pybind11 are installed; everything else builds in isolation as usual.
+# The crunge packages can only be built from a crunge checkout with cxbuild, cxbind
+# and pybind11 already installed (they come in through the workspace members above).
+# Isolated builds would resolve cxbuild from PyPI instead and fail, so these build
+# inside the hatch environment; everything else builds in isolation as usual.
 no-build-isolation-package = [
   "crunge-imgui", "crunge-wgpu", "crunge-skia", "crunge-yoga",
   "crunge-sdl", "crunge-tmx", "crunge-box2d"
